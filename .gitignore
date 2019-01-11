@@ -1,0 +1,7 @@
+*.pyc
+.vscode
+*.DS_Store
+puf.csv
+*.ipynb
+__pycache__/
+.pytest_cache/
