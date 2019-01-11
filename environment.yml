@@ -1,0 +1,12 @@
+name: taxbrain-dev
+channels:
+- PSLmodels
+dependencies:
+- python>=3.6.5
+- taxcalc
+- pandas
+- numpy
+- pytest
+- btax
+- ipython
+- dask
