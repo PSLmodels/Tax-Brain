@@ -4,6 +4,8 @@ channels:
 dependencies:
 - python>=3.6.5
 - taxcalc
+- behresp
+- ogusa
 - pandas
 - numpy
 - pytest
