@@ -17,10 +17,22 @@ class TaxBrain:
         Constructor for the TaxBrain class
         Parameters
         ----------
-        microdata: Either a Pandas DataFrame or path to the PUF
-        policy: individual income tax policy. Can be either a string
-        behavior: behavioral assumptions
-        verbose: specifies whether or not to write progress in stdout
+        start_year: First year in the analysis. Must be no earlier than the
+                    first year allowed in Tax-Calculator.
+        end_year: Last year in the analysis. Must be no later than the last
+                  year allowed in Tax-Calculator.
+        microdata: Either a path to a micro-data file or a Pandas DataFrame
+                   containing micro-data.
+        use_cps: A boolean value to indicate whether or not the analysis should
+                 be run using the CPS file included in Tax-Calculator.
+                 Note: use_cps cannot be True if a file was also specified with
+                 the microdata parameter.
+        reform: Individual income tax policy reform. Can be either a string
+                pointing to a JSON reform file, or the contents of a JSON file.
+        assump: A string pointing to a JSON file containing user specified
+                economic assumptions.
+        verbose: A boolean value indicated whether or not to write model
+                 progress reports.
         """
         if use_cps and microdata != "puf.csv":
             raise ValueError("Specified a data file with both microdata and "
