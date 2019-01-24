@@ -1,7 +1,8 @@
 import copy
 import taxcalc as tc
 import pandas as pd
-from taxcalc.utils import DIST_VARIABLES
+from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
+                           create_distribution_table, create_difference_table)
 from behresp import response
 from dask import compute, delayed
 
@@ -10,6 +11,8 @@ class TaxBrain:
 
     FIRST_BUDGET_YEAR = tc.Policy.JSON_START_YEAR
     LAST_BUDGET_YEAR = tc.Policy.LAST_BUDGET_YEAR
+    # Default list of variables saved for each year
+    DEFAULT_VARIABLES = list(set(DIST_VARIABLES).union(set(DIFF_VARIABLES)))
 
     def __init__(self, start_year, end_year, microdata='puf.csv',
                  use_cps=False, reform=None, assump=None, verbose=False):
@@ -75,7 +78,7 @@ class TaxBrain:
         self.reform_calc = tc.Calculator(policy=policy, records=records,
                                          verbose=self.verbose)
 
-    def static_run(self, varlist=DIST_VARIABLES):
+    def static_run(self, varlist=DEFAULT_VARIABLES):
         """
         Run the calculator
         """
@@ -120,6 +123,7 @@ class TaxBrain:
         assert run_type == "static" or run_type == "dynamic", (
             "run_type must be either 'static' or 'dynamic'"
         )
+        self._check_run_type(run_type)
         base_totals = {}
         reform_totals = {}
         differences = {}
@@ -131,6 +135,57 @@ class TaxBrain:
             differences[year] = reform_totals[year] - base_totals[year]
         return pd.DataFrame([base_totals, reform_totals, differences],
                             index=["Base", "Reform", "Difference"])
+
+    def distribution_table(self, year, groupby, income_measure, run_type,
+                           calc):
+        """
+        Method to create a distribution table
+        Parameters
+        ----------
+        year: which year the distribution table data should be from
+        groupby: determines how the rows in the table are sorted
+            options: 'weighted_deciles', 'standard_income_bins', 'soi_agi_bin'
+        income_measure: determines which variable is used to sort the rows in
+                        the table
+            options: 'expanded_income' or 'expanded_income_baseline'
+        run_type: use data from the static or dynamic reforms
+        calc: which calculator to use: base or reform
+        Returns
+        -------
+        DataFrame containing a distribution table
+        """
+        self._check_run_type(run_type)
+        # pull desired data
+        if calc.lower() == "base":
+            data = self.base_data[year][run_type.lower()]
+        elif calc.lower() == "reform":
+            data = self.reform_data[year][run_type.lower()]
+        else:
+            raise ValueError("calc must be either BASE or REFORM")
+        table = create_distribution_table(data, groupby, income_measure)
+        return table
+
+    def differences_table(self, year, groupby, tax_to_diff, run_type):
+        """
+        Method to create a differences table
+        Parameters
+        ----------
+        year: which year the difference table should be from
+        groupby: determines how the rows in the table are sorted
+            options: 'weighted_deciles', 'standard_income_bins', 'soi_agi_bin'
+        tax_to_diff: which tax to take the difference of
+            options: 'iitax', 'payrolltax', 'combined'
+        run_type: use data from the static or dynamic run
+        Returns
+        -------
+        DataFrame containing a differences table
+        """
+        self._check_run_type(run_type)
+        base_data = self.base_data[year][run_type]
+        reform_data = self.reform_data[year][run_type]
+        table = create_difference_table(base_data, reform_data, groupby,
+                                        tax_to_diff)
+        return table
 
     # ----- private methods -----
     def _run_dynamic_calc(self, calc1, calc2, behavior, year):
@@ -153,3 +208,12 @@ class TaxBrain:
         self.base_data[year]["dynamic"] = base
         self.reform_data[year]["dynamic"] = reform
         del calc1_copy, calc2_copy
+
+    @staticmethod
+    def _check_run_type(run_type):
+        """
+        Raises an error if run_type is not 'static' or 'dynamic'
+        """
+        assert run_type.upper() == 'STATIC' or run_type.upper() == 'DYNAMIC', (
+            "run_type must be either 'static' or 'dynamic"
+        )
