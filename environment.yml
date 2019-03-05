@@ -3,7 +3,7 @@ channels:
 - PSLmodels
 dependencies:
 - python>=3.6.5
-- taxcalc
+- taxcalc>=1.0.0
 - behresp
 - ogusa
 - pandas

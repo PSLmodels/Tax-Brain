@@ -34,3 +34,9 @@ def tb_static(reform):
 def tb_dynamic(reform):
     return TaxBrain(2018, 2019, use_cps=True, reform=reform,
                     behavior={2018: {"BE_sub": 0.25}})
+
+
+@pytest.fixture(scope="session")
+def empty_mods():
+    return {"consumption": {}, "growdiff_response": {}, "policy": {},
+            "growdiff_baseline": {}, "behavior": {}}
