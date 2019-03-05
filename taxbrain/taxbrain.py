@@ -54,6 +54,8 @@ class TaxBrain:
             f"Specified end_year, {end_year}, comes after last known "
             f"budget year, {TaxBrain.LAST_BUDGET_YEAR}."
         )
+        self.use_cps = use_cps
+        self.microdata = microdata
         self.start_year = start_year
         self.end_year = end_year
         self.base_data = {yr: {} for yr in range(start_year, end_year + 1)}
@@ -162,6 +164,16 @@ class TaxBrain:
             data = self.reform_data[year][run_type.lower()]
         else:
             raise ValueError("calc must be either BASE or REFORM")
+        # minor data preparation before calling the function
+        data["num_returns_ItemDed"] = data["s006"].where(
+            data["c04470"] > 0., 0.
+        )
+        data["num_returns_StandardDed"] = data["s006"].where(
+            data["standard"] > 0., 0.
+        )
+        data["num_returns_AMT"] = data["s006"].where(
+            data["c09600"] > 0., 0.
+        )
         table = create_distribution_table(data, groupby, income_measure)
         return table
 
@@ -188,6 +200,14 @@ class TaxBrain:
         return table
 
     # ----- private methods -----
+    def _process_user_mods(self, reform, assump):
+        """
+        Logic to process user mods and set self.params
+        """
+        if isinstance(reform, str) and isinstance(assump, str):
+            params = tc.Calculator.read_json_param_objects(reform, assump)
+        return params
+
     def _run_dynamic_calc(self, calc1, calc2, behavior, year):
         """
         Function used to parallelize the dynamic run function
