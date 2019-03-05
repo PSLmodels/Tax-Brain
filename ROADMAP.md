@@ -1,6 +1,6 @@
 # Tax-Brain Road Map
 
-## Near-Tear
+## Near-Term
 
 The first goal of the Tax-Brain project is to wrap the [Tax-Calculator](https://www.pslmodels.org/Catalog/Tax-Calculator.html)
 and [Behavioral-Responses](https://www.pslmodels.org/Catalog/Behavioral-Responses.html)
@@ -9,6 +9,8 @@ current capabilities of [TaxBrain](https://www.ospc.org/taxbrain/).
 
 Along those lines, TaxBrain will need to be updated to allow users to take full
 advantage of the `GrowDiff` capabilities of Tax-Calculator.
+
+* Generalize Tax-Brian initialization so that a user can pass a reform as a dictionary or JSON
 
 ## Long-Term
 

@@ -14,8 +14,9 @@ class TaxBrain:
     # Default list of variables saved for each year
     DEFAULT_VARIABLES = list(set(DIST_VARIABLES).union(set(DIFF_VARIABLES)))
 
-    def __init__(self, start_year, end_year, microdata='puf.csv',
-                 use_cps=False, reform=None, assump=None, verbose=False):
+    def __init__(self, start_year, end_year=LAST_BUDGET_YEAR,
+                 microdata='puf.csv', use_cps=False, reform=None,
+                 behavior=None, assump=None, verbose=False):
         """
         Constructor for the TaxBrain class
         Parameters
@@ -32,6 +33,8 @@ class TaxBrain:
                  the microdata parameter.
         reform: Individual income tax policy reform. Can be either a string
                 pointing to a JSON reform file, or the contents of a JSON file.
+        behavior: Individual behavior assumptions use by the Behavior-Response
+                  package.
         assump: A string pointing to a JSON file containing user specified
                 economic assumptions.
         verbose: A boolean value indicated whether or not to write model
@@ -60,6 +63,7 @@ class TaxBrain:
         self.end_year = end_year
         self.base_data = {yr: {} for yr in range(start_year, end_year + 1)}
         self.reform_data = {yr: {} for yr in range(start_year, end_year + 1)}
+        self.behavior = behavior
         self.verbose = verbose
 
         # Create two microsimulation calculators
@@ -80,66 +84,30 @@ class TaxBrain:
         self.reform_calc = tc.Calculator(policy=policy, records=records,
                                          verbose=self.verbose)
 
-    def static_run(self, varlist=DEFAULT_VARIABLES):
-        """
-        Run the calculator
-        """
-        if "s006" not in varlist:  # ensure weight is always included
-            varlist.append("s006")
-        if self.verbose:
-            print("Running static simulations")
-        # Use copies of the calculators so you can run both static and
-        # dynamic calculations on same TaxBrain instance
-        base_calc = copy.deepcopy(self.base_calc)
-        reform_calc = copy.deepcopy(self.reform_calc)
-        for yr in range(self.start_year, self.end_year + 1):
-            base_calc.advance_to_year(yr)
-            reform_calc.advance_to_year(yr)
-            # run calculations in parallel
-            delay = [delayed(base_calc.calc_all()),
-                     delayed(reform_calc.calc_all())]
-            _ = compute(*delay)
-            self.base_data[yr]["static"] = base_calc.dataframe(varlist)
-            self.reform_data[yr]["static"] = reform_calc.dataframe(varlist)
+    def run(self, varlist=DEFAULT_VARIABLES):
+        if self.behavior:
+            if self.verbose:
+                print("Running dynamic simulations")
+            self._dynamic_run()
+        else:
+            if self.verbose:
+                print("Running static simulations")
+            self._static_run(varlist)
 
-        del base_calc, reform_calc
-
-    def dynamic_run(self, behavior):
-        """
-        Run a dynamic response
-        """
-        if self.verbose:
-            print("Running dynamic simulations")
-
-        delay_list = []
-        for year in range(self.start_year, self.end_year + 1):
-            delay = delayed(self._run_dynamic_calc)(self.base_calc,
-                                                    self.reform_calc,
-                                                    behavior,
-                                                    year)
-            delay_list.append(delay)
-        _ = compute(*delay_list)
-        del delay_list
-
-    def weighted_totals(self, var, run_type):
-        assert run_type == "static" or run_type == "dynamic", (
-            "run_type must be either 'static' or 'dynamic'"
-        )
-        self._check_run_type(run_type)
+    def weighted_totals(self, var):
         base_totals = {}
         reform_totals = {}
         differences = {}
         for year in range(self.start_year, self.end_year + 1):
-            base_totals[year] = (self.base_data[year][run_type]["s006"] *
-                                 self.base_data[year][run_type][var]).sum()
-            reform_totals[year] = (self.reform_data[year][run_type]["s006"] *
-                                   self.reform_data[year][run_type][var]).sum()
+            base_totals[year] = (self.base_data[year]["s006"] *
+                                 self.base_data[year][var]).sum()
+            reform_totals[year] = (self.reform_data[year]["s006"] *
+                                   self.reform_data[year][var]).sum()
             differences[year] = reform_totals[year] - base_totals[year]
         return pd.DataFrame([base_totals, reform_totals, differences],
                             index=["Base", "Reform", "Difference"])
 
-    def distribution_table(self, year, groupby, income_measure, run_type,
-                           calc):
+    def distribution_table(self, year, groupby, income_measure, calc):
         """
         Method to create a distribution table
         Parameters
@@ -150,18 +118,16 @@ class TaxBrain:
         income_measure: determines which variable is used to sort the rows in
                         the table
             options: 'expanded_income' or 'expanded_income_baseline'
-        run_type: use data from the static or dynamic reforms
         calc: which calculator to use: base or reform
         Returns
         -------
         DataFrame containing a distribution table
         """
-        self._check_run_type(run_type)
         # pull desired data
         if calc.lower() == "base":
-            data = self.base_data[year][run_type.lower()]
+            data = self.base_data[year]
         elif calc.lower() == "reform":
-            data = self.reform_data[year][run_type.lower()]
+            data = self.reform_data[year]
         else:
             raise ValueError("calc must be either BASE or REFORM")
         # minor data preparation before calling the function
@@ -177,7 +143,7 @@ class TaxBrain:
         table = create_distribution_table(data, groupby, income_measure)
         return table
 
-    def differences_table(self, year, groupby, tax_to_diff, run_type):
+    def differences_table(self, year, groupby, tax_to_diff):
         """
         Method to create a differences table
         Parameters
@@ -192,14 +158,45 @@ class TaxBrain:
         -------
         DataFrame containing a differences table
         """
-        self._check_run_type(run_type)
-        base_data = self.base_data[year][run_type]
-        reform_data = self.reform_data[year][run_type]
+        base_data = self.base_data[year]
+        reform_data = self.reform_data[year]
         table = create_difference_table(base_data, reform_data, groupby,
                                         tax_to_diff)
         return table
 
     # ----- private methods -----
+    def _static_run(self, varlist):
+        """
+        Run the calculator for a static analysis
+        """
+        if "s006" not in varlist:  # ensure weight is always included
+            varlist.append("s006")
+        # Use copies of the calculators so you can run both static and
+        # dynamic calculations on same TaxBrain instance
+        for yr in range(self.start_year, self.end_year + 1):
+            self.base_calc.advance_to_year(yr)
+            self.reform_calc.advance_to_year(yr)
+            # run calculations in parallel
+            delay = [delayed(self.base_calc.calc_all()),
+                     delayed(self.reform_calc.calc_all())]
+            _ = compute(*delay)
+            self.base_data[yr] = self.base_calc.dataframe(varlist)
+            self.reform_data[yr] = self.reform_calc.dataframe(varlist)
+
+    def _dynamic_run(self):
+        """
+        Run a dynamic response
+        """
+        delay_list = []
+        for year in range(self.start_year, self.end_year + 1):
+            delay = delayed(self._run_dynamic_calc)(self.base_calc,
+                                                    self.reform_calc,
+                                                    self.behavior,
+                                                    year)
+            delay_list.append(delay)
+        _ = compute(*delay_list)
+        del delay_list
+
     def _process_user_mods(self, reform, assump):
         """
         Logic to process user mods and set self.params
@@ -225,15 +222,6 @@ class TaxBrain:
         # use response function to capture dynamic effects
         base, reform = response(calc1_copy, calc2_copy,
                                 behavior, self.verbose)
-        self.base_data[year]["dynamic"] = base
-        self.reform_data[year]["dynamic"] = reform
+        self.base_data[year] = base
+        self.reform_data[year] = reform
         del calc1_copy, calc2_copy
-
-    @staticmethod
-    def _check_run_type(run_type):
-        """
-        Raises an error if run_type is not 'static' or 'dynamic'
-        """
-        assert run_type.upper() == 'STATIC' or run_type.upper() == 'DYNAMIC', (
-            "run_type must be either 'static' or 'dynamic"
-        )
