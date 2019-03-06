@@ -46,7 +46,7 @@ def test_distribution_table(tb_static):
                                      "expanded_income", "nonreform")
 
 
-def test_user_input(reform_json_str):
+def test_user_input(reform_json_str, assump_json_str):
     valid_reform = {
         2019: {
             "_II_rt7": [0.40]
@@ -65,6 +65,8 @@ def test_user_input(reform_json_str):
         "growdiff_response": {}
     }
     TaxBrain(2018, 2019, use_cps=True, assump=valid_assump)
+    TaxBrain(2018, 2019, use_cps=True, reform=reform_json_str,
+             assump=assump_json_str)
     tb = TaxBrain(2018, 2019, use_cps=True, reform=valid_reform,
                   assump=valid_assump)
     required_param_keys = {"policy", "consumption", "growdiff_baseline",
