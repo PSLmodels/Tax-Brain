@@ -10,8 +10,6 @@ current capabilities of [TaxBrain](https://www.ospc.org/taxbrain/).
 Along those lines, TaxBrain will need to be updated to allow users to take full
 advantage of the `GrowDiff` capabilities of Tax-Calculator.
 
-* Generalize Tax-Brian initialization so that a user can pass a reform as a dictionary or JSON
-
 ## Long-Term
 
 The next models to be incorporated into Tax-Brain will be (in no particular order):

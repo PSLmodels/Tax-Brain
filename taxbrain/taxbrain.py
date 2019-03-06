@@ -63,8 +63,11 @@ class TaxBrain:
         self.end_year = end_year
         self.base_data = {yr: {} for yr in range(start_year, end_year + 1)}
         self.reform_data = {yr: {} for yr in range(start_year, end_year + 1)}
-        self.behavior = behavior
         self.verbose = verbose
+
+        # Process user inputs early to throw any errors quickly
+        self.params = self._process_user_mods(reform, assump)
+        self.params["behavior"] = behavior
 
         # Create two microsimulation calculators
         # Baseline calculator
@@ -77,7 +80,6 @@ class TaxBrain:
 
         # Reform calculator
         # Initialize a policy object
-        self.params = tc.Calculator.read_json_param_objects(reform, assump)
         policy = tc.Policy()
         policy.implement_reform(self.params['policy'])
         # Initialize Calculator
@@ -85,7 +87,7 @@ class TaxBrain:
                                          verbose=self.verbose)
 
     def run(self, varlist=DEFAULT_VARIABLES):
-        if self.behavior:
+        if self.params["behavior"]:
             if self.verbose:
                 print("Running dynamic simulations")
             self._dynamic_run()
@@ -191,7 +193,7 @@ class TaxBrain:
         for year in range(self.start_year, self.end_year + 1):
             delay = delayed(self._run_dynamic_calc)(self.base_calc,
                                                     self.reform_calc,
-                                                    self.behavior,
+                                                    self.params["behavior"],
                                                     year)
             delay_list.append(delay)
         _ = compute(*delay_list)
@@ -201,8 +203,62 @@ class TaxBrain:
         """
         Logic to process user mods and set self.params
         """
-        if isinstance(reform, str) and isinstance(assump, str):
-            params = tc.Calculator.read_json_param_objects(reform, assump)
+        def key_validation(actual_keys, required_keys, d_name):
+            """
+            Validate keys if reform or assump is passed as a dictionary
+            """
+            missing_keys = required_keys - actual_keys
+            if missing_keys:
+                msg = f"Required key(s) {missing_keys} missing from '{d_name}'"
+                raise ValueError(msg)
+            illegal_keys = actual_keys - required_keys
+            if illegal_keys:
+                msg = f"Illegal key(s) {illegal_keys} found in '{d_name}'"
+                raise ValueError(msg)
+
+        if isinstance(reform, str) or not reform:
+            if isinstance(assump, str) or not assump:
+                params = tc.Calculator.read_json_param_objects(reform, assump)
+            elif isinstance(assump, dict):
+                # Check to ensure that the assumption dictionary contains
+                # all the needed keys. Tax-Calculator will check that they
+                # are ultimately defined correctly when attempting to
+                # use them.
+                actual_keys = set(assump.keys())
+                required_keys = tc.Calculator.REQUIRED_ASSUMP_KEYS
+                key_validation(actual_keys, required_keys, "assump")
+                params = tc.Calculator.read_json_param_objects(reform, None)
+                for key in assump.keys():
+                    params[key] = assump[key]
+            else:
+                raise TypeError(
+                    "'assump' is not a string, dictionary, or None"
+                )
+        elif isinstance(reform, dict):
+            # If the reform is a dictionary, we'll leave it to Tax-Calculator
+            # to catch errors in its implementation
+            if isinstance(assump, str) or not assump:
+                params = tc.Calculator.read_json_param_objects(None, assump)
+            elif isinstance(assump, dict):
+                actual_keys = set(assump.keys())
+                required_keys = tc.Calculator.REQUIRED_ASSUMP_KEYS
+                key_validation(actual_keys, required_keys, "assump")
+                params = {**assump}
+            else:
+                raise TypeError(
+                    "'assump' is not a string, dictionary, or None"
+                )
+            params["policy"] = reform
+        else:
+            raise TypeError(
+                "'reform' is not a string, dictionary, or None"
+            )
+
+        # confirm that all the expected keys are there
+        required_keys = (tc.Calculator.REQUIRED_ASSUMP_KEYS |
+                         tc.Calculator.REQUIRED_REFORM_KEYS)
+        assert set(params.keys()) == required_keys
+
         return params
 
     def _run_dynamic_calc(self, calc1, calc2, behavior, year):
