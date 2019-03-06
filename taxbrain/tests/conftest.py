@@ -3,7 +3,7 @@ from taxbrain import TaxBrain
 
 
 @pytest.fixture(scope="session")
-def reform():
+def reform_json_str():
     reform = """
         {
             "policy": {
@@ -26,13 +26,13 @@ def reform():
 
 
 @pytest.fixture(scope="session",)
-def tb_static(reform):
-    return TaxBrain(2018, 2019, use_cps=True, reform=reform)
+def tb_static(reform_json_str):
+    return TaxBrain(2018, 2019, use_cps=True, reform=reform_json_str)
 
 
 @pytest.fixture(scope="session")
-def tb_dynamic(reform):
-    return TaxBrain(2018, 2019, use_cps=True, reform=reform,
+def tb_dynamic(reform_json_str):
+    return TaxBrain(2018, 2019, use_cps=True, reform=reform_json_str,
                     behavior={2018: {"BE_sub": 0.25}})
 
 
