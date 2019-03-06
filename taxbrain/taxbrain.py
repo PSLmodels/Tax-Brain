@@ -75,12 +75,24 @@ class TaxBrain:
             records = tc.Records.cps_constructor()
         else:
             records = tc.Records(microdata)
-        self.base_calc = tc.Calculator(policy=tc.Policy(), records=records,
+        gd_base = tc.GrowDiff()
+        gf_base = tc.GrowFactors()
+        # apply user specified growdiff
+        if self.params["growdiff_baseline"]:
+            gd_base.update_growdiff(self.params["growdiff_baseline"])
+            gd_base.apply_to(gf_base)
+        self.base_calc = tc.Calculator(policy=tc.Policy(gf_base),
+                                       records=records,
                                        verbose=self.verbose)
 
         # Reform calculator
         # Initialize a policy object
-        policy = tc.Policy()
+        gd_reform = tc.GrowDiff()
+        gf_reform = tc.GrowFactors()
+        if self.params["growdiff_response"]:
+            gd_reform.update_growdiff(self.params["growdiff_response"])
+            gd_reform.apply_to(gf_reform)
+        policy = tc.Policy(gf_reform)
         policy.implement_reform(self.params['policy'])
         # Initialize Calculator
         self.reform_calc = tc.Calculator(policy=policy, records=records,
