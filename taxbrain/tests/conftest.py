@@ -31,7 +31,7 @@ def assump_json_str():
         {
             "consumption": {"_BEN_housing_value": {"2019": [0.7]}},
             "growdiff_baseline": {"_ABOOK": {"2019": [0.01]}},
-            "growdiff_response": {"_ACGNC": {"2019": [0.01]}}
+            "growdiff_response": {"_ACGNS": {"2019": [0.01]}}
         }
     """
     return assump
