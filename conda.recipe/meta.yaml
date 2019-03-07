@@ -1,0 +1,25 @@
+package:
+  name: taxbrain
+  version: 0.0.0
+
+requirements:
+  build:
+    - python
+    - "taxcalc>1.0.0"
+    - behresp
+    - pandas
+    - dask
+
+run:
+  - python
+  - "taxcalc>1.0.0"
+  - behresp
+  - pandas
+  - dask
+
+test:
+  imports:
+    -taxbrain
+
+about:
+  home: https://github.com/PSLmodels/Tax-Brain
