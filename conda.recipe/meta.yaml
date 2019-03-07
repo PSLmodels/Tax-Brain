@@ -19,7 +19,7 @@ run:
 
 test:
   imports:
-    -taxbrain
+    - taxbrain
 
 about:
   home: https://github.com/PSLmodels/Tax-Brain
