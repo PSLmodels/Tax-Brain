@@ -99,10 +99,13 @@ class TaxBrain:
                                          verbose=self.verbose)
 
     def run(self, varlist=DEFAULT_VARIABLES):
+        if not isinstance(varlist, list):
+            msg = f"'varlist' is of type {type(varlist)}. Must be a list"
+            raise TypeError(msg)
         if self.params["behavior"]:
             if self.verbose:
                 print("Running dynamic simulations")
-            self._dynamic_run()
+            self._dynamic_run(varlist)
         else:
             if self.verbose:
                 print("Running static simulations")
@@ -197,7 +200,7 @@ class TaxBrain:
             self.base_data[yr] = self.base_calc.dataframe(varlist)
             self.reform_data[yr] = self.reform_calc.dataframe(varlist)
 
-    def _dynamic_run(self):
+    def _dynamic_run(self, varlist):
         """
         Run a dynamic response
         """
@@ -206,10 +209,31 @@ class TaxBrain:
             delay = delayed(self._run_dynamic_calc)(self.base_calc,
                                                     self.reform_calc,
                                                     self.params["behavior"],
-                                                    year)
+                                                    year, varlist)
             delay_list.append(delay)
         _ = compute(*delay_list)
         del delay_list
+
+    def _run_dynamic_calc(self, calc1, calc2, behavior, year, varlist):
+        """
+        Function used to parallelize the dynamic run function
+
+        Parameters
+        ----------
+        calc1: Calculator object representing the baseline policy
+        calc2: Calculator object representing the reform policy
+        year: year for the calculations
+        """
+        calc1_copy = copy.deepcopy(calc1)
+        calc2_copy = copy.deepcopy(calc2)
+        calc1_copy.advance_to_year(year)
+        calc2_copy.advance_to_year(year)
+        # use response function to capture dynamic effects
+        base, reform = response(calc1_copy, calc2_copy,
+                                behavior, dump=True)
+        self.base_data[year] = base[varlist]
+        self.reform_data[year] = reform[varlist]
+        del calc1_copy, calc2_copy, base, reform
 
     def _process_user_mods(self, reform, assump):
         """
@@ -272,24 +296,3 @@ class TaxBrain:
         assert set(params.keys()) == required_keys
 
         return params
-
-    def _run_dynamic_calc(self, calc1, calc2, behavior, year):
-        """
-        Function used to parallelize the dynamic run function
-
-        Parameters
-        ----------
-        calc1: Calculator object representing the baseline policy
-        calc2: Calculator object representing the reform policy
-        year: year for the calculations
-        """
-        calc1_copy = copy.deepcopy(calc1)
-        calc2_copy = copy.deepcopy(calc2)
-        calc1_copy.advance_to_year(year)
-        calc2_copy.advance_to_year(year)
-        # use response function to capture dynamic effects
-        base, reform = response(calc1_copy, calc2_copy,
-                                behavior, self.verbose)
-        self.base_data[year] = base
-        self.reform_data[year] = reform
-        del calc1_copy, calc2_copy

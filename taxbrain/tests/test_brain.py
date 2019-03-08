@@ -17,11 +17,13 @@ def test_arg_validation():
 
 
 def test_static_run(tb_static):
+    with pytest.raises(TypeError):
+        tb_static.run(dict())
     tb_static.run()
 
 
 def test_dynamic_run(tb_dynamic):
-    tb_dynamic.run({2018: {"BE_sub": 0.25}})
+    tb_dynamic.run()
 
 
 def test_weighted_totals(tb_static):
