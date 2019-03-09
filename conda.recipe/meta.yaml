@@ -9,6 +9,7 @@ requirements:
     - behresp
     - pandas
     - dask
+    - numpy
 
 run:
   - python
@@ -16,6 +17,7 @@ run:
   - behresp
   - pandas
   - dask
+  - numpy
 
 test:
   imports:
