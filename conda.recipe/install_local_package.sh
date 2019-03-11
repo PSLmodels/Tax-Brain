@@ -36,7 +36,6 @@ conda build $OPTIONS . 2>&1 | awk '$1~/BUILD/||$1~/TEST/'
 
 # install taxbrain conda package
 echo "INSTALL..."
-conda install --yes -c PSLmodels taxcalc 2>&1 > /dev/null
 conda install --yes -c local taxbrain=0.0.0 2>&1 > /dev/null
 
 # clean-up after package build
