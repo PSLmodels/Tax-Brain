@@ -19,9 +19,5 @@ run:
   - dask
   - "numpy>=1.13"
 
-test:
-  imports:
-    - taxbrain
-
 about:
   home: https://github.com/PSLmodels/Tax-Brain
