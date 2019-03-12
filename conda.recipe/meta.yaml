@@ -9,11 +9,11 @@ requirements:
     - "behresp>=0.6.0"
     - dask
 
-run:
-  - python
-  - "taxcalc>1.0.0"
-  - "behresp>=0.6.0"
-  - dask
+  run:
+    - python
+    - "taxcalc>1.0.0"
+    - "behresp>=0.6.0"
+    - dask
 
 about:
   home: https://github.com/PSLmodels/Tax-Brain
