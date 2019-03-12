@@ -12,7 +12,14 @@ setuptools.setup(
     long_description=long_description,
     url="https://github.com/PSLmodels/Tax-Brain",
     packages=["taxbrain", "taxbrain.tbi"],
-    install_requires=[],
+    install_requires=["taxcalc", "behresp", "dask"],
     tests_require=["pytest"],
-    license="MIT"
+    license="MIT",
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "License :: OSI Approved :: MIT License",
+        "Opperating Sytem :: OS Independent"
+    ]
 )
