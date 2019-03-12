@@ -11,13 +11,17 @@ requirements:
     - dask
     - "numpy>=1.13"
 
-run:
-  - python
-  - "taxcalc>1.0.0"
-  - "behresp>=0.6.0"
-  - "pandas>=0.23"
-  - dask
-  - "numpy>=1.13"
+  run:
+    - python
+    - "taxcalc>1.0.0"
+    - "behresp>=0.6.0"
+    - "pandas>=0.23"
+    - dask
+    - "numpy>=1.13"
+
+test:
+  imports:
+    - taxbrain
 
 about:
   home: https://github.com/PSLmodels/Tax-Brain
