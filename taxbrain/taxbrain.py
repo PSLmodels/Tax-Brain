@@ -106,6 +106,18 @@ class TaxBrain:
                                          verbose=self.verbose)
 
     def run(self, varlist=DEFAULT_VARIABLES):
+        """
+        Run the calculators. TaxBrain will determine whether to do a static or
+        partial equilibrium run based on the user's inputs when initializing
+        the TaxBrain object.
+        Parameters
+        ----------
+        varlist: list of variables from the microdata to be stored in each year
+        Returns
+        -------
+        None
+        """
+        
         if not isinstance(varlist, list):
             msg = f"'varlist' is of type {type(varlist)}. Must be a list."
             raise TypeError(msg)
@@ -119,6 +131,18 @@ class TaxBrain:
             self._static_run(varlist)
 
     def weighted_totals(self, var):
+        """
+        Create a pandas DataFrame that shows the weighted sum or a specified
+        variable under the baseline policy, reform policy, and the difference
+        between the two.
+        Parameters
+        ----------
+        var: Variable you want the weighted total of.
+        Returns
+        -------
+        A Pandas DataFrame with rows for the baseline total, reform total,
+        and the difference between the two.
+        """
         base_totals = {}
         reform_totals = {}
         differences = {}
@@ -133,12 +157,16 @@ class TaxBrain:
 
     def multi_var_table(self, varlist, calc):
         """
-        Create a pandas DataFrame with multiple variables from the specified
+        Create a Pandas DataFrame with multiple variables from the specified
         data source
-        Parameters:
-        -----------
+        Parameters
+        ----------
         varlist: list of variables to include in the table
         calc: specify reform or base calculator data
+        Returns
+        -------
+        A Pandas DataFrame containing the weighted sum of each variable passed
+        in the `varlist` argument for each year in the analysis.
         """
         if not isinstance(varlist, list):
             msg = f"'varlist' is of type {type(varlist)}. Must be a list."
