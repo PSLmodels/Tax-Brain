@@ -26,6 +26,7 @@ import numpy as np
 import pandas as pd
 from operator import itemgetter
 from collections import defaultdict
+from behresp import PARAM_INFO
 from taxcalc import (Policy, Records, Calculator,
                      Consumption, GrowFactors, GrowDiff,
                      DIST_TABLE_LABELS, DIFF_TABLE_LABELS,
@@ -37,8 +38,6 @@ from taxbrain import TaxBrain
 from dask import compute, delayed
 
 AGG_ROW_NAMES = ['ind_tax', 'payroll_tax', 'combined_tax']
-
-GDP_ELAST_ROW_NAMES = ['gdp_proportional_change']
 
 RESULTS_TABLE_TITLES = {
     'diff_comb_xbin': ('Combined Payroll and Individual Income Tax: Difference'
@@ -99,12 +98,6 @@ RESULTS_TOTAL_ROW_KEY_LABELS = {
     'payroll_tax': 'Payroll Tax Liability Change',
     'combined_tax': ('Combined Payroll and Individual Income Tax Liability '
                      'Change'),
-}
-RESULTS_TABLE_ELAST_TITLES = {
-    'gdp_effect': 'Percentage Change in GDP'
-}
-RESULTS_TOTAL_ELAST_ROW_KEY_LABELS = {
-    'gdp_effect': '% Difference in GDP'
 }
 
 
