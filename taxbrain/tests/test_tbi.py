@@ -34,16 +34,6 @@ def test_tbi_model(empty_mods):
             raise TypeError(msg)
 
 
-# def test_comparison_results(empty_mods):
-#     """
-#     Ensure we get the same results from new and old TBI
-#     """
-#     # results_cur = run_tbi_model(2018, "CPS", False, empty_mods)
-#     results_cur = pickle.load(open("results.p", "rb"))
-#     results_new = run_tbi_model(2018, "CPS", False, empty_mods)
-#     assert results_cur == results_new
-
-
 def test_table_functions(tb_static):
     """
     Test functions that produce the summary tables
