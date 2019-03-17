@@ -13,6 +13,9 @@ Additional models will be added in the near future to expand Tax-Brain's
 capabilities to include modeling business taxation and running dynamic
 general equilibrium simulations.
 
+To learn more about how Tax-Brain works, see [this](https://github.com/PSLmodels/Tax-Brain/blob/master/DOC.md)
+document.
+
 ## Disclaimer
 
 Tax-brain and it's underlying models are constantly being improved upon. For
