@@ -35,7 +35,9 @@ Tax-Brain is currently not available on PyPI.
 
 ## Using Tax-Brain
 
-View the sample code in [example.py](example.py) to see how to run Tax-Brain
+View the sample code in [example.py](example.py) to see how to run Tax-Brain.
+Or, see [this document](https://github.com/PSLmodels/Tax-Brain/blob/master/USAGE.md)
+for a more detailed walk through.
 
 ## Citing Tax-Brain
 
@@ -46,6 +48,6 @@ you describe your input data and note the versions of the underlying models.
 
 ## Additional Information
 
-* [Project Road Map](ROADMAP.md)
+* [Project Road Map](https://github.com/PSLmodels/Tax-Brain/blob/master/ROADMAP.md)
 * [Contributors](https://github.com/PSLmodels/Tax-Brain/graphs/contributors)
 * [Release History](https://github.com/PSLmodels/Tax-Brain/blob/master/RELEASES.md)
