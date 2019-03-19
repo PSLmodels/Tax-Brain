@@ -5,15 +5,16 @@ from taxbrain import TaxBrain
 
 def test_arg_validation():
     with pytest.raises(ValueError):
-        TaxBrain(2018, 2020, microdata="../puf.csv", use_cps=True)
+        TaxBrain(2018, 2020)
     with pytest.raises(AssertionError):
-        TaxBrain("2018", "2020")
+        TaxBrain("2018", "2020", use_cps=True)
     with pytest.raises(AssertionError):
-        TaxBrain(TaxBrain.LAST_BUDGET_YEAR, TaxBrain.FIRST_BUDGET_YEAR)
+        TaxBrain(TaxBrain.LAST_BUDGET_YEAR, TaxBrain.FIRST_BUDGET_YEAR,
+                 use_cps=True)
     with pytest.raises(AssertionError):
-        TaxBrain(TaxBrain.FIRST_BUDGET_YEAR - 1, 2018)
+        TaxBrain(TaxBrain.FIRST_BUDGET_YEAR - 1, 2018, use_cps=True)
     with pytest.raises(AssertionError):
-        TaxBrain(2018, TaxBrain.LAST_BUDGET_YEAR + 1)
+        TaxBrain(2018, TaxBrain.LAST_BUDGET_YEAR + 1, use_cps=True)
 
 
 def test_static_run(tb_static):
@@ -28,6 +29,16 @@ def test_dynamic_run(tb_dynamic):
 
 def test_weighted_totals(tb_static):
     table = tb_static.weighted_totals("c00100")
+    assert isinstance(table, pd.DataFrame)
+
+
+def test_multi_var_table(tb_dynamic):
+    with pytest.raises(ValueError):
+        tb_dynamic.multi_var_table(["iitax"], "calc")
+    with pytest.raises(TypeError):
+        tb_dynamic.multi_var_table(set(), "base")
+    table = tb_dynamic.multi_var_table(["iitax", "payrolltax", "combined"],
+                                       "reform")
     assert isinstance(table, pd.DataFrame)
 
 
