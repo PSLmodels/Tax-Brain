@@ -7,7 +7,7 @@ using Tax-Brain starts by importing and creating a `TaxBrain` instance.
 from taxbrain import TaxBrain
 
 tb = TaxBrain(2019, 2029, use_cps=True, reform="reform.json",
-              assump="assumptions.json", behavior={2019: {"BE_sub": 0.25}})
+              assump="assumptions.json", behavior={"sub": 0.25})
 ```
 
 `TaxBrain` takes the following arguments on initialization:

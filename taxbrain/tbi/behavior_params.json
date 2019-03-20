@@ -14,9 +14,7 @@
                 "min": 0.0,
                 "max": 9e+99
             }
-        },
-        "boolean_value": false,
-        "integer_value": false
+        }
     },
     "inc": {
         "title": "Income elasticity of taxable income",
@@ -33,9 +31,7 @@
                 "min": -9e+99,
                 "max": 0.0
             }
-        },
-        "boolean_value": false,
-        "integer_value": false
+        }
     },
     "cg": {
         "title": "Semi-elasticity of long-term capital gains",
@@ -52,8 +48,6 @@
                 "min": -9e+99,
                 "max": 0.0
             }
-        },
-        "boolean_value": false,
-        "integer_value": false
+        }
     }
 }

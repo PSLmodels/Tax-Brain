@@ -26,7 +26,6 @@ import numpy as np
 import pandas as pd
 from operator import itemgetter
 from collections import defaultdict
-from behresp import PARAM_INFO
 from taxcalc import (Policy, Records, Calculator,
                      Consumption, GrowFactors, GrowDiff,
                      DIST_TABLE_LABELS, DIFF_TABLE_LABELS,
