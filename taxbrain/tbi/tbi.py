@@ -37,6 +37,12 @@ from taxcalc import (Policy, Records, Calculator,
 from taxbrain import TaxBrain
 from dask import compute, delayed
 
+
+CUR_PATH = os.path.abspath(os.path.dirname(__file__))
+BEHV_PARAMS_PATH = os.path.join(CUR_PATH, "behavior_params.json")
+with open(BEHV_PARAMS_PATH, "r") as f:
+    BEHV_PARAMS = json.load(f)
+
 AGG_ROW_NAMES = ['ind_tax', 'payroll_tax', 'combined_tax']
 
 RESULTS_TABLE_TITLES = {
@@ -105,25 +111,12 @@ def get_defaults(start_year, **kwargs):
     pol = Policy()
     pol.set_year(start_year)
     pol_mdata = pol.metadata()
-    behv_mdata = {}
-    for param, meta in PARAM_INFO.items():
-        behv_mdata[param] = {
-            "title": meta["long_name"],
-            "description": meta["description"],
-            "section_1": "Behavior",
-            "section_2": "",
-            "notes": "",
-            "type": 'float',
-            'value': [meta['default_value']],
-            'validators': {
-                'range': {'min': meta['minimum_value'],
-                          'max': meta['maximum_value']}
-            },
-            'boolean_value': False,
-            'integer_value': False
-        }
+    # serialize taxcalc params
+    seri = {}
+    for param, data in pol_mdata.items():
+        seri[param] = dict(data, **{"value": np.array(data["value"]).tolist()})
 
-    return {"policy": pol_mdata, "behavior": behv_mdata}
+    return {"policy": seri, "behavior": BEHV_PARAMS}
 
 
 def parse_user_inputs(params, jsonstrs, errors_warnings, data_source,
@@ -138,15 +131,7 @@ def parse_user_inputs(params, jsonstrs, errors_warnings, data_source,
     policy_inputs = {"policy": policy_inputs}
     policy_inputs_json = json.dumps(policy_inputs, indent=4)
     # format behavior inputs to work with behavior response function
-    behavior_mods = {}
-    if behavior_inputs:
-        for param, value in behavior_inputs.items():
-            for year, val in value.items():
-                int_year = int(year)
-                if int_year not in behavior_mods.keys():
-                    behavior_mods[int_year] = {param: val[0]}
-                else:
-                    behavior_mods[int_year][param] = val[0]
+    behavior_mods = behavior_inputs[start_year]
     behavior_inputs_json = json.dumps(behavior_mods, indent=4)
 
     assumption_inputs = {
@@ -164,12 +149,14 @@ def parse_user_inputs(params, jsonstrs, errors_warnings, data_source,
     tc_errors_warnings = reform_warnings_errors(
         policy_dict, data_source
     )
+    behavior_errors = behavior_warnings_errors(behavior_mods)
     # errors_warnings contains warnings and errors separated by each
     # project/project module
     for project in tc_errors_warnings:
         errors_warnings[project] = parse_errors_warnings(
             tc_errors_warnings[project]
         )
+    errors_warnings["behavior"]["errors"] = behavior_errors
 
     # separate reform and assumptions
     reform_dict = policy_dict["policy"]
@@ -278,6 +265,22 @@ def reform_warnings_errors(user_mods, data_source):
     return rtn_dict
 
 
+def behavior_warnings_errors(behavior_mods):
+    """
+    This function analyzes the behavior_mods dictionary to ensure that the
+    value of each input meets the requirements for being used by the
+    Behavioral-Reponses package
+    """
+    err_str_template = "{} must be between {} and {}\n"
+    err_str = ""
+    for mod, value in behavior_mods.items():
+        min_val = BEHV_PARAMS[mod]["validators"]["range"]["min"]
+        max_val = BEHV_PARAMS[mod]["validators"]["range"]["max"]
+        if not min_val <= value <= max_val:
+            err_str += err_str_template.format(mod, min_val, max_val)
+    return err_str
+
+
 def pdf_to_clean_html(pdf):
     """Takes a PDF and returns an HTML table without any deprecated tags or
     irrelevant styling"""
@@ -317,7 +320,7 @@ def run_tbi_model(start_year, data_source, use_full_sample, user_mods):
 
     if use_full_sample:
         sample = full_sample
-        end_year = start_year + 10
+        end_year = min(start_year + 10, TaxBrain.LAST_BUDGET_YEAR)
     else:
         sample = full_sample.sample(frac=sampling_frac,
                                     random_state=sampling_seed)
