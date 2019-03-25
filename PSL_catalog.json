@@ -112,9 +112,9 @@
         "data": null
     },
     "link_to_webapp": {
-        "data": null,
+        "data": "<a href=\"https://www.compmodels.com/PSLmodels/Tax-Brain/\">Tax-Brain</a>",
         "source": null,
-        "type": null,
+        "type": "html",
         "start_header": null,
         "end_header": null
     },
