@@ -16,7 +16,7 @@ static_time = time.time() - static_start
 
 # run dynamic analysis
 tb_dynamic = TaxBrain(2019, 2028, use_cps=True, reform=reform_url,
-                      behavior={2019: {"BE_sub": 0.25}})
+                      behavior={"sub": 0.25})
 dynamic_start = time.time()
 tb_dynamic.run()
 dynamic_table = tb_dynamic.weighted_totals("c00100")
