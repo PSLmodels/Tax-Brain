@@ -1,5 +1,4 @@
 import pytest
-import pickle
 from taxbrain.tbi import (run_tbi_model, summary_aggregate, summary_diff_xbin,
                           summary_diff_xdec, summary_dist_xbin,
                           summary_dist_xdec)
