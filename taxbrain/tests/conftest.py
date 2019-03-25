@@ -45,7 +45,7 @@ def tb_static(reform_json_str):
 @pytest.fixture(scope="session")
 def tb_dynamic(reform_json_str):
     return TaxBrain(2018, 2019, use_cps=True, reform=reform_json_str,
-                    behavior={2018: {"BE_sub": 0.25}})
+                    behavior={"sub": 0.25})
 
 
 @pytest.fixture(scope="session")
