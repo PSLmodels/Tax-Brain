@@ -9,3 +9,4 @@ dependencies:
 - numpy>=1.13
 - pytest
 - dask
+- bokeh
