@@ -288,7 +288,8 @@ def pdf_to_clean_html(pdf):
             .replace(' style="text-align: right;"', ''))
 
 
-def run_tbi_model(start_year, data_source, use_full_sample, user_mods):
+def run_tbi_model(start_year, data_source, use_full_sample, user_mods,
+                  puf_df=None):
     """
     Run TBI using the taxbrain API
     """
@@ -297,14 +298,13 @@ def run_tbi_model(start_year, data_source, use_full_sample, user_mods):
     tcdir = os.path.dirname(tcpath)
     # use taxbrain
     if data_source == "PUF":
+        if not isinstance(puf_df, pd.DataFrame):
+            raise TypeError("'puf_df' must be a Pandas DataFrame.")
         fuzz = True
         use_cps = False
-        input_path = 'puf.csv.gz'
-        if not os.path.isfile(input_path):
-            # otherwise try local Tax-Calculator deployment path
-            input_path = os.path.join(tbi_path, '..', '..', 'puf.csv')
         sampling_frac = 0.05
         sampling_seed = 2222
+        full_sample = puf_df
     else:
         fuzz = False
         use_cps = True
@@ -315,7 +315,7 @@ def run_tbi_model(start_year, data_source, use_full_sample, user_mods):
             # full_sample = read_egg_csv(cpspath)  # pragma: no cover
         sampling_frac = 0.03
         sampling_seed = 180
-    full_sample = pd.read_csv(input_path)
+        full_sample = pd.read_csv(input_path)
 
     if use_full_sample:
         sample = full_sample
