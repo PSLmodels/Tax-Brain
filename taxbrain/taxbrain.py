@@ -42,7 +42,7 @@ class TaxBrain:
         verbose: A boolean value indicated whether or not to write model
                  progress reports.
         """
-        if not use_cps and not microdata:
+        if not use_cps and microdata is None:
             raise ValueError("Must specify microdata or set 'use_cps' to True")
         assert isinstance(start_year, int) & isinstance(end_year, int), (
             "Start and end years must be integers"

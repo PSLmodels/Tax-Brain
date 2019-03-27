@@ -5,11 +5,43 @@ from taxbrain.tbi import (run_tbi_model, summary_aggregate, summary_diff_xbin,
                           summary_dist_xdec)
 
 
-def test_tbi_model(empty_mods):
+def test_cps_tbi_model(empty_mods):
     """
     Test the run_tbi_model function
     """
     results = run_tbi_model(2018, "CPS", False, empty_mods)
+    assert results.keys() == set(["outputs", "aggr_outputs"])
+    assert len(results["outputs"]) == 10
+    for i, result in enumerate(results["outputs"]):
+        if not isinstance(results, dict):
+            msg = (f"output result at index {i} is of type {type(result)}, ",
+                   "not dict")
+            raise TypeError(msg)
+        expected_output_keys = ["tags", "dimension", "title", "downloadable",
+                                "renderable"]
+        assert list(result.keys()) == expected_output_keys
+        assert isinstance(result["tags"], dict)
+        assert isinstance(result["dimension"], int)
+        assert isinstance(result["title"], str)
+        assert isinstance(result["downloadable"], list)
+        assert isinstance(result["renderable"], str)
+
+    assert len(results["aggr_outputs"]) == 3
+    for i, result in enumerate(results["aggr_outputs"]):
+        if not isinstance(result, dict):
+            msg = (f"aggr_outputs result at index {i} is of type ",
+                   "{type(result}, not dict")
+            raise TypeError(msg)
+
+
+@pytest.mark.requires_puf
+def test_puf_tbi_model(puf_df, empty_mods):
+    """
+    Test the TBI model with the PUF
+    """
+    with pytest.raises(TypeError):
+        run_tbi_model(2019, "PUF", False, empty_mods)
+    results = run_tbi_model(2018, "PUF", False, empty_mods, puf_df)
     assert results.keys() == set(["outputs", "aggr_outputs"])
     assert len(results["outputs"]) == 10
     for i, result in enumerate(results["outputs"]):
