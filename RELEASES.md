@@ -9,7 +9,7 @@ Changes in this release:
 * The TBI has been refactored to use the `TaxBrain` class rather than the
   individual components of Tax-Calculator and Behavioral-Responses ([#21](https://github.com/PSLmodels/Tax-Brain/pull/21)).
 * The `TaxBrain` class and TBI have been updated to work with newer version of
-  Tax-Calculator and Behavioral-Responses (1.1.0 and 0.7.0, respectively) ([#25](https://github.com/PSLmodels/Tax-Brain/pull/25)).
+  Tax-Calculator and Behavioral-Responses (>=1.1.0 and >=0.7.0, respectively) ([#25](https://github.com/PSLmodels/Tax-Brain/pull/25)).
 * The TBI has been modified to allow a user to use the PUF as an input file ([#27](https://github.com/PSLmodels/Tax-Brain/pull/27)).
 
 ## 2019-03-12 Release 2.0.0
