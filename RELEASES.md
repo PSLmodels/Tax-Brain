@@ -1,5 +1,13 @@
 # Tax-Brain Release History
 
+## 2019-03-29 Release 2.1.1
+
+Last Merged Pull Request: [#29](https://github.com/PSLmodels/Tax-Brain/pull/29)
+
+Changes in this release:
+
+* Includes `taxbrain/tbi/behavior_params.json` in the package [#29](https://github.com/PSLmodels/Tax-Brain/pull/29).
+
 ## 2019-03-29 Release 2.1.0
 
 Last Merged Pull Request: [#28](https://github.com/PSLmodels/Tax-Brain/pull/27)
