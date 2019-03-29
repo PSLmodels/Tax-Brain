@@ -2,7 +2,7 @@
 
 ## 2019-03-29 Release 2.1.0
 
-Last Merged Pull Request: [#27](https://github.com/PSLmodels/Tax-Brain/pull/27)
+Last Merged Pull Request: [#28](https://github.com/PSLmodels/Tax-Brain/pull/27)
 
 Changes in this release:
 
