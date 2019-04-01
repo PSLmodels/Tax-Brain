@@ -130,7 +130,9 @@ def parse_user_inputs(params, jsonstrs, errors_warnings, data_source,
     policy_inputs = {"policy": policy_inputs}
     policy_inputs_json = json.dumps(policy_inputs, indent=4)
     # format behavior inputs to work with behavior response function
-    behavior_mods = behavior_inputs[start_year]
+    behavior_mods = {}
+    for param, value in behavior_inputs.items():
+        behavior_mods[param] = value[str(start_year)][0]
     behavior_inputs_json = json.dumps(behavior_mods, indent=4)
 
     assumption_inputs = {
@@ -356,7 +358,7 @@ def nth_year_results(tb, year, user_mods, fuzz, return_html=True):
     if fuzz:
         # seed random number generator with a seed value based on user_mods
         # (reform-specific seed is used to choose whose results are fuzzed)
-        seed = random_seed(user_mods)
+        seed = random_seed(user_mods, year)
         print('fuzzing_seed={}'.format(seed))
         np.random.seed(seed)
         # make bool array marking which filing units are affected by the reform
@@ -513,7 +515,7 @@ def check_user_mods(user_mods):
         raise ValueError(msg)
 
 
-def random_seed(user_mods):
+def random_seed(user_mods, year):
     """
     Compute random seed based on specified user_mods, which is a
     dictionary returned by Calculator.read_json_parameter_files().
@@ -539,9 +541,15 @@ def random_seed(user_mods):
         seed = int(hsh.hexdigest(), 16)
         return seed % np.iinfo(np.uint32).max
     # start of random_seed function
+    # modify the user mods to work in the random_seed_from_subdict function
+    user_mods_copy = copy.deepcopy(user_mods)
+    beh_mods_dict = {year: {}}
+    for param, value in user_mods_copy["behavior"].items():
+        beh_mods_dict[year][param] = [value]
+    user_mods_copy["behavior"] = beh_mods_dict
     ans = 0
-    for subdict_name in user_mods:
-        ans += random_seed_from_subdict(user_mods[subdict_name])
+    for subdict_name in user_mods_copy:
+        ans += random_seed_from_subdict(user_mods_copy[subdict_name])
     return ans % np.iinfo(np.uint32).max
 
 
