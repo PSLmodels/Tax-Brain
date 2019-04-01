@@ -64,9 +64,9 @@ RESULTS_TABLE_TITLES = {
     'dist2_xbin': 'User plan tax vars, weighted total by expanded income bin',
     'dist2_xdec': ('User plan tax vars, weighted total by expanded income '
                    'decile'),
-    'aggr_1': 'Total Liabilities Baseline by Calendar Year',
-    'aggr_d': 'Total Liabilities Change by Calendar Year',
-    'aggr_2': 'Total Liabilities Reform by Calendar Year'}
+    'aggr_1': 'Total Liabilities Baseline by Calendar Year (Billions)',
+    'aggr_d': 'Total Liabilities Change by Calendar Year (Billions)',
+    'aggr_2': 'Total Liabilities Reform by Calendar Year (Billions)'}
 
 RESULTS_TABLE_TAGS = {
     # diff tables
