@@ -439,9 +439,10 @@ def postprocess(data_to_process):
     for id, pdfs in data_to_process.items():
         if id.startswith('aggr'):
             pdfs.sort(key=year_getter)
-            tbl = pd.concat((year_columns(pd.read_json(i['raw']),
-                                          i['dimension'])
-                             for i in pdfs), axis='columns')
+            # tbl = pd.concat((year_columns(pd.read_json(i['raw']),
+            #                               i['dimension'])
+            #                  for i in pdfs), axis='columns')
+            tbl = pd.read_json(pdfs[0]["raw"])
             tbl.index = pd.Index(RESULTS_TOTAL_ROW_KEY_LABELS[i]
                                  for i in tbl.index)
             title = RESULTS_TABLE_TITLES[id]
