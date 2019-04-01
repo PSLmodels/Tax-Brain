@@ -250,12 +250,7 @@ def reform_warnings_errors(user_mods, data_source):
         rtn_dict['policy']['errors'] = pol.parameter_errors
     except ValueError as valerr_msg:
         rtn_dict['policy']['errors'] = valerr_msg.__str__()
-    # # create Behavior object
-    # behv = Behavior()
-    # try:
-    #     behv.update_behavior(user_mods['behavior'])
-    # except ValueError as valerr_msg:
-    #     rtn_dict['behavior']['errors'] = valerr_msg.__str__()
+
     # create Consumption object
     consump = Consumption()
     try:
@@ -279,8 +274,8 @@ def behavior_warnings_errors(behavior_mods, year):
         max_val = BEHV_PARAMS[mod]["validators"]["range"]["max"]
         if not min_val <= value <= max_val:
             # err_str += err_str_template.format(mod, min_val, max_val)
-            err_dict[mod][year] = err_str_template.format(mod, min_val,
-                                                          max_val)
+            err_dict[mod] = {year: err_str_template.format(mod, min_val,
+                                                           max_val)}
     return err_dict
 
 
