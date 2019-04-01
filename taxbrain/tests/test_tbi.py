@@ -2,7 +2,7 @@ import pytest
 import pickle
 from taxbrain.tbi import (run_tbi_model, summary_aggregate, summary_diff_xbin,
                           summary_diff_xdec, summary_dist_xbin,
-                          summary_dist_xdec)
+                          summary_dist_xdec, parse_user_inputs)
 
 
 def test_cps_tbi_model(empty_mods):
@@ -123,3 +123,21 @@ def test_table_functions(tb_static):
     expected_res_keys += ["diff_itax_xdec", "diff_ptax_xdec", "diff_comb_xdec"]
     res = summary_diff_xdec(res, tb_static, 2018)
     assert list(res.keys()) == expected_res_keys
+
+
+def test_input_parse(sample_input):
+    """
+    Test the parse_user_inputs function
+    """
+    params, jsonstrs, errors_warnings = parse_user_inputs(**sample_input)
+    assert isinstance(params, dict)
+    assert isinstance(jsonstrs, dict)
+    assert isinstance(errors_warnings, dict)
+    params_keys = {"policy", "behavior", "consumption", "growdiff_baseline",
+                   "growdiff_response"}
+    assert params.keys() == params_keys
+
+    jsonstrs_keys = {"policy", "assumptions", "behavior"}
+    assert jsonstrs.keys() == jsonstrs_keys
+
+    assert errors_warnings.keys() == params_keys

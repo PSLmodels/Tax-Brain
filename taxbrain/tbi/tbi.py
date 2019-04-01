@@ -150,7 +150,7 @@ def parse_user_inputs(params, jsonstrs, errors_warnings, data_source,
     tc_errors_warnings = reform_warnings_errors(
         policy_dict, data_source
     )
-    behavior_errors = behavior_warnings_errors(behavior_mods)
+    behavior_errors = behavior_warnings_errors(behavior_mods, start_year)
     # errors_warnings contains warnings and errors separated by each
     # project/project module
     for project in tc_errors_warnings:
@@ -266,20 +266,22 @@ def reform_warnings_errors(user_mods, data_source):
     return rtn_dict
 
 
-def behavior_warnings_errors(behavior_mods):
+def behavior_warnings_errors(behavior_mods, year):
     """
     This function analyzes the behavior_mods dictionary to ensure that the
     value of each input meets the requirements for being used by the
     Behavioral-Reponses package
     """
     err_str_template = "{} must be between {} and {}\n"
-    err_str = ""
+    err_dict = {}
     for mod, value in behavior_mods.items():
         min_val = BEHV_PARAMS[mod]["validators"]["range"]["min"]
         max_val = BEHV_PARAMS[mod]["validators"]["range"]["max"]
         if not min_val <= value <= max_val:
-            err_str += err_str_template.format(mod, min_val, max_val)
-    return err_str
+            # err_str += err_str_template.format(mod, min_val, max_val)
+            err_dict[mod][year] = err_str_template.format(mod, min_val,
+                                                          max_val)
+    return err_dict
 
 
 def pdf_to_clean_html(pdf):
