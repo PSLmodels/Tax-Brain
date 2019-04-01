@@ -141,3 +141,8 @@ def test_input_parse(sample_input):
     assert jsonstrs.keys() == jsonstrs_keys
 
     assert errors_warnings.keys() == params_keys
+
+
+def test_full_run(empty_mods):
+    results = run_tbi_model(2018, "CPS", True, empty_mods)
+    assert isinstance(results, dict)
