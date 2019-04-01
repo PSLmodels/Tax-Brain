@@ -1,5 +1,13 @@
 # Tax-Brain Release History
 
+## 2019-04-01 Release 2.1.2
+
+Last Merged Pull Request: [#31](https://github.com/PSLmodels/Tax-Brain/pull/31)
+
+Changes in this release:
+
+* Patches bugs in the TBI ([#31](https://github.com/PSLmodels/Tax-Brain/pull/31)).
+
 ## 2019-03-29 Release 2.1.1
 
 Last Merged Pull Request: [#29](https://github.com/PSLmodels/Tax-Brain/pull/29)
