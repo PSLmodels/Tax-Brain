@@ -49,7 +49,7 @@ def test_differences_table(tb_dynamic):
 
 def test_distribution_table(tb_static):
     table = tb_static.distribution_table(2019, "weighted_deciles",
-                                         "expanded_income", "reform")
+                                         "expanded_income_baseline", "reform")
     assert isinstance(table, pd.DataFrame)
     table = tb_static.distribution_table(2019, "weighted_deciles",
                                          "expanded_income", "base")
