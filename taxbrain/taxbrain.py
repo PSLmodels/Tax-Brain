@@ -42,7 +42,7 @@ class TaxBrain:
         verbose: A boolean value indicated whether or not to write model
                  progress reports.
         """
-        if not use_cps and not microdata:
+        if not use_cps and microdata is None:
             raise ValueError("Must specify microdata or set 'use_cps' to True")
         assert isinstance(start_year, int) & isinstance(end_year, int), (
             "Start and end years must be integers"
@@ -186,6 +186,9 @@ class TaxBrain:
         data["num_returns_AMT"] = data["s006"].where(
             data["c09600"] > 0., 0.
         )
+        if income_measure == "expanded_income_baseline":
+            base_income = self.base_data[year]["expanded_income"]
+            data["expanded_income_baseline"] = base_income
         table = create_distribution_table(data, groupby, income_measure)
         return table
 

@@ -1,5 +1,10 @@
+import os
 import pytest
+import pandas as pd
 from taxbrain import TaxBrain
+
+
+CUR_PATH = os.path.abspath(os.path.dirname(__file__))
 
 
 @pytest.fixture(scope="session")
@@ -52,3 +57,25 @@ def tb_dynamic(reform_json_str):
 def empty_mods():
     return {"consumption": {}, "growdiff_response": {}, "policy": {},
             "growdiff_baseline": {}, "behavior": {}}
+
+
+@pytest.fixture(scope="session")
+def puf_df():
+    puf_path = os.path.join(CUR_PATH, "../../puf.csv")
+    return pd.read_csv(puf_path)
+
+
+@pytest.fixture(scope="session")
+def sample_input():
+    params = {
+        'params': {
+            'policy': {'_FICA_ss_trt': {'2019': [0.15]}},
+            'behavior': {'sub': {'2019': [0.1]}}
+        },
+        'jsonstrs': '',
+        'errors_warnings': {
+            'policy': {'errors': {}, 'warnings': {}},
+            'behavior': {'errors': {}, 'warnings': {}}
+        }, 'start_year': 2019, 'data_source': 'PUF', 'use_full_sample': False
+    }
+    return params

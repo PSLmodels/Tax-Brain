@@ -29,4 +29,5 @@ conda activate taxbrain-dev
 ## Testing
 
 Once you've made your changes, you can test them by running the command
-`pytest` in the terminal window.
+`pytest` in the terminal window. If you do not have access to the `puf.csv`
+file, run `pytest -m "not requires_puf` instead.

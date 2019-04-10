@@ -64,9 +64,9 @@ RESULTS_TABLE_TITLES = {
     'dist2_xbin': 'User plan tax vars, weighted total by expanded income bin',
     'dist2_xdec': ('User plan tax vars, weighted total by expanded income '
                    'decile'),
-    'aggr_1': 'Total Liabilities Baseline by Calendar Year',
-    'aggr_d': 'Total Liabilities Change by Calendar Year',
-    'aggr_2': 'Total Liabilities Reform by Calendar Year'}
+    'aggr_1': 'Total Liabilities Baseline by Calendar Year (Billions)',
+    'aggr_d': 'Total Liabilities Change by Calendar Year (Billions)',
+    'aggr_2': 'Total Liabilities Reform by Calendar Year (Billions)'}
 
 RESULTS_TABLE_TAGS = {
     # diff tables
@@ -130,7 +130,9 @@ def parse_user_inputs(params, jsonstrs, errors_warnings, data_source,
     policy_inputs = {"policy": policy_inputs}
     policy_inputs_json = json.dumps(policy_inputs, indent=4)
     # format behavior inputs to work with behavior response function
-    behavior_mods = behavior_inputs[start_year]
+    behavior_mods = {}
+    for param, value in behavior_inputs.items():
+        behavior_mods[param] = value[str(start_year)][0]
     behavior_inputs_json = json.dumps(behavior_mods, indent=4)
 
     assumption_inputs = {
@@ -148,7 +150,7 @@ def parse_user_inputs(params, jsonstrs, errors_warnings, data_source,
     tc_errors_warnings = reform_warnings_errors(
         policy_dict, data_source
     )
-    behavior_errors = behavior_warnings_errors(behavior_mods)
+    behavior_errors = behavior_warnings_errors(behavior_mods, start_year)
     # errors_warnings contains warnings and errors separated by each
     # project/project module
     for project in tc_errors_warnings:
@@ -248,12 +250,7 @@ def reform_warnings_errors(user_mods, data_source):
         rtn_dict['policy']['errors'] = pol.parameter_errors
     except ValueError as valerr_msg:
         rtn_dict['policy']['errors'] = valerr_msg.__str__()
-    # # create Behavior object
-    # behv = Behavior()
-    # try:
-    #     behv.update_behavior(user_mods['behavior'])
-    # except ValueError as valerr_msg:
-    #     rtn_dict['behavior']['errors'] = valerr_msg.__str__()
+
     # create Consumption object
     consump = Consumption()
     try:
@@ -264,20 +261,22 @@ def reform_warnings_errors(user_mods, data_source):
     return rtn_dict
 
 
-def behavior_warnings_errors(behavior_mods):
+def behavior_warnings_errors(behavior_mods, year):
     """
     This function analyzes the behavior_mods dictionary to ensure that the
     value of each input meets the requirements for being used by the
     Behavioral-Reponses package
     """
     err_str_template = "{} must be between {} and {}\n"
-    err_str = ""
+    err_dict = {}
     for mod, value in behavior_mods.items():
         min_val = BEHV_PARAMS[mod]["validators"]["range"]["min"]
         max_val = BEHV_PARAMS[mod]["validators"]["range"]["max"]
         if not min_val <= value <= max_val:
-            err_str += err_str_template.format(mod, min_val, max_val)
-    return err_str
+            # err_str += err_str_template.format(mod, min_val, max_val)
+            err_dict[mod] = {year: err_str_template.format(mod, min_val,
+                                                           max_val)}
+    return err_dict
 
 
 def pdf_to_clean_html(pdf):
@@ -288,7 +287,8 @@ def pdf_to_clean_html(pdf):
             .replace(' style="text-align: right;"', ''))
 
 
-def run_tbi_model(start_year, data_source, use_full_sample, user_mods):
+def run_tbi_model(start_year, data_source, use_full_sample, user_mods,
+                  puf_df=None):
     """
     Run TBI using the taxbrain API
     """
@@ -297,14 +297,13 @@ def run_tbi_model(start_year, data_source, use_full_sample, user_mods):
     tcdir = os.path.dirname(tcpath)
     # use taxbrain
     if data_source == "PUF":
+        if not isinstance(puf_df, pd.DataFrame):
+            raise TypeError("'puf_df' must be a Pandas DataFrame.")
         fuzz = True
         use_cps = False
-        input_path = 'puf.csv.gz'
-        if not os.path.isfile(input_path):
-            # otherwise try local Tax-Calculator deployment path
-            input_path = os.path.join(tbi_path, '..', '..', 'puf.csv')
         sampling_frac = 0.05
         sampling_seed = 2222
+        full_sample = puf_df
     else:
         fuzz = False
         use_cps = True
@@ -315,7 +314,7 @@ def run_tbi_model(start_year, data_source, use_full_sample, user_mods):
             # full_sample = read_egg_csv(cpspath)  # pragma: no cover
         sampling_frac = 0.03
         sampling_seed = 180
-    full_sample = pd.read_csv(input_path)
+        full_sample = pd.read_csv(input_path)
 
     if use_full_sample:
         sample = full_sample
@@ -356,7 +355,7 @@ def nth_year_results(tb, year, user_mods, fuzz, return_html=True):
     if fuzz:
         # seed random number generator with a seed value based on user_mods
         # (reform-specific seed is used to choose whose results are fuzzed)
-        seed = random_seed(user_mods)
+        seed = random_seed(user_mods, year)
         print('fuzzing_seed={}'.format(seed))
         np.random.seed(seed)
         # make bool array marking which filing units are affected by the reform
@@ -440,9 +439,7 @@ def postprocess(data_to_process):
     for id, pdfs in data_to_process.items():
         if id.startswith('aggr'):
             pdfs.sort(key=year_getter)
-            tbl = pd.concat((year_columns(pd.read_json(i['raw']),
-                                          i['dimension'])
-                             for i in pdfs), axis='columns')
+            tbl = pd.read_json(pdfs[0]["raw"])
             tbl.index = pd.Index(RESULTS_TOTAL_ROW_KEY_LABELS[i]
                                  for i in tbl.index)
             title = RESULTS_TABLE_TITLES[id]
@@ -513,7 +510,7 @@ def check_user_mods(user_mods):
         raise ValueError(msg)
 
 
-def random_seed(user_mods):
+def random_seed(user_mods, year):
     """
     Compute random seed based on specified user_mods, which is a
     dictionary returned by Calculator.read_json_parameter_files().
@@ -539,9 +536,15 @@ def random_seed(user_mods):
         seed = int(hsh.hexdigest(), 16)
         return seed % np.iinfo(np.uint32).max
     # start of random_seed function
+    # modify the user mods to work in the random_seed_from_subdict function
+    user_mods_copy = copy.deepcopy(user_mods)
+    beh_mods_dict = {year: {}}
+    for param, value in user_mods_copy["behavior"].items():
+        beh_mods_dict[year][param] = [value]
+    user_mods_copy["behavior"] = beh_mods_dict
     ans = 0
-    for subdict_name in user_mods:
-        ans += random_seed_from_subdict(user_mods[subdict_name])
+    for subdict_name in user_mods_copy:
+        ans += random_seed_from_subdict(user_mods_copy[subdict_name])
     return ans % np.iinfo(np.uint32).max
 
 
