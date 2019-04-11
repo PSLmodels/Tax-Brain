@@ -46,6 +46,14 @@ calculations." If you would like to link to Tax-Brain, please use
 `https://github.com/PSLmodels/Tax-Brain`. It is also strongly suggested that
 you describe your input data and note the versions of the underlying models.
 
+## Tax-Brain Interface
+
+In addition to its Python API, Tax-Brain also powers a web application on
+[COMP](https://www.compmodels.com/about/). That application can be found
+[here](https://www.compmodels.com/PSLmodels/Tax-Brain/). The code behind the
+GUI can be found in this repository in the [taxbrain/tbi](https://github.com/PSLmodels/Tax-Brain/tree/master/taxbrain/tbi)
+directory.
+
 ## Additional Information
 
 * [Project Road Map](https://github.com/PSLmodels/Tax-Brain/blob/master/ROADMAP.md)
