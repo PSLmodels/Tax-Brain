@@ -5,6 +5,8 @@ from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
                            create_distribution_table, create_difference_table)
 from behresp import response
 from dask import compute, delayed
+from collections import defaultdict
+from taxbrain.utils import weighted_sum
 
 
 class TaxBrain:
@@ -15,7 +17,7 @@ class TaxBrain:
     DEFAULT_VARIABLES = list(set(DIST_VARIABLES).union(set(DIFF_VARIABLES)))
 
     def __init__(self, start_year, end_year=LAST_BUDGET_YEAR,
-                 microdata='puf.csv', use_cps=False, reform=None,
+                 microdata=None, use_cps=False, reform=None,
                  behavior=None, assump=None, verbose=False):
         """
         Constructor for the TaxBrain class
@@ -40,15 +42,15 @@ class TaxBrain:
         verbose: A boolean value indicated whether or not to write model
                  progress reports.
         """
-        if use_cps and microdata != "puf.csv":
-            raise ValueError("Specified a data file with both microdata and "
-                             "use_cps=True; you can only specify one.")
+        if not use_cps and microdata is None:
+            raise ValueError("Must specify microdata or set 'use_cps' to True")
         assert isinstance(start_year, int) & isinstance(end_year, int), (
             "Start and end years must be integers"
         )
-        assert start_year <= end_year, (f"Specified end year, {end_year}, is "
-                                        "before specified start year,"
-                                        f"{start_year}.")
+        assert start_year <= end_year, (
+            f"Specified end year, {end_year}, is before specified start year, "
+            f"{start_year}."
+        )
         assert TaxBrain.FIRST_BUDGET_YEAR <= start_year, (
             f"Specified start_year, {start_year}, comes before first known "
             f"budget year, {TaxBrain.FIRST_BUDGET_YEAR}."
@@ -58,7 +60,6 @@ class TaxBrain:
             f"budget year, {TaxBrain.LAST_BUDGET_YEAR}."
         )
         self.use_cps = use_cps
-        self.microdata = microdata
         self.start_year = start_year
         self.end_year = end_year
         self.base_data = {yr: {} for yr in range(start_year, end_year + 1)}
@@ -70,17 +71,18 @@ class TaxBrain:
         self.params["behavior"] = behavior
 
         # Create two microsimulation calculators
-        # Baseline calculator
-        if use_cps:
-            records = tc.Records.cps_constructor()
-        else:
-            records = tc.Records(microdata)
         gd_base = tc.GrowDiff()
         gf_base = tc.GrowFactors()
         # apply user specified growdiff
         if self.params["growdiff_baseline"]:
             gd_base.update_growdiff(self.params["growdiff_baseline"])
             gd_base.apply_to(gf_base)
+        # Baseline calculator
+        if use_cps:
+            records = tc.Records.cps_constructor(data=microdata,
+                                                 gfactors=gf_base)
+        else:
+            records = tc.Records(microdata, gfactors=gf_base)
         self.base_calc = tc.Calculator(policy=tc.Policy(gf_base),
                                        records=records,
                                        verbose=self.verbose)
@@ -92,6 +94,11 @@ class TaxBrain:
         if self.params["growdiff_response"]:
             gd_reform.update_growdiff(self.params["growdiff_response"])
             gd_reform.apply_to(gf_reform)
+        if use_cps:
+            records = tc.Records.cps_constructor(data=microdata,
+                                                 gfactors=gf_reform)
+        else:
+            records = tc.Records(microdata, gfactors=gf_reform)
         policy = tc.Policy(gf_reform)
         policy.implement_reform(self.params['policy'])
         # Initialize Calculator
@@ -99,8 +106,20 @@ class TaxBrain:
                                          verbose=self.verbose)
 
     def run(self, varlist=DEFAULT_VARIABLES):
+        """
+        Run the calculators. TaxBrain will determine whether to do a static or
+        partial equilibrium run based on the user's inputs when initializing
+        the TaxBrain object.
+        Parameters
+        ----------
+        varlist: list of variables from the microdata to be stored in each year
+        Returns
+        -------
+        None
+        """
+        
         if not isinstance(varlist, list):
-            msg = f"'varlist' is of type {type(varlist)}. Must be a list"
+            msg = f"'varlist' is of type {type(varlist)}. Must be a list."
             raise TypeError(msg)
         if self.params["behavior"]:
             if self.verbose:
@@ -112,6 +131,18 @@ class TaxBrain:
             self._static_run(varlist)
 
     def weighted_totals(self, var):
+        """
+        Create a pandas DataFrame that shows the weighted sum or a specified
+        variable under the baseline policy, reform policy, and the difference
+        between the two.
+        Parameters
+        ----------
+        var: Variable you want the weighted total of.
+        Returns
+        -------
+        A Pandas DataFrame with rows for the baseline total, reform total,
+        and the difference between the two.
+        """
         base_totals = {}
         reform_totals = {}
         differences = {}
@@ -123,6 +154,36 @@ class TaxBrain:
             differences[year] = reform_totals[year] - base_totals[year]
         return pd.DataFrame([base_totals, reform_totals, differences],
                             index=["Base", "Reform", "Difference"])
+
+    def multi_var_table(self, varlist, calc):
+        """
+        Create a Pandas DataFrame with multiple variables from the specified
+        data source
+        Parameters
+        ----------
+        varlist: list of variables to include in the table
+        calc: specify reform or base calculator data
+        Returns
+        -------
+        A Pandas DataFrame containing the weighted sum of each variable passed
+        in the `varlist` argument for each year in the analysis.
+        """
+        if not isinstance(varlist, list):
+            msg = f"'varlist' is of type {type(varlist)}. Must be a list."
+            raise TypeError(msg)
+        if calc.upper() == "REFORM":
+            data = self.reform_data
+        elif calc.upper() == "BASE":
+            data = self.base_data
+        else:
+            raise ValueError("'calc' must be 'base' or 'reform'")
+        data_dict = defaultdict(list)
+        for year in range(self.start_year, self.end_year + 1):
+            for var in varlist:
+                data_dict[var] += [weighted_sum(data[year], var)]
+        df = pd.DataFrame(data_dict,
+                          index=range(self.start_year, self.end_year + 1))
+        return df.transpose()
 
     def distribution_table(self, year, groupby, income_measure, calc):
         """
@@ -157,6 +218,9 @@ class TaxBrain:
         data["num_returns_AMT"] = data["s006"].where(
             data["c09600"] > 0., 0.
         )
+        if income_measure == "expanded_income_baseline":
+            base_income = self.base_data[year]["expanded_income"]
+            data["expanded_income_baseline"] = base_income
         table = create_distribution_table(data, groupby, income_measure)
         return table
 
@@ -252,7 +316,22 @@ class TaxBrain:
                 msg = f"Illegal key(s) {illegal_keys} found in '{d_name}'"
                 raise ValueError(msg)
 
-        if isinstance(reform, str) or not reform:
+        if isinstance(reform, dict):
+            # If the reform is a dictionary, we'll leave it to Tax-Calculator
+            # to catch errors in its implementation
+            if isinstance(assump, str) or not assump:
+                params = tc.Calculator.read_json_param_objects(None, assump)
+            elif isinstance(assump, dict):
+                actual_keys = set(assump.keys())
+                required_keys = tc.Calculator.REQUIRED_ASSUMP_KEYS
+                key_validation(actual_keys, required_keys, "assump")
+                params = {**assump}
+            else:
+                raise TypeError(
+                    "'assump' is not a string, dictionary, or None"
+                )
+            params["policy"] = reform
+        elif isinstance(reform, str) or not reform:
             if isinstance(assump, str) or not assump:
                 params = tc.Calculator.read_json_param_objects(reform, assump)
             elif isinstance(assump, dict):
@@ -270,21 +349,6 @@ class TaxBrain:
                 raise TypeError(
                     "'assump' is not a string, dictionary, or None"
                 )
-        elif isinstance(reform, dict):
-            # If the reform is a dictionary, we'll leave it to Tax-Calculator
-            # to catch errors in its implementation
-            if isinstance(assump, str) or not assump:
-                params = tc.Calculator.read_json_param_objects(None, assump)
-            elif isinstance(assump, dict):
-                actual_keys = set(assump.keys())
-                required_keys = tc.Calculator.REQUIRED_ASSUMP_KEYS
-                key_validation(actual_keys, required_keys, "assump")
-                params = {**assump}
-            else:
-                raise TypeError(
-                    "'assump' is not a string, dictionary, or None"
-                )
-            params["policy"] = reform
         else:
             raise TypeError(
                 "'reform' is not a string, dictionary, or None"
