@@ -11,10 +11,9 @@ install:
   - conda config --set always_yes yes
   - conda update conda
   - conda create -n taxbrain-dev python=$TRAVIS_PYTHON_VERSION;
-  - conda init bash
-  - conda activate taxbrain-dev
+  - source activate taxbrain-dev
   - conda env update -f environment.yml
   - pip install -e .
 
 script:
-  - pytest -v
+  - pytest -m "not requires_puf"

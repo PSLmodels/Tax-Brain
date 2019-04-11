@@ -1,5 +1,5 @@
+import dask
 import pytest
-import pickle
 from taxbrain.tbi import (run_tbi_model, summary_aggregate, summary_diff_xbin,
                           summary_diff_xdec, summary_dist_xbin,
                           summary_dist_xdec, parse_user_inputs)
@@ -9,7 +9,8 @@ def test_cps_tbi_model(empty_mods):
     """
     Test the run_tbi_model function
     """
-    results = run_tbi_model(2018, "CPS", False, empty_mods)
+    with dask.config.set(scheduler='single-threaded'):
+        results = run_tbi_model(2018, "CPS", False, empty_mods)
     assert results.keys() == set(["outputs", "aggr_outputs"])
     assert len(results["outputs"]) == 10
     for i, result in enumerate(results["outputs"]):
