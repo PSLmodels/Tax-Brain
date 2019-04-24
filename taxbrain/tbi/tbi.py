@@ -299,9 +299,10 @@ def behavior_warnings_errors(behavior_mods, year):
 def pdf_to_clean_html(pdf):
     """Takes a PDF and returns an HTML table without any deprecated tags or
     irrelevant styling"""
-    # replace deprecated tags with stle attributes
+    # replace deprecated tags with style attributes
     tb_replace = ('<table style="border-collapse: collapse;'
-                  'border: 1px solid black;"')
+                  'border: 1px solid black; overflow: auto; display: block;'
+                  'min-width: 1000px;"')
     td_replace = ('<td style="border-collapse: collapse;'
                   'border: 1px solid black;"')
     th_replace = ('<th style="border-collapse: collapse;'
@@ -875,11 +876,14 @@ def create_layout(data, start_year, end_year):
     agg_data = data["aggr_outputs"]
     # create aggregate table
     clt_title = f"<h3>{agg_data['current']['title']}</h3>"
-    current_law_table = Div(text=clt_title + agg_data["current"]["renderable"])
+    current_law_table = Div(text=clt_title + agg_data["current"]["renderable"],
+                            width=1000)
     rt_title = f"<h3>{agg_data['reform']['title']}</h3>"
-    reform_table = Div(text=rt_title + agg_data["reform"]["renderable"])
+    reform_table = Div(text=rt_title + agg_data["reform"]["renderable"],
+                       width=1000)
     ct_title = f"<h3>{agg_data['change']['title']}</h3>"
-    change_table = Div(text=ct_title + agg_data["change"]["renderable"])
+    change_table = Div(text=ct_title + agg_data["change"]["renderable"],
+                       width=1000)
 
     current_tab = Panel(child=current_law_table,
                         title="Current Law", sizing_mode="fixed")
@@ -918,7 +922,8 @@ def create_layout(data, start_year, end_year):
                     title = f"<h3>{_data['title']}</h3>"
                     note = ("<p><i>All monetary values are in billions. "
                             "All non-monetary values are in millions.</i></p>")
-                    tbl = Div(text=title + note + _data["renderable"])
+                    tbl = Div(text=title + note + _data["renderable"],
+                              width=1000)
                     grp_panel = Panel(child=tbl, title=grp.title())
                     grp_panels.append(grp_panel)
                 grp_tab = Tabs(tabs=grp_panels)
