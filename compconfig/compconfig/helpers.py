@@ -8,6 +8,7 @@ import copy
 import hashlib
 import boto3
 import gzip
+import copy
 import pandas as pd
 import numpy as np
 from collections import defaultdict
@@ -227,15 +228,16 @@ def fuzzed(df1, df2, reform_affected, table_row_type):
     pd.options.mode.chained_assignment = None
     group_list = list()
     for name, group2 in gdf2:
+        group2 = copy.deepcopy(group2)
         indices = np.where(group2['reform_affected'])
         num = min(len(indices[0]), NUM_TO_FUZZ)
         if num > 0:
             choices = np.random.choice(indices[0], size=num, replace=False)
             group1 = gdf1.get_group(name)
             for idx in choices:
-                # TODO: modify to address pandas warnings
                 group2.iloc[idx] = group1.iloc[idx]
         group_list.append(group2)
+        del group2
     df2 = pd.concat(group_list)
     del df2['reform_affected']
     pd.options.mode.chained_assignment = 'warn'
