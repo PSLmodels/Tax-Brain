@@ -82,8 +82,8 @@ def test_distribution_table(tb_static):
 
 def test_user_input(reform_json_str, assump_json_str):
     valid_reform = {
-        2019: {
-            "_II_rt7": [0.40]
+        "II_rt7": {
+            2019: 0.40
         }
     }
     # Test valid reform dictionary with No assumption
