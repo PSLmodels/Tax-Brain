@@ -117,7 +117,6 @@ class TaxBrain:
         -------
         None
         """
-        
         if not isinstance(varlist, list):
             msg = f"'varlist' is of type {type(varlist)}. Must be a list."
             raise TypeError(msg)

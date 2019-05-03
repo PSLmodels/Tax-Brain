@@ -1,6 +1,7 @@
 name: taxbrain-dev
 channels:
 - PSLmodels
+- conda-forge
 dependencies:
 - python>=3.6.5
 - taxcalc>=1.1.0
@@ -9,3 +10,7 @@ dependencies:
 - numpy>=1.13
 - pytest
 - dask
+- paramtools
+- marshmallow
+- pip:
+  - compdevkit

@@ -22,6 +22,7 @@ import copy
 import hashlib
 import time
 import json
+import paramtools
 import numpy as np
 import pandas as pd
 from operator import itemgetter
@@ -39,12 +40,17 @@ from bokeh.models.widgets import Tabs, Panel, Div
 from bokeh.resources import CDN
 from bokeh.embed import components
 from bokeh.layouts import layout, column
+from marshmallow import fields, Schema
 
 
 CUR_PATH = os.path.abspath(os.path.dirname(__file__))
 BEHV_PARAMS_PATH = os.path.join(CUR_PATH, "behavior_params.json")
 with open(BEHV_PARAMS_PATH, "r") as f:
     BEHV_PARAMS = json.load(f)
+
+TBI_PATH = os.path.abspath(os.path.dirname(__file__))
+TCPATH = inspect.getfile(Records)
+TCDIR = os.path.dirname(TCPATH)
 
 AGG_ROW_NAMES = ['ind_tax', 'payroll_tax', 'combined_tax']
 
@@ -122,17 +128,113 @@ MONEY_VARS = {
     "Total Tax Difference"
 }
 
+schema = {
+    "labels": {
+        "year": {
+            "type": "int",
+            "validators": {"range": {"min": 2013, "max": 2026}}
+        },
+        "MARS": {
+            "type": "str",
+            "validators": {"choice": {"choices": ["single", "mjoint",
+                                                  "mseparate", "headhh",
+                                                  "widow"]}}
+        },
+        "idedtype": {
+            "type": "str",
+            "validators": {"choice": {"choices": ["med", "sltx", "retx", "cas",
+                                                  "misc", "int", "char"]}}
+        },
+        "EIC": {
+            "type": "str",
+            "validators": {"choice": {"choices": ["0kids", "1kid",
+                                                  "2kids", "3+kids"]}}
+        }
+    },
+    "additional_members": {
+        "section_1": {"type": "str"},
+        "section_2": {"type": "str"},
+        "section_3": {"type": "str"},
+        "irs_ref": {"type": "str"},
+        "start_year": {"type": "int"},
+        "indexable": {"type": "bool"},
+        "indexed": {"type": "bool"},
+        "compatible_data": {"type": "compatible_data"}
+    }
+}
 
-def get_defaults(start_year, **kwargs):
-    pol = Policy()
-    pol.set_year(start_year)
-    pol_mdata = pol.metadata()
+
+class MetaParameters(paramtools.Parameters):
+    defaults = {
+        "start_year": {
+            "title": "Start Year",
+            "description": "Year for parameters.",
+            "type": "int",
+            "value": 2019,
+            "validators": {"range": {"min": 2019, "max": 2027}}
+        },
+        "data_source": {
+            "title": "Data Source",
+            "description": "Data source can be PUF or CPS",
+            "type": "str",
+            "value": "PUF",
+            "validators": {"choice": {"choices": ["PUF", "CPS"]}}
+        },
+        "use_full_sample": {
+            "title": "Use Full Sample",
+            "description": "Use entire data set or a 2% sample.",
+            "type": "bool",
+            "value": True,
+            "validators": {"choice": {"choices": [True, False]}}
+        }
+    }
+
+
+def get_defaults(meta_params_dict):
+    # pol = Policy()
+    # pol.set_year(start_year)
+    # pol_mdata = pol.metadata()
+    metaparams = MetaParameters()
+    metaparams.adjust(meta_params_dict)
+    with open(os.path.join(TCDIR, "policy_current_law.json"), "r") as f:
+        pcl = json.loads(f.read())
+
+    # convert to paramtools format
+    res = convert_defaults(pcl)
+    print(res["schema"])
+
+    class CompatibleDataSchema(Schema):
+        """
+        Schema for Compatible data object
+        {
+            "compatible_data": {"puf": bool, "cps": bool, ...}
+        }
+        """
+
+        puf = fields.Boolean()
+        cps = fields.Boolean()
+
+    class TCParams(paramtools.Parameters):
+        field_map = {"compatible_data": fields.Nested(CompatibleDataSchema())}
+        defaults = res
+
+    params = TCParams()
+
     # serialize taxcalc params
-    seri = {}
-    for param, data in pol_mdata.items():
-        seri[param] = dict(data, **{"value": np.array(data["value"]).tolist()})
+    # seri = {}
+    # for param, data in pol_mdata.items():
+    #    seri[param] = dict(data, **{"value": np.array(data["value"]).tolist()})
+    # TODO: Add behavior back in
+    default_params = {
+        "policy": params.specification(
+            meta_data=True,
+            start_year=metaparams.start_year,
+            data_source=metaparams.data_source,
+            use_full_sample=metaparams.use_full_sample
+        )
+    }
 
-    return {"policy": seri, "behavior": BEHV_PARAMS}
+    return metaparams.specification(meta_data=True), default_params
 
 
 def parse_user_inputs(params, jsonstrs, errors_warnings, data_source,
@@ -142,7 +244,7 @@ def parse_user_inputs(params, jsonstrs, errors_warnings, data_source,
     part of the taxcalcstyle comp package:
     https://github.com/comp-org/comp/blob/0.1.0rc7/webapp/apps/contrib/taxcalcstyle/parser.py
     """
-    policy_inputs = params["policy"]
+    policy_inputs = convert_adj(params["policy"])
     behavior_inputs = params["behavior"]
     policy_inputs = {"policy": policy_inputs}
     policy_inputs_json = json.dumps(policy_inputs, indent=4)
@@ -294,28 +396,6 @@ def behavior_warnings_errors(behavior_mods, year):
             err_dict[mod] = {year: err_str_template.format(mod, min_val,
                                                            max_val)}
     return err_dict
-
-
-def pdf_to_clean_html(pdf):
-    """Takes a PDF and returns an HTML table without any deprecated tags or
-    irrelevant styling"""
-    # replace deprecated tags with style attributes
-    tb_replace = ('<table style="border-collapse: collapse;'
-                  'border: 1px solid black; overflow: auto; display: block;'
-                  'min-width: 1000px;"')
-    td_replace = ('<td style="border-collapse: collapse;'
-                  'border: 1px solid black;"')
-    th_replace = ('<th style="border-collapse: collapse;'
-                  'border: 1px solid black;" ')
-    tr_replace = ('<tr style="border-collapse: collapse;'
-                  'border: 1px solid black;"')
-    return (pdf.to_html()
-            .replace(' border="1"', '')
-            .replace(' style="text-align: right;"', '')
-            .replace('<table ', tb_replace)
-            .replace('<td', td_replace)
-            .replace('<th', th_replace)
-            .replace('<tr', tr_replace))
 
 
 def run_tbi_model(start_year, data_source, use_full_sample, user_mods,
@@ -555,6 +635,28 @@ def postprocess(data_to_process):
 # tax collection of the Policy Simulation Library (PSL).
 # Any other use of the following functions is suspect.
 # -------------------------------------------------------
+
+
+def pdf_to_clean_html(pdf):
+    """Takes a PDF and returns an HTML table without any deprecated tags or
+    irrelevant styling"""
+    # replace deprecated tags with style attributes
+    tb_replace = ('<table style="border-collapse: collapse;'
+                  'border: 1px solid black; overflow: auto; display: block;'
+                  'min-width: 1000px;"')
+    td_replace = ('<td style="border-collapse: collapse;'
+                  'border: 1px solid black;"')
+    th_replace = ('<th style="border-collapse: collapse;'
+                  'border: 1px solid black;" ')
+    tr_replace = ('<tr style="border-collapse: collapse;'
+                  'border: 1px solid black;"')
+    return (pdf.to_html()
+            .replace(' border="1"', '')
+            .replace(' style="text-align: right;"', '')
+            .replace('<table ', tb_replace)
+            .replace('<td', td_replace)
+            .replace('<th', th_replace)
+            .replace('<tr', tr_replace))
 
 
 def check_years(year_n, start_year, use_puf_not_cps):
@@ -965,3 +1067,80 @@ def create_layout(data, start_year, end_year):
 
     # return js, div, cdn_js, cdn_css, widget_js, widget_css
     return outputs
+
+
+def convert_defaults(pcl):
+    type_map = {
+        "real": "float",
+        "boolean": "bool",
+        "integer": "int",
+        "string": "str",
+    }
+
+    new_pcl = defaultdict(dict)
+    new_pcl["schema"] = schema
+    for param, item in pcl.items():
+        values = []
+
+        if isinstance(item["value"][0], list):
+            for year in range(len(item["value"])):
+                for dim1 in range(len(item["value"][0])):
+                    values.append({"year": item["value_yrs"][year],
+                                   item["vi_name"]: item["vi_vals"][dim1],
+                                   "value": item["value"][year][dim1]})
+        else:
+            for year in range(len(item["value"])):
+                values.append({"year": item["value_yrs"][year],
+                               "value": item["value"][year]})
+
+        new_pcl[param]['value'] = values
+        new_pcl[param]['title'] = pcl[param]["long_name"]
+        new_pcl[param]['type'] = type_map[pcl[param]["value_type"]]
+
+        new_pcl[param]["validators"] = {"range": pcl[param]["valid_values"]}
+
+        to_keep = list(schema["additional_members"].keys()) + [
+            "description", "notes",
+        ]
+        for k in to_keep:
+            if k in pcl[param]:
+                new_pcl[param][k] = pcl[param][k]
+
+    return new_pcl
+
+
+def convert_adj(adj):
+    pol = Policy()
+    new_adj = defaultdict(dict)
+    for param, valobjs in adj.items():
+        for valobj in valobjs:
+            # has keys "year" and "value"
+            if len(valobj) == 2:
+                new_adj[param][valobj["year"]] = valobj["value"]
+            # has keys "year", "value", and one of "MARS", "idedtype", or "EIC"
+            elif len(valobj) == 3:
+                other_label = next(k for k in valobj.keys()
+                                   if k not in ("year", "value"))
+                param_meta = pol._vals[f"_{param}"]
+                if other_label != param_meta["vi_name"]:
+                    msg = (f"Label {other_label} does not match expected"
+                           f"label {param_meta['vi_name']}")
+                    raise ValueError(msg)
+                ol_ix = param_meta["vi_vals"].index(valobj[other_label])
+                other_label_ix = ol_ix
+
+                if valobj["year"] in new_adj[param]:
+                    defaultlist = new_adj[param][valobj["year"]]
+                else:
+                    year_ix = valobj["year"] - min(param_meta["value_yrs"])
+                    # shallow copy the list
+                    defaultlist = list(param_meta["value"][year_ix])
+
+                defaultlist[other_label_ix] = valobj["value"]
+
+                new_adj[param][valobj["year"]] = defaultlist
+            else:
+                msg = (f"Dict should have 2 or 3 keys. It has {len(valobj)}"
+                       f"instead (key={list(valobj.keys())}).")
+                raise ValueError(msg)
+    return new_adj
