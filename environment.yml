@@ -4,7 +4,7 @@ channels:
 - conda-forge
 dependencies:
 - python>=3.6.5
-- taxcalc>=1.1.0
+- taxcalc>=2.0.0
 - behresp>=0.7.0
 - pandas>=0.23
 - numpy>=1.13
