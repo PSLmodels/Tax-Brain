@@ -40,9 +40,9 @@ class BehaviorParams(paramtools.Parameters):
 
 
 def get_defaults(meta_params_dict):
-    # pol = Policy()
-    # pol.set_year(start_year)
-    # pol_mdata = pol.metadata()
+    """
+    Return default parameters for Tax-Brain
+    """
     metaparams = MetaParameters()
     metaparams.adjust(meta_params_dict)
 
@@ -54,12 +54,20 @@ def get_defaults(meta_params_dict):
             meta_data=True,
             start_year=metaparams.start_year,
             data_source=metaparams.data_source,
-            use_full_sample=metaparams.use_full_sample
+            use_full_sample=metaparams.use_full_sample,
+            serializable=True
         ),
-        "behavior": behavior_params.specification(meta_data=True)
+        "behavior": behavior_params.specification(
+            meta_data=True,
+            serializable=True
+        )
     }
+    meta = metaparams.specification(
+        meta_data=True,
+        serializable=True
+    )
 
-    return metaparams.specification(meta_data=True), default_params
+    return meta, default_params
 
 
 def validate_input(meta_params_dict, adjustment, errors_warnings):
