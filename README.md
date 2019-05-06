@@ -51,7 +51,7 @@ you describe your input data and note the versions of the underlying models.
 In addition to its Python API, Tax-Brain also powers a web application on
 [COMP](https://www.compmodels.com/about/). That application can be found
 [here](https://www.compmodels.com/PSLmodels/Tax-Brain/). The code behind the
-GUI can be found in this repository in the [taxbrain/tbi](https://github.com/PSLmodels/Tax-Brain/tree/master/taxbrain/tbi)
+GUI can be found in this repository in the [compconfig](https://github.com/PSLmodels/Tax-Brain/tree/master/compconfig)
 directory.
 
 ## Additional Information
