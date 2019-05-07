@@ -52,7 +52,7 @@ def get_inputs(meta_params_dict):
     default_params = {
         "policy": policy_params.specification(
             meta_data=True,
-            start_year=metaparams.start_year,
+            start_year=metaparams.year,
             data_source=metaparams.data_source,
             use_full_sample=metaparams.use_full_sample,
             serializable=True
@@ -97,7 +97,7 @@ def run_model(meta_params_dict, adjustment):
     # update meta parameters
     meta_params = MetaParameters()
     meta_params.adjust(meta_params_dict)
-    start_year = int(meta_params.start_year)
+    start_year = int(meta_params.year)
     use_cps = meta_params.data_source == "CPS"
     if meta_params.data_source == "PUF":
         puf_df = retrieve_puf(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
