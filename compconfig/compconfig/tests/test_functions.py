@@ -48,6 +48,3 @@ def test_functions():
         bad_adjustment=adj_bad
     )
     ta.test()
-
-
-test_functions()

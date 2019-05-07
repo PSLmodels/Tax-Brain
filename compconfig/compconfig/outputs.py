@@ -24,7 +24,7 @@ def create_layout(data, start_year, end_year):
                        width=1000)
 
     current_tab = Panel(child=current_law_table,
-                        title="Current Law", sizing_mode="fixed")
+                        title="Current Law")
     reform_tab = Panel(child=reform_table,
                        title="Reform")
     change_tab = Panel(child=change_table,
