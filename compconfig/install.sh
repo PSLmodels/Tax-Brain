@@ -1,3 +1,3 @@
 # bash commands for installing your package
-BUILD_NUM=1
+BUILD_NUM=2
 conda install -c pslmodels taxbrain

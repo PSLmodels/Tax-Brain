@@ -117,7 +117,7 @@ MONEY_VARS = {
 class MetaParameters(paramtools.Parameters):
     array_first = True
     defaults = {
-        "start_year": {
+        "year": {
             "title": "Start Year",
             "description": "Year for parameters.",
             "type": "int",
