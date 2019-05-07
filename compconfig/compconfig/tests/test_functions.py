@@ -41,8 +41,8 @@ def test_functions():
         }
     }
     ta = FunctionsTest(
-        get_inputs=functions.get_defaults,
-        validate_inputs=functions.validate_input,
+        get_inputs=functions.get_inputs,
+        validate_inputs=functions.validate_inputs,
         run_model=functions.run_model,
         ok_adjustment=adj_good,
         bad_adjustment=adj_bad

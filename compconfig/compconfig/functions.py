@@ -39,7 +39,7 @@ class BehaviorParams(paramtools.Parameters):
     defaults = behavior_params
 
 
-def get_defaults(meta_params_dict):
+def get_inputs(meta_params_dict):
     """
     Return default parameters for Tax-Brain
     """
@@ -70,7 +70,7 @@ def get_defaults(meta_params_dict):
     return meta, default_params
 
 
-def validate_input(meta_params_dict, adjustment, errors_warnings):
+def validate_inputs(meta_params_dict, adjustment, errors_warnings):
     """
     Function to validate COMP inputs
     """
