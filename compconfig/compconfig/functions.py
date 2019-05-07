@@ -52,6 +52,7 @@ def get_inputs(meta_params_dict):
     default_params = {
         "policy": policy_params.specification(
             meta_data=True,
+            include_empty=True,
             year=metaparams.year,
             data_source=metaparams.data_source,
             use_full_sample=metaparams.use_full_sample,
@@ -59,11 +60,13 @@ def get_inputs(meta_params_dict):
         ),
         "behavior": behavior_params.specification(
             meta_data=True,
+            include_empty=True,
             serializable=True
         )
     }
     meta = metaparams.specification(
         meta_data=True,
+        include_empty=True,
         serializable=True
     )
 
