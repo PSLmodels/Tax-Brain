@@ -38,19 +38,21 @@ def convert_defaults(pcl):
 
     new_pcl = defaultdict(dict)
     new_pcl["schema"] = POLICY_SCHEMA
+    pol = Policy()
+    pol.set_year(pol.LAST_BUDGET_YEAR)
     for param, item in pcl.items():
         values = []
-
-        if isinstance(item["value"][0], list):
-            for year in range(len(item["value"])):
-                for dim1 in range(len(item["value"][0])):
+        pol_val = getattr(pol, f"_{param}").tolist()
+        if isinstance(pol_val[0], list):
+            for year in range(len(pol_val)):
+                for dim1 in range(len(pol_val[0])):
                     values.append({"year": item["value_yrs"][year],
                                    item["vi_name"]: item["vi_vals"][dim1],
-                                   "value": item["value"][year][dim1]})
+                                   "value": pol_val[year][dim1]})
         else:
-            for year in range(len(item["value"])):
+            for year in range(len(pol_val)):
                 values.append({"year": item["value_yrs"][year],
-                               "value": item["value"][year]})
+                               "value": pol_val[year]})
 
         new_pcl[param]['value'] = values
         new_pcl[param]['title'] = pcl[param]["long_name"]
