@@ -3,7 +3,7 @@ import os
 import json
 import paramtools
 import pandas as pd
-from .constants import MetaParameters, CompatibleDataSchema
+from .constants import MetaParameters
 from .helpers import (convert_defaults, convert_adj, TCDIR,
                       postprocess, nth_year_results, retrieve_puf,
                       convert_behavior_adj)
@@ -25,7 +25,6 @@ CUR_PATH = os.path.abspath(os.path.dirname(__file__))
 
 
 class TCParams(paramtools.Parameters):
-    field_map = {"compatible_data": fields.Nested(CompatibleDataSchema())}
     defaults = RES
 
 

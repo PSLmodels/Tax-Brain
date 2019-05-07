@@ -29,6 +29,20 @@ TCDIR = os.path.dirname(TCPATH)
 
 
 def convert_defaults(pcl):
+
+    def handle_data_source(param_data):
+        puf = param_data["compatible_data"]["puf"]
+        cps = param_data["compatible_data"]["cps"]
+        if puf and cps:
+            return {}
+        elif puf:
+            return {"data_source": "PUF"}
+        elif cps:
+            return {"data_source": "PUF"}
+        else:
+            # both are false?
+            return {"data_source": "other"}
+
     type_map = {
         "real": "float",
         "boolean": "bool",
@@ -45,20 +59,27 @@ def convert_defaults(pcl):
         values = []
         pol_val = getattr(pol, f"_{param}").tolist()
         min_year = min(item["value_yrs"])
+        data_source = handle_data_source(item)
         if isinstance(pol_val[0], list):
             for year in range(len(pol_val)):
                 if min_year + year > LAST_YEAR:
                     break
                 for dim1 in range(len(pol_val[0])):
-                    values.append({"year": min_year + year,
-                                   item["vi_name"]: item["vi_vals"][dim1],
-                                   "value": pol_val[year][dim1]})
+                    values.append(dict(
+                        "year": min_year + year,
+                        item["vi_name"]: item["vi_vals"][dim1],
+                        "value": pol_val[year][dim1],
+                        **data_source
+                    ))
         else:
             for year in range(len(pol_val)):
                 if min_year + year > LAST_YEAR:
                     break
-                values.append({"year": min_year + year,
-                               "value": pol_val[year]})
+                values.append(dict(
+                    "year": min_year + year,
+                    "value": pol_val[year],
+                    **data_source
+                ))
 
         new_pcl[param]['value'] = values
         new_pcl[param]['title'] = pcl[param]["long_name"]
