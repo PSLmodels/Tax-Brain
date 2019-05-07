@@ -38,20 +38,26 @@ def convert_defaults(pcl):
 
     new_pcl = defaultdict(dict)
     new_pcl["schema"] = POLICY_SCHEMA
+    LAST_YEAR = 2026
     pol = Policy()
-    pol.set_year(pol.LAST_BUDGET_YEAR)
+    pol.set_year(2026)
     for param, item in pcl.items():
         values = []
         pol_val = getattr(pol, f"_{param}").tolist()
+        min_year = min(item["value_yrs"])
         if isinstance(pol_val[0], list):
             for year in range(len(pol_val)):
+                if min_year + year > LAST_YEAR:
+                    break
                 for dim1 in range(len(pol_val[0])):
-                    values.append({"year": item["value_yrs"][year],
+                    values.append({"year": min_year + year,
                                    item["vi_name"]: item["vi_vals"][dim1],
                                    "value": pol_val[year][dim1]})
         else:
             for year in range(len(pol_val)):
-                values.append({"year": item["value_yrs"][year],
+                if min_year + year > LAST_YEAR:
+                    break
+                values.append({"year": min_year + year,
                                "value": pol_val[year]})
 
         new_pcl[param]['value'] = values
