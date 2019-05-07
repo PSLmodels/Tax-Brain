@@ -1,3 +1,3 @@
 # bash commands for installing your package
 BUILD_NUM=0
-conda install -c pslmodels taxbrain -c conda-forge "paramtools>=0.5.4"
+conda install -c pslmodels -c conda-forge taxbrain "paramtools>=0.5.4"
