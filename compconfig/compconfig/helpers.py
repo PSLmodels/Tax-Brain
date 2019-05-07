@@ -83,10 +83,14 @@ def convert_defaults(pcl):
     return new_pcl
 
 
-def convert_adj(adj):
+def convert_adj(adj, start_year):
     pol = Policy()
     new_adj = defaultdict(dict)
     for param, valobjs in adj.items():
+        if param.endswith("checkbox"):
+            param_name = param.split("_checkbox")[0]
+            new_adj[f"{param_name}-indexed"][start_year] = valobjs[0]["value"]
+            continue
         for valobj in valobjs:
             # has keys "year" and "value"
             if len(valobj) == 2:

@@ -77,6 +77,11 @@ def validate_inputs(meta_params_dict, adjustment, errors_warnings):
     """
     Function to validate COMP inputs
     """
+    # drop checkbox parameters.
+    for param in list(adjustment["policy"].keys()):
+        if param.endswith("checkbox"):
+            adjustment["policy"].pop(param)
+
     policy_params = TCParams()
     policy_params.adjust(adjustment["policy"], raise_errors=False)
     errors_warnings["policy"]["errors"].update(policy_params.errors)
@@ -90,16 +95,16 @@ def run_model(meta_params_dict, adjustment):
     """
     Runs TaxBrain
     """
+    # update meta parameters
+    meta_params = MetaParameters()
+    meta_params.adjust(meta_params_dict)
     # convert COMP user inputs to format accepted by tax-calculator
-    policy_mods = convert_adj(adjustment["policy"])
+    policy_mods = convert_adj(adjustment["policy"], meta_params.year.tolist())
     behavior_mods = convert_behavior_adj(adjustment["behavior"])
     user_mods = {
         "policy": policy_mods,
         "behavior": behavior_mods
     }
-    # update meta parameters
-    meta_params = MetaParameters()
-    meta_params.adjust(meta_params_dict)
     start_year = int(meta_params.year)
     use_cps = meta_params.data_source == "CPS"
     if meta_params.data_source == "PUF":

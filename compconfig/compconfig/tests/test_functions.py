@@ -1,3 +1,5 @@
+import copy
+
 from compdevkit import FunctionsTest
 
 from compconfig import functions
@@ -48,3 +50,24 @@ def test_functions():
         bad_adjustment=adj_bad
     )
     ta.test()
+
+
+def test_checkbox_params():
+    adj = {
+        "policy": {
+            "STD": [
+                {"MARS": "single", "year": 2019, "value": 10},
+                {"MARS": "mjoint", "year": 2019, "value": 1},
+                {"MARS": "mjoint", "year": 2022, "value": 10}
+            ],
+            "STD_checkbox": [{"value": False}]
+        },
+        "behavior": {}
+    }
+    errors_warnings = {
+        "policy": {"errors": {}, "warnings": {}},
+        "behavior": {"errors": {}, "warnings": {}}
+    }
+    assert functions.validate_inputs({}, copy.deepcopy(adj), errors_warnings)
+
+    assert functions.run_model({"use_full_sample": False, "data_source": "CPS"}, adj)
