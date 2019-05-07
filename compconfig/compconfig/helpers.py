@@ -65,21 +65,21 @@ def convert_defaults(pcl):
                 if min_year + year > LAST_YEAR:
                     break
                 for dim1 in range(len(pol_val[0])):
-                    values.append(dict(
+                    values.append({
                         "year": min_year + year,
                         item["vi_name"]: item["vi_vals"][dim1],
                         "value": pol_val[year][dim1],
                         **data_source
-                    ))
+                    })
         else:
             for year in range(len(pol_val)):
                 if min_year + year > LAST_YEAR:
                     break
-                values.append(dict(
+                values.append({
                     "year": min_year + year,
                     "value": pol_val[year],
                     **data_source
-                ))
+                })
 
         new_pcl[param]['value'] = values
         new_pcl[param]['title'] = pcl[param]["long_name"]
