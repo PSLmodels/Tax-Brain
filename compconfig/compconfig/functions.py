@@ -52,9 +52,9 @@ def get_inputs(meta_params_dict):
     default_params = {
         "policy": policy_params.specification(
             meta_data=True,
-            start_year=metaparams.year.tolist(),
+            year=metaparams.year,
             data_source=metaparams.data_source,
-            use_full_sample=metaparams.use_full_sample.tolist(),
+            use_full_sample=metaparams.use_full_sample,
             serializable=True
         ),
         "behavior": behavior_params.specification(
