@@ -38,7 +38,7 @@ def convert_defaults(pcl):
         elif puf:
             return {"data_source": "PUF"}
         elif cps:
-            return {"data_source": "PUF"}
+            return {"data_source": "CPS"}
         else:
             # both are false?
             return {"data_source": "other"}
