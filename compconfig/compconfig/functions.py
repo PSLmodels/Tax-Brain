@@ -3,7 +3,7 @@ import os
 import json
 import paramtools
 import pandas as pd
-from .constants import MetaParameters, CompatibleDataSchema
+from .constants import MetaParameters
 from .helpers import (convert_defaults, convert_adj, TCDIR,
                       postprocess, nth_year_results, retrieve_puf,
                       convert_behavior_adj)
@@ -25,7 +25,6 @@ CUR_PATH = os.path.abspath(os.path.dirname(__file__))
 
 
 class TCParams(paramtools.Parameters):
-    field_map = {"compatible_data": fields.Nested(CompatibleDataSchema())}
     defaults = RES
 
 
@@ -39,7 +38,7 @@ class BehaviorParams(paramtools.Parameters):
     defaults = behavior_params
 
 
-def get_defaults(meta_params_dict):
+def get_inputs(meta_params_dict):
     """
     Return default parameters for Tax-Brain
     """
@@ -52,28 +51,36 @@ def get_defaults(meta_params_dict):
     default_params = {
         "policy": policy_params.specification(
             meta_data=True,
-            start_year=metaparams.start_year,
+            include_empty=True,
+            year=metaparams.year,
             data_source=metaparams.data_source,
             use_full_sample=metaparams.use_full_sample,
             serializable=True
         ),
         "behavior": behavior_params.specification(
             meta_data=True,
+            include_empty=True,
             serializable=True
         )
     }
     meta = metaparams.specification(
         meta_data=True,
+        include_empty=True,
         serializable=True
     )
 
     return meta, default_params
 
 
-def validate_input(meta_params_dict, adjustment, errors_warnings):
+def validate_inputs(meta_params_dict, adjustment, errors_warnings):
     """
     Function to validate COMP inputs
     """
+    # drop checkbox parameters.
+    for param in list(adjustment["policy"].keys()):
+        if param.endswith("checkbox"):
+            adjustment["policy"].pop(param)
+
     policy_params = TCParams()
     policy_params.adjust(adjustment["policy"], raise_errors=False)
     errors_warnings["policy"]["errors"].update(policy_params.errors)
@@ -87,17 +94,17 @@ def run_model(meta_params_dict, adjustment):
     """
     Runs TaxBrain
     """
+    # update meta parameters
+    meta_params = MetaParameters()
+    meta_params.adjust(meta_params_dict)
     # convert COMP user inputs to format accepted by tax-calculator
-    policy_mods = convert_adj(adjustment["policy"])
+    policy_mods = convert_adj(adjustment["policy"], meta_params.year.tolist())
     behavior_mods = convert_behavior_adj(adjustment["behavior"])
     user_mods = {
         "policy": policy_mods,
         "behavior": behavior_mods
     }
-    # update meta parameters
-    meta_params = MetaParameters()
-    meta_params.adjust(meta_params_dict)
-    start_year = int(meta_params.start_year)
+    start_year = int(meta_params.year)
     use_cps = meta_params.data_source == "CPS"
     if meta_params.data_source == "PUF":
         puf_df = retrieve_puf(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)

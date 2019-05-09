@@ -29,6 +29,20 @@ TCDIR = os.path.dirname(TCPATH)
 
 
 def convert_defaults(pcl):
+
+    def handle_data_source(param_data):
+        puf = param_data["compatible_data"]["puf"]
+        cps = param_data["compatible_data"]["cps"]
+        if puf and cps:
+            return {}
+        elif puf:
+            return {"data_source": "PUF"}
+        elif cps:
+            return {"data_source": "CPS"}
+        else:
+            # both are false?
+            return {"data_source": "other"}
+
     type_map = {
         "real": "float",
         "boolean": "bool",
@@ -38,19 +52,34 @@ def convert_defaults(pcl):
 
     new_pcl = defaultdict(dict)
     new_pcl["schema"] = POLICY_SCHEMA
+    LAST_YEAR = 2026
+    pol = Policy()
+    pol.set_year(2026)
     for param, item in pcl.items():
         values = []
-
-        if isinstance(item["value"][0], list):
-            for year in range(len(item["value"])):
-                for dim1 in range(len(item["value"][0])):
-                    values.append({"year": item["value_yrs"][year],
-                                   item["vi_name"]: item["vi_vals"][dim1],
-                                   "value": item["value"][year][dim1]})
+        pol_val = getattr(pol, f"_{param}").tolist()
+        min_year = min(item["value_yrs"])
+        data_source = handle_data_source(item)
+        if isinstance(pol_val[0], list):
+            for year in range(len(pol_val)):
+                if min_year + year > LAST_YEAR:
+                    break
+                for dim1 in range(len(pol_val[0])):
+                    values.append({
+                        "year": min_year + year,
+                        item["vi_name"]: item["vi_vals"][dim1],
+                        "value": pol_val[year][dim1],
+                        **data_source
+                    })
         else:
-            for year in range(len(item["value"])):
-                values.append({"year": item["value_yrs"][year],
-                               "value": item["value"][year]})
+            for year in range(len(pol_val)):
+                if min_year + year > LAST_YEAR:
+                    break
+                values.append({
+                    "year": min_year + year,
+                    "value": pol_val[year],
+                    **data_source
+                })
 
         new_pcl[param]['value'] = values
         new_pcl[param]['title'] = pcl[param]["long_name"]
@@ -75,10 +104,14 @@ def convert_defaults(pcl):
     return new_pcl
 
 
-def convert_adj(adj):
+def convert_adj(adj, start_year):
     pol = Policy()
     new_adj = defaultdict(dict)
     for param, valobjs in adj.items():
+        if param.endswith("checkbox"):
+            param_name = param.split("_checkbox")[0]
+            new_adj[f"{param_name}-indexed"][start_year] = valobjs[0]["value"]
+            continue
         for valobj in valobjs:
             # has keys "year" and "value"
             if len(valobj) == 2:

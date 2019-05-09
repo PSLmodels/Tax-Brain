@@ -24,6 +24,10 @@ POLICY_SCHEMA = {
             "type": "str",
             "validators": {"choice": {"choices": ["0kids", "1kid",
                                                   "2kids", "3+kids"]}}
+        },
+        "data_source": {
+            "type": "str",
+            "validators": {"choice": {"choices": ["PUF", "CPS", "other"]}}
         }
     },
     "additional_members": {
@@ -32,7 +36,6 @@ POLICY_SCHEMA = {
         # "section_3": {"type": "str"},
         # "irs_ref": {"type": "str"},
         "start_year": {"type": "int"},
-        # "compatible_data": {"type": "compatible_data"},
         "checkbox": {"type": "bool"}
     }
 }
@@ -117,7 +120,7 @@ MONEY_VARS = {
 class MetaParameters(paramtools.Parameters):
     array_first = True
     defaults = {
-        "start_year": {
+        "year": {
             "title": "Start Year",
             "description": "Year for parameters.",
             "type": "int",
@@ -139,15 +142,3 @@ class MetaParameters(paramtools.Parameters):
             "validators": {"choice": {"choices": [True, False]}}
         }
     }
-
-
-class CompatibleDataSchema(Schema):
-    """
-    Schema for Compatible data object
-    {
-        "compatible_data": {"puf": bool, "cps": bool, ...}
-    }
-    """
-
-    puf = fields.Boolean()
-    cps = fields.Boolean()
