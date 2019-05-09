@@ -14,6 +14,7 @@ def test_functions():
                 {"MARS": "mjoint", "year": 2019, "value": 1},
                 {"MARS": "mjoint", "year": 2022, "value": 10}
             ],
+            "STD_checkbox": False,
             "CPI_offset": [
                 {"year": 2019, "value": -0.001}
             ]
