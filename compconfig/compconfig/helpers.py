@@ -6,7 +6,10 @@ import inspect
 import time
 import copy
 import hashlib
-import boto3
+try:
+    import boto3
+except ImportError:
+    boto3 = None
 import gzip
 import copy
 import pandas as pd
@@ -476,7 +479,7 @@ def retrieve_puf(aws_access_key_id, aws_secret_access_key):
     Function for retrieving the PUF from the OSPC S3 bucket
     """
     has_credentials = aws_access_key_id and aws_secret_access_key
-    if has_credentials:
+    if has_credentials and boto3 is not None:
         client = boto3.client(
             "s3",
             aws_access_key_id=aws_access_key_id,
@@ -487,4 +490,4 @@ def retrieve_puf(aws_access_key_id, aws_secret_access_key):
         puf_df = pd.read_csv(gz)
         return puf_df
     else:
-        raise ValueError("You do not have access to the PUF")
+        return None

@@ -108,14 +108,19 @@ def run_model(meta_params_dict, adjustment):
     use_cps = meta_params.data_source == "CPS"
     if meta_params.data_source == "PUF":
         puf_df = retrieve_puf(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
-        if not isinstance(puf_df, pd.DataFrame):
-            raise TypeError("'puf_df' must be a Pandas DataFrame.")
-        fuzz = True
-        use_cps = False
-        sampling_frac = 0.05
-        sampling_seed = 2222
-        full_sample = puf_df
-    else:
+        if puf_df is not None:
+            if not isinstance(puf_df, pd.DataFrame):
+                raise TypeError("'puf_df' must be a Pandas DataFrame.")
+            fuzz = True
+            use_cps = False
+            sampling_frac = 0.05
+            sampling_seed = 2222
+            full_sample = puf_df
+        else:
+            # Access keys are not available. Default to the CPS.
+            print("Defaulting to the CPS")
+            meta_params.adjust({"data_source": "CPS"})
+    if meta_params.data_source == "CPS":
         fuzz = False
         use_cps = True
         input_path = os.path.join(TCDIR, "cps.csv.gz")
