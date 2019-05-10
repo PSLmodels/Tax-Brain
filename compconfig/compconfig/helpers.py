@@ -405,9 +405,7 @@ def postprocess(data_to_process):
                 {
                     "media_type": "CSV",
                     "title": title + ".csv",
-                    "data": {
-                        "CSV": tbl.to_csv()
-                    }
+                    "data": tbl.to_csv()
                 }
             )
 
@@ -443,9 +441,7 @@ def postprocess(data_to_process):
                     {
                         "media_type": "CSV",
                         "title": title + ".csv",
-                        "data": {
-                            "CSV": tbl.to_csv()
-                        }
+                        "data": tbl.to_csv()
                     }
                 )
 
