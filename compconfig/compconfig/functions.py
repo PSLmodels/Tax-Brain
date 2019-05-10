@@ -1,6 +1,7 @@
 # Write or import your COMP functions here.
 import os
 import json
+import traceback
 import paramtools
 import pandas as pd
 from .constants import MetaParameters
@@ -76,18 +77,37 @@ def validate_inputs(meta_params_dict, adjustment, errors_warnings):
     """
     Function to validate COMP inputs
     """
+    pol_params = {}
     # drop checkbox parameters.
-    for param in list(adjustment["policy"].keys()):
-        if param.endswith("checkbox"):
-            adjustment["policy"].pop(param)
+    for param, data in list(adjustment["policy"].items()):
+        if not param.endswith("checkbox"):
+            pol_params[param] = data
 
     policy_params = TCParams()
-    policy_params.adjust(adjustment["policy"], raise_errors=False)
+    policy_params.adjust(pol_params, raise_errors=False)
     errors_warnings["policy"]["errors"].update(policy_params.errors)
+
     behavior_params = BehaviorParams()
     behavior_params.adjust(adjustment["behavior"], raise_errors=False)
     errors_warnings["behavior"]["errors"].update(behavior_params.errors)
-    return errors_warnings
+
+    # try to parse to the correct Tax-Calculator format.
+    try:
+        # update meta parameters
+        meta_params = MetaParameters()
+        meta_params.adjust(meta_params_dict)
+
+        tc_adj = {
+            "policy": convert_adj(adjustment["policy"], meta_params.year.tolist()),
+            "behavior": convert_behavior_adj(adjustment["behavior"])
+        }
+        res = errors_warnings, tc_adj
+    except Exception:
+        res = errors_warnings
+        print("Error parsing:", adjustment)
+        traceback.print_exc()
+
+    return res
 
 
 def run_model(meta_params_dict, adjustment):
