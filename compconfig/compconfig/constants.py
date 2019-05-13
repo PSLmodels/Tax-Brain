@@ -1,13 +1,21 @@
 # constants used by the new compconfig
 import paramtools
 from marshmallow import fields, Schema
+from taxbrain import TaxBrain
 
 
 POLICY_SCHEMA = {
     "labels": {
         "year": {
             "type": "int",
-            "validators": {"range": {"min": 2013, "max": 2026}}
+            "validators": {
+                "choice": {
+                    "choices": [
+                        yr for yr in range(TaxBrain.FIRST_BUDGET_YEAR,
+                                           TaxBrain.LAST_BUDGET_YEAR)
+                    ]
+                }
+            }
         },
         "MARS": {
             "type": "str",
@@ -29,8 +37,6 @@ POLICY_SCHEMA = {
     "additional_members": {
         "section_1": {"type": "str"},
         "section_2": {"type": "str"},
-        # "section_3": {"type": "str"},
-        # "irs_ref": {"type": "str"},
         "start_year": {"type": "int"},
         # "compatible_data": {"type": "compatible_data"},
         "checkbox": {"type": "bool"}

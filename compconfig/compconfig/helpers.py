@@ -259,7 +259,6 @@ def nth_year_results(tb, year, user_mods, fuzz, return_html=True):
         # seed random number generator with a seed value based on user_mods
         # (reform-specific seed is used to choose whose results are fuzzed)
         seed = random_seed(user_mods, year)
-        print('fuzzing_seed={}'.format(seed))
         np.random.seed(seed)
         # make bool array marking which filing units are affected by the reform
         reform_affected = np.logical_not(
