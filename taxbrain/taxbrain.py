@@ -19,7 +19,7 @@ class TaxBrain:
     # add dictionary to hold version of the various models
     VERSIONS = {
         "Tax-Calculator": tc.__version__,
-        "Behavior Response": behresp.__version__
+        "Behavioral-Responses": behresp.__version__
     }
 
     def __init__(self, start_year, end_year=LAST_BUDGET_YEAR,
