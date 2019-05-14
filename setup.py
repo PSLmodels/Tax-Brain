@@ -13,7 +13,7 @@ setuptools.setup(
     description="Python library for advanced tax policy analysis",
     long_description=long_description,
     url="https://github.com/PSLmodels/Tax-Brain",
-    packages=["taxbrain", "taxbrain.tbi"],
+    packages=["taxbrain"],
     install_requires=install_requires,
     tests_require=["pytest", "compdevkit"],
     license="MIT",

@@ -1,9 +1,9 @@
 import copy
 import taxcalc as tc
 import pandas as pd
+import behresp
 from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
                            create_distribution_table, create_difference_table)
-from behresp import response
 from dask import compute, delayed
 from collections import defaultdict
 from taxbrain.utils import weighted_sum
@@ -15,6 +15,12 @@ class TaxBrain:
     LAST_BUDGET_YEAR = tc.Policy.LAST_BUDGET_YEAR
     # Default list of variables saved for each year
     DEFAULT_VARIABLES = list(set(DIST_VARIABLES).union(set(DIFF_VARIABLES)))
+
+    # add dictionary to hold version of the various models
+    VERSIONS = {
+        "Tax-Calculator": tc.__version__,
+        "Behavioral-Responses": behresp.__version__
+    }
 
     def __init__(self, start_year, end_year=LAST_BUDGET_YEAR,
                  microdata=None, use_cps=False, reform=None,
@@ -292,8 +298,8 @@ class TaxBrain:
         calc1_copy.advance_to_year(year)
         calc2_copy.advance_to_year(year)
         # use response function to capture dynamic effects
-        base, reform = response(calc1_copy, calc2_copy,
-                                behavior, dump=True)
+        base, reform = behresp.response(calc1_copy, calc2_copy,
+                                        behavior, dump=True)
         self.base_data[year] = base[varlist]
         self.reform_data[year] = reform[varlist]
         del calc1_copy, calc2_copy, base, reform
