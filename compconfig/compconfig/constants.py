@@ -144,7 +144,7 @@ class MetaParameters(paramtools.Parameters):
             "title": "Use Full Sample",
             "description": "Use entire data set or a 2% sample.",
             "type": "bool",
-            "value": False,
+            "value": True,
             "validators": {"choice": {"choices": [True, False]}}
         }
     }
