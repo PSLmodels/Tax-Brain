@@ -179,12 +179,12 @@ def run_model(meta_params_dict, adjustment):
         for key, value in result.items():
             all_to_process[key] += value
     results, downloadable = postprocess(all_to_process)
-    layout_output = create_layout(results, start_year, end_year)
+    agg_output, table_output = create_layout(results, start_year, end_year)
     model_versions_str = ""
     for model, version in TaxBrain.VERSIONS.items():
         model_versions_str += f"{model}: {version}\n"
     comp_outputs = {
-        "renderable": [agg_plot, layout_output],
+        "renderable": [agg_plot, agg_output, table_output],
         "model_version": model_versions_str,
         "downloadable": downloadable
     }
