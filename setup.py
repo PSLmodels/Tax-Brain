@@ -1,5 +1,7 @@
 import setuptools
 
+install_requires = ["taxcalc", "behresp", "dask", "paramtools", "marshmallow"]
+
 with open("README.md", "r") as f:
     long_description = f.read()
 version = "0.0.0"
@@ -11,9 +13,9 @@ setuptools.setup(
     description="Python library for advanced tax policy analysis",
     long_description=long_description,
     url="https://github.com/PSLmodels/Tax-Brain",
-    packages=["taxbrain", "taxbrain.tbi"],
-    install_requires=["taxcalc", "behresp", "dask"],
-    tests_require=["pytest"],
+    packages=["taxbrain"],
+    install_requires=install_requires,
+    tests_require=["pytest", "compdevkit"],
     license="MIT",
     classifiers=[
         "Programming Language :: Python :: 3",
