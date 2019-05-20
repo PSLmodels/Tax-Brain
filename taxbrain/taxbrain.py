@@ -275,7 +275,7 @@ class TaxBrain:
             # run calculations in parallel
             delay = [delayed(self.base_calc.calc_all()),
                      delayed(self.reform_calc.calc_all())]
-            _ = compute(*delay)
+            compute(*delay)
             self.base_data[yr] = self.base_calc.dataframe(varlist)
             self.reform_data[yr] = self.reform_calc.dataframe(varlist)
 
@@ -290,7 +290,7 @@ class TaxBrain:
                                                     self.params["behavior"],
                                                     year, varlist)
             delay_list.append(delay)
-        _ = compute(*delay_list)
+        compute(*delay_list)
         del delay_list
 
     def _run_dynamic_calc(self, calc1, calc2, behavior, year, varlist):

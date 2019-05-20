@@ -1,9 +1,114 @@
 """
 Functions for creating the TaxBrain COMP outputs
 """
+from bokeh.models import (ColumnDataSource, Toggle, CustomJS,
+                          NumeralTickFormatter, HoverTool)
 from bokeh.models.widgets import Tabs, Panel, Div
 from bokeh.embed import components
-from bokeh.layouts import layout, column
+from bokeh.layouts import layout
+from bokeh.plotting import figure
+
+
+def aggregate_plot(tb):
+    """
+    Function for creating a bokeh plot that shows aggregate tax liabilities for
+    each year the TaxBrain instance was run
+    Parameters
+    ----------
+    tb: An instance of the TaxBrain object
+    Returns
+    -------
+    Bokeh figure
+    """
+    # Pull aggregate data by year and transpose it for plotting
+    varlist = ["iitax", "payrolltax", "combined"]
+    base_data = tb.multi_var_table(varlist, "base").transpose()
+    base_data["calc"] = "Base"
+    reform_data = tb.multi_var_table(varlist, "reform").transpose()
+    reform_data["calc"] = "Reform"
+    base_cds = ColumnDataSource(base_data)
+    reform_cds = ColumnDataSource(reform_data)
+    num_ticks = len(base_data)
+    del base_data, reform_data
+
+    fig = figure(title="Aggregate Tax Liability by Year",
+                 width=700, height=500, tools="save")
+    ii_base = fig.line(x="index", y="iitax", line_width=4,
+                       line_color="#12719e", legend="Income Tax - Base",
+                       source=base_cds)
+    ii_reform = fig.line(x="index", y="iitax", line_width=4,
+                         line_color="#73bfe2", legend="Income Tax - Reform",
+                         source=reform_cds)
+    proll_base = fig.line(x="index", y="payrolltax", line_width=4,
+                          line_color="#98cf90", legend="Payroll Tax - Reform",
+                          source=reform_cds)
+    proll_reform = fig.line(x="index", y="payrolltax", line_width=4,
+                            line_color="#408941", legend="Payroll Tax - Base",
+                            source=base_cds)
+    comb_base = fig.line(x="index", y="combined", line_width=4,
+                         line_color="#a4201d", legend="Combined - Base",
+                         source=base_cds)
+    comb_reform = fig.line(x="index", y="combined", line_width=4,
+                           line_color="#e9807d", legend="Combined - Reform",
+                           source=reform_cds)
+
+    # format figure
+    fig.legend.location = "top_left"
+    fig.yaxis.formatter = NumeralTickFormatter(format="$0.00a")
+    fig.yaxis.axis_label = "Aggregate Tax Liability"
+    fig.xaxis.minor_tick_line_color = None
+    fig.xaxis[0].ticker.desired_num_ticks = num_ticks
+
+    # Add hover tool
+    tool_str = """
+        <p><b>@calc - {}</b></p>
+        <p>${}</p>
+    """
+    ii_hover = HoverTool(
+        tooltips=tool_str.format("Individual Income Tax", "@iitax{0,0}"),
+        renderers=[ii_base, ii_reform]
+    )
+    proll_hover = HoverTool(
+        tooltips=tool_str.format("Payroll Tax", "@payrolltax{0,0}"),
+        renderers=[proll_base, proll_reform]
+    )
+    combined_hover = HoverTool(
+        tooltips=tool_str.format("Combined Tax", "@combined{0,0}"),
+        renderers=[comb_base, comb_reform]
+    )
+    fig.add_tools(ii_hover, proll_hover, combined_hover)
+
+    # toggle which lines are shown
+    js = """
+    object1.visible = toggle.active
+    object2.visible = toggle.active
+    object3.visible = toggle.active
+    """
+    base_callback = CustomJS.from_coffeescript(code=js, args={})
+    base_toggle = Toggle(label="Base", button_type="primary",
+                         callback=base_callback, active=True)
+    base_callback.args = {"toggle": base_toggle, "object1": ii_base,
+                          "object2": proll_base, "object3": comb_base}
+
+    reform_callback = CustomJS.from_coffeescript(code=js, args={})
+    reform_toggle = Toggle(label="Reform", button_type="primary",
+                           callback=reform_callback, active=True)
+    reform_callback.args = {"toggle": reform_toggle, "object1": ii_reform,
+                            "object2": proll_reform, "object3": comb_reform}
+    fig_layout = layout([fig], [base_toggle, reform_toggle])
+
+    # Components needed to embed the figure
+    js, div = components(fig_layout)
+    outputs = {
+        "media_type": "bokeh",
+        "title": "",
+        "data": {
+            "javascript": js,
+            "html": div
+        }
+    }
+
+    return outputs
 
 
 def create_layout(data, start_year, end_year):
@@ -80,22 +185,32 @@ def create_layout(data, start_year, end_year):
 
     yr_tabs = Tabs(tabs=yr_panels)
 
-    lo = layout(
-        children=[
-            [column([agg_tabs, yr_tabs])]
-        ]
+    agg_layout = layout(
+        children=[agg_tabs]
     )
-    js, div = components(lo)
+    table_layout = layout(
+        children=[yr_tabs]
+    )
+    agg_js, agg_div = components(agg_layout)
+    table_js, table_div = components(table_layout)
 
     # return a dictionary of outputs ready for COMP
-    outputs = {
+    agg_outputs = {
         "media_type": "bokeh",
-        "title": "Results",
+        "title": "Aggregate Results",
         "data": {
-            "javascript": js,
-            "html": div
+            "javascript": agg_js,
+            "html": agg_div
+        }
+    }
+    table_outputs = {
+        "media_type": "bokeh",
+        "title": "Tables",
+        "data": {
+            "javascript": table_js,
+            "html": table_div
         }
     }
 
     # return js, div, cdn_js, cdn_css, widget_js, widget_css
-    return outputs
+    return agg_outputs, table_outputs

@@ -1,6 +1,7 @@
 import setuptools
 
-install_requires = ["taxcalc", "behresp", "dask", "paramtools", "marshmallow"]
+install_requires = ["taxcalc", "behresp", "dask", "paramtools", "marshmallow",
+                    "bokeh"]
 
 with open("README.md", "r") as f:
     long_description = f.read()
