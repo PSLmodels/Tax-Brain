@@ -1,9 +1,10 @@
 # Write or import your COMP functions here.
 import os
 import json
+import traceback
 import paramtools
 import pandas as pd
-from .constants import MetaParameters, CompatibleDataSchema
+from .constants import MetaParameters
 from .helpers import (convert_defaults, convert_adj, TCDIR,
                       postprocess, nth_year_results, retrieve_puf,
                       convert_behavior_adj)
@@ -25,7 +26,6 @@ CUR_PATH = os.path.abspath(os.path.dirname(__file__))
 
 
 class TCParams(paramtools.Parameters):
-    field_map = {"compatible_data": fields.Nested(CompatibleDataSchema())}
     defaults = RES
 
 
@@ -39,10 +39,10 @@ class BehaviorParams(paramtools.Parameters):
     defaults = behavior_params
 
 
-def get_defaults(meta_params_dict):
-    # pol = Policy()
-    # pol.set_year(start_year)
-    # pol_mdata = pol.metadata()
+def get_inputs(meta_params_dict):
+    """
+    Return default parameters for Tax-Brain
+    """
     metaparams = MetaParameters()
     metaparams.adjust(meta_params_dict)
 
@@ -52,55 +52,95 @@ def get_defaults(meta_params_dict):
     default_params = {
         "policy": policy_params.specification(
             meta_data=True,
-            start_year=metaparams.start_year,
+            include_empty=True,
+            year=metaparams.year,
             data_source=metaparams.data_source,
-            use_full_sample=metaparams.use_full_sample
+            use_full_sample=metaparams.use_full_sample,
+            serializable=True
         ),
-        "behavior": behavior_params.specification(meta_data=True)
+        "behavior": behavior_params.specification(
+            meta_data=True,
+            include_empty=True,
+            serializable=True
+        )
     }
+    meta = metaparams.specification(
+        meta_data=True,
+        include_empty=True,
+        serializable=True
+    )
 
-    return metaparams.specification(meta_data=True), default_params
+    return meta, default_params
 
 
-def validate_input(meta_params_dict, adjustment, errors_warnings):
+def validate_inputs(meta_params_dict, adjustment, errors_warnings):
     """
     Function to validate COMP inputs
     """
+    pol_params = {}
+    # drop checkbox parameters.
+    for param, data in list(adjustment["policy"].items()):
+        if not param.endswith("checkbox"):
+            pol_params[param] = data
+
     policy_params = TCParams()
-    policy_params.adjust(adjustment["policy"], raise_errors=False)
+    policy_params.adjust(pol_params, raise_errors=False)
     errors_warnings["policy"]["errors"].update(policy_params.errors)
+
     behavior_params = BehaviorParams()
     behavior_params.adjust(adjustment["behavior"], raise_errors=False)
     errors_warnings["behavior"]["errors"].update(behavior_params.errors)
-    return errors_warnings
+
+    # try to parse to the correct Tax-Calculator format.
+    try:
+        # update meta parameters
+        meta_params = MetaParameters()
+        meta_params.adjust(meta_params_dict)
+
+        tc_adj = {
+            "policy": convert_adj(adjustment["policy"], meta_params.year.tolist()),
+            "behavior": convert_behavior_adj(adjustment["behavior"])
+        }
+        res = errors_warnings, tc_adj
+    except Exception:
+        res = errors_warnings
+        print("Error parsing:", adjustment)
+        traceback.print_exc()
+
+    return res
 
 
 def run_model(meta_params_dict, adjustment):
     """
     Runs TaxBrain
     """
+    # update meta parameters
+    meta_params = MetaParameters()
+    meta_params.adjust(meta_params_dict)
     # convert COMP user inputs to format accepted by tax-calculator
-    policy_mods = convert_adj(adjustment["policy"])
+    policy_mods = convert_adj(adjustment["policy"], meta_params.year.tolist())
     behavior_mods = convert_behavior_adj(adjustment["behavior"])
     user_mods = {
         "policy": policy_mods,
         "behavior": behavior_mods
     }
-    # update meta parameters
-    meta_params = MetaParameters()
-    meta_params.adjust(meta_params_dict)
-    start_year = int(meta_params.start_year)
+    start_year = int(meta_params.year)
     use_cps = meta_params.data_source == "CPS"
     if meta_params.data_source == "PUF":
         puf_df = retrieve_puf(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
-        if not isinstance(puf_df, pd.DataFrame):
-            raise TypeError("'puf_df' must be a Pandas DataFrame.")
-        fuzz = True
-        use_cps = False
-        sampling_frac = 0.05
-        sampling_seed = 2222
-        full_sample = puf_df
-    else:
+        if puf_df is not None:
+            if not isinstance(puf_df, pd.DataFrame):
+                raise TypeError("'puf_df' must be a Pandas DataFrame.")
+            fuzz = True
+            use_cps = False
+            sampling_frac = 0.05
+            sampling_seed = 2222
+            full_sample = puf_df
+        else:
+            # Access keys are not available. Default to the CPS.
+            print("Defaulting to the CPS")
+            meta_params.adjust({"data_source": "CPS"})
+    if meta_params.data_source == "CPS":
         fuzz = False
         use_cps = True
         input_path = os.path.join(TCDIR, "cps.csv.gz")
@@ -140,8 +180,12 @@ def run_model(meta_params_dict, adjustment):
             all_to_process[key] += value
     results, downloadable = postprocess(all_to_process)
     layout_output = create_layout(results, start_year, end_year)
+    model_versions_str = ""
+    for model, version in TaxBrain.VERSIONS.items():
+        model_versions_str += f"{model}: {version}\n"
     comp_outputs = {
         "renderable": [agg_plot, layout_output],
+        "model_version": model_versions_str,
         "downloadable": downloadable
     }
     return comp_outputs

@@ -1,13 +1,21 @@
 # constants used by the new compconfig
 import paramtools
 from marshmallow import fields, Schema
+from taxbrain import TaxBrain
 
 
 POLICY_SCHEMA = {
     "labels": {
         "year": {
             "type": "int",
-            "validators": {"range": {"min": 2013, "max": 2026}}
+            "validators": {
+                "choice": {
+                    "choices": [
+                        yr for yr in range(TaxBrain.FIRST_BUDGET_YEAR,
+                                           TaxBrain.LAST_BUDGET_YEAR)
+                    ]
+                }
+            }
         },
         "MARS": {
             "type": "str",
@@ -24,15 +32,16 @@ POLICY_SCHEMA = {
             "type": "str",
             "validators": {"choice": {"choices": ["0kids", "1kid",
                                                   "2kids", "3+kids"]}}
+        },
+        "data_source": {
+            "type": "str",
+            "validators": {"choice": {"choices": ["PUF", "CPS", "other"]}}
         }
     },
     "additional_members": {
         "section_1": {"type": "str"},
         "section_2": {"type": "str"},
-        # "section_3": {"type": "str"},
-        # "irs_ref": {"type": "str"},
         "start_year": {"type": "int"},
-        # "compatible_data": {"type": "compatible_data"},
         "checkbox": {"type": "bool"}
     }
 }
@@ -117,7 +126,7 @@ MONEY_VARS = {
 class MetaParameters(paramtools.Parameters):
     array_first = True
     defaults = {
-        "start_year": {
+        "year": {
             "title": "Start Year",
             "description": "Year for parameters.",
             "type": "int",
@@ -139,15 +148,3 @@ class MetaParameters(paramtools.Parameters):
             "validators": {"choice": {"choices": [True, False]}}
         }
     }
-
-
-class CompatibleDataSchema(Schema):
-    """
-    Schema for Compatible data object
-    {
-        "compatible_data": {"puf": bool, "cps": bool, ...}
-    }
-    """
-
-    puf = fields.Boolean()
-    cps = fields.Boolean()
