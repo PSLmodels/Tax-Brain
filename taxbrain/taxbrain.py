@@ -190,7 +190,8 @@ class TaxBrain:
                           index=range(self.start_year, self.end_year + 1))
         return df.transpose()
 
-    def distribution_table(self, year, groupby, income_measure, calc):
+    def distribution_table(self, year, groupby, income_measure, calc,
+                           pop_quantiles=False):
         """
         Method to create a distribution table
         Parameters
@@ -202,6 +203,8 @@ class TaxBrain:
                         the table
             options: 'expanded_income' or 'expanded_income_baseline'
         calc: which calculator to use: base or reform
+        pop_quantiles: whether or not weighted_deciles contain equal number of
+            tax units (False) or people (True)
         Returns
         -------
         DataFrame containing a distribution table
@@ -214,22 +217,28 @@ class TaxBrain:
         else:
             raise ValueError("calc must be either BASE or REFORM")
         # minor data preparation before calling the function
-        data["num_returns_ItemDed"] = data["s006"].where(
+        if pop_quantiles:
+            data["count"] = data["s006"] * data["XTOT"]
+        else:
+            data["count"] = data["s006"]
+        data["count_ItemDed"] = data["count"].where(
             data["c04470"] > 0., 0.
         )
-        data["num_returns_StandardDed"] = data["s006"].where(
+        data["count_StandardDed"] = data["count"].where(
             data["standard"] > 0., 0.
         )
-        data["num_returns_AMT"] = data["s006"].where(
+        data["count_AMT"] = data["count"].where(
             data["c09600"] > 0., 0.
         )
         if income_measure == "expanded_income_baseline":
             base_income = self.base_data[year]["expanded_income"]
             data["expanded_income_baseline"] = base_income
-        table = create_distribution_table(data, groupby, income_measure)
+        table = create_distribution_table(data, groupby, income_measure,
+                                          pop_quantiles)
         return table
 
-    def differences_table(self, year, groupby, tax_to_diff):
+    def differences_table(self, year, groupby, tax_to_diff,
+                          pop_quantiles=False):
         """
         Method to create a differences table
         Parameters
@@ -239,7 +248,8 @@ class TaxBrain:
             options: 'weighted_deciles', 'standard_income_bins', 'soi_agi_bin'
         tax_to_diff: which tax to take the difference of
             options: 'iitax', 'payrolltax', 'combined'
-        run_type: use data from the static or dynamic run
+        pop_quantiles: whether weighted_deciles contain an equal number of tax
+            units (False) or people (True)
         Returns
         -------
         DataFrame containing a differences table
@@ -247,7 +257,7 @@ class TaxBrain:
         base_data = self.base_data[year]
         reform_data = self.reform_data[year]
         table = create_difference_table(base_data, reform_data, groupby,
-                                        tax_to_diff)
+                                        tax_to_diff, pop_quantiles)
         return table
 
     # ----- private methods -----
