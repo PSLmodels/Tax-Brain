@@ -5,7 +5,7 @@ from bokeh.models import (ColumnDataSource, Toggle, CustomJS,
                           NumeralTickFormatter, HoverTool)
 from bokeh.models.widgets import Tabs, Panel, Div
 from bokeh.embed import components
-from bokeh.layouts import layout, column
+from bokeh.layouts import layout
 from bokeh.plotting import figure
 
 
