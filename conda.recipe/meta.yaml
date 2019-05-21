@@ -8,8 +8,6 @@ requirements:
     - "taxcalc>2.2.0"
     - "behresp>=0.7.0"
     - dask
-    - paramtools
-    - marshmallow
 
   run:
     - python
@@ -17,8 +15,6 @@ requirements:
     - "behresp>=0.7.0"
     - dask
     - bokeh
-    - paramtools
-    - marshmallow
 
 about:
   home: https://github.com/PSLmodels/Tax-Brain
