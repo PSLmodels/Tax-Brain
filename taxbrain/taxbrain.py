@@ -7,7 +7,7 @@ from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
 from dask import compute, delayed
 from collections import defaultdict
 from taxbrain.utils import weighted_sum
-from typing import Union, Optional
+from typing import Union
 
 
 class TaxBrain:
@@ -161,8 +161,8 @@ class TaxBrain:
                           index=range(self.start_year, self.end_year + 1))
         return df.transpose()
 
-    def distribution_table(self, year: int, groupby: str, income_measure: str,
-                           calc: str,
+    def distribution_table(self, year: int, groupby: str,
+                           income_measure: str, calc: str,
                            pop_quantiles: bool = False) -> pd.DataFrame:
         """
         Method to create a distribution table
