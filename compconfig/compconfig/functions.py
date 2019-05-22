@@ -8,7 +8,7 @@ from .constants import MetaParameters
 from .helpers import (convert_defaults, convert_adj, TCDIR,
                       postprocess, nth_year_results, retrieve_puf,
                       convert_behavior_adj)
-from .outputs import create_layout
+from .outputs import create_layout, aggregate_plot
 from taxbrain import TaxBrain
 from dask import delayed, compute
 from collections import defaultdict
@@ -172,18 +172,20 @@ def run_model(meta_params_dict, adjustment):
     results = compute(*delayed_list)
 
     # process results to get them ready for display
+    # create aggregate plot
+    agg_plot = aggregate_plot(tb)
     all_to_process = defaultdict(list)
     for result in results:
         for key, value in result.items():
             all_to_process[key] += value
     results, downloadable = postprocess(all_to_process)
-    layout_output = create_layout(results, start_year, end_year)
+    agg_output, table_output = create_layout(results, start_year, end_year)
     model_versions_str = ""
     for model, version in TaxBrain.VERSIONS.items():
         model_versions_str += f"{model}: {version}\n"
     comp_outputs = {
+        "renderable": [agg_plot, agg_output, table_output],
         "model_version": model_versions_str,
-        "renderable": [layout_output],
         "downloadable": downloadable
     }
     return comp_outputs

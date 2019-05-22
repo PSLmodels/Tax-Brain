@@ -7,6 +7,7 @@ from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
 from dask import compute, delayed
 from collections import defaultdict
 from taxbrain.utils import weighted_sum
+from typing import Union, Optional
 
 
 class TaxBrain:
@@ -22,9 +23,10 @@ class TaxBrain:
         "Behavioral-Responses": behresp.__version__
     }
 
-    def __init__(self, start_year, end_year=LAST_BUDGET_YEAR,
-                 microdata=None, use_cps=False, reform=None,
-                 behavior=None, assump=None, verbose=False):
+    def __init__(self, start_year: int, end_year: int = LAST_BUDGET_YEAR,
+                 microdata: Union[str, dict] = None, use_cps: bool = False,
+                 reform: Union[str, dict] = None, behavior: dict = None,
+                 assump=None, verbose=False):
         """
         Constructor for the TaxBrain class
         Parameters
@@ -77,7 +79,7 @@ class TaxBrain:
         self.params = self._process_user_mods(reform, assump)
         self.params["behavior"] = behavior
 
-    def run(self, varlist=DEFAULT_VARIABLES):
+    def run(self, varlist: list = DEFAULT_VARIABLES):
         """
         Run the calculators. TaxBrain will determine whether to do a static or
         partial equilibrium run based on the user's inputs when initializing
@@ -104,7 +106,7 @@ class TaxBrain:
 
         del base_calc, reform_calc
 
-    def weighted_totals(self, var):
+    def weighted_totals(self, var: str) -> pd.DataFrame:
         """
         Create a pandas DataFrame that shows the weighted sum or a specified
         variable under the baseline policy, reform policy, and the difference
@@ -129,7 +131,7 @@ class TaxBrain:
         return pd.DataFrame([base_totals, reform_totals, differences],
                             index=["Base", "Reform", "Difference"])
 
-    def multi_var_table(self, varlist, calc):
+    def multi_var_table(self, varlist: list, calc: str) -> pd.DataFrame:
         """
         Create a Pandas DataFrame with multiple variables from the specified
         data source
@@ -159,7 +161,9 @@ class TaxBrain:
                           index=range(self.start_year, self.end_year + 1))
         return df.transpose()
 
-    def distribution_table(self, year, groupby, income_measure, calc):
+    def distribution_table(self, year: int, groupby: str, income_measure: str,
+                           calc: str,
+                           pop_quantiles: bool = False) -> pd.DataFrame:
         """
         Method to create a distribution table
         Parameters
@@ -171,6 +175,8 @@ class TaxBrain:
                         the table
             options: 'expanded_income' or 'expanded_income_baseline'
         calc: which calculator to use: base or reform
+        pop_quantiles: whether or not weighted_deciles contain equal number of
+            tax units (False) or people (True)
         Returns
         -------
         DataFrame containing a distribution table
@@ -183,22 +189,28 @@ class TaxBrain:
         else:
             raise ValueError("calc must be either BASE or REFORM")
         # minor data preparation before calling the function
-        data["num_returns_ItemDed"] = data["s006"].where(
+        if pop_quantiles:
+            data["count"] = data["s006"] * data["XTOT"]
+        else:
+            data["count"] = data["s006"]
+        data["count_ItemDed"] = data["count"].where(
             data["c04470"] > 0., 0.
         )
-        data["num_returns_StandardDed"] = data["s006"].where(
+        data["count_StandardDed"] = data["count"].where(
             data["standard"] > 0., 0.
         )
-        data["num_returns_AMT"] = data["s006"].where(
+        data["count_AMT"] = data["count"].where(
             data["c09600"] > 0., 0.
         )
         if income_measure == "expanded_income_baseline":
             base_income = self.base_data[year]["expanded_income"]
             data["expanded_income_baseline"] = base_income
-        table = create_distribution_table(data, groupby, income_measure)
+        table = create_distribution_table(data, groupby, income_measure,
+                                          pop_quantiles)
         return table
 
-    def differences_table(self, year, groupby, tax_to_diff):
+    def differences_table(self, year: int, groupby: str, tax_to_diff: str,
+                          pop_quantiles: bool = False) -> pd.DataFrame:
         """
         Method to create a differences table
         Parameters
@@ -208,7 +220,8 @@ class TaxBrain:
             options: 'weighted_deciles', 'standard_income_bins', 'soi_agi_bin'
         tax_to_diff: which tax to take the difference of
             options: 'iitax', 'payrolltax', 'combined'
-        run_type: use data from the static or dynamic run
+        pop_quantiles: whether weighted_deciles contain an equal number of tax
+            units (False) or people (True)
         Returns
         -------
         DataFrame containing a differences table
@@ -216,7 +229,7 @@ class TaxBrain:
         base_data = self.base_data[year]
         reform_data = self.reform_data[year]
         table = create_difference_table(base_data, reform_data, groupby,
-                                        tax_to_diff)
+                                        tax_to_diff, pop_quantiles)
         return table
 
     # ----- private methods -----
@@ -233,7 +246,7 @@ class TaxBrain:
             # run calculations in parallel
             delay = [delayed(base_calc.calc_all()),
                      delayed(reform_calc.calc_all())]
-            _ = compute(*delay)
+            compute(*delay)
             self.base_data[yr] = base_calc.dataframe(varlist)
             self.reform_data[yr] = reform_calc.dataframe(varlist)
 
@@ -248,7 +261,7 @@ class TaxBrain:
                                                     self.params["behavior"],
                                                     year, varlist)
             delay_list.append(delay)
-        _ = compute(*delay_list)
+        compute(*delay_list)
         del delay_list
 
     def _run_dynamic_calc(self, calc1, calc2, behavior, year, varlist):

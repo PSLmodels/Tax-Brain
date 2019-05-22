@@ -5,19 +5,16 @@ package:
 requirements:
   build:
     - python
-    - "taxcalc>2.0.0"
+    - "taxcalc>=2.2.0"
     - "behresp>=0.7.0"
     - dask
-    - paramtools
-    - marshmallow
 
   run:
     - python
-    - "taxcalc>2.0.0"
+    - "taxcalc>=2.2.0"
     - "behresp>=0.7.0"
     - dask
-    - paramtools
-    - marshmallow
+    - bokeh
 
 about:
   home: https://github.com/PSLmodels/Tax-Brain
