@@ -333,7 +333,7 @@ def nth_year_results(tb, year, user_mods, fuzz, return_html=True):
         for id in sres:
             res[id] = [{
                 'dimension': year,
-                'raw': sres[id].to_json()
+                'raw': sres[id]
             }]
         elapsed_time = time.time() - start_time
         print('elapsed time for this run: {:.1f}'.format(elapsed_time))
@@ -386,7 +386,7 @@ def postprocess(data_to_process):
     for id, pdfs in data_to_process.items():
         if id.startswith('aggr'):
             pdfs.sort(key=year_getter)
-            tbl = pd.read_json(pdfs[0]["raw"])
+            tbl = pdfs[0]["raw"]
             tbl.index = pd.Index(RESULTS_TOTAL_ROW_KEY_LABELS[i]
                                  for i in tbl.index)
             # format table
@@ -411,7 +411,7 @@ def postprocess(data_to_process):
         else:
             for i in pdfs:
                 year = i["dimension"]
-                tbl = label_columns(pd.read_json(i['raw']))
+                tbl = label_columns(i["raw"])
                 title = '{} ({})'.format(RESULTS_TABLE_TITLES[id],
                                          year)
                 # format table
