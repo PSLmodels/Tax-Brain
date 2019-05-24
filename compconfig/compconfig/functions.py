@@ -98,7 +98,8 @@ def validate_inputs(meta_params_dict, adjustment, errors_warnings):
         meta_params.adjust(meta_params_dict)
 
         tc_adj = {
-            "policy": convert_adj(adjustment["policy"], meta_params.year.tolist()),
+            "policy": convert_adj(adjustment["policy"],
+                                  meta_params.year.tolist()),
             "behavior": convert_behavior_adj(adjustment["behavior"])
         }
         res = errors_warnings, tc_adj
