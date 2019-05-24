@@ -79,18 +79,18 @@ def aggregate_plot(tb):
     fig.add_tools(ii_hover, proll_hover, combined_hover)
 
     # toggle which lines are shown
-    js = """
+    plot_js = """
     object1.visible = toggle.active
     object2.visible = toggle.active
     object3.visible = toggle.active
     """
-    base_callback = CustomJS.from_coffeescript(code=js, args={})
+    base_callback = CustomJS.from_coffeescript(code=plot_js, args={})
     base_toggle = Toggle(label="Base", button_type="primary",
                          callback=base_callback, active=True)
     base_callback.args = {"toggle": base_toggle, "object1": ii_base,
                           "object2": proll_base, "object3": comb_base}
 
-    reform_callback = CustomJS.from_coffeescript(code=js, args={})
+    reform_callback = CustomJS.from_coffeescript(code=plot_js, args={})
     reform_toggle = Toggle(label="Reform", button_type="primary",
                            callback=reform_callback, active=True)
     reform_callback.args = {"toggle": reform_toggle, "object1": ii_reform,
