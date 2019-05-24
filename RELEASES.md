@@ -1,6 +1,17 @@
 # Tax-Brain Release History
 
-## 2019-05-20 Release 2.2.0
+## 2019-05-24 Release 2.2.1
+
+Last Merged Pull Request: [#51](https://github.com/PSLmodels/Tax-Brain/pull/51)
+
+Changes in this release:
+
+* Fix bug in COMP outputs that caused the rows in distribution tables to be
+  flipped ([#51](https://github.com/PSLmodels/Tax-Brain/pull/51))
+* Update Behavioral-Responses package requirements ([#50](https://github.com/PSLmodels/Tax-Brain/pull/50))
+* Change the dynamic reform to run sequentially, rather than in parallel ([#50](https://github.com/PSLmodels/Tax-Brain/pull/50))
+
+## 2019-05-21 Release 2.2.0
 
 Last Merged Pull Request: [#45](https://github.com/PSLmodels/Tax-Brain/pull/45)
 
