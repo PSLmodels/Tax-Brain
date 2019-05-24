@@ -7,9 +7,9 @@ Last Merged Pull Request: [#51](https://github.com/PSLmodels/Tax-Brain/pull/51)
 Changes in this release:
 
 * Fix bug in COMP outputs that caused the rows in distribution tables to be
-  flipped ([#51](https://github.com/PSLmodels/Tax-Brain/pull/51))
-* Update Behavioral-Responses package requirements ([#50](https://github.com/PSLmodels/Tax-Brain/pull/50))
-* Change the dynamic reform to run sequentially, rather than in parallel ([#50](https://github.com/PSLmodels/Tax-Brain/pull/50))
+  flipped ([#51](https://github.com/PSLmodels/Tax-Brain/pull/51)).
+* Update Behavioral-Responses package requirements ([#50](https://github.com/PSLmodels/Tax-Brain/pull/50)).
+* Change the dynamic reform to run sequentially, rather than in parallel ([#50](https://github.com/PSLmodels/Tax-Brain/pull/50)).
 
 ## 2019-05-21 Release 2.2.0
 
