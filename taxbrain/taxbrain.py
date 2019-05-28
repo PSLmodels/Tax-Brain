@@ -1,9 +1,9 @@
 import copy
 import taxcalc as tc
 import pandas as pd
+import behresp
 from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
                            create_distribution_table, create_difference_table)
-from behresp import response
 from dask import compute, delayed
 from collections import defaultdict
 from taxbrain.utils import weighted_sum
@@ -15,6 +15,12 @@ class TaxBrain:
     LAST_BUDGET_YEAR = tc.Policy.LAST_BUDGET_YEAR
     # Default list of variables saved for each year
     DEFAULT_VARIABLES = list(set(DIST_VARIABLES).union(set(DIFF_VARIABLES)))
+
+    # add dictionary to hold version of the various models
+    VERSIONS = {
+        "Tax-Calculator": tc.__version__,
+        "Behavioral-Responses": behresp.__version__
+    }
 
     def __init__(self, start_year, end_year=LAST_BUDGET_YEAR,
                  microdata=None, use_cps=False, reform=None,
@@ -117,7 +123,6 @@ class TaxBrain:
         -------
         None
         """
-        
         if not isinstance(varlist, list):
             msg = f"'varlist' is of type {type(varlist)}. Must be a list."
             raise TypeError(msg)
@@ -185,7 +190,8 @@ class TaxBrain:
                           index=range(self.start_year, self.end_year + 1))
         return df.transpose()
 
-    def distribution_table(self, year, groupby, income_measure, calc):
+    def distribution_table(self, year, groupby, income_measure, calc,
+                           pop_quantiles=False):
         """
         Method to create a distribution table
         Parameters
@@ -197,6 +203,8 @@ class TaxBrain:
                         the table
             options: 'expanded_income' or 'expanded_income_baseline'
         calc: which calculator to use: base or reform
+        pop_quantiles: whether or not weighted_deciles contain equal number of
+            tax units (False) or people (True)
         Returns
         -------
         DataFrame containing a distribution table
@@ -209,22 +217,28 @@ class TaxBrain:
         else:
             raise ValueError("calc must be either BASE or REFORM")
         # minor data preparation before calling the function
-        data["num_returns_ItemDed"] = data["s006"].where(
+        if pop_quantiles:
+            data["count"] = data["s006"] * data["XTOT"]
+        else:
+            data["count"] = data["s006"]
+        data["count_ItemDed"] = data["count"].where(
             data["c04470"] > 0., 0.
         )
-        data["num_returns_StandardDed"] = data["s006"].where(
+        data["count_StandardDed"] = data["count"].where(
             data["standard"] > 0., 0.
         )
-        data["num_returns_AMT"] = data["s006"].where(
+        data["count_AMT"] = data["count"].where(
             data["c09600"] > 0., 0.
         )
         if income_measure == "expanded_income_baseline":
             base_income = self.base_data[year]["expanded_income"]
             data["expanded_income_baseline"] = base_income
-        table = create_distribution_table(data, groupby, income_measure)
+        table = create_distribution_table(data, groupby, income_measure,
+                                          pop_quantiles)
         return table
 
-    def differences_table(self, year, groupby, tax_to_diff):
+    def differences_table(self, year, groupby, tax_to_diff,
+                          pop_quantiles=False):
         """
         Method to create a differences table
         Parameters
@@ -234,7 +248,8 @@ class TaxBrain:
             options: 'weighted_deciles', 'standard_income_bins', 'soi_agi_bin'
         tax_to_diff: which tax to take the difference of
             options: 'iitax', 'payrolltax', 'combined'
-        run_type: use data from the static or dynamic run
+        pop_quantiles: whether weighted_deciles contain an equal number of tax
+            units (False) or people (True)
         Returns
         -------
         DataFrame containing a differences table
@@ -242,7 +257,7 @@ class TaxBrain:
         base_data = self.base_data[year]
         reform_data = self.reform_data[year]
         table = create_difference_table(base_data, reform_data, groupby,
-                                        tax_to_diff)
+                                        tax_to_diff, pop_quantiles)
         return table
 
     # ----- private methods -----
@@ -260,7 +275,7 @@ class TaxBrain:
             # run calculations in parallel
             delay = [delayed(self.base_calc.calc_all()),
                      delayed(self.reform_calc.calc_all())]
-            _ = compute(*delay)
+            compute(*delay)
             self.base_data[yr] = self.base_calc.dataframe(varlist)
             self.reform_data[yr] = self.reform_calc.dataframe(varlist)
 
@@ -268,36 +283,16 @@ class TaxBrain:
         """
         Run a dynamic response
         """
-        delay_list = []
+        if "s006" not in varlist:  # ensure weight is always included
+            varlist.append("s006")
         for year in range(self.start_year, self.end_year + 1):
-            delay = delayed(self._run_dynamic_calc)(self.base_calc,
-                                                    self.reform_calc,
-                                                    self.params["behavior"],
-                                                    year, varlist)
-            delay_list.append(delay)
-        _ = compute(*delay_list)
-        del delay_list
-
-    def _run_dynamic_calc(self, calc1, calc2, behavior, year, varlist):
-        """
-        Function used to parallelize the dynamic run function
-
-        Parameters
-        ----------
-        calc1: Calculator object representing the baseline policy
-        calc2: Calculator object representing the reform policy
-        year: year for the calculations
-        """
-        calc1_copy = copy.deepcopy(calc1)
-        calc2_copy = copy.deepcopy(calc2)
-        calc1_copy.advance_to_year(year)
-        calc2_copy.advance_to_year(year)
-        # use response function to capture dynamic effects
-        base, reform = response(calc1_copy, calc2_copy,
-                                behavior, dump=True)
-        self.base_data[year] = base[varlist]
-        self.reform_data[year] = reform[varlist]
-        del calc1_copy, calc2_copy, base, reform
+            self.base_calc.advance_to_year(year)
+            self.reform_calc.advance_to_year(year)
+            base, reform = behresp.response(self.base_calc, self.reform_calc,
+                                            self.params["behavior"],
+                                            dump=True)
+            self.base_data[year] = base[varlist]
+            self.reform_data[year] = reform[varlist]
 
     def _process_user_mods(self, reform, assump):
         """

@@ -1,5 +1,29 @@
 # Tax-Brain Release History
 
+## 2019-05-24 Release 2.2.1
+
+Last Merged Pull Request: [#51](https://github.com/PSLmodels/Tax-Brain/pull/51)
+
+Changes in this release:
+
+* Fix bug in COMP outputs that caused the rows in distribution tables to be
+  flipped ([#51](https://github.com/PSLmodels/Tax-Brain/pull/51)).
+* Update Behavioral-Responses package requirements ([#50](https://github.com/PSLmodels/Tax-Brain/pull/50)).
+* Change the dynamic reform to run sequentially, rather than in parallel ([#50](https://github.com/PSLmodels/Tax-Brain/pull/50)).
+
+## 2019-05-21 Release 2.2.0
+
+Last Merged Pull Request: [#45](https://github.com/PSLmodels/Tax-Brain/pull/45)
+
+Changes in this release:
+
+* Fix bug in the distribution table ([#33](https://github.com/PSLmodels/Tax-Brain/pull/33)).
+* Expand testing ([#34](https://github.com/PSLmodels/Tax-Brain/pull/45)).
+* Remove TBI package from distribution ([#38](https://github.com/PSLmodels/Tax-Brain/pull/38))
+* Establish `compconfig` directory to handle COMP interactions ([#38](https://github.com/PSLmodels/Tax-Brain/pull/38), [#40](https://github.com/PSLmodels/Tax-Brain/pull/40)).
+* Modify the distribution and difference table creation to work with taxcalc 2.2.0 ([#45](https://github.com/PSLmodels/Tax-Brain/pull/45)).
+* Add plotting to COMP outputs ([#26](https://github.com/PSLmodels/Tax-Brain/pull/26)).
+
 ## 2019-04-01 Release 2.1.2
 
 Last Merged Pull Request: [#31](https://github.com/PSLmodels/Tax-Brain/pull/31)
@@ -14,7 +38,7 @@ Last Merged Pull Request: [#29](https://github.com/PSLmodels/Tax-Brain/pull/29)
 
 Changes in this release:
 
-* Includes `taxbrain/tbi/behavior_params.json` in the package [#29](https://github.com/PSLmodels/Tax-Brain/pull/29).
+* Includes `taxbrain/tbi/behavior_params.json` in the package ([#29](https://github.com/PSLmodels/Tax-Brain/pull/29)).
 
 ## 2019-03-29 Release 2.1.0
 
