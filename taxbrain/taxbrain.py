@@ -1,4 +1,3 @@
-import copy
 import taxcalc as tc
 import pandas as pd
 import behresp
@@ -7,6 +6,7 @@ from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
 from dask import compute, delayed
 from collections import defaultdict
 from taxbrain.utils import weighted_sum
+from typing import Union
 
 
 class TaxBrain:
@@ -22,9 +22,10 @@ class TaxBrain:
         "Behavioral-Responses": behresp.__version__
     }
 
-    def __init__(self, start_year, end_year=LAST_BUDGET_YEAR,
-                 microdata=None, use_cps=False, reform=None,
-                 behavior=None, assump=None, verbose=False):
+    def __init__(self, start_year: int, end_year: int = LAST_BUDGET_YEAR,
+                 microdata: Union[str, dict] = None, use_cps: bool = False,
+                 reform: Union[str, dict] = None, behavior: dict = None,
+                 assump=None, verbose=False):
         """
         Constructor for the TaxBrain class
         Parameters
@@ -65,6 +66,7 @@ class TaxBrain:
             f"Specified end_year, {end_year}, comes after last known "
             f"budget year, {TaxBrain.LAST_BUDGET_YEAR}."
         )
+        self.microdata = microdata
         self.use_cps = use_cps
         self.start_year = start_year
         self.end_year = end_year
@@ -76,42 +78,7 @@ class TaxBrain:
         self.params = self._process_user_mods(reform, assump)
         self.params["behavior"] = behavior
 
-        # Create two microsimulation calculators
-        gd_base = tc.GrowDiff()
-        gf_base = tc.GrowFactors()
-        # apply user specified growdiff
-        if self.params["growdiff_baseline"]:
-            gd_base.update_growdiff(self.params["growdiff_baseline"])
-            gd_base.apply_to(gf_base)
-        # Baseline calculator
-        if use_cps:
-            records = tc.Records.cps_constructor(data=microdata,
-                                                 gfactors=gf_base)
-        else:
-            records = tc.Records(microdata, gfactors=gf_base)
-        self.base_calc = tc.Calculator(policy=tc.Policy(gf_base),
-                                       records=records,
-                                       verbose=self.verbose)
-
-        # Reform calculator
-        # Initialize a policy object
-        gd_reform = tc.GrowDiff()
-        gf_reform = tc.GrowFactors()
-        if self.params["growdiff_response"]:
-            gd_reform.update_growdiff(self.params["growdiff_response"])
-            gd_reform.apply_to(gf_reform)
-        if use_cps:
-            records = tc.Records.cps_constructor(data=microdata,
-                                                 gfactors=gf_reform)
-        else:
-            records = tc.Records(microdata, gfactors=gf_reform)
-        policy = tc.Policy(gf_reform)
-        policy.implement_reform(self.params['policy'])
-        # Initialize Calculator
-        self.reform_calc = tc.Calculator(policy=policy, records=records,
-                                         verbose=self.verbose)
-
-    def run(self, varlist=DEFAULT_VARIABLES):
+    def run(self, varlist: list = DEFAULT_VARIABLES):
         """
         Run the calculators. TaxBrain will determine whether to do a static or
         partial equilibrium run based on the user's inputs when initializing
@@ -123,19 +90,22 @@ class TaxBrain:
         -------
         None
         """
+        base_calc, reform_calc = self._make_calculators()
         if not isinstance(varlist, list):
             msg = f"'varlist' is of type {type(varlist)}. Must be a list."
             raise TypeError(msg)
         if self.params["behavior"]:
             if self.verbose:
                 print("Running dynamic simulations")
-            self._dynamic_run(varlist)
+            self._dynamic_run(varlist, base_calc, reform_calc)
         else:
             if self.verbose:
                 print("Running static simulations")
-            self._static_run(varlist)
+            self._static_run(varlist, base_calc, reform_calc)
 
-    def weighted_totals(self, var):
+        del base_calc, reform_calc
+
+    def weighted_totals(self, var: str) -> pd.DataFrame:
         """
         Create a pandas DataFrame that shows the weighted sum or a specified
         variable under the baseline policy, reform policy, and the difference
@@ -160,7 +130,7 @@ class TaxBrain:
         return pd.DataFrame([base_totals, reform_totals, differences],
                             index=["Base", "Reform", "Difference"])
 
-    def multi_var_table(self, varlist, calc):
+    def multi_var_table(self, varlist: list, calc: str) -> pd.DataFrame:
         """
         Create a Pandas DataFrame with multiple variables from the specified
         data source
@@ -190,8 +160,9 @@ class TaxBrain:
                           index=range(self.start_year, self.end_year + 1))
         return df.transpose()
 
-    def distribution_table(self, year, groupby, income_measure, calc,
-                           pop_quantiles=False):
+    def distribution_table(self, year: int, groupby: str,
+                           income_measure: str, calc: str,
+                           pop_quantiles: bool = False) -> pd.DataFrame:
         """
         Method to create a distribution table
         Parameters
@@ -237,8 +208,8 @@ class TaxBrain:
                                           pop_quantiles)
         return table
 
-    def differences_table(self, year, groupby, tax_to_diff,
-                          pop_quantiles=False):
+    def differences_table(self, year: int, groupby: str, tax_to_diff: str,
+                          pop_quantiles: bool = False) -> pd.DataFrame:
         """
         Method to create a differences table
         Parameters
@@ -261,34 +232,33 @@ class TaxBrain:
         return table
 
     # ----- private methods -----
-    def _static_run(self, varlist):
+    def _static_run(self, varlist, base_calc, reform_calc):
         """
         Run the calculator for a static analysis
         """
         if "s006" not in varlist:  # ensure weight is always included
             varlist.append("s006")
-        # Use copies of the calculators so you can run both static and
-        # dynamic calculations on same TaxBrain instance
-        for yr in range(self.start_year, self.end_year + 1):
-            self.base_calc.advance_to_year(yr)
-            self.reform_calc.advance_to_year(yr)
-            # run calculations in parallel
-            delay = [delayed(self.base_calc.calc_all()),
-                     delayed(self.reform_calc.calc_all())]
-            compute(*delay)
-            self.base_data[yr] = self.base_calc.dataframe(varlist)
-            self.reform_data[yr] = self.reform_calc.dataframe(varlist)
 
-    def _dynamic_run(self, varlist):
+        for yr in range(self.start_year, self.end_year + 1):
+            base_calc.advance_to_year(yr)
+            reform_calc.advance_to_year(yr)
+            # run calculations in parallel
+            delay = [delayed(base_calc.calc_all()),
+                     delayed(reform_calc.calc_all())]
+            compute(*delay)
+            self.base_data[yr] = base_calc.dataframe(varlist)
+            self.reform_data[yr] = reform_calc.dataframe(varlist)
+
+    def _dynamic_run(self, varlist, base_calc, reform_calc):
         """
         Run a dynamic response
         """
         if "s006" not in varlist:  # ensure weight is always included
             varlist.append("s006")
         for year in range(self.start_year, self.end_year + 1):
-            self.base_calc.advance_to_year(year)
-            self.reform_calc.advance_to_year(year)
-            base, reform = behresp.response(self.base_calc, self.reform_calc,
+            base_calc.advance_to_year(year)
+            reform_calc.advance_to_year(year)
+            base, reform = behresp.response(base_calc, reform_calc,
                                             self.params["behavior"],
                                             dump=True)
             self.base_data[year] = base[varlist]
@@ -355,3 +325,47 @@ class TaxBrain:
         assert set(params.keys()) == required_keys
 
         return params
+
+    def _make_calculators(self):
+        """
+        This function creates the baseline and reform calculators used when
+        the `run()` method is called
+        """
+        # Create two microsimulation calculators
+        gd_base = tc.GrowDiff()
+        gf_base = tc.GrowFactors()
+        # apply user specified growdiff
+        if self.params["growdiff_baseline"]:
+            gd_base.update_growdiff(self.params["growdiff_baseline"])
+            gd_base.apply_to(gf_base)
+        # Baseline calculator
+        if self.use_cps:
+            records = tc.Records.cps_constructor(data=self.microdata,
+                                                 gfactors=gf_base)
+        else:
+            records = tc.Records(self.microdata, gfactors=gf_base)
+        policy = tc.Policy(gf_base)
+        base_calc = tc.Calculator(policy=policy,
+                                  records=records,
+                                  verbose=self.verbose)
+
+        # Reform calculator
+        # Initialize a policy object
+        gd_reform = tc.GrowDiff()
+        gf_reform = tc.GrowFactors()
+        if self.params["growdiff_response"]:
+            gd_reform.update_growdiff(self.params["growdiff_response"])
+            gd_reform.apply_to(gf_reform)
+        if self.use_cps:
+            records = tc.Records.cps_constructor(data=self.microdata,
+                                                 gfactors=gf_reform)
+        else:
+            records = tc.Records(self.microdata, gfactors=gf_reform)
+        policy = tc.Policy(gf_reform)
+        policy.implement_reform(self.params['policy'])
+        # Initialize Calculator
+        reform_calc = tc.Calculator(policy=policy, records=records,
+                                    verbose=self.verbose)
+        # delete all unneeded variables
+        del gd_base, gd_reform, records, gf_base, gf_reform, policy
+        return base_calc, reform_calc

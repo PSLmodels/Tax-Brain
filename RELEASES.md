@@ -1,5 +1,14 @@
 # Tax-Brain Release History
 
+## 2019-XX-XX Release 2.X.X
+
+Last Merged Pull Request:
+
+Changes in this release:
+
+* Refactor the `run()` method and TaxBrain initialization process so that
+  calculator objects are not created until `run()` is called ([#44](https://github.com/PSLmodels/Tax-Brain/pull/44))
+
 ## 2019-05-24 Release 2.2.1
 
 Last Merged Pull Request: [#51](https://github.com/PSLmodels/Tax-Brain/pull/51)
