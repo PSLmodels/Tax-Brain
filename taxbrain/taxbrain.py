@@ -1,4 +1,3 @@
-import copy
 import taxcalc as tc
 import pandas as pd
 import behresp
@@ -254,36 +253,16 @@ class TaxBrain:
         """
         Run a dynamic response
         """
-        delay_list = []
+        if "s006" not in varlist:  # ensure weight is always included
+            varlist.append("s006")
         for year in range(self.start_year, self.end_year + 1):
-            delay = delayed(self._run_dynamic_calc)(base_calc,
-                                                    reform_calc,
-                                                    self.params["behavior"],
-                                                    year, varlist)
-            delay_list.append(delay)
-        compute(*delay_list)
-        del delay_list
-
-    def _run_dynamic_calc(self, calc1, calc2, behavior, year, varlist):
-        """
-        Function used to parallelize the dynamic run function
-
-        Parameters
-        ----------
-        calc1: Calculator object representing the baseline policy
-        calc2: Calculator object representing the reform policy
-        year: year for the calculations
-        """
-        calc1_copy = copy.deepcopy(calc1)
-        calc2_copy = copy.deepcopy(calc2)
-        calc1_copy.advance_to_year(year)
-        calc2_copy.advance_to_year(year)
-        # use response function to capture dynamic effects
-        base, reform = behresp.response(calc1_copy, calc2_copy,
-                                        behavior, dump=True)
-        self.base_data[year] = base[varlist]
-        self.reform_data[year] = reform[varlist]
-        del calc1_copy, calc2_copy, base, reform
+            base_calc.advance_to_year(year)
+            reform_calc.advance_to_year(year)
+            base, reform = behresp.response(base_calc, reform_calc,
+                                            self.params["behavior"],
+                                            dump=True)
+            self.base_data[year] = base[varlist]
+            self.reform_data[year] = reform[varlist]
 
     def _process_user_mods(self, reform, assump):
         """

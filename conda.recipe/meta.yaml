@@ -6,13 +6,13 @@ requirements:
   build:
     - python
     - "taxcalc>=2.2.0"
-    - "behresp>=0.7.0"
+    - "behresp>=0.8.0"
     - dask
 
   run:
     - python
     - "taxcalc>=2.2.0"
-    - "behresp>=0.7.0"
+    - "behresp>=0.8.0"
     - dask
     - bokeh
 
