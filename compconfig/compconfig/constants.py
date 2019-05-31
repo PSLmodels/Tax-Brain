@@ -131,7 +131,14 @@ class MetaParameters(paramtools.Parameters):
             "description": "Year for parameters.",
             "type": "int",
             "value": 2019,
-            "validators": {"range": {"min": 2019, "max": 2027}}
+            "validators": {
+                "choice": {
+                    "choices": [
+                        yr for yr in range(TaxBrain.FIRST_BUDGET_YEAR,
+                                           TaxBrain.LAST_BUDGET_YEAR)
+                    ]
+                }
+            }
         },
         "data_source": {
             "title": "Data Source",
