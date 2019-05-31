@@ -23,9 +23,11 @@ class TaxBrain:
     }
 
     def __init__(self, start_year: int, end_year: int = LAST_BUDGET_YEAR,
-                 microdata: Union[str, dict] = None, use_cps: bool = False,
+                 microdata: Union[str, pd.DataFrame] = None,
+                 use_cps: bool = False,
                  reform: Union[str, dict] = None, behavior: dict = None,
-                 assump=None, verbose=False):
+                 assump=None, verbose=False,
+                 og_params=None):
         """
         Constructor for the TaxBrain class
         Parameters
