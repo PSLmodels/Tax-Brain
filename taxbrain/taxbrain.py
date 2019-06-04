@@ -6,6 +6,7 @@ from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
 from dask import compute, delayed
 from collections import defaultdict
 from taxbrain.utils import weighted_sum
+from .tbogusa import run_ogusa
 from typing import Union
 
 
@@ -27,7 +28,7 @@ class TaxBrain:
                  use_cps: bool = False,
                  reform: Union[str, dict] = None, behavior: dict = None,
                  assump=None, verbose=False,
-                 og_params=None):
+                 ogusa: bool = False):
         """
         Constructor for the TaxBrain class
         Parameters
@@ -79,6 +80,7 @@ class TaxBrain:
         # Process user inputs early to throw any errors quickly
         self.params = self._process_user_mods(reform, assump)
         self.params["behavior"] = behavior
+        self.ogusa = ogusa
 
     def run(self, varlist: list = DEFAULT_VARIABLES):
         """
@@ -92,6 +94,16 @@ class TaxBrain:
         -------
         None
         """
+        if self.ogusa:
+            if self.verbose:
+                print("Running OG-USA")
+            if self.use_cps:
+                data_source = "cps"
+            else:
+                data_source = "puf"
+            og_results = run_ogusa(micro_reform=self.params["policy"],
+                                   data_source=data_source)
+            self._apply_ogusa(og_results)
         base_calc, reform_calc = self._make_calculators()
         if not isinstance(varlist, list):
             msg = f"'varlist' is of type {type(varlist)}. Must be a list."
@@ -371,3 +383,26 @@ class TaxBrain:
         # delete all unneeded variables
         del gd_base, gd_reform, records, gf_base, gf_reform, policy
         return base_calc, reform_calc
+
+    def _apply_ogusa(self, og_results):
+        """
+        Apply the results of the OG-USA run
+        Parameters
+        ----------
+        self
+        og_results
+        Returns
+        -------
+        None
+        """
+        # changes in wage growth rates are at the 4th index
+        wage_change = og_results[4]
+        gf = tc.GrowFactors()
+        grow_diff = {}
+        for i, yr in enumerate(range(self.start_year, self.end_year)):
+            cur_val = gf.factor_value("AWAGE", yr)
+            grow_diff[yr] = float(cur_val * wage_change[i])
+        final_growdiffs = {
+            "AWAGE": grow_diff
+        }
+        self.params["growdiff_response"] = final_growdiffs
