@@ -102,7 +102,8 @@ class TaxBrain:
             else:
                 data_source = "puf"
             og_results = run_ogusa(micro_reform=self.params["policy"],
-                                   data_source=data_source)
+                                   data_source=data_source,
+                                   start_year=self.start_year)
             self._apply_ogusa(og_results)
         base_calc, reform_calc = self._make_calculators()
         if not isinstance(varlist, list):

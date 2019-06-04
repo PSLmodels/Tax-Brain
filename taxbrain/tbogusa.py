@@ -3,7 +3,6 @@ from dask.distributed import Client
 from ogusa import postprocess
 from ogusa.execute import runner
 from pathlib import Path
-import pickle
 
 
 CUR_PATH = Path(__file__).resolve().parent
@@ -11,7 +10,7 @@ REFORM_DIR = Path(CUR_PATH, "ogusa_reform")
 BASE_DIR = Path(CUR_PATH, "ogusa_baseline")
 
 
-def run_ogusa(micro_reform, data_source):
+def run_ogusa(micro_reform, data_source, start_year):
     """
     Run OG-USA Model
     Parameters
@@ -39,7 +38,7 @@ def run_ogusa(micro_reform, data_source):
     alpha_G[3:6] = 0.05 - 0.005
     alpha_G[6:] = 0.05
     small_open = False
-    user_params = {'frisch': 0.41, 'start_year': 2018,
+    user_params = {'frisch': 0.41, 'start_year': start_year,
                    'tau_b': [(0.35 * 0.55) * (0.017 / 0.055)],
                    'debt_ratio_ss': 1.0, 'alpha_T': alpha_T.tolist(),
                    'alpha_G': alpha_G.tolist(), 'small_open': small_open}
@@ -57,6 +56,5 @@ def run_ogusa(micro_reform, data_source):
     ans = postprocess.create_diff(
         baseline_dir=BASE_DIR, policy_dir=REFORM_DIR
     )
-    pickle.dump(ans, open("ans.p", "wb"))
 
     return ans
