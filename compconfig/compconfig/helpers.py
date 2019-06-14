@@ -108,6 +108,12 @@ def convert_defaults(pcl):
 
 
 def convert_adj(adj, start_year):
+    type_map = {
+        "real": float,
+        "boolean": bool,
+        "integer": int,
+        "string": str,
+    }
     pol = Policy()
     new_adj = defaultdict(dict)
     for param, valobjs in adj.items():
@@ -136,7 +142,11 @@ def convert_adj(adj, start_year):
                 else:
                     year_ix = valobj["year"] - min(param_meta["value_yrs"])
                     # shallow copy the list
-                    defaultlist = list(param_meta["value"][year_ix])
+                    type_func = type_map[param_meta["value_type"]]
+                    # convert from numpy type to basic python type.
+                    defaultlist = list(
+                        map(type_func, getattr(pol, f"_{param}")[year_ix])
+                    )
 
                 defaultlist[other_label_ix] = valobj["value"]
 
@@ -145,6 +155,8 @@ def convert_adj(adj, start_year):
                 msg = (f"Dict should have 2 or 3 keys. It has {len(valobj)}"
                        f"instead (key={list(valobj.keys())}).")
                 raise ValueError(msg)
+            # make sure values are updated so that extend logic works.
+            pol.implement_reform(new_adj)
     return new_adj
 
 
