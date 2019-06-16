@@ -128,7 +128,8 @@ def convert_adj(adj, start_year):
             # has keys "year", "value", and one of "MARS", "idedtype", or "EIC"
             elif len(valobj) == 3:
                 other_label = next(k for k in valobj.keys()
-                                   if k not in ("year", "value"))
+                                   if k not in ("year", "value",
+                                                "data_source"))
                 param_meta = pol._vals[f"_{param}"]
                 if other_label != param_meta["vi_name"]:
                     msg = (f"Label {other_label} does not match expected"
