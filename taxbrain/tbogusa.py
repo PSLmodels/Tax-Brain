@@ -1,4 +1,5 @@
 import numpy as np
+import shutil
 from dask.distributed import Client
 from ogusa import postprocess
 from ogusa.execute import runner
@@ -46,7 +47,7 @@ def run_ogusa(micro_reform, data_source, start_year):
         "output_base": REFORM_DIR, "baseline_dir": BASE_DIR,
         "test": False, "time_path": True, "baseline": False,
         "user_params": user_params, "guid": "_example",
-        "reform": micro_reform, "run_micro": True, "data": "cps",
+        "reform": micro_reform, "run_micro": True, "data": data_source,
         "client": client, "num_workers": num_workers
     }
     print("running")
@@ -56,5 +57,7 @@ def run_ogusa(micro_reform, data_source, start_year):
     ans = postprocess.create_diff(
         baseline_dir=BASE_DIR, policy_dir=REFORM_DIR
     )
+    # remove newly created directory
+    shutil.rmtree(REFORM_DIR)
 
     return ans
