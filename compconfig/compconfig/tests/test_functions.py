@@ -86,7 +86,7 @@ def test_convert_adj():
         ],
         "EITC_c": [{"EIC": "0kids", "year": 2019, "value": 1000.0}],
         "BEN_ssi_repeal": [
-            {"year": 2019, "value": True}
+            {"year": 2019, "data_source": "CPS", "value": True}
         ]
     }
 
