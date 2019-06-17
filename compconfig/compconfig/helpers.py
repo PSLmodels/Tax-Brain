@@ -122,7 +122,6 @@ def convert_adj(adj, start_year):
             new_adj[f"{param_name}-indexed"][start_year] = valobjs[0]["value"]
             continue
         for valobj in valobjs:
-            # has keys "year" and "value"
             if not (set(valobj.keys()) -
                     set(["value", "year", "data_source"])):
                 new_adj[param][valobj["year"]] = valobj["value"]
