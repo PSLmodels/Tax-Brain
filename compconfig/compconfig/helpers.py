@@ -122,13 +122,18 @@ def convert_adj(adj, start_year):
             new_adj[f"{param_name}-indexed"][start_year] = valobjs[0]["value"]
             continue
         for valobj in valobjs:
-            # has keys "year" and "value"
-            if len(valobj) == 2:
+            if not (set(valobj.keys()) -
+                    set(["value", "year", "data_source"])):
                 new_adj[param][valobj["year"]] = valobj["value"]
             # has keys "year", "value", and one of "MARS", "idedtype", or "EIC"
-            elif len(valobj) == 3:
-                other_label = next(k for k in valobj.keys()
-                                   if k not in ("year", "value"))
+            else:
+                try:
+                    other_label = next(k for k in valobj.keys()
+                                    if k not in ("year", "value",
+                                                    "data_source"))
+                except StopIteration:
+                    print(valobj)
+                    raise StopIteration
                 param_meta = pol._vals[f"_{param}"]
                 if other_label != param_meta["vi_name"]:
                     msg = (f"Label {other_label} does not match expected"
@@ -151,10 +156,7 @@ def convert_adj(adj, start_year):
                 defaultlist[other_label_ix] = valobj["value"]
 
                 new_adj[param][valobj["year"]] = defaultlist
-            else:
-                msg = (f"Dict should have 2 or 3 keys. It has {len(valobj)}"
-                       f"instead (key={list(valobj.keys())}).")
-                raise ValueError(msg)
+
             # make sure values are updated so that extend logic works.
             pol.implement_reform(new_adj)
     return new_adj

@@ -85,6 +85,9 @@ def test_convert_adj():
             {"year": 2019, "value": -0.001}
         ],
         "EITC_c": [{"EIC": "0kids", "year": 2019, "value": 1000.0}],
+        "BEN_ssi_repeal": [
+            {"year": 2019, "data_source": "CPS", "value": True}
+        ]
     }
 
     res = helpers.convert_adj(adj, 2019)
@@ -99,5 +102,8 @@ def test_convert_adj():
         },
         "EITC_c": {
             2019: [1000.0, 3529.87, 5829.75, 6558.98]
+        },
+        "BEN_ssi_repeal": {
+            2019: True
         }
     }
