@@ -35,7 +35,8 @@ def test_functions():
             ],
             "CPI_offset": [
                 {"year": 2019, "value": -0.001}
-            ]
+            ],
+            "ACTC_c": [{"year": 2019, "value": 2000.0}],
         },
         "behavior": {
             "sub": [
