@@ -107,3 +107,29 @@ def test_convert_adj():
             2019: True
         }
     }
+
+def test_convert_adj_w_index():
+    adj = {
+        "ACTC_c": [
+            {"year": 2019, "value": 2000.0},
+            {"year": 2026, "value": 1000.0}
+        ],
+        "STD": [
+            {"year": 2019, "MARS": "single", "value": 2000.0},
+            {"year": 2020, "MARS": "mjoint", "value": 12345},
+            {"year": 2026, "MARS": "single", "value": 1000.0}
+        ],
+        "STD_checkbox": [{"value": False}]
+    }
+    res = helpers.convert_adj(adj, 2019)
+    assert res == {
+        "STD-indexed": {
+            2019: False
+        },
+        "ACTC_c": {2019: 2000.0, 2026: 1000.0},
+        "STD": {
+            2019: [2000.0, 24537.6, 12268.8, 18403.2, 24537.6],
+            2020: [2000.0, 12345, 12268.8, 18403.2, 24537.6],
+            2026: [1000.0, 12345.0, 12268.8, 18403.2, 24537.6]
+        }
+    }
