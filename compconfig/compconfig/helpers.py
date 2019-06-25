@@ -116,10 +116,19 @@ def convert_adj(adj, start_year):
     }
     pol = Policy()
     new_adj = defaultdict(dict)
+    # Update all indexing fields first. This ensures that all indexing rules
+    # are set before adjusting the parameters they affect.
     for param, valobjs in adj.items():
         if param.endswith("checkbox"):
             param_name = param.split("_checkbox")[0]
             new_adj[f"{param_name}-indexed"][start_year] = valobjs[0]["value"]
+            pol.implement_reform(
+                {f"{param_name}-indexed": {start_year: valobjs[0]["value"]}},
+                raise_errors=False
+            )
+            continue
+    for param, valobjs in adj.items():
+        if param.endswith("checkbox"):
             continue
         for valobj in valobjs:
             if not (set(valobj.keys()) -
@@ -158,7 +167,7 @@ def convert_adj(adj, start_year):
                 new_adj[param][valobj["year"]] = defaultlist
 
             # make sure values are updated so that extend logic works.
-            pol.implement_reform(new_adj)
+            pol.implement_reform(new_adj, raise_errors=False)
     return new_adj
 
 
