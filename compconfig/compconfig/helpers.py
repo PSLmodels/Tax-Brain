@@ -464,23 +464,12 @@ def postprocess(data_to_process):
 def pdf_to_clean_html(pdf):
     """Takes a PDF and returns an HTML table without any deprecated tags or
     irrelevant styling"""
-    # replace deprecated tags with style attributes
-    tb_replace = ('<table style="border-collapse: collapse;'
-                  'border: 1px solid black; overflow: auto; display: block;'
-                  'min-width: 1000px;"')
-    td_replace = ('<td style="border-collapse: collapse;'
-                  'border: 1px solid black;"')
-    th_replace = ('<th style="border-collapse: collapse;'
-                  'border: 1px solid black;" ')
-    tr_replace = ('<tr style="border-collapse: collapse;'
-                  'border: 1px solid black;"')
+    tb_replace = ('<table class="table table-striped"')
+
     return (pdf.to_html()
-            .replace(' border="1"', '')
-            .replace(' style="text-align: right;"', '')
             .replace('<table ', tb_replace)
-            .replace('<td', td_replace)
-            .replace('<th', th_replace)
-            .replace('<tr', tr_replace))
+            .replace(' border="1"', '')
+            .replace('class="dataframe"', ''))
 
 
 def retrieve_puf(aws_access_key_id, aws_secret_access_key):
