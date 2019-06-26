@@ -104,7 +104,7 @@ def test_user_input(reform_json_str, assump_json_str):
     tb = TaxBrain(2018, 2019, use_cps=True, reform=valid_reform,
                   assump=valid_assump)
     required_param_keys = {"policy", "consumption", "growdiff_baseline",
-                           "growdiff_response", "behavior"}
+                           "growdiff_response", "behavior", "base_policy"}
     assert set(tb.params.keys()) == required_param_keys
     with pytest.raises(ValueError):
         TaxBrain(2018, 2020, use_cps=True, assump=invalid_assump)

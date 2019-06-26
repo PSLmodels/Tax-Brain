@@ -25,7 +25,8 @@ class TaxBrain:
     def __init__(self, start_year: int, end_year: int = LAST_BUDGET_YEAR,
                  microdata: Union[str, dict] = None, use_cps: bool = False,
                  reform: Union[str, dict] = None, behavior: dict = None,
-                 assump=None, verbose=False):
+                 assump=None, base_policy: Union[str, dict] = None,
+                 verbose=False):
         """
         Constructor for the TaxBrain class
         Parameters
@@ -41,11 +42,18 @@ class TaxBrain:
                  Note: use_cps cannot be True if a file was also specified with
                  the microdata parameter.
         reform: Individual income tax policy reform. Can be either a string
-                pointing to a JSON reform file, or the contents of a JSON file.
+                pointing to a JSON reform file, or the contents of a JSON file,
+                or a properly formatted JSON file.
         behavior: Individual behavior assumptions use by the Behavior-Response
                   package.
         assump: A string pointing to a JSON file containing user specified
                 economic assumptions.
+        base_policy: Individual income tax policy to use as the baseline for
+                     the analysis. This policy will be implemented in the base
+                     calculator instance as well as the reform calulcator
+                     before the user provided reform is implemented. Can either
+                     be a string pointing to a JSON reform file, the contents
+                     of a JSON file, or a properly formatted dictionary.
         verbose: A boolean value indicated whether or not to write model
                  progress reports.
         """
@@ -77,6 +85,9 @@ class TaxBrain:
         # Process user inputs early to throw any errors quickly
         self.params = self._process_user_mods(reform, assump)
         self.params["behavior"] = behavior
+        if base_policy:
+            base_policy = self._process_user_mods(base_policy, None)
+        self.params["base_policy"] = base_policy
 
     def run(self, varlist: list = DEFAULT_VARIABLES):
         """
@@ -345,6 +356,8 @@ class TaxBrain:
         else:
             records = tc.Records(self.microdata, gfactors=gf_base)
         policy = tc.Policy(gf_base)
+        if self.params["base_policy"]:
+            policy.implement_reform(self.params["base_policy"])
         base_calc = tc.Calculator(policy=policy,
                                   records=records,
                                   verbose=self.verbose)
@@ -362,6 +375,8 @@ class TaxBrain:
         else:
             records = tc.Records(self.microdata, gfactors=gf_reform)
         policy = tc.Policy(gf_reform)
+        if self.params["base_policy"]:
+            policy.implement_reform(self.params["base_policy"])
         policy.implement_reform(self.params['policy'])
         # Initialize Calculator
         reform_calc = tc.Calculator(policy=policy, records=records,
