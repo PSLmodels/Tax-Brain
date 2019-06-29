@@ -24,5 +24,10 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Opperating Sytem :: OS Independent"
     ],
-    include_package_data=True
+    include_package_data=True,
+    entry_points={
+        "console_scripts": [
+            "taxbrain = taxbrain.cli:cli_main"
+        ]
+    }
 )
