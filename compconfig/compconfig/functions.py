@@ -27,6 +27,7 @@ CUR_PATH = os.path.abspath(os.path.dirname(__file__))
 
 class TCParams(paramtools.Parameters):
     defaults = RES
+    label_to_extend = "year"
 
 
 class BehaviorParams(paramtools.Parameters):
@@ -90,6 +91,9 @@ def validate_inputs(meta_params_dict, adjustment, errors_warnings):
     behavior_params = BehaviorParams()
     behavior_params.adjust(adjustment["behavior"], raise_errors=False)
     errors_warnings["behavior"]["errors"].update(behavior_params.errors)
+
+    if policy_params.errors or behavior_params.errors:
+        return errors_warnings
 
     # try to parse to the correct Tax-Calculator format.
     try:

@@ -108,21 +108,41 @@ def convert_defaults(pcl):
 
 
 def convert_adj(adj, start_year):
+    type_map = {
+        "real": float,
+        "boolean": bool,
+        "integer": int,
+        "string": str,
+    }
     pol = Policy()
     new_adj = defaultdict(dict)
+    # Update all indexing fields first. This ensures that all indexing rules
+    # are set before adjusting the parameters they affect.
     for param, valobjs in adj.items():
         if param.endswith("checkbox"):
             param_name = param.split("_checkbox")[0]
             new_adj[f"{param_name}-indexed"][start_year] = valobjs[0]["value"]
+            pol.implement_reform(
+                {f"{param_name}-indexed": {start_year: valobjs[0]["value"]}},
+                raise_errors=False
+            )
+            continue
+    for param, valobjs in adj.items():
+        if param.endswith("checkbox"):
             continue
         for valobj in valobjs:
-            # has keys "year" and "value"
-            if len(valobj) == 2:
+            if not (set(valobj.keys()) -
+                    set(["value", "year", "data_source"])):
                 new_adj[param][valobj["year"]] = valobj["value"]
             # has keys "year", "value", and one of "MARS", "idedtype", or "EIC"
-            elif len(valobj) == 3:
-                other_label = next(k for k in valobj.keys()
-                                   if k not in ("year", "value"))
+            else:
+                try:
+                    other_label = next(k for k in valobj.keys()
+                                    if k not in ("year", "value",
+                                                    "data_source"))
+                except StopIteration:
+                    print(valobj)
+                    raise StopIteration
                 param_meta = pol._vals[f"_{param}"]
                 if other_label != param_meta["vi_name"]:
                     msg = (f"Label {other_label} does not match expected"
@@ -136,15 +156,18 @@ def convert_adj(adj, start_year):
                 else:
                     year_ix = valobj["year"] - min(param_meta["value_yrs"])
                     # shallow copy the list
-                    defaultlist = list(param_meta["value"][year_ix])
+                    type_func = type_map[param_meta["value_type"]]
+                    # convert from numpy type to basic python type.
+                    defaultlist = list(
+                        map(type_func, getattr(pol, f"_{param}")[year_ix])
+                    )
 
                 defaultlist[other_label_ix] = valobj["value"]
 
                 new_adj[param][valobj["year"]] = defaultlist
-            else:
-                msg = (f"Dict should have 2 or 3 keys. It has {len(valobj)}"
-                       f"instead (key={list(valobj.keys())}).")
-                raise ValueError(msg)
+
+            # make sure values are updated so that extend logic works.
+            pol.implement_reform(new_adj, raise_errors=False)
     return new_adj
 
 
@@ -450,23 +473,12 @@ def postprocess(data_to_process):
 def pdf_to_clean_html(pdf):
     """Takes a PDF and returns an HTML table without any deprecated tags or
     irrelevant styling"""
-    # replace deprecated tags with style attributes
-    tb_replace = ('<table style="border-collapse: collapse;'
-                  'border: 1px solid black; overflow: auto; display: block;'
-                  'min-width: 1000px;"')
-    td_replace = ('<td style="border-collapse: collapse;'
-                  'border: 1px solid black;"')
-    th_replace = ('<th style="border-collapse: collapse;'
-                  'border: 1px solid black;" ')
-    tr_replace = ('<tr style="border-collapse: collapse;'
-                  'border: 1px solid black;"')
+    tb_replace = ('<table class="table table-striped"')
+
     return (pdf.to_html()
-            .replace(' border="1"', '')
-            .replace(' style="text-align: right;"', '')
             .replace('<table ', tb_replace)
-            .replace('<td', td_replace)
-            .replace('<th', th_replace)
-            .replace('<tr', tr_replace))
+            .replace(' border="1"', '')
+            .replace('class="dataframe"', ''))
 
 
 def retrieve_puf(aws_access_key_id, aws_secret_access_key):
