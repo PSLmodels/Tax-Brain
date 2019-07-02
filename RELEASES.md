@@ -1,14 +1,22 @@
 # Tax-Brain Release History
 
-## 2019-06-03 Release 2.2.2
+## 2019-xx-xx Release x.x.x
 
-Last Merged Pull Request: [#54](https://github.com/PSLmodels/Tax-Brain/pull/54)
+Last Merged Pull Request: [#67](https://github.com/PSLmodels/Tax-Brain/pull/67)
 
 Changes in this release:
 
 * Refactor the `run()` method and TaxBrain initialization process so that
   calculator objects are not created until `run()` is called ([#44](https://github.com/PSLmodels/Tax-Brain/pull/44))
 * Modify `metaparams` in the `COMPconfig` ([#54](https://github.com/PSLmodels/Tax-Brain/pull/54))
+* Fix various COMP bugs ([#58](https://github.com/PSLmodels/Tax-Brain/pull/58),
+  [#60](https://github.com/PSLmodels/Tax-Brain/pull/60),
+  [#63](https://github.com/PSLmodels/Tax-Brain/pull/63),
+  [#65](https://github.com/PSLmodels/Tax-Brain/pull/65))
+* Allow users to specify an alternative policy to use as the baseline, rather
+  than current law ([#64](https://github.com/PSLmodels/Tax-Brain/pull/64))
+* Update COMP table outputs so they are more readable ([#66](https://github.com/PSLmodels/Tax-Brain/pull/66))
+* Add TaxBrain command line interface ([#67](https://github.com/PSLmodels/Tax-Brain/pull/67))
 
 ## 2019-05-24 Release 2.2.1
 
