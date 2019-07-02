@@ -2,7 +2,7 @@
 
 ## 2019-xx-xx Release x.x.x
 
-Last Merged Pull Request: [#67](https://github.com/PSLmodels/Tax-Brain/pull/67)
+Last Merged Pull Request: [#68](https://github.com/PSLmodels/Tax-Brain/pull/68)
 
 Changes in this release:
 
@@ -16,7 +16,7 @@ Changes in this release:
 * Allow users to specify an alternative policy to use as the baseline, rather
   than current law ([#64](https://github.com/PSLmodels/Tax-Brain/pull/64))
 * Update COMP table outputs so they are more readable ([#66](https://github.com/PSLmodels/Tax-Brain/pull/66))
-* Add TaxBrain command line interface ([#67](https://github.com/PSLmodels/Tax-Brain/pull/67))
+* Add TaxBrain command line interface ([#67](https://github.com/PSLmodels/Tax-Brain/pull/67), [#68](https://github.com/PSLmodels/Tax-Brain/pull/68))
 
 ## 2019-05-24 Release 2.2.1
 
