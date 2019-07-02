@@ -50,6 +50,8 @@ class TaxBrain:
                   package.
         assump: A string pointing to a JSON file containing user specified
                 economic assumptions.
+        ogusa: A boolean value to indicate whether or not the analysis should
+               be run with OG-USA
         base_policy: Individual income tax policy to use as the baseline for
                      the analysis. This policy will be implemented in the base
                      calculator instance as well as the reform calulcator

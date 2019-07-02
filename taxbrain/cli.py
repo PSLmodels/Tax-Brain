@@ -33,14 +33,14 @@ def make_tables(tb, year, outpath):
 
 
 def cli_core(startyear, endyear, data, usecps, reform, behavior, assump,
-             baseline, outdir, name):
+             baseline, outdir, name, ogusa):
     """
     Core logic for the CLI
     """
     tb = TaxBrain(
         start_year=startyear, end_year=endyear, microdata=data,
         use_cps=usecps, reform=reform, behavior=behavior,
-        assump=assump, base_policy=baseline, verbose=True
+        assump=assump, ogusa=ogusa, base_policy=baseline, verbose=True
     )
     tb.run()
 
@@ -152,12 +152,20 @@ def cli_main():
         ),
         default=None
     )
+    parser.add_argument(
+        "--ogusa",
+        help=(
+            "If this argument is present, the model will be run using OG-USA"
+        ),
+        action="store_true"
+    )
     args = parser.parse_args()
 
     # run the analysis
     cli_core(
         args.startyear, args.endyear, args.data, args.usecps, args.reform,
-        args.behavior, args.assump, args.baseline, args.outdir, args.name
+        args.behavior, args.assump, args.baseline, args.outdir, args.name,
+        args.ogusa
     )
 
 
