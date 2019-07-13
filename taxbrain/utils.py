@@ -138,7 +138,7 @@ def differences_plot(tb, tax_type, width=500, height=400):
         x="index", bottom=0, top=tax_var, width=0.7,
         source=ColumnDataSource(plot_data),
         fill_color="color", line_color="color",
-        fill_alpha=0.7
+        fill_alpha=0.55
     )
     # general formatting
     plot.yaxis.formatter = NumeralTickFormatter(format="($0.00 a)")

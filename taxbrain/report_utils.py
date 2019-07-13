@@ -233,7 +233,7 @@ def largest_tax_change(diff):
     # find the absolute largest change in total liability
     absolute_change = abs(sub_diff["tot_change"])
     largest = sub_diff[
-        max(absolute_change) == sub_diff["tot_change"]
+        max(absolute_change) == absolute_change
     ]
     index_largest = largest.index.values[0]
     largest_change = largest["mean"].values[0]  # index in case there"s a tie
