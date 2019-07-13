@@ -40,10 +40,20 @@ notable_vars = {
 }
 
 
-def md_to_pdf(md_text, base_url):
+def md_to_pdf(md_text, base_url, css_path=None):
     """
     Convert Markdown version of report to a PDF. Returns bytes that can be
     saved as a PDF
+
+    Parameters
+    ----------
+    md_text: report template written in markdown
+    base_url: path to the output directory
+    css_path: path to CSS file used for styling
+
+    Returns
+    -------
+    Bytes that can be saved as a PDF and the HTML used to create the report
     """
     # try pandoc and weasyprint
     extention_str = "markdown.extensions.{}"
@@ -75,7 +85,8 @@ def md_to_pdf(md_text, base_url):
         "<p>~/article</p>",
         '</article>\n<p style="page-break-before: always" ></p>'
     )
-    css_path = Path(CUR_PATH, "report_files", "report_style.css")
+    if not css_path:
+        css_path = Path(CUR_PATH, "report_files", "report_style.css")
     css = weasyprint.CSS(filename=css_path)
     wpdf = weasyprint.HTML(
         string=joined_html, base_url=base_url
@@ -87,6 +98,14 @@ def md_to_pdf(md_text, base_url):
 def convert_table(df):
     """
     Convert pandas DataFrame to Markdown style table
+
+    Parameters
+    ----------
+    df: Pandas DataFrame
+
+    Returns
+    -------
+    String that is formatted as a markdown table
     """
     if isinstance(df, pd.DataFrame):
         return tabulate(
@@ -102,6 +121,15 @@ def policy_table(params):
     """
     Create a table showing the policy parameters in a reform and their
     default value
+
+    Parameters
+    ----------
+    params: policy parameters being implemented
+
+    Returns
+    -------
+    String containing a markdown style table that summarized the given
+    parameters
     """
     # map out additional name information for vi indexed variables
     vi_map = {
@@ -186,9 +214,15 @@ def date():
     return date
 
 
-def form_intro(pol_areas, description):
+def form_intro(pol_areas, description=None):
     """
     Form the introduction line
+
+    Parameters
+    ----------
+    pol_areas: list of all the policy areas included in the reform used to
+        create a description of the reform
+    description: user provided description of the reform
     """
     # these are all of the possible strings used in the introduction sentance
     intro_text = {
@@ -228,6 +262,10 @@ def form_baseline_intro(current_law):
 def largest_tax_change(diff):
     """
     Function to find the largest change in tax liability
+
+    Parameters
+    ----------
+    diff: Differences table created by taxbrain
     """
     sub_diff = diff.drop(index="ALL")  # remove total row
     # find the absolute largest change in total liability
@@ -266,6 +304,12 @@ def notable_changes(tb, threshold):
     """
     Find any notable changes in certain variables. "Notable" is definded as a
     percentage change above the given threshold.
+
+    Parameters
+    ----------
+    tb: TaxBrain object
+    threshold: Percentage change in an aggregate variable for it to be
+        considered notable
     """
     notable_list = []
     # loop through all of the notable variables and see if there is a year

@@ -15,10 +15,23 @@ CUR_PATH = Path(__file__).resolve().parent
 
 
 def report(tb, name=None, change_threshold=0.05, description=None,
-           outdir=None, author="",
+           outdir=None, author="", css=None,
            verbose=False):
     """
     Create a PDF report based on TaxBrain results
+
+    Parameters
+    ----------
+    tb: TaxBrain object
+    name: Name you want used for the title of the report
+    change_threshold: Percentage change (expressed as a decimal fraction) in
+        an aggregate variable for it to be considered notable
+    description: A description of the reform being run
+    outdir: Output directory
+    author: Person or persons to be listed as the author of the report
+    css: Path to a CSS file used to format the final report
+    verbose: boolean indicating whether or not to write progress as report is
+        created
     """
     def format_table(df):
         """
@@ -49,13 +62,16 @@ def report(tb, name=None, change_threshold=0.05, description=None,
 
         return filename
 
+    if not tb.has_run:
+        tb.run()
     if not name:
         name = f"Policy Report-{date()}"
     if not outdir:
         outdir = "-".join(name)
     # create directory to hold report contents
     output_path = Path(outdir)
-    output_path.mkdir()
+    if not output_path.exists():
+        output_path.mkdir()
     # dictionary to hold pieces of the final text
     text_args = {
         "start_year": tb.start_year,
@@ -92,6 +108,8 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     text_args["rev_change"] = f"{rev_change:,.0f}"
 
     # create differences table
+    if verbose:
+        print("Creating distribution table")
     diff_table = tb.differences_table(
         tb.start_year, "standard_income_bins", "combined"
     )
@@ -115,6 +133,8 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     text_args["differences_table"] = diff_md
 
     # aggregate results
+    if verbose:
+        print("Compiling aggregate results")
     # format aggregate table
     agg_table *= 1e-9
     agg_table = format_table(agg_table)
@@ -143,9 +163,13 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         )
 
     # notable changes
+    if verbose:
+        print("Finding notable changes")
     text_args["notable_changes"] = notable_changes(tb, change_threshold)
 
     # behavioral assumptions
+    if verbose:
+        print("Compiling assumptions")
     text_args["behavior_assumps"] = behavioral_assumptions(tb)
     # consumption asssumptions
     text_args["consump_assumps"] = consumption_assumptions(tb)
@@ -160,6 +184,8 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     ]
 
     # create graphs
+    if verbose:
+        print("Creating graphs")
     dist_graph = taxbrain.distribution_plot(tb, tb.start_year, width=650)
     dist_graph.background_fill_color = None
     dist_graph.border_fill_color = None
@@ -172,16 +198,18 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     text_args["agg_graph"] = export_plot(diff_graph, "difference")
 
     # fill in the report template
+    if verbose:
+        print("Compiling report")
     template_path = Path(CUR_PATH, "report_files", "report_template.md")
     report_md = write_text(template_path, **text_args)
 
     # create PDF and HTML used to create the PDF
-    wpdf, html = md_to_pdf(report_md, str(output_path))
+    wpdf, html = md_to_pdf(report_md, str(output_path), css)
     # write PDF, markdown files, HTML
     filename = name.replace(" ", "-")
     pdf_path = Path(output_path, f"{filename}.pdf")
     pdf_path.write_bytes(wpdf)
     md_path = Path(output_path, f"{filename}.md")
     md_path.write_text(report_md)
-    html_path = Path(output_path, "output.html")
+    html_path = Path(output_path, f"{filename}.html")
     html_path.write_text(html)

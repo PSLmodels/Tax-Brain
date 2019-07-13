@@ -12,18 +12,18 @@
 
 ## Table of Contents
 
-### [Introduction](#introduction-title)
-* [Analysis Summary](#summary-title)
-* [Notable Changes](#notable-title)
-### [Aggregate Changes](#aggregate-title)
-### [Distributional Analysis](#distributional-title)
-### [Summary of Policy Changes](#policychange-title)
-### [Baseline Policy](#baseline-title)
-### [Assumptions](#assumptions-title)
-* [Behavioral Assumptions](#behavior-title)
-* [Consumption Assumptions](#consumption-title)
-* [Growth Assumptions](#growth-title)
-### [Citations](#citations-title)
+### [Introduction](#introduction)
+* [Analysis Summary](#summary)
+* [Notable Changes](#notable)
+### [Aggregate Changes](#aggregate)
+### [Distributional Analysis](#distributional)
+### [Summary of Policy Changes](#policychange)
+### [Baseline Policy](#baseline)
+### [Assumptions](#assumptions)
+* [Behavioral Assumptions](#behavior)
+* [Consumption Assumptions](#consumption)
+* [Growth Assumptions](#growth)
+### [Citations](#citations)
 
 ~/article
 

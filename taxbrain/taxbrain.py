@@ -89,6 +89,8 @@ class TaxBrain:
             base_policy = self._process_user_mods(base_policy, None)
         self.params["base_policy"] = base_policy
 
+        self.has_run = False
+
     def run(self, varlist: list = DEFAULT_VARIABLES):
         """
         Run the calculators. TaxBrain will determine whether to do a static or
@@ -113,6 +115,7 @@ class TaxBrain:
             if self.verbose:
                 print("Running static simulations")
             self._static_run(varlist, base_calc, reform_calc)
+        setattr(self, "has_run", True)
 
         del base_calc, reform_calc
 
