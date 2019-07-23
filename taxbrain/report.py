@@ -15,7 +15,7 @@ CUR_PATH = Path(__file__).resolve().parent
 
 
 def report(tb, name=None, change_threshold=0.05, description=None,
-           outdir=None, author="", css=None,
+           outdir=None, author=None, css=None,
            verbose=False):
     """
     Create a PDF report based on TaxBrain results
@@ -68,6 +68,8 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         name = f"Policy Report-{date()}"
     if not outdir:
         outdir = "-".join(name)
+    if author:
+        author = f"Report Prepared by {author.title()}"
     # create directory to hold report contents
     output_path = Path(outdir)
     if not output_path.exists():
