@@ -2,7 +2,7 @@
 Command line interface for the Tax-Brain package
 """
 import argparse
-from taxbrain import TaxBrain
+from taxbrain import TaxBrain, report
 from pathlib import Path
 from datetime import datetime
 
@@ -33,7 +33,7 @@ def make_tables(tb, year, outpath):
 
 
 def cli_core(startyear, endyear, data, usecps, reform, behavior, assump,
-             baseline, outdir, name):
+             baseline, outdir, name, make_report, author):
     """
     Core logic for the CLI
     """
@@ -59,6 +59,11 @@ def cli_core(startyear, endyear, data, usecps, reform, behavior, assump,
         yeardir = Path(outputpath, str(year))
         yeardir.mkdir()
         make_tables(tb, year, yeardir)
+
+    if make_report:
+        report(
+            tb, name=name, outdir=outputpath, author=author
+        )
 
 
 def cli_main():
@@ -152,12 +157,28 @@ def cli_main():
         ),
         default=None
     )
+    parser.add_argument(
+        "--report",
+        help=(
+            "including --report will trigger the creation of a PDF report "
+            "summarizing the effects of the tax policy being modeled."
+        ),
+        action="store_true"
+    )
+    parser.add_argument(
+        "--author",
+        help=(
+            "If you are creating a report, this the name that will be listed "
+            "as the author"
+        )
+    )
     args = parser.parse_args()
 
     # run the analysis
     cli_core(
         args.startyear, args.endyear, args.data, args.usecps, args.reform,
-        args.behavior, args.assump, args.baseline, args.outdir, args.name
+        args.behavior, args.assump, args.baseline, args.outdir, args.name,
+        args.report
     )
 
 
