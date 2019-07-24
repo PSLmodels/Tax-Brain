@@ -1,8 +1,8 @@
 # Tax-Brain Release History
 
-## 2019-xx-xx Release x.x.x
+## 2019-07-24 Release 2.3.0
 
-Last Merged Pull Request: [#68](https://github.com/PSLmodels/Tax-Brain/pull/68)
+Last Merged Pull Request: [#72](https://github.com/PSLmodels/Tax-Brain/pull/72)
 
 Changes in this release:
 
@@ -17,6 +17,7 @@ Changes in this release:
   than current law ([#64](https://github.com/PSLmodels/Tax-Brain/pull/64))
 * Update COMP table outputs so they are more readable ([#66](https://github.com/PSLmodels/Tax-Brain/pull/66))
 * Add TaxBrain command line interface ([#67](https://github.com/PSLmodels/Tax-Brain/pull/67), [#68](https://github.com/PSLmodels/Tax-Brain/pull/68))
+* Add automated report capabilities ([#69](https://github.com/PSLmodels/Tax-Brain/pull/69))
 
 ## 2019-05-24 Release 2.2.1
 
