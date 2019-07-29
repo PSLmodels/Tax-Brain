@@ -1,3 +1,4 @@
+import shutil
 import behresp
 import taxbrain
 import taxcalc as tc
@@ -16,7 +17,7 @@ CUR_PATH = Path(__file__).resolve().parent
 
 def report(tb, name=None, change_threshold=0.05, description=None,
            outdir=None, author=None, css=None,
-           verbose=False):
+           verbose=False, write=True):
     """
     Create a PDF report based on TaxBrain results
 
@@ -32,6 +33,8 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     css: Path to a CSS file used to format the final report
     verbose: boolean indicating whether or not to write progress as report is
         created
+    write: boolena indicating whether or not to save the files as they're
+        created. If false, they will just be returned
     """
     def format_table(df):
         """
@@ -67,7 +70,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     if not name:
         name = f"Policy Report-{date()}"
     if not outdir:
-        outdir = "-".join(name)
+        outdir = name.replace(" ", "-")
     if author:
         author = f"Report Prepared by {author.title()}"
     # create directory to hold report contents
@@ -207,11 +210,24 @@ def report(tb, name=None, change_threshold=0.05, description=None,
 
     # create PDF and HTML used to create the PDF
     wpdf, html = md_to_pdf(report_md, str(output_path), css)
-    # write PDF, markdown files, HTML
     filename = name.replace(" ", "-")
-    pdf_path = Path(output_path, f"{filename}.pdf")
-    pdf_path.write_bytes(wpdf)
-    md_path = Path(output_path, f"{filename}.md")
-    md_path.write_text(report_md)
-    html_path = Path(output_path, f"{filename}.html")
-    html_path.write_text(html)
+    if write:
+        # write PDF, markdown files, HTML
+        pdf_path = Path(output_path, f"{filename}.pdf")
+        pdf_path.write_bytes(wpdf)
+        md_path = Path(output_path, f"{filename}.md")
+        md_path.write_text(report_md)
+        html_path = Path(output_path, f"{filename}.html")
+        html_path.write_text(html)
+    else:
+        # return all text and bytes
+        files = {
+            f"{filename}.pdf": wpdf,
+            f"{filename}.md": report_md
+        }
+        # remove directory with extranious files
+        print("outpath", output_path)
+        print("outpath exists", output_path.exists())
+        shutil.rmtree(output_path)
+        assert not output_path.exists()
+        return files
