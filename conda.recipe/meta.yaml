@@ -2,6 +2,9 @@ package:
   name: taxbrain
   version: 0.0.0
 
+build:
+  script: pip install weasyprint tabulate selenium
+
 requirements:
   build:
     - python
@@ -15,6 +18,10 @@ requirements:
     - "behresp>=0.8.0"
     - dask
     - bokeh
+    - markdown
+    - cairo
+    - pango
+    - phantomjs
 
 about:
   home: https://github.com/PSLmodels/Tax-Brain
