@@ -4,6 +4,7 @@ package:
 
 build:
   script: pip install weasyprint tabulate selenium
+          conda install -c conda-forge phantomjs
 
 requirements:
   build:
@@ -21,7 +22,6 @@ requirements:
     - markdown
     - cairo
     - pango
-    - phantomjs
 
 about:
   home: https://github.com/PSLmodels/Tax-Brain
