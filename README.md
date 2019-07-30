@@ -60,4 +60,10 @@ directory.
 * [Contributors](https://github.com/PSLmodels/Tax-Brain/graphs/contributors)
 * [Release History](https://github.com/PSLmodels/Tax-Brain/blob/master/RELEASES.md)
 
+## Releasing New Versions of Tax-Brain
+
+To release new versions of Tax-Brain, use the [Package-Builder](https://github.com/PSLmodels/Package-Builder)
+tool. Before using the tool, be sure to add the conda-forge channel to your
+conda config by using `conda config --add channels conda-forge`.
+
 ***Looking for code powering the TaxBrain GUI at [apps.ospc.org/taxbrain](https://apps.ospc.org/taxbrain)? See [github.com/ospc-org/ospc.org](https://github.com/ospc-org/ospc.org).***
