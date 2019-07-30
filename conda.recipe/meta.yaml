@@ -2,10 +2,6 @@ package:
   name: taxbrain
   version: 0.0.0
 
-build:
-  script: pip install weasyprint tabulate selenium
-          conda install -c conda-forge phantomjs
-
 requirements:
   build:
     - python
@@ -22,6 +18,11 @@ requirements:
     - markdown
     - cairo
     - pango
+    - phantomjs
+    - pip:
+      - weasyprint
+      - tabulate
+      - selenium
 
 about:
   home: https://github.com/PSLmodels/Tax-Brain
