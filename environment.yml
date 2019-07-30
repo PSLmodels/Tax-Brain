@@ -15,8 +15,8 @@ dependencies:
 - cairo
 - pango
 - phantomjs
+- tabulate
+- weasyprint
+- selenium
 - pip:
   - compdevkit
-  - tabulate
-  - weasyprint
-  - selenium
