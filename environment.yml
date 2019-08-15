@@ -18,5 +18,6 @@ dependencies:
 - tabulate
 - weasyprint
 - selenium
+- pypandoc
 - pip:
   - compdevkit
