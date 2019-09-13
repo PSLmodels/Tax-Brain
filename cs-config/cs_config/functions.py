@@ -40,6 +40,13 @@ class BehaviorParams(paramtools.Parameters):
     defaults = behavior_params
 
 
+def get_version():
+    model_versions_str = ""
+    for model, version in TaxBrain.VERSIONS.items():
+        model_versions_str += f"{model}: {version}\n"
+    return model_versions_str
+
+
 def get_inputs(meta_params_dict):
     """
     Return default parameters for Tax-Brain
@@ -48,30 +55,19 @@ def get_inputs(meta_params_dict):
     metaparams.adjust(meta_params_dict)
 
     policy_params = TCParams()
+    policy_params.set_state(
+        year=metaparams.year.tolist(),
+        data_source=metaparams.data_source.tolist(),
+    )
     behavior_params = BehaviorParams()
 
     default_params = {
-        "policy": policy_params.specification(
-            meta_data=True,
-            include_empty=True,
-            year=metaparams.year,
-            data_source=metaparams.data_source,
-            use_full_sample=metaparams.use_full_sample,
-            serializable=True
-        ),
-        "behavior": behavior_params.specification(
-            meta_data=True,
-            include_empty=True,
-            serializable=True
-        )
+        "policy": policy_params.dump(),
+        "behavior": behavior_params.dump()
     }
-    meta = metaparams.specification(
-        meta_data=True,
-        include_empty=True,
-        serializable=True
-    )
+    meta = metaparams.dump()
 
-    return meta, default_params
+    return {"meta_parameters": meta, "model_parameters": default_params}
 
 
 def validate_inputs(meta_params_dict, adjustment, errors_warnings):
@@ -93,7 +89,7 @@ def validate_inputs(meta_params_dict, adjustment, errors_warnings):
     errors_warnings["behavior"]["errors"].update(behavior_params.errors)
 
     if policy_params.errors or behavior_params.errors:
-        return errors_warnings
+        return {"errors_warnings": errors_warnings}
 
     # try to parse to the correct Tax-Calculator format.
     try:
@@ -106,9 +102,9 @@ def validate_inputs(meta_params_dict, adjustment, errors_warnings):
                                   meta_params.year.tolist()),
             "behavior": convert_behavior_adj(adjustment["behavior"])
         }
-        res = errors_warnings, tc_adj
+        res = {"errors_warnings": errors_warnings, "custom_adjustment": tc_adj}
     except Exception:
-        res = errors_warnings
+        res = {"errors_warnings": errors_warnings}
         print("Error parsing:", adjustment)
         traceback.print_exc()
 
@@ -185,12 +181,9 @@ def run_model(meta_params_dict, adjustment):
             all_to_process[key] += value
     results, downloadable = postprocess(all_to_process)
     agg_output, table_output = create_layout(results, start_year, end_year)
-    model_versions_str = ""
-    for model, version in TaxBrain.VERSIONS.items():
-        model_versions_str += f"{model}: {version}\n"
+
     comp_outputs = {
         "renderable": [agg_plot, agg_output, table_output],
-        "model_version": model_versions_str,
         "downloadable": downloadable
     }
     return comp_outputs
