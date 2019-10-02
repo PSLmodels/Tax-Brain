@@ -40,11 +40,11 @@ def aggregate_plot(tb):
                          line_color="#73bfe2", legend="Income Tax - Reform",
                          source=reform_cds)
     proll_base = fig.line(x="index", y="payrolltax", line_width=4,
-                          line_color="#98cf90", legend="Payroll Tax - Reform",
-                          source=reform_cds)
+                          line_color="#408941", legend="Payroll Tax - Base",
+                          source=base_cds)
     proll_reform = fig.line(x="index", y="payrolltax", line_width=4,
-                            line_color="#408941", legend="Payroll Tax - Base",
-                            source=base_cds)
+                            line_color="#98cf90", legend="Payroll Tax - Reform",
+                            source=reform_cds)
     comb_base = fig.line(x="index", y="combined", line_width=4,
                          line_color="#a4201d", legend="Combined - Base",
                          source=base_cds)
