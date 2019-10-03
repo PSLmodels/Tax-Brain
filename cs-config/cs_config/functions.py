@@ -57,7 +57,7 @@ def get_inputs(meta_params_dict):
     policy_params = TCParams()
     policy_params.set_state(
         year=metaparams.year.tolist(),
-        data_source=metaparams.data_source.tolist(),
+        data_source=metaparams.data_source,
     )
     behavior_params = BehaviorParams()
 
