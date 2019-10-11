@@ -21,4 +21,4 @@ dependencies:
 - pypandoc
 - pip
 - pip:
-  - compdevkit
+  - cs-kit
