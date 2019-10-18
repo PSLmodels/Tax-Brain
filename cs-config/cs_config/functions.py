@@ -13,6 +13,7 @@ from taxbrain import TaxBrain
 from dask import delayed, compute
 from collections import defaultdict
 from marshmallow import fields
+from collections import OrderedDict
 
 
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
@@ -59,10 +60,16 @@ def get_inputs(meta_params_dict):
         year=metaparams.year.tolist(),
         data_source=metaparams.data_source,
     )
+
+    filtered_pol_params = OrderedDict()
+    for k, v in policy_params.dump().items():
+        if k =="schema" or v.get("section_1", False):
+            filtered_pol_params[k] = v
+
     behavior_params = BehaviorParams()
 
     default_params = {
-        "policy": policy_params.dump(),
+        "policy": filtered_pol_params,
         "behavior": behavior_params.dump()
     }
     meta = metaparams.dump()
