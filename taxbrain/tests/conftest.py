@@ -8,6 +8,16 @@ CUR_PATH = os.path.abspath(os.path.dirname(__file__))
 
 
 @pytest.fixture(scope="session")
+def start_year():
+    return 2018
+
+
+@pytest.fixture(scope="session")
+def end_year():
+    return 2019
+
+
+@pytest.fixture(scope="session")
 def reform_json_str():
     reform = """
         {
@@ -43,13 +53,13 @@ def assump_json_str():
 
 
 @pytest.fixture(scope="session",)
-def tb_static(reform_json_str):
-    return TaxBrain(2018, 2019, use_cps=True, reform=reform_json_str)
+def tb_static(reform_json_str, start_year, end_year):
+    return TaxBrain(start_year, end_year, use_cps=True, reform=reform_json_str)
 
 
 @pytest.fixture(scope="session")
-def tb_dynamic(reform_json_str):
-    return TaxBrain(2018, 2019, use_cps=True, reform=reform_json_str,
+def tb_dynamic(reform_json_str, start_year, end_year):
+    return TaxBrain(start_year, end_year, use_cps=True, reform=reform_json_str,
                     behavior={"sub": 0.25})
 
 
