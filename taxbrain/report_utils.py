@@ -36,7 +36,8 @@ notable_vars = {
     "benefit_cost_total": "Spending on benefit programs",
     "benefit_value_total": "Consumption value of benefits",
     "expanded_income": "Expanded income",
-    "aftertax_income": "After-tax income"
+    "aftertax_income": "After-tax income",
+    "pc_aftertaxinc": "Percent change to after-tax income"
 }
 
 
