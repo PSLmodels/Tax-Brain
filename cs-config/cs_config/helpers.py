@@ -373,7 +373,7 @@ def postprocess(data_to_process):
     formats the results, and combines the aggregate results
     """
     labels = {x: DIFF_TABLE_LABELS[i]
-              for i, x in enumerate(DIFF_TABLE_COLUMNS[:-2])}
+              for i, x in enumerate(DIFF_TABLE_COLUMNS)}
     labels.update({x: DIST_TABLE_LABELS[i]
                    for i, x in enumerate(DIST_TABLE_COLUMNS)})
 
