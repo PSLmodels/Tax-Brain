@@ -163,8 +163,9 @@ def create_layout(data, start_year, end_year):
                     _data = grp_data[yr]
                     # create a data table for this tab
                     title = f"<h3>{_data['title']}</h3>"
-                    note = ("<p><i>All monetary values are in billions. "
-                            "All non-monetary values are in millions.</i></p>")
+                    note = ("<p><i>All monetary totals are in billions. "
+                            "All counts are in millions. "
+                            "Averages and shares are as shown.</i></p>")
                     tbl = Div(text=title + note + _data["renderable"],
                               width=1000)
                     grp_panel = Panel(child=tbl, title=grp.title())
