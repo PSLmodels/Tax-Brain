@@ -8,7 +8,7 @@ to use interface.
 Tax-Brain makes it easy for users to simulate the US tax system by providing a
 single interface for multiple tax models. Currently, Tax-Brain interfaces with
 [Tax-Calculator](https://github.com/PSLmodels/Tax-Calculator) and
-[Behavior-Response](https://github.com/PSLmodels/Behavioral-Responses).
+[Behavioral-Responses](https://github.com/PSLmodels/Behavioral-Responses).
 Additional models will be added in the near future to expand Tax-Brain's
 capabilities to include modeling business taxation and running dynamic
 general equilibrium simulations.
