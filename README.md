@@ -18,7 +18,7 @@ document.
 
 ## Disclaimer
 
-Tax-brain and it's underlying models are constantly being improved upon. For
+Tax-brain and its underlying models are constantly being improved upon. For
 that reason, the results output by Tax-Brain may differ over time. It is
 strongly suggested that the user make note of which version of Tax-Brain,
 they are using when reporting their results.
@@ -49,14 +49,15 @@ you describe your input data and note the versions of the underlying models.
 ## Tax-Brain Interface
 
 In addition to its Python API, Tax-Brain also powers a web application on
-[Compute Studio](https://www.compute.studio/about/). That application can be found
-[here](https://www.compute.studio/PSLmodels/Tax-Brain/). The code behind the
-GUI can be found in this repository in the [cs-config](https://github.com/PSLmodels/Tax-Brain/tree/master/cs-config)
+[Compute Studio](https://compute.studio/). That application can be found
+[here](https://compute.studio/PSLmodels/Tax-Brain/). The code behind the
+GUI can be found in this repository in the [compconfig](https://github.com/PSLmodels/Tax-Brain/tree/master/compconfig)
 directory.
 
 ## Additional Information
 
 * [Project Road Map](https://github.com/PSLmodels/Tax-Brain/blob/master/ROADMAP.md)
+* [Contributing](https://github.com/PSLmodels/Tax-Brain/blob/master/CONTRIBUTING.md)
 * [Contributors](https://github.com/PSLmodels/Tax-Brain/graphs/contributors)
 * [Release History](https://github.com/PSLmodels/Tax-Brain/blob/master/RELEASES.md)
 
