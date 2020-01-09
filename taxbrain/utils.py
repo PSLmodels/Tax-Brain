@@ -4,7 +4,8 @@ Helper functions for the various taxbrain modules
 import pandas as pd
 import numpy as np
 from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource, NumeralTickFormatter
+from bokeh.models import (ColumnDataSource, NumeralTickFormatter,
+                          CategoricalAxis, CategoricalTicker)
 from bokeh.palettes import GnBu5
 from collections import defaultdict
 
@@ -16,7 +17,7 @@ def weighted_sum(df, var, wt="s006"):
     return (df[var] * df[wt]).sum()
 
 
-def distribution_plot(tb, year, width=500, height=400):
+def distribution_plot(tb, year, width=500, height=400, export_svg=False):
     """
     Create a horizontal bar chart to display the distributional change in
     after tax income
@@ -106,11 +107,13 @@ def distribution_plot(tb, year, width=500, height=400):
     # move legend out of main plot area
     legend = plot.legend[0]
     plot.add_layout(legend, "right")
+    if export_svg:
+        plot.output_backend = "svg"
 
     return plot
 
 
-def differences_plot(tb, tax_type, width=500, height=400):
+def differences_plot(tb, tax_type, width=500, height=400, export_svg=False):
     """
     Create a bar chart that shows the change in total liability for a given
     tax
@@ -134,6 +137,8 @@ def differences_plot(tb, tax_type, width=500, height=400):
         title=f"Change in Aggregate {tax_type.title()} Tax Liability",
         width=width, height=height, toolbar_location=None
     )
+    if export_svg:
+        plot.output_backend = "svg"
     plot.vbar(
         x="index", bottom=0, top=tax_var, width=0.7,
         source=ColumnDataSource(plot_data),

@@ -59,7 +59,7 @@ Over the budget window  ({{ start_year }} to {{ end_year }}), this policy is exp
 
 {{ agg_tax_type }}
 
-<img src="{{ agg_graph }}">
+<img src="{{ differences_graph }}">
 
 ~/article
 

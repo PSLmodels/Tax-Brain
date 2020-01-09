@@ -8,7 +8,7 @@ to use interface.
 Tax-Brain makes it easy for users to simulate the US tax system by providing a
 single interface for multiple tax models. Currently, Tax-Brain interfaces with
 [Tax-Calculator](https://github.com/PSLmodels/Tax-Calculator) and
-[Behavior-Response](https://github.com/PSLmodels/Behavioral-Responses).
+[Behavioral-Responses](https://github.com/PSLmodels/Behavioral-Responses).
 Additional models will be added in the near future to expand Tax-Brain's
 capabilities to include modeling business taxation and running dynamic
 general equilibrium simulations.
@@ -49,9 +49,9 @@ you describe your input data and note the versions of the underlying models.
 ## Tax-Brain Interface
 
 In addition to its Python API, Tax-Brain also powers a web application on
-[COMP](https://www.compmodels.org/about/). That application can be found
-[here](https://www.compmodels.org/PSLmodels/Tax-Brain/). The code behind the
-GUI can be found in this repository in the [compconfig](https://github.com/PSLmodels/Tax-Brain/tree/master/compconfig)
+[Compute Studio](https://www.compute.studio/about/). That application can be found
+[here](https://www.compute.studio/PSLmodels/Tax-Brain/). The code behind the
+GUI can be found in this repository in the [cs-config](https://github.com/PSLmodels/Tax-Brain/tree/master/cs-config)
 directory.
 
 ## Additional Information
@@ -59,5 +59,11 @@ directory.
 * [Project Road Map](https://github.com/PSLmodels/Tax-Brain/blob/master/ROADMAP.md)
 * [Contributors](https://github.com/PSLmodels/Tax-Brain/graphs/contributors)
 * [Release History](https://github.com/PSLmodels/Tax-Brain/blob/master/RELEASES.md)
+
+## Releasing New Versions of Tax-Brain
+
+To release new versions of Tax-Brain, use the [Package-Builder](https://github.com/PSLmodels/Package-Builder)
+tool. Before using the tool, be sure to add the conda-forge channel to your
+conda config by using `conda config --add channels conda-forge`.
 
 ***Looking for code powering the TaxBrain GUI at [apps.ospc.org/taxbrain](https://apps.ospc.org/taxbrain)? See [github.com/ospc-org/ospc.org](https://github.com/ospc-org/ospc.org).***

@@ -2,9 +2,11 @@ import shutil
 import behresp
 import taxbrain
 import taxcalc as tc
-import cairocffi as cairo
+import tempfile
 from pathlib import Path
-from bokeh.io import export_png, export_svgs
+from bokeh.io import export_png
+from bokeh.resources import CDN
+from bokeh.embed import file_html
 from .report_utils import (form_intro, form_baseline_intro, write_text, date,
                            largest_tax_change, notable_changes,
                            behavioral_assumptions, consumption_assumptions,
@@ -50,20 +52,11 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         """
         Export a bokeh plot based on Cairo version
         """
-        # export graph as a PNG or SVG depending on Cairo version is installed
-        # higher quality SVG only works with Cairo version >= 1.15.4
-        cairo_version = cairo.cairo_version()
-        if cairo_version < 11504:
-            filename = f"{graph}_graph.png"
-            full_filename = Path(output_path, filename)
-            export_png(plot, full_filename)
-            print("For a higher quality SVG image file, install Cairo 1.15.4")
-        else:
-            filename = f"{graph}_graph.svg"
-            full_filename = Path(output_path, filename)
-            export_svgs(plot, full_filename)
+        # export graph as a PNG
+        temp_file = tempfile.NamedTemporaryFile(suffix=".png")
+        export_png(plot, temp_file.name)
 
-        return filename
+        return temp_file
 
     if not tb.has_run:
         tb.run()
@@ -194,13 +187,15 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     dist_graph = taxbrain.distribution_plot(tb, tb.start_year, width=650)
     dist_graph.background_fill_color = None
     dist_graph.border_fill_color = None
-    text_args["distribution_graph"] = export_plot(dist_graph, "dist")
+    temp_dist = export_plot(dist_graph, "dist")
+    text_args["distribution_graph"] = temp_dist.name
 
     # differences graph
     diff_graph = taxbrain.differences_plot(tb, "combined", width=640)
     diff_graph.background_fill_color = None
     diff_graph.border_fill_color = None
-    text_args["agg_graph"] = export_plot(diff_graph, "difference")
+    temp_diff = export_plot(diff_graph, "difference")
+    text_args["differences_graph"] = temp_diff.name
 
     # fill in the report template
     if verbose:
@@ -211,6 +206,12 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     # create PDF and HTML used to create the PDF
     wpdf, html = md_to_pdf(report_md, str(output_path), css)
     filename = name.replace(" ", "-")
+    # close and delete temporary files
+    name = temp_dist.name
+    print(Path(name).is_file())
+    temp_dist.close()
+    temp_diff.close()
+    print(Path(name).is_file())
     if write:
         # write PDF, markdown files, HTML
         pdf_path = Path(output_path, f"{filename}.pdf")

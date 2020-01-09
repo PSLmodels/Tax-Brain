@@ -87,7 +87,9 @@ class TaxBrain:
         self.params["behavior"] = behavior
         if base_policy:
             base_policy = self._process_user_mods(base_policy, None)
-        self.params["base_policy"] = base_policy
+            self.params["base_policy"] = base_policy["policy"]
+        else:
+            self.params["base_policy"] = None
 
         self.has_run = False
 

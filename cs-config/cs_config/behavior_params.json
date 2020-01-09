@@ -1,0 +1,59 @@
+{
+    "schema": {
+        "additional_members": {
+            "section_1": {"type": "str"},
+            "section_2": {"type": "str"}
+        }
+    },
+    "sub": {
+        "title": "Substitution elasticity of taxable income",
+        "description": "Defined as proportional change in taxable income divided by proportional change in marginal net-of-tax rate (1-MTR) on taxpayer earnings caused by the reform.  Must be zero or positive.",
+        "section_1": "Assumptions",
+        "section_2": "Behavior",
+        "notes": "",
+        "type": "float",
+        "value": [
+            0.0
+        ],
+        "validators": {
+            "range": {
+                "min": 0.0,
+                "max": 9e+99
+            }
+        }
+    },
+    "inc": {
+        "title": "Income elasticity of taxable income",
+        "description": "Defined as dollar change in taxable income divided by dollar change in after-tax income caused by the reform.  Must be zero or negative.",
+        "section_1": "Assumptions",
+        "section_2": "Behavior",
+        "notes": "The use here of a dollar-change income elasticity (rather than a proportional-change elasticity) is consistent with Feldstein and Feenberg, 'The Taxation of Two Earner Families', NBER Working Paper No. 5155 (June 1995).  A proportional-change elasticity was used by Gruber and Saez, 'The elasticity of taxable income: evidence and implications', Journal of Public Economics 84:1-32 (2002) [see equation 2 on page 10].",
+        "type": "float",
+        "value": [
+            0.0
+        ],
+        "validators": {
+            "range": {
+                "min": -9e+99,
+                "max": 0.0
+            }
+        }
+    },
+    "cg": {
+        "title": "Semi-elasticity of long-term capital gains",
+        "description": "Defined as change in logarithm of long-term capital gains divided by change in marginal tax rate (MTR) on long-term capital gains caused by the reform.  Must be zero or negative.",
+        "section_1": "Assumptions",
+        "section_2": "Behavior",
+        "notes": "The nature of the capital-gains elasticity used here is similar to that used in Joint Committee on Taxation, 'New Evidence on the Tax Elasticity of Capital Gains: A Joint Working Paper of the Staff of the Joint Committee on Taxation and the Congressional Budget Office', (JCX-56-12), June 2012.  In particular, the elasticity use here is equivalent to the term inside the square brackets on the right-hand side of equation (4) on page 11 --- not the epsilon variable on the left-hand side of equation (4), which is equal to the elasticity used here times the weighted average marginal tax rate on long-term capital gains.  So, the JCT-CBO estimate of -0.792 for the epsilon elasticity (see JCT-CBO, Table 5) translates into a much larger absolute value for the be_cg semi-elasticity used by Tax-Calculator. To calculate the elasticity from a semi-elasticity, we multiply by MTRs from TC and weight by shares of taxable gains. To avoid those with zero MTRs, we restrict this to the top 40% of tax units by AGI. Using this function, a semi-elasticity of -3.45 corresponds to a tax rate elasticity of -0.792.",
+        "type": "float",
+        "value": [
+            0.0
+        ],
+        "validators": {
+            "range": {
+                "min": -9e+99,
+                "max": 0.0
+            }
+        }
+    }
+}

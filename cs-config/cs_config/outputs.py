@@ -40,11 +40,11 @@ def aggregate_plot(tb):
                          line_color="#73bfe2", legend="Income Tax - Reform",
                          source=reform_cds)
     proll_base = fig.line(x="index", y="payrolltax", line_width=4,
-                          line_color="#98cf90", legend="Payroll Tax - Reform",
-                          source=reform_cds)
+                          line_color="#408941", legend="Payroll Tax - Base",
+                          source=base_cds)
     proll_reform = fig.line(x="index", y="payrolltax", line_width=4,
-                            line_color="#408941", legend="Payroll Tax - Base",
-                            source=base_cds)
+                            line_color="#98cf90", legend="Payroll Tax - Reform",
+                            source=reform_cds)
     comb_base = fig.line(x="index", y="combined", line_width=4,
                          line_color="#a4201d", legend="Combined - Base",
                          source=base_cds)
@@ -163,8 +163,9 @@ def create_layout(data, start_year, end_year):
                     _data = grp_data[yr]
                     # create a data table for this tab
                     title = f"<h3>{_data['title']}</h3>"
-                    note = ("<p><i>All monetary values are in billions. "
-                            "All non-monetary values are in millions.</i></p>")
+                    note = ("<p><i>All monetary totals are in billions. "
+                            "All counts are in millions. "
+                            "Averages and shares are as shown.</i></p>")
                     tbl = Div(text=title + note + _data["renderable"],
                               width=1000)
                     grp_panel = Panel(child=tbl, title=grp.title())

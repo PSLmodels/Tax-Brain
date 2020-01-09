@@ -1,5 +1,19 @@
 # Tax-Brain Release History
 
+## 2019-07-30 Release 2.3.2
+
+Last Merged Pull Request: [#74](https://github.com/PSLmodels/Tax-Brain/pull/74)
+
+No changes made to the model between release 2.3.1 and 2.3.2. The only changes
+were to the conda build instructions.
+
+## 2019-07-29 Release 2.3.1
+
+Last Merged Pull Request: [#73](https://github.com/PSLmodels/Tax-Brain/pull/73)
+
+No changes made to the model between release 2.3.0 and 2.3.1. The only changes
+were to the conda build instructions.
+
 ## 2019-07-24 Release 2.3.0
 
 Last Merged Pull Request: [#72](https://github.com/PSLmodels/Tax-Brain/pull/72)

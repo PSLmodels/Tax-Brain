@@ -25,6 +25,14 @@ def test_static_run(tb_static):
     tb_static.run()
 
 
+def test_baseline_policy():
+    base = {"II_em": {2019: 0}}
+    reform = {"II_em": {2025: 2000}}
+
+    tb = TaxBrain(2018, 2019, use_cps=True, reform=reform, base_policy=base)
+    tb.run()
+
+
 def test_dynamic_run(tb_dynamic):
     tb_dynamic.run()
 
