@@ -4,7 +4,7 @@ Functions for creating the TaxBrain COMP outputs
 from bokeh.models import (ColumnDataSource, Toggle, CustomJS,
                           NumeralTickFormatter, HoverTool)
 from bokeh.models.widgets import Tabs, Panel, Div
-from bokeh.embed import components
+from bokeh.embed import json_item
 from bokeh.layouts import layout
 from bokeh.plotting import figure
 
@@ -98,14 +98,11 @@ def aggregate_plot(tb):
     fig_layout = layout([fig], [base_toggle, reform_toggle])
 
     # Components needed to embed the figure
-    js, div = components(fig_layout)
+    data = json_item(fig_layout)
     outputs = {
         "media_type": "bokeh",
         "title": "",
-        "data": {
-            "javascript": js,
-            "html": div
-        }
+        "data": data,
     }
 
     return outputs
