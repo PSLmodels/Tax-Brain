@@ -189,25 +189,19 @@ def create_layout(data, start_year, end_year):
     table_layout = layout(
         children=[yr_tabs]
     )
-    agg_js, agg_div = components(agg_layout)
-    table_js, table_div = components(table_layout)
+    agg_data = json_item(agg_layout)
+    table_data = json_item(table_layout)
 
     # return a dictionary of outputs ready for COMP
     agg_outputs = {
         "media_type": "bokeh",
         "title": "Aggregate Results",
-        "data": {
-            "javascript": agg_js,
-            "html": agg_div
-        }
+        "data": agg_data,
     }
     table_outputs = {
         "media_type": "bokeh",
         "title": "Tables",
-        "data": {
-            "javascript": table_js,
-            "html": table_div
-        }
+        "data": table_data,
     }
 
     # return js, div, cdn_js, cdn_css, widget_js, widget_css
