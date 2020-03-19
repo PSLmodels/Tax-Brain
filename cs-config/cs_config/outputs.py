@@ -84,18 +84,20 @@ def aggregate_plot(tb):
     object2.visible = toggle.active
     object3.visible = toggle.active
     """
-    base_callback = CustomJS.from_coffeescript(code=plot_js, args={})
+    base_callback = CustomJS(code=plot_js, args={})
     base_toggle = Toggle(label="Base", button_type="primary",
-                         callback=base_callback, active=True)
+                         active=True)
     base_callback.args = {"toggle": base_toggle, "object1": ii_base,
                           "object2": proll_base, "object3": comb_base}
+    base_toggle.js_on_change('active', base_callback)
 
-    reform_callback = CustomJS.from_coffeescript(code=plot_js, args={})
+    reform_callback = CustomJS(code=plot_js, args={})
     reform_toggle = Toggle(label="Reform", button_type="primary",
-                           callback=reform_callback, active=True)
+                           active=True)
     reform_callback.args = {"toggle": reform_toggle, "object1": ii_reform,
                             "object2": proll_reform, "object3": comb_reform}
     fig_layout = layout([fig], [base_toggle, reform_toggle])
+    reform_toggle.js_on_change('active', reform_callback)
 
     # Components needed to embed the figure
     data = json_item(fig_layout)

@@ -58,7 +58,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         else:
             filename = f"{graph}_graph.svg"
             full_filename = Path(output_path, filename)
-            export_svgs(plot, full_filename)
+            export_svgs(plot, filename=full_filename)
 
         return filename
 
