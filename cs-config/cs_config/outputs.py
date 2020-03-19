@@ -34,22 +34,22 @@ def aggregate_plot(tb):
     fig = figure(title="Aggregate Tax Liability by Year",
                  width=700, height=500, tools="save")
     ii_base = fig.line(x="index", y="iitax", line_width=4,
-                       line_color="#12719e", legend="Income Tax - Base",
+                       line_color="#12719e", legend_label="Income Tax - Base",
                        source=base_cds)
     ii_reform = fig.line(x="index", y="iitax", line_width=4,
-                         line_color="#73bfe2", legend="Income Tax - Reform",
+                         line_color="#73bfe2", legend_label="Income Tax - Reform",
                          source=reform_cds)
     proll_base = fig.line(x="index", y="payrolltax", line_width=4,
-                          line_color="#408941", legend="Payroll Tax - Base",
+                          line_color="#408941", legend_label="Payroll Tax - Base",
                           source=base_cds)
     proll_reform = fig.line(x="index", y="payrolltax", line_width=4,
-                            line_color="#98cf90", legend="Payroll Tax - Reform",
+                            line_color="#98cf90", legend_label="Payroll Tax - Reform",
                             source=reform_cds)
     comb_base = fig.line(x="index", y="combined", line_width=4,
-                         line_color="#a4201d", legend="Combined - Base",
+                         line_color="#a4201d", legend_label="Combined - Base",
                          source=base_cds)
     comb_reform = fig.line(x="index", y="combined", line_width=4,
-                           line_color="#e9807d", legend="Combined - Reform",
+                           line_color="#e9807d", legend_label="Combined - Reform",
                            source=reform_cds)
 
     # format figure
