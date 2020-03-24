@@ -11,7 +11,7 @@ dependencies:
 - paramtools>=0.10.1
 - pytest
 - dask
-- bokeh<2.0.0
+- bokeh
 - markdown
 - cairo
 - pango
