@@ -34,22 +34,22 @@ def aggregate_plot(tb):
     fig = figure(title="Aggregate Tax Liability by Year",
                  width=700, height=500, tools="save")
     ii_base = fig.line(x="index", y="iitax", line_width=4,
-                       line_color="#12719e", legend="Income Tax - Base",
+                       line_color="#12719e", legend_label="Income Tax - Base",
                        source=base_cds)
     ii_reform = fig.line(x="index", y="iitax", line_width=4,
-                         line_color="#73bfe2", legend="Income Tax - Reform",
+                         line_color="#73bfe2", legend_label="Income Tax - Reform",
                          source=reform_cds)
     proll_base = fig.line(x="index", y="payrolltax", line_width=4,
-                          line_color="#408941", legend="Payroll Tax - Base",
+                          line_color="#408941", legend_label="Payroll Tax - Base",
                           source=base_cds)
     proll_reform = fig.line(x="index", y="payrolltax", line_width=4,
-                            line_color="#98cf90", legend="Payroll Tax - Reform",
+                            line_color="#98cf90", legend_label="Payroll Tax - Reform",
                             source=reform_cds)
     comb_base = fig.line(x="index", y="combined", line_width=4,
-                         line_color="#a4201d", legend="Combined - Base",
+                         line_color="#a4201d", legend_label="Combined - Base",
                          source=base_cds)
     comb_reform = fig.line(x="index", y="combined", line_width=4,
-                           line_color="#e9807d", legend="Combined - Reform",
+                           line_color="#e9807d", legend_label="Combined - Reform",
                            source=reform_cds)
 
     # format figure
@@ -84,18 +84,20 @@ def aggregate_plot(tb):
     object2.visible = toggle.active
     object3.visible = toggle.active
     """
-    base_callback = CustomJS.from_coffeescript(code=plot_js, args={})
+    base_callback = CustomJS(code=plot_js, args={})
     base_toggle = Toggle(label="Base", button_type="primary",
-                         callback=base_callback, active=True)
+                         active=True)
     base_callback.args = {"toggle": base_toggle, "object1": ii_base,
                           "object2": proll_base, "object3": comb_base}
+    base_toggle.js_on_change('active', base_callback)
 
-    reform_callback = CustomJS.from_coffeescript(code=plot_js, args={})
+    reform_callback = CustomJS(code=plot_js, args={})
     reform_toggle = Toggle(label="Reform", button_type="primary",
-                           callback=reform_callback, active=True)
+                           active=True)
     reform_callback.args = {"toggle": reform_toggle, "object1": ii_reform,
                             "object2": proll_reform, "object3": comb_reform}
     fig_layout = layout([fig], [base_toggle, reform_toggle])
+    reform_toggle.js_on_change('active', reform_callback)
 
     # Components needed to embed the figure
     data = json_item(fig_layout)

@@ -12,7 +12,7 @@ POLICY_SCHEMA = {
                 "choice": {
                     "choices": [
                         yr for yr in range(TaxBrain.FIRST_BUDGET_YEAR,
-                                           TaxBrain.LAST_BUDGET_YEAR)
+                                           TaxBrain.LAST_BUDGET_YEAR + 1)
                     ]
                 }
             }
@@ -135,7 +135,7 @@ class MetaParameters(paramtools.Parameters):
                 "choice": {
                     "choices": [
                         yr for yr in range(TaxBrain.FIRST_BUDGET_YEAR,
-                                           TaxBrain.LAST_BUDGET_YEAR)
+                                           TaxBrain.LAST_BUDGET_YEAR + 1)
                     ]
                 }
             }
