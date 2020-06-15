@@ -108,6 +108,7 @@ RESULTS_TOTAL_ROW_KEY_LABELS = {
     'payroll_tax': 'Payroll Tax Liability Change',
     'combined_tax': ('Combined Payroll and Individual Income Tax Liability '
                      'Change'),
+    'benefit_cost_total': 'Total Benefits Spending Change',
 }
 
 MONEY_VARS = {
