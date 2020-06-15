@@ -104,11 +104,11 @@ RESULTS_TABLE_TAGS = {
     'gdp_effect': {'default': 'gdp_elast'}
 }
 RESULTS_TOTAL_ROW_KEY_LABELS = {
-    'ind_tax': 'Individual Income Tax Liability Change',
-    'payroll_tax': 'Payroll Tax Liability Change',
-    'combined_tax': ('Combined Payroll and Individual Income Tax Liability '
-                     'Change'),
-    'benefit_cost_total': 'Total Benefits Spending Change',
+    'ind_tax': 'Individual Income Tax Liability',
+    'payroll_tax': 'Payroll Tax Liability',
+    'combined_tax': ('Combined Payroll and Individual Income Tax ' +
+                     'Liability'),
+    'benefit_cost_total': 'Total Benefits Spending',
 }
 
 MONEY_VARS = {
