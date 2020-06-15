@@ -46,7 +46,8 @@ POLICY_SCHEMA = {
     }
 }
 
-AGG_ROW_NAMES = ['ind_tax', 'payroll_tax', 'combined_tax']
+AGG_ROW_NAMES = ['ind_tax', 'payroll_tax', 'combined_tax',
+                 'benefit_cost_total']
 
 RESULTS_TABLE_TITLES = {
     'diff_comb_xbin': ('Combined Payroll and Individual Income Tax: Difference'
