@@ -48,15 +48,19 @@ def report(tb, name=None, change_threshold=0.05, description=None,
             )
         return df
 
-    def export_plot(plot, graph):
+    def export_plot(plot, graph, write):
         """
         Export a bokeh plot based on Cairo version
         """
         # export graph as a PNG
-        temp_file = tempfile.NamedTemporaryFile(suffix=".png")
-        export_png(plot, temp_file.name)
+        if not write:
+            temp_file = tempfile.NamedTemporaryFile(suffix=".png")
+            export_png(plot, temp_file.name)
+            return temp_file
+        name = f"{graph}.png"
+        export_png(plot, name)
 
-        return temp_file
+        return name
 
     if not tb.has_run:
         tb.run()
@@ -187,15 +191,21 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     dist_graph = taxbrain.distribution_plot(tb, tb.start_year, width=650)
     dist_graph.background_fill_color = None
     dist_graph.border_fill_color = None
-    temp_dist = export_plot(dist_graph, "dist")
-    text_args["distribution_graph"] = temp_dist.name
+    temp_dist = export_plot(dist_graph, "dist", write)
+    if write:
+        text_args["distribution_graph"] = temp_dist
+    else:
+        text_args["distribution_graph"] = temp_dist.name
 
     # differences graph
     diff_graph = taxbrain.differences_plot(tb, "combined", width=640)
     diff_graph.background_fill_color = None
     diff_graph.border_fill_color = None
-    temp_diff = export_plot(diff_graph, "difference")
-    text_args["differences_graph"] = temp_diff.name
+    temp_diff = export_plot(diff_graph, "difference", write)
+    if write:
+        text_args["differences_graph"] = temp_diff
+    else:
+        text_args["differences_graph"] = temp_diff.name
 
     # fill in the report template
     if verbose:
@@ -206,12 +216,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     # create PDF and HTML used to create the PDF
     wpdf, html = md_to_pdf(report_md, str(output_path), css)
     filename = name.replace(" ", "-")
-    # close and delete temporary files
-    name = temp_dist.name
-    print(Path(name).is_file())
-    temp_dist.close()
-    temp_diff.close()
-    print(Path(name).is_file())
+
     if write:
         # write PDF, markdown files, HTML
         pdf_path = Path(output_path, f"{filename}.pdf")
@@ -221,14 +226,19 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         html_path = Path(output_path, f"{filename}.html")
         html_path.write_text(html)
     else:
+        # close and delete temporary files
+        dist_name = temp_dist.name
+        diff_name = temp_diff.name
+        temp_dist.close()
+        temp_diff.close()
+        assert not Path(dist_name).is_file()
+        assert not Path(diff_name).is_file()
         # return all text and bytes
         files = {
             f"{filename}.pdf": wpdf,
             f"{filename}.md": report_md
         }
         # remove directory with extranious files
-        print("outpath", output_path)
-        print("outpath exists", output_path.exists())
         shutil.rmtree(output_path)
         assert not output_path.exists()
         return files
