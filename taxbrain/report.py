@@ -1,7 +1,6 @@
 import behresp
 import taxbrain
 import taxcalc as tc
-import cairocffi as cairo
 from pathlib import Path
 from bokeh.io import export_png, export_svgs
 from .report_utils import (form_intro, form_baseline_intro, write_text, date,
@@ -45,20 +44,13 @@ def report(tb, name=None, change_threshold=0.05, description=None,
 
     def export_plot(plot, graph):
         """
-        Export a bokeh plot based on Cairo version
+        Export bokeh plot as a PNG
         """
-        # export graph as a PNG or SVG depending on Cairo version is installed
-        # higher quality SVG only works with Cairo version >= 1.15.4
-        cairo_version = cairo.cairo_version()
-        if cairo_version < 11504:
-            filename = f"{graph}_graph.png"
-            full_filename = Path(output_path, filename)
-            export_png(plot, full_filename)
-            print("For a higher quality SVG image file, install Cairo 1.15.4")
-        else:
-            filename = f"{graph}_graph.svg"
-            full_filename = Path(output_path, filename)
-            export_svgs(plot, filename=full_filename)
+        # we could get a higher quality image with an SVG, but the SVG plots
+        # do not render correctly in the PDF document
+        filename = f"{graph}_graph.png"
+        full_filename = Path(output_path, filename)
+        export_png(plot, filename=str(full_filename))
 
         return filename
 

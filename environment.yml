@@ -22,6 +22,8 @@ dependencies:
 - pypandoc
 - nodejs
 - pip
+- geckodriver
+- firefox
 - pip:
   - cs-kit
   
