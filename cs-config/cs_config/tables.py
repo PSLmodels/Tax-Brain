@@ -19,7 +19,7 @@ def summary_aggregate(res, tb):
         )
     # tax totals for baseline
     tax_vars = ["iitax", "payrolltax", "combined",
-                "benefit_value_total"]
+                "benefit_cost_total"]
     aggr_base = tb.multi_var_table(tax_vars, "base")
     aggr_base.index = AGG_ROW_NAMES
     # tax totals for reform
