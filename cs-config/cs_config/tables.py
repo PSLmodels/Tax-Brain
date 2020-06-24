@@ -18,7 +18,8 @@ def summary_aggregate(res, tb):
             f"'tb' is of type {type(tb)}. Must be TaxBrain object"
         )
     # tax totals for baseline
-    tax_vars = ["iitax", "payrolltax", "combined"]
+    tax_vars = ["iitax", "payrolltax", "combined",
+                "benefit_cost_total"]
     aggr_base = tb.multi_var_table(tax_vars, "base")
     aggr_base.index = AGG_ROW_NAMES
     # tax totals for reform
