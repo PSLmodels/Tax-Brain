@@ -15,9 +15,7 @@ dependencies:
 - markdown
 - cairo
 - pango
-- phantomjs
 - tabulate
-- weasyprint
 - selenium
 - pypandoc
 - nodejs
@@ -26,4 +24,6 @@ dependencies:
 - firefox
 - pip:
   - cs-kit
+  - weasyprint
+  - phantomjs
   

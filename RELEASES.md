@@ -1,5 +1,46 @@
 # Tax-Brain Release History
 
+## 2020-07-06 Release 2.3.3
+
+Last Merged Pull Request [#123](https://github.com/PSLmodels/Tax-Brain/pull/123)
+
+Changes in this release:
+
+* Fixes various Compute Studio bugs (
+  [#78](https://github.com/PSLmodels/Tax-Brain/pull/78),
+  [#82](https://github.com/PSLmodels/Tax-Brain/pull/82),
+  [#83](https://github.com/PSLmodels/Tax-Brain/pull/83)
+)
+* Update installation requirements (
+  [#80](https://github.com/PSLmodels/Tax-Brain/pull/80),
+  [#81](https://github.com/PSLmodels/Tax-Brain/pull/81),
+  [#84](https://github.com/PSLmodels/Tax-Brain/pull/84),
+  [#90](https://github.com/PSLmodels/Tax-Brain/pull/90),
+  [#91](https://github.com/PSLmodels/Tax-Brain/pull/91)
+)
+* Add Compute Studio Documentation (
+  [#87](https://github.com/PSLmodels/Tax-Brain/pull/87),
+  [#92](https://github.com/PSLmodels/Tax-Brain/pull/92)
+)
+* Compute Studio updates (
+  [#88](https://github.com/PSLmodels/Tax-Brain/pull/88),
+  [#89](https://github.com/PSLmodels/Tax-Brain/pull/89),
+  [#103](https://github.com/PSLmodels/Tax-Brain/pull/103),
+  [#108](https://github.com/PSLmodels/Tax-Brain/pull/108),
+  [#109](https://github.com/PSLmodels/Tax-Brain/pull/109),
+  [#111](https://github.com/PSLmodels/Tax-Brain/pull/111),
+  [#112](https://github.com/PSLmodels/Tax-Brain/pull/112),
+  [#118](https://github.com/PSLmodels/Tax-Brain/pull/118),
+)
+* Fix handling of baseline policy in the core taxbrain app
+([#93](https://github.com/PSLmodels/Tax-Brain/pull/93))
+* Update core taxbrain app to use Bokeh version 2.0.0 and Tax-Calculator 2.9.0
+([#113](https://github.com/PSLmodels/Tax-Brain/pull/113))
+* Add benefits totals to aggregate table
+([#120](https://github.com/PSLmodels/Tax-Brain/pull/118))
+* Update the report feature of the core taxbrain app to only use PNGs for graphs
+[#123](https://github.com/PSLmodels/Tax-Brain/pull/123)
+
 ## 2019-07-30 Release 2.3.2
 
 Last Merged Pull Request: [#74](https://github.com/PSLmodels/Tax-Brain/pull/74)
