@@ -3,7 +3,6 @@ Helper Functions for creating the automated reports
 """
 import re
 import json
-import weasyprint
 import markdown
 import pypandoc
 import numpy as np
