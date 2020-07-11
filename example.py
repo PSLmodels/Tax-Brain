@@ -39,5 +39,5 @@ outdir = "larsonreform"
 name = "The Social Security 2100 Act: Rep. John Larson"
 author = "Anderson Frailey"
 report(
-    tb_dynamic, name=name, author=author
+    tb_dynamic, name=name, author=author, outdir=outdir
 )
