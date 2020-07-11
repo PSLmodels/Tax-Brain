@@ -16,7 +16,6 @@ def test_report(tb_static):
     assert dir_path.exists()
     assert Path(dir_path, "Test-Report.md").exists()
     assert Path(dir_path, "Test-Report.pdf").exists()
-    assert Path(dir_path, "Test-Report.html").exists()
     diff_png = Path(dir_path, "difference_graph.png")
     assert diff_png.exists()
     dist_png = Path(dir_path, "dist_graph.png")

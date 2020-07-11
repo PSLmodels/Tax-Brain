@@ -7,14 +7,14 @@ from .report_utils import (form_intro, form_baseline_intro, write_text, date,
                            largest_tax_change, notable_changes,
                            behavioral_assumptions, consumption_assumptions,
                            policy_table, convert_table, growth_assumptions,
-                           md_to_pdf)
+                           md_to_pdf, DIFF_TABLE_ROW_NAMES)
 
 
 CUR_PATH = Path(__file__).resolve().parent
 
 
 def report(tb, name=None, change_threshold=0.05, description=None,
-           outdir=None, author=None, css=None,
+           outdir=None, author="", css=None,
            verbose=False):
     """
     Create a PDF report based on TaxBrain results
@@ -52,14 +52,14 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         full_filename = Path(output_path, filename)
         export_png(plot, filename=str(full_filename))
 
-        return filename
+        return str(full_filename)
 
     if not tb.has_run:
         tb.run()
     if not name:
         name = f"Policy Report-{date()}"
     if not outdir:
-        outdir = "-".join(name)
+        outdir = name.replace(" ", "_")
     if author:
         author = f"Report Prepared by {author.title()}"
     # create directory to hold report contents
@@ -72,7 +72,8 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         "end_year": tb.end_year,
         "title": name,
         "date": date(),
-        "author": author
+        "author": author,
+        "taxbrain": str(Path(CUR_PATH, "report_files", "taxbrain.png"))
     }
     if verbose:
         print("Writing Introduction")
@@ -93,7 +94,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
 
     if verbose:
         print("Writing Summary")
-    agg_table = tb.weighted_totals("combined")
+    agg_table = tb.weighted_totals("combined").fillna(0)
     rev_change = agg_table.loc["Difference"].sum()
     rev_direction = "increase"
     if rev_change < 0:
@@ -106,7 +107,8 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         print("Creating distribution table")
     diff_table = tb.differences_table(
         tb.start_year, "standard_income_bins", "combined"
-    )
+    ).fillna(0)
+    diff_table.index = DIFF_TABLE_ROW_NAMES
     # find which income bin sees the largest change in tax liability
     largest_change = largest_tax_change(diff_table)
     text_args["largest_change_group"] = largest_change[0]
@@ -183,12 +185,14 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     dist_graph = taxbrain.distribution_plot(tb, tb.start_year, width=650)
     dist_graph.background_fill_color = None
     dist_graph.border_fill_color = None
+    dist_graph.title = None
     text_args["distribution_graph"] = export_plot(dist_graph, "dist")
 
     # differences graph
     diff_graph = taxbrain.differences_plot(tb, "combined", width=640)
     diff_graph.background_fill_color = None
     diff_graph.border_fill_color = None
+    diff_graph.title = None
     text_args["agg_graph"] = export_plot(diff_graph, "difference")
 
     # fill in the report template
@@ -198,12 +202,9 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     report_md = write_text(template_path, **text_args)
 
     # create PDF and HTML used to create the PDF
-    wpdf, html = md_to_pdf(report_md, str(output_path), css)
     # write PDF, markdown files, HTML
     filename = name.replace(" ", "-")
     pdf_path = Path(output_path, f"{filename}.pdf")
-    pdf_path.write_bytes(wpdf)
     md_path = Path(output_path, f"{filename}.md")
     md_path.write_text(report_md)
-    html_path = Path(output_path, f"{filename}.html")
-    html_path.write_text(html)
+    md_to_pdf(report_md, str(pdf_path))

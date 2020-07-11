@@ -1,5 +1,4 @@
-
-from taxbrain import TaxBrain
+from taxbrain import TaxBrain, report
 
 
 reform_url = "https://raw.githubusercontent.com/PSLmodels/Tax-Calculator/master/taxcalc/reforms/Larson2019.json"
@@ -34,3 +33,11 @@ dist = tb_dynamic.distribution_table(2019, "weighted_deciles",
                                      "expanded_income", "reform")
 print("\nDistribution Table for 2019")
 print(dist)
+
+# produce a pdf report summarizing the effects of the reform
+outdir = "larsonreform"
+name = "The Social Security 2100 Act: Rep. John Larson"
+author = "Anderson Frailey"
+report(
+    tb_dynamic, name=name, author=author
+)

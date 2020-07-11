@@ -24,6 +24,3 @@ dependencies:
 - firefox
 - pip:
   - cs-kit
-  - WeasyPrint
-  - phantomjs
-  
