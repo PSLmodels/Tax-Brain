@@ -3,7 +3,6 @@ Helper Functions for creating the automated reports
 """
 import re
 import json
-import weasyprint
 import markdown
 import pypandoc
 import numpy as np
@@ -39,8 +38,12 @@ notable_vars = {
     "aftertax_income": "After-tax income"
 }
 
+DIFF_TABLE_ROW_NAMES = ['<$0K', '=$0K', '$0-10K', '$10-20K', '$20-30K',
+                        '$30-40K', '$40-50K', '$50-75K', '$75-100K',
+                        '$100-200K', '$200-500K', '$500K-1M', '>$1M', 'ALL']
 
-def md_to_pdf(md_text, base_url, css_path=None):
+
+def md_to_pdf(md_text, outputfile_path):
     """
     Convert Markdown version of report to a PDF. Returns bytes that can be
     saved as a PDF
@@ -55,44 +58,13 @@ def md_to_pdf(md_text, base_url, css_path=None):
     -------
     Bytes that can be saved as a PDF and the HTML used to create the report
     """
-    # try pandoc and weasyprint
-    extention_str = "markdown.extensions.{}"
-    md_extensions = [
-        extention_str.format("tables"),
-        extention_str.format("attr_list")
-    ]
-    md = markdown.markdown(md_text, extensions=md_extensions)
-    # split the HTML into a list so that we can replace `article` tags
-    split_html = md.split("\n")
-    final_html_list = []
-    tag_pattern = '<p>~article id="[a-z]*"'
-    id_pattern = 'id="[a-z]*"'
-    for line in split_html:
-        # search and see if this line should be an article tag
-        if re.match(tag_pattern, line):
-            # if it's an article tag, pull the id portion of the line and
-            # create a proper HTML tag
-            search = re.search(id_pattern, line)
-            id_name = line[search.start(): search.end()]
-            line = f"<article {id_name}>"
-        # append the line to the list that will be used to create final HTML
-        final_html_list.append(line)
-    # join the HTML on the new line character before converting to PDF
-    joined_html = "\n".join(final_html_list)
-    # also insert proper article end tags
-    # adding page-break-before style ensures sections are on different pages
-    joined_html = joined_html.replace(
-        "<p>~/article</p>",
-        '</article>\n<p style="page-break-before: always" ></p>'
+    # convert markdown text to pdf with pandoc
+    pypandoc.convert_text(
+        md_text, 'pdf', format='md', outputfile=outputfile_path,
+        extra_args=[
+            '-V', 'geometry:margin=1in'
+        ]
     )
-    if not css_path:
-        css_path = Path(CUR_PATH, "report_files", "report_style.css")
-    css = weasyprint.CSS(filename=css_path)
-    wpdf = weasyprint.HTML(
-        string=joined_html, base_url=base_url
-    ).write_pdf(stylesheets=[css])
-
-    return wpdf, joined_html
 
 
 def convert_table(df):
