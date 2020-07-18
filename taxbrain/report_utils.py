@@ -130,10 +130,17 @@ def policy_table(params):
             try:
                 pol_meta = pol.metadata()[param]
             except KeyError:
-                continue
+                if "-" in param:
+                    var = param.split("-")[0]
+                    pol_meta = pol.metadata()[var]
             name = pol_meta["long_name"]
             default_val = pol_meta["value"]
             new_val = meta[yr]
+            if param.endswith("indexed"):
+                default_val = pol_meta["indexed"]
+                new_val = meta[yr]
+                _name = pol_meta["section_2"].capitalize()
+                name = f"{_name} indexed to inflation"
             # skip any duplicated policy parameters
             if default_val == new_val:
                 continue

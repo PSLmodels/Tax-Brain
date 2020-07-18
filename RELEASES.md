@@ -1,5 +1,24 @@
 # Tax-Brain Release History
 
+## 2020-07-XX Release 2.3.5
+
+Last Merged Pull Request [#76](https://github.com/PSLmodels/Tax-Brain/pull/76)
+
+Changes in this release:
+
+* Automated reports are now produced using just Pandoc ([#125](https://github.com/PSLmodels/Tax-Brain/pull/125))
+
+* The Tax-Brain Compute Studio app now includes automated reports in the
+downloadable content ([#76](https://github.com/PSLmodels/Tax-Brain/pull/76))
+
+
+## 2020-07-07 Release 2.3.4
+
+Last Merged Pull Request [#124](https://github.com/PSLmodels/Tax-Brain/pull/124)
+
+No changes made to the model between release 2.3.3 and 2.3.4. The only changes
+were to the conda build instructions.
+
 ## 2020-07-06 Release 2.3.3
 
 Last Merged Pull Request [#123](https://github.com/PSLmodels/Tax-Brain/pull/123)
