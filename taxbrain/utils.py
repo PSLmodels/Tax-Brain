@@ -97,7 +97,7 @@ def distribution_plot(tb, year, width=500, height=400, export_svg=False):
     plot.hbar_stack(
         change_groups, y="group", height=0.8, color=GnBu5,
         source=ColumnDataSource(plot_data),
-        legend=legend_labels
+        legend_label=legend_labels
     )
     # general formatting
     plot.yaxis.axis_label = "Expanded Income Bin"

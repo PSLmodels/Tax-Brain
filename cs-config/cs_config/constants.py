@@ -12,7 +12,7 @@ POLICY_SCHEMA = {
                 "choice": {
                     "choices": [
                         yr for yr in range(TaxBrain.FIRST_BUDGET_YEAR,
-                                           TaxBrain.LAST_BUDGET_YEAR)
+                                           TaxBrain.LAST_BUDGET_YEAR + 1)
                     ]
                 }
             }
@@ -46,7 +46,8 @@ POLICY_SCHEMA = {
     }
 }
 
-AGG_ROW_NAMES = ['ind_tax', 'payroll_tax', 'combined_tax']
+AGG_ROW_NAMES = ['ind_tax', 'payroll_tax', 'combined_tax',
+                 'benefit_cost_total']
 
 RESULTS_TABLE_TITLES = {
     'diff_comb_xbin': ('Combined Payroll and Individual Income Tax: Difference'
@@ -103,10 +104,11 @@ RESULTS_TABLE_TAGS = {
     'gdp_effect': {'default': 'gdp_elast'}
 }
 RESULTS_TOTAL_ROW_KEY_LABELS = {
-    'ind_tax': 'Individual Income Tax Liability Change',
-    'payroll_tax': 'Payroll Tax Liability Change',
-    'combined_tax': ('Combined Payroll and Individual Income Tax Liability '
-                     'Change'),
+    'ind_tax': 'Individual Income Tax Liability',
+    'payroll_tax': 'Payroll Tax Liability',
+    'combined_tax': ('Combined Payroll and Individual Income Tax ' +
+                     'Liability'),
+    'benefit_cost_total': 'Total Benefits Spending',
 }
 
 MONEY_VARS = {
@@ -135,7 +137,7 @@ class MetaParameters(paramtools.Parameters):
                 "choice": {
                     "choices": [
                         yr for yr in range(TaxBrain.FIRST_BUDGET_YEAR,
-                                           TaxBrain.LAST_BUDGET_YEAR)
+                                           TaxBrain.LAST_BUDGET_YEAR + 1)
                     ]
                 }
             }

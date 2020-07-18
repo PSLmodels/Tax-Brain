@@ -1,53 +1,44 @@
-~article id="cover"
-
-# {{ title}} {: #title}
-
-### {{ author }} {: #author}
-{{ date }}
-{: #date}
-
-~/article
-
-~article id="contents"
+% {{ title}}
+% {{ author }}
+% {{ date }}
 
 ## Table of Contents
 
-### [Introduction](#introduction)
-* [Analysis Summary](#summary)
-* [Notable Changes](#notable)
-### [Aggregate Changes](#aggregate)
-### [Distributional Analysis](#distributional)
-### [Summary of Policy Changes](#policychange)
-### [Baseline Policy](#baseline)
-### [Assumptions](#assumptions)
-* [Behavioral Assumptions](#behavior)
-* [Consumption Assumptions](#consumption)
-* [Growth Assumptions](#growth)
+### [Introduction](#Introduction)
+* [Analysis Summary](#Summary)
+* [Notable Changes](#Notable-Changes)
+
+### [Aggregate Changes](#Aggregate-Changes)
+### [Distributional Analysis](#Distributional-Analysis)
+### [Summary of Policy Changes](#Summary-of-Policy-Changes)
+### [Baseline Policy](#Policy-Baseline)
+### [Assumptions](#Assumptions)
+* [Behavioral Assumptions](#Behavioral-Assumptions)
+* [Consumption Assumptions](#Consumption-Assumptions)
+* [Growth Assumptions](#Growth-Assumptions)
+
 ### [Citations](#citations)
 
-~/article
+\vfill
+![]({{ taxbrain }}){.center}
 
-~article id="introduction"
+\pagebreak
 
 ## Introduction
 
 This report summarizes the fiscal impact of {{ introduction }}. The baseline for this analysis is current law as of {{ baseline_intro }}.
 
-## Summary {: #summary}
+## Summary
 
 Over the budget window  ({{ start_year }} to {{ end_year }}), this policy is expected to {{ rev_direction }} aggregate tax liability by ${{ rev_change }}. Those with expanded income {{ largest_change_group}} are expected to see the largest change in tax liability. On average, this group can expect to see their tax liability {{ largest_change_str }}.
 
 {{ ati_change_graph }}
 
-## Notable Changes {: #notable}
+## Notable Changes
 
 {% for change in notable_changes %}
 * {{ change }}
 {% endfor %}
-
-~/article
-
-~article id="aggregate"
 
 ## Aggregate Changes
 
@@ -59,23 +50,15 @@ Over the budget window  ({{ start_year }} to {{ end_year }}), this policy is exp
 
 {{ agg_tax_type }}
 
-<img src="{{ differences_graph }}">
-
-~/article
-
-~article id="distributional"
+![Change in Aggregate Tax Liability]({{ agg_graph }}){ width=75% }
 
 ## Distributional Analysis
 
 {{ differences_table }}
 
-<img src="{{ distribution_graph }}">
+![Percentage Change in After Tax Income]({{ distribution_graph }}){ width=80% }
 
-~/article
-
-~article id="policychange"
-
-## Summary of Policy Changes {: #policysummary}
+## Summary of Policy Changes
 
 {% for year, summary in reform_summary.items() %}
 _{{ year }}_
@@ -83,27 +66,19 @@ _{{ year }}_
 {{ summary }}
 {% endfor %}
 
-~/article
-
-~article id="baseline"
-
 ## Policy Baseline
 
 {{ policy_baseline }}
 
-~/article
-
-~article id="assumptions"
-
 ## Assumptions
 
-### Behavioral Assumptions {: #behavior}
+### Behavioral Assumptions
 
 {% for item in behavior_assumps %}
 * {{item}}
 {% endfor %}
 
-### Consumption Assumptions {: #consumption}
+### Consumption Assumptions
 
 {% for year, summary in consump_assumps.items() %}
 {{ year }}
@@ -111,17 +86,13 @@ _{{ year }}_
 {{ summary }}
 {% endfor %}
 
-### Growth Assumptions {: #growth}
+### Growth Assumptions
 
 {% for year, summary in growth_assumps.items() %}
 {{ year }}
 
 {{ summary }}
 {% endfor %}
-
-~/article
-
-~article id="citations"
 
 ## Citations
 
@@ -130,5 +101,3 @@ This analysis was conducted using the following open source economic models:
 {% for model in model_versions %}
 * {{ model.name }} release {{ model.release }}
 {% endfor %}
-
-~/article

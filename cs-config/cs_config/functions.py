@@ -187,7 +187,7 @@ def run_model(meta_params_dict, adjustment):
             all_to_process[key] += value
     results, downloadable = postprocess(all_to_process)
     # create report output
-    report_outputs = report(tb, write=False)
+    report_outputs = report(tb, clean=True)
     for name, data in report_outputs.items():
         if name.endswith(".md"):
             media_type = "Markdown"
