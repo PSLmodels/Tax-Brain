@@ -5,7 +5,7 @@ from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
                            create_distribution_table, create_difference_table)
 from dask import compute, delayed
 from collections import defaultdict
-from taxbrain.utils import weighted_sum
+from taxbrain.utils import weighted_sum, update_policy
 from typing import Union
 
 
@@ -362,7 +362,7 @@ class TaxBrain:
             records = tc.Records(self.microdata, gfactors=gf_base)
         policy = tc.Policy(gf_base)
         if self.params["base_policy"]:
-            policy.implement_reform(self.params["base_policy"])
+            update_policy(policy, self.params["base_policy"])
         base_calc = tc.Calculator(policy=policy,
                                   records=records,
                                   verbose=self.verbose)
@@ -381,8 +381,9 @@ class TaxBrain:
             records = tc.Records(self.microdata, gfactors=gf_reform)
         policy = tc.Policy(gf_reform)
         if self.params["base_policy"]:
-            policy.implement_reform(self.params["base_policy"])
-        policy.implement_reform(self.params['policy'])
+            update_policy(policy, self.params["base_policy"])
+        update_policy(policy, self.params["policy"])
+
         # Initialize Calculator
         reform_calc = tc.Calculator(policy=policy, records=records,
                                     verbose=self.verbose)

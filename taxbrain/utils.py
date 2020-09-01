@@ -7,7 +7,10 @@ from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource, NumeralTickFormatter
 from bokeh.palettes import GnBu5
 from collections import defaultdict
+from typing import Union
 
+import taxcalc as tc
+from .typing import ParamToolsAdjustment, TaxcalcReform
 
 def weighted_sum(df, var, wt="s006"):
     """
@@ -147,3 +150,42 @@ def differences_plot(tb, tax_type, width=500, height=400):
     plot.xgrid.grid_line_color = None
 
     return plot
+
+
+def update_policy(
+    policy_obj: tc.Policy,
+    reform: Union[TaxcalcReform, ParamToolsAdjustment],
+    **kwargs
+):
+    """
+    Convenience method that updates the Policy object with the reform
+    dict using the appropriate method, given the reform format.
+    """
+    if is_paramtools_format(reform):
+        policy_obj.adjust(reform, **kwargs)
+    else:
+        policy_obj.implement_reform(reform, **kwargs)
+
+
+def is_paramtools_format(reform: Union[TaxcalcReform, ParamToolsAdjustment]):
+    """
+    Check first item in reform to determine if it is using the ParamTools
+    adjustment or the Tax-Calculator reform format.
+
+    If first item is a dict, then it is likely be a Tax-Calculator reform:
+    {
+        param: {2020: 1000}
+    }
+
+    Otherwise, it is likely to be a ParamTools format.
+
+    Returns:
+        format (bool): True if reform is likely to be in PT format.
+    """
+    for param, data in reform.items():
+        if isinstance(data, dict):
+            return False # taxcalc reform
+        else:
+            # Not doing a specific check to see if the value is a list
+            # since it could be a list or just a scalar value.
+            return True
