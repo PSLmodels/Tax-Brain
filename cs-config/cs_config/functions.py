@@ -5,11 +5,11 @@ import traceback
 import paramtools
 import pandas as pd
 import taxcalc
+import cs2tc
 from .constants import MetaParameters
 from .helpers import (TCDIR,
                       postprocess, nth_year_results, retrieve_puf,)
 from .outputs import create_layout, aggregate_plot
-from . import inputs
 from taxbrain import TaxBrain
 from dask import delayed, compute
 from collections import defaultdict
@@ -52,7 +52,7 @@ def get_inputs(meta_params_dict):
         year=metaparams.year.tolist(),
     )
 
-    policy_defaults = inputs.convert_policy_defaults(metaparams, policy_params)
+    policy_defaults = cs2tc.convert_policy_adjustment(metaparams, policy_params)
 
     behavior_params = BehaviorParams()
 
@@ -69,7 +69,7 @@ def validate_inputs(meta_params_dict, adjustment, errors_warnings):
     """
     Function to validate COMP inputs
     """
-    pol_params = inputs.convert_policy_adjustment(adjustment["policy"])
+    pol_params = cs2tc.convert_policy_adjustment(adjustment["policy"])
     policy_params = taxcalc.Policy()
     policy_params.adjust(pol_params, raise_errors=False, ignore_warnings=True)
     errors_warnings["policy"]["errors"].update(policy_params.errors)
@@ -89,8 +89,8 @@ def run_model(meta_params_dict, adjustment):
     meta_params = MetaParameters()
     meta_params.adjust(meta_params_dict)
     # convert COMP user inputs to format accepted by tax-calculator
-    policy_mods = inputs.convert_policy_adjustment(adjustment["policy"])
-    behavior_mods = inputs.convert_behavior_adjustment(adjustment["behavior"])
+    policy_mods = cs2tc.convert_policy_adjustment(adjustment["policy"])
+    behavior_mods = cs2tc.convert_behavior_adjustment(adjustment["behavior"])
     user_mods = {
         "policy": policy_mods,
         "behavior": behavior_mods
