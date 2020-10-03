@@ -1,6 +1,6 @@
 from cs_kit import CoreTestFunctions
 
-from cs_config import functions, helpers
+from cs_config import functions
 
 import copy
 
@@ -74,36 +74,3 @@ class TestFunctions2(CoreTestFunctions):
     run_model = functions.run_model
     ok_adjustment = CHECKBOX_ADJUSTMENT
     bad_adjustment = BAD_ADJUSTMENT
-
-
-def test_convert_defaults():
-    # TODO
-    return
-
-
-def test_convert_index():
-    adj = {
-        "ACTC_c": [
-            {"year": 2019, "value": 2000.0},
-            {"year": 2026, "value": 1000.0}
-        ],
-        "STD": [
-            {"year": 2019, "MARS": "single", "value": 2000.0},
-            {"year": 2020, "MARS": "mjoint", "value": 12345},
-            {"year": 2026, "MARS": "single", "value": 1000.0}
-        ],
-        "STD_checkbox": [{"value": False}]
-    }
-    res = helpers.convert_adj(adj, 2019)
-    assert res == {
-        "ACTC_c": [
-            {"year": 2019, "value": 2000.0},
-            {"year": 2026, "value": 1000.0}
-        ],
-        "STD": [
-            {"year": 2019, "MARS": "single", "value": 2000.0},
-            {"year": 2020, "MARS": "mjoint", "value": 12345},
-            {"year": 2026, "MARS": "single", "value": 1000.0}
-        ],
-        "STD-indexed": [{"value": False}]
-    }

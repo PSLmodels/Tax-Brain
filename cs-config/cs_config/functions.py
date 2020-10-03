@@ -44,15 +44,15 @@ def get_inputs(meta_params_dict):
     """
     Return default parameters for Tax-Brain
     """
-    metaparams = MetaParameters()
-    metaparams.adjust(meta_params_dict)
+    meta_params = MetaParameters()
+    meta_params.adjust(meta_params_dict)
 
     policy_params = taxcalc.Policy()
     policy_params.set_state(
-        year=metaparams.year.tolist(),
+        year=meta_params.year.tolist(),
     )
 
-    policy_defaults = cs2tc.convert_policy_adjustment(metaparams, policy_params)
+    policy_defaults = cs2tc.convert_policy_defaults(meta_params, policy_params)
 
     behavior_params = BehaviorParams()
 
@@ -60,7 +60,7 @@ def get_inputs(meta_params_dict):
         "policy": policy_defaults,
         "behavior": behavior_params.dump()
     }
-    meta = metaparams.dump()
+    meta = meta_params.dump()
 
     return {"meta_parameters": meta, "model_parameters": default_params}
 
