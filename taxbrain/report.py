@@ -4,8 +4,6 @@ import taxbrain
 import taxcalc as tc
 from pathlib import Path
 from bokeh.io import export_png
-from bokeh.resources import CDN
-from bokeh.embed import file_html
 from .report_utils import (form_intro, form_baseline_intro, write_text, date,
                            largest_tax_change, notable_changes,
                            behavioral_assumptions, consumption_assumptions,
