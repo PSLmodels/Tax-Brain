@@ -91,11 +91,9 @@ def policy_table(params):
     """
     Create a table showing the policy parameters in a reform and their
     default value
-
     Parameters
     ----------
     params: policy parameters being implemented
-
     Returns
     -------
     String containing a markdown style table that summarized the given
@@ -127,27 +125,22 @@ def policy_table(params):
         for yr in years:
             # find default information
             pol.set_year(yr)
-            try:
-                pol_meta = pol.metadata()[param]
-            except KeyError:
-                if "-" in param:
-                    var = param.split("-")[0]
-                    pol_meta = pol.metadata()[var]
-            name = pol_meta["long_name"]
-            default_val = pol_meta["value"]
+            pol_meta = pol.metadata()[param]
+            name = pol_meta["title"]
+            default_val = getattr(pol, param)
             new_val = meta[yr]
-            if param.endswith("indexed"):
-                default_val = pol_meta["indexed"]
-                new_val = meta[yr]
-                _name = pol_meta["section_2"].capitalize()
-                name = f"{_name} indexed to inflation"
             # skip any duplicated policy parameters
-            if default_val == new_val:
+            if np.all(default_val == new_val):
                 continue
             # create individual lines for indexed parameters
-            if isinstance(default_val, list):
-                vi_list = vi_map[pol_meta["vi_name"]]
-                for i, val in enumerate(default_val):
+            if len(default_val.shape) != 1:
+                for vi in vi_map.keys():
+                    if vi in pol_meta['value'][0].keys():
+                        vi_name = vi
+                        break
+                vi_list = vi_map[vi_name]
+                for i, val in enumerate(default_val[0]):
+                    # print(name, val, param, default_val)
                     _name = f"{name} - {vi_list[i]}"
                     _default_val = f"{val:,}"
                     _new_val = f"{new_val[i]:,}"
@@ -156,7 +149,7 @@ def policy_table(params):
                     )
             else:
                 reform_by_year[yr].append(
-                    [name, f"{default_val:,}", f"{new_val:,}"]
+                    [name, f"{default_val[0]:,}", f"{new_val:,}"]
                 )
 
     # convert all tables from CSV format to Markdown
@@ -378,7 +371,7 @@ def consumption_assumptions(tb):
             # find all the years the parameter is updated
             years = set(meta.keys())
             consump_years = consump_years.union(years)
-            name = consump_meta[param]["long_name"]
+            name = consump_meta[param]["title"]
             default_val = consump_meta[param]["value"][0]
             for yr in years:
                 # find default information

@@ -50,13 +50,13 @@ Over the budget window  ({{ start_year }} to {{ end_year }}), this policy is exp
 
 {{ agg_tax_type }}
 
-![Change in Aggregate Tax Liability]({{ agg_graph }}){ width=75% }
+![Change in Aggregate Tax Liability]({{ agg_graph }})
 
 ## Distributional Analysis
 
 {{ differences_table }}
 
-![Percentage Change in After Tax Income]({{ distribution_graph }}){ width=80% }
+![Percentage Change in After Tax Income]({{ distribution_graph }})
 
 ## Summary of Policy Changes
 

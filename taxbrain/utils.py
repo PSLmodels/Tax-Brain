@@ -3,10 +3,8 @@ Helper functions for the various taxbrain modules
 """
 import pandas as pd
 import numpy as np
-from bokeh.plotting import figure
-from bokeh.models import (ColumnDataSource, NumeralTickFormatter,
-                          CategoricalAxis, CategoricalTicker)
-from bokeh.palettes import GnBu5
+import matplotlib.pyplot as plt
+import matplotlib as mpl
 from collections import defaultdict
 
 
@@ -17,7 +15,7 @@ def weighted_sum(df, var, wt="s006"):
     return (df[var] * df[wt]).sum()
 
 
-def distribution_plot(tb, year, width=500, height=400, export_svg=False):
+def distribution_plot(tb, year, figsize=(6, 4), title=True):
     """
     Create a horizontal bar chart to display the distributional change in
     after tax income
@@ -69,51 +67,56 @@ def distribution_plot(tb, year, width=500, height=400, export_svg=False):
 
     plot_data = defaultdict(list)
     # traverse list in reverse to get the axis of the plot in correct order
-    for low, high, grp in groups[:: -1]:
+    for low, high, grp in groups:
         # find income changes by group
         sub_data = ati_data[(ati_data["base"] <= high) &
                             (ati_data["base"] > low)]
         results = find_percs(sub_data, grp)
-        plot_data["group"].append(grp)
-        plot_data["large_pos"].append(results[0])
-        plot_data["small_pos"].append(results[1])
-        plot_data["small"].append(results[2])
-        plot_data["small_neg"].append(results[3])
-        plot_data["large_neg"].append(results[4])
+        plot_data[grp] = results
 
-    # groups used for plotting
-    change_groups = [
-        "large_pos", "small_pos", "small", "small_neg", "large_neg"
-    ]
     legend_labels = [
         "Increase of > 5%", "Increase 1-5%", "Change < 1%",
         "Decrease of 1-5%", "Decrease > 5%"
     ]
-    plot = figure(
-        y_range=plot_data["group"], x_range=(0, 1), toolbar_location=None,
-        width=width, height=height,
-        title=f"Percentage Change in After Tax Income - {year}"
+    labels = list(plot_data.keys())
+    data = np.array(list(plot_data.values()))
+    data_cumsum = data.cumsum(axis=1)
+    category_colors = plt.get_cmap("GnBu")(
+        np.linspace(0.15, 0.85, data.shape[1]))
+
+    fig, ax = plt.subplots(figsize=figsize)
+    ax.invert_yaxis()
+    ax.set_xlim(0, np.sum(data, axis=1).max())
+
+    for i, (colname, color) in enumerate(zip(legend_labels, category_colors)):
+        widths = data[:, i]
+        starts = data_cumsum[:, i] - widths
+        ax.barh(labels, widths, left=starts, height=0.9,
+                label=colname, color=color)
+        # add text label
+        xcenters = starts + widths / 2
+        r, g, b, _ = color
+        text_color = "white" if r * g * b < 0.5 else "darkgrey"
+        for y, (x, c) in enumerate(zip(xcenters, widths)):
+            ax.text(x, y, f"{c * 100:.1f}%", ha="center", va="center",
+                    color=text_color)
+    ax.legend(bbox_to_anchor=(1, 1), loc="upper left", fontsize="small")
+    ax.set_xlabel("Portion of Bin", fontweight="bold")
+    ax.set_ylabel("Expanded Income Bin", fontweight="bold")
+    ax.get_xaxis().set_major_formatter(
+        mpl.ticker.FuncFormatter(lambda x, p: format(f'{int(x * 100)}%'))
     )
-    plot.hbar_stack(
-        change_groups, y="group", height=0.8, color=GnBu5,
-        source=ColumnDataSource(plot_data),
-        legend_label=legend_labels
-    )
-    # general formatting
-    plot.yaxis.axis_label = "Expanded Income Bin"
-    plot.xaxis.axis_label = "Portion of Population"
-    plot.xaxis.formatter = NumeralTickFormatter(format="0%")
-    plot.xaxis.minor_tick_line_color = None
-    # move legend out of main plot area
-    legend = plot.legend[0]
-    plot.add_layout(legend, "right")
-    if export_svg:
-        plot.output_backend = "svg"
+    if title:
+        title = f"Percentage Change In After Tax Income - {year}"
+        ax.set_title(title, fontweight='bold')
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.tick_params(axis="y", which="both", length=0, pad=15)
 
-    return plot
+    return fig
 
 
-def differences_plot(tb, tax_type, width=500, height=400, export_svg=False):
+def differences_plot(tb, tax_type, figsize=(6, 4), title=True):
     """
     Create a bar chart that shows the change in total liability for a given
     tax
@@ -132,23 +135,20 @@ def differences_plot(tb, tax_type, width=500, height=400, export_svg=False):
     plot_data = agg_diff.transpose()
     tax_var = tax_vars[acceptable_taxes.index(tax_type)]
     plot_data["color"] = np.where(plot_data[tax_var] < 0, "red", "blue")
-
-    plot = figure(
-        title=f"Change in Aggregate {tax_type.title()} Tax Liability",
-        width=width, height=height, toolbar_location=None
+    fig, ax = plt.subplots(figsize=figsize)
+    ax.grid(True, axis='y', alpha=0.55)
+    ax.set_axisbelow(True)
+    ax.bar(
+        plot_data.index, plot_data["combined"], alpha=0.55,
+        color=plot_data["color"]
     )
-    if export_svg:
-        plot.output_backend = "svg"
-    plot.vbar(
-        x="index", bottom=0, top=tax_var, width=0.7,
-        source=ColumnDataSource(plot_data),
-        fill_color="color", line_color="color",
-        fill_alpha=0.55
+    if title:
+        ax.set_title(f"Change in Aggregate {tax_type.title()} Tax Liability")
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.get_yaxis().set_major_formatter(
+        mpl.ticker.FuncFormatter(lambda x, p: format(f"${int(x / 1e9):,}b"))
     )
-    # general formatting
-    plot.yaxis.formatter = NumeralTickFormatter(format="($0.00 a)")
-    plot.xaxis.formatter = NumeralTickFormatter(format="0")
-    plot.xaxis.minor_tick_line_color = None
-    plot.xgrid.grid_line_color = None
+    ax.xaxis.set_ticks(list(plot_data.index))
 
-    return plot
+    return fig
