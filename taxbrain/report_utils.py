@@ -125,6 +125,16 @@ def policy_table(params):
         for yr in years:
             # find default information
             pol.set_year(yr)
+            if param.endswith("-indexed"):
+                _param = param.split("-")[0]
+                pol_meta = pol.metadata()[_param]
+                default_indexed = pol_meta["indexed"]
+                new_indexed = meta[yr]
+                reform_by_year[yr].append(
+                    [name, f"CPI Indexed: {default_indexed}",
+                     f"CPI Indexed: {new_indexed}"]
+                )
+                continue
             pol_meta = pol.metadata()[param]
             name = pol_meta["title"]
             default_val = getattr(pol, param)
@@ -133,6 +143,7 @@ def policy_table(params):
             if np.all(default_val == new_val):
                 continue
             # create individual lines for indexed parameters
+            # think parameters that vary by marital status, number of kids, etc
             if len(default_val.shape) != 1:
                 for vi in vi_map.keys():
                     if vi in pol_meta['value'][0].keys():

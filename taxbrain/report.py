@@ -3,7 +3,6 @@ import behresp
 import taxbrain
 import taxcalc as tc
 from pathlib import Path
-from bokeh.io import export_png
 from .report_utils import (form_intro, form_baseline_intro, write_text, date,
                            largest_tax_change, notable_changes,
                            behavioral_assumptions, consumption_assumptions,
@@ -47,7 +46,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
 
     def export_plot(plot, graph):
         """
-        Export bokeh plot as a PNG
+        Export plot as a PNG
         """
         # export graph as a PNG
         # we could get a higher quality image with an SVG, but the SVG plots
@@ -202,7 +201,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     template_path = Path(CUR_PATH, "report_files", "report_template.md")
     report_md = write_text(template_path, **text_args)
 
-    # write PDF, markdown files, HTML
+    # write PDF, markdown files
     filename = name.replace(" ", "-")
     pdf_path = Path(output_path, f"{filename}.pdf")
     md_path = Path(output_path, f"{filename}.md")
