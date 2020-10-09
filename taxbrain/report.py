@@ -1,8 +1,8 @@
+import shutil
 import behresp
 import taxbrain
 import taxcalc as tc
 from pathlib import Path
-from bokeh.io import export_png, export_svgs
 from .report_utils import (form_intro, form_baseline_intro, write_text, date,
                            largest_tax_change, notable_changes,
                            behavioral_assumptions, consumption_assumptions,
@@ -15,7 +15,7 @@ CUR_PATH = Path(__file__).resolve().parent
 
 def report(tb, name=None, change_threshold=0.05, description=None,
            outdir=None, author="", css=None,
-           verbose=False):
+           verbose=False, clean=False):
     """
     Create a PDF report based on TaxBrain results
 
@@ -31,6 +31,8 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     css: Path to a CSS file used to format the final report
     verbose: boolean indicating whether or not to write progress as report is
         created
+    clean: boolean indicating whether all of the files written to create the
+        report should be deleated and a byte representation of the PDF returned
     """
     def format_table(df):
         """
@@ -44,8 +46,9 @@ def report(tb, name=None, change_threshold=0.05, description=None,
 
     def export_plot(plot, graph):
         """
-        Export bokeh plot as a PNG
+        Export plot as a PNG
         """
+        # export graph as a PNG
         # we could get a higher quality image with an SVG, but the SVG plots
         # do not render correctly in the PDF document
         filename = f"{graph}_graph.png"
@@ -82,6 +85,9 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     pol_meta = pol.metadata()
     pol_areas = set()
     for var in tb.params["policy"].keys():
+        # catch "{}-indexed" parameter changes
+        if "-" in var:
+            var = var.split("-")[0]
         area = pol_meta[var]["section_1"]
         if area != "":
             pol_areas.add(area)
@@ -195,10 +201,21 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     template_path = Path(CUR_PATH, "report_files", "report_template.md")
     report_md = write_text(template_path, **text_args)
 
-    # create PDF and HTML used to create the PDF
-    # write PDF, markdown files, HTML
+    # write PDF, markdown files
     filename = name.replace(" ", "-")
     pdf_path = Path(output_path, f"{filename}.pdf")
     md_path = Path(output_path, f"{filename}.md")
     md_path.write_text(report_md)
     md_to_pdf(report_md, str(pdf_path))
+
+    if clean:
+        # return PDF as bytes and the markdown text
+        byte_pdf = pdf_path.read_bytes()
+        files = {
+            f"{filename}.md": report_md,
+            f"{filename}.pdf": byte_pdf
+        }
+        # remove directory where everything was saved
+        shutil.rmtree(output_path)
+        assert not output_path.exists()
+        return files

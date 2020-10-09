@@ -1,9 +1,7 @@
 """
 Helper Functions for creating the automated reports
 """
-import re
 import json
-import markdown
 import pypandoc
 import numpy as np
 import pandas as pd
@@ -93,11 +91,9 @@ def policy_table(params):
     """
     Create a table showing the policy parameters in a reform and their
     default value
-
     Parameters
     ----------
     params: policy parameters being implemented
-
     Returns
     -------
     String containing a markdown style table that summarized the given
@@ -129,6 +125,16 @@ def policy_table(params):
         for yr in years:
             # find default information
             pol.set_year(yr)
+            if param.endswith("-indexed"):
+                _param = param.split("-")[0]
+                pol_meta = pol.metadata()[_param]
+                default_indexed = pol_meta["indexed"]
+                new_indexed = meta[yr]
+                reform_by_year[yr].append(
+                    [name, f"CPI Indexed: {default_indexed}",
+                     f"CPI Indexed: {new_indexed}"]
+                )
+                continue
             pol_meta = pol.metadata()[param]
             name = pol_meta["title"]
             default_val = getattr(pol, param)
@@ -137,6 +143,7 @@ def policy_table(params):
             if np.all(default_val == new_val):
                 continue
             # create individual lines for indexed parameters
+            # think parameters that vary by marital status, number of kids, etc
             if len(default_val.shape) != 1:
                 for vi in vi_map.keys():
                     if vi in pol_meta['value'][0].keys():
@@ -206,8 +213,8 @@ def form_intro(pol_areas, description=None):
         1: "modifing the {} section of the tax code",
         2: "modifing the {} and {} sections of the tax code",
         3: "modifing the {}, {}, and {} sections of the tax code",
-        4: ("modifing a number of sections of the tax code, "
-            "including {}, {}, and {}")
+        4: ("modifing a number of areas of the tax code, "
+            "including the {}, {}, and {} sections")
     }
     if not description:
         num_areas = min(len(pol_areas), 4)
@@ -272,7 +279,7 @@ def largest_tax_change(diff):
     elif largest_change > 0:
         largest_change_str = f"increase by ${largest_change:,.2f}"
     else:
-        largest_change_str = f"remain the same"
+        largest_change_str = "remain the same"
 
     return largest_change_group, largest_change_str
 

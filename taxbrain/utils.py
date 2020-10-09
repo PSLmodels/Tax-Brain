@@ -5,9 +5,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource, NumeralTickFormatter
-from bokeh.palettes import GnBu5
 from collections import defaultdict
 from typing import Union
 

@@ -10,11 +10,10 @@ from .constants import MetaParameters
 from .helpers import (TCDIR,
                       postprocess, nth_year_results, retrieve_puf,)
 from .outputs import create_layout, aggregate_plot
-from taxbrain import TaxBrain
+from taxbrain import TaxBrain, report
 from dask import delayed, compute
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from marshmallow import fields
-from collections import OrderedDict
 
 
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
@@ -150,6 +149,20 @@ def run_model(meta_params_dict, adjustment):
         for key, value in result.items():
             all_to_process[key] += value
     results, downloadable = postprocess(all_to_process)
+    # create report output
+    report_outputs = report(tb, clean=True)
+    for name, data in report_outputs.items():
+        if name.endswith(".md"):
+            media_type = "Markdown"
+        elif name.endswith(".pdf"):
+            media_type = "PDF"
+        downloadable.append(
+            {
+                "media_type": media_type,
+                "title": name,
+                "data": data
+            }
+        )
     agg_output, table_output = create_layout(results, start_year, end_year)
 
     comp_outputs = {
