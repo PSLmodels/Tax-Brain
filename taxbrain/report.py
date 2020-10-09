@@ -50,7 +50,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         # do not render correctly in the PDF document
         filename = f"{graph}_graph.png"
         full_filename = Path(output_path, filename)
-        export_png(plot, filename=str(full_filename))
+        plot.savefig(full_filename, dpi=1200, bbox_inches="tight")
 
         return str(full_filename)
 
@@ -104,7 +104,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
 
     # create differences table
     if verbose:
-        print("Creating distribution table")
+        print("Creating differences table")
     diff_table = tb.differences_table(
         tb.start_year, "standard_income_bins", "combined"
     ).fillna(0)
@@ -182,17 +182,11 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     # create graphs
     if verbose:
         print("Creating graphs")
-    dist_graph = taxbrain.distribution_plot(tb, tb.start_year, width=650)
-    dist_graph.background_fill_color = None
-    dist_graph.border_fill_color = None
-    dist_graph.title = None
+    dist_graph = taxbrain.distribution_plot(tb, tb.start_year, (5, 4),False)
     text_args["distribution_graph"] = export_plot(dist_graph, "dist")
 
     # differences graph
-    diff_graph = taxbrain.differences_plot(tb, "combined", width=640)
-    diff_graph.background_fill_color = None
-    diff_graph.border_fill_color = None
-    diff_graph.title = None
+    diff_graph = taxbrain.differences_plot(tb, "combined", title=False)
     text_args["agg_graph"] = export_plot(diff_graph, "difference")
 
     # fill in the report template
