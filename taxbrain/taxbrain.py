@@ -93,7 +93,8 @@ class TaxBrain:
 
         self.has_run = False
 
-    def run(self, varlist: list = DEFAULT_VARIABLES):
+    def run(self, varlist: list = DEFAULT_VARIABLES,
+            cs_run: bool = False):
         """
         Run the calculators. TaxBrain will determine whether to do a static or
         partial equilibrium run based on the user's inputs when initializing
@@ -101,25 +102,42 @@ class TaxBrain:
         Parameters
         ----------
         varlist: list of variables from the microdata to be stored in each year
+        cs_run: Boolean indicator for whether or not Tax-Brain is being run on
+                the Compute Studio servers. If True, TaxBrain will create
+                calculators in each process that is running, rather than
+                create one set of calculators and pass them to each process
         Returns
         -------
         None
         """
-        base_calc, reform_calc = self._make_calculators()
         if not isinstance(varlist, list):
             msg = f"'varlist' is of type {type(varlist)}. Must be a list."
             raise TypeError(msg)
-        if self.params["behavior"]:
-            if self.verbose:
-                print("Running dynamic simulations")
-            self._dynamic_run(varlist, base_calc, reform_calc)
+        if "s006" not in varlist:
+            varlist.append("s006")
+        if cs_run:
+            if self.params["behavior"]:
+                run_func = self._cs_dynamic_run
+            else:
+                run_func = self._cs_static_run
+            delay = [
+                delayed(self._cs_run(varlist, run_func, year))
+                for year in range(self.start_year, self.end_year + 1)
+            ]
+            compute(*delay)
         else:
-            if self.verbose:
-                print("Running static simulations")
-            self._static_run(varlist, base_calc, reform_calc)
-        setattr(self, "has_run", True)
+            base_calc, reform_calc = self._make_calculators()
+            if self.params["behavior"]:
+                if self.verbose:
+                    print("Running dynamic simulations")
+                self._dynamic_run(varlist, base_calc, reform_calc)
+            else:
+                if self.verbose:
+                    print("Running static simulations")
+                self._static_run(varlist, base_calc, reform_calc)
 
-        del base_calc, reform_calc
+            del base_calc, reform_calc
+        setattr(self, "has_run", True)
 
     def weighted_totals(self, var: str) -> pd.DataFrame:
         """
@@ -248,13 +266,45 @@ class TaxBrain:
         return table
 
     # ----- private methods -----
+    def _cs_run(self, varlist, run_func, year):
+        """
+        Function for improving the memory usage of TaxBrain on Compute Studio
+        Parameters
+        ----------
+        varlist: Variables from Tax-Calculator that will be saved
+        year: year the calculator needs to run
+        """
+        base_calc, reform_calc = self._make_calculators()
+        base_calc.advance_to_year(year)
+        reform_calc.advance_to_year(year)
+        run_func(varlist, base_calc, reform_calc, year)
+        del base_calc, reform_calc
+
+    def _cs_static_run(self, varlist, base_calc, reform_calc, year):
+        """
+        Function for running a static simulation on the Compute Studio servers
+        """
+        delay = [delayed(base_calc.calc_all()),
+                 delayed(reform_calc.calc_all())]
+        compute(*delay)
+        self.base_data[year] = base_calc.dataframe(varlist)
+        self.reform_data[year] = reform_calc.dataframe(varlist)
+
+    def _cs_dynamic_run(self, varlist, base_calc, reform_calc, year):
+        """
+        Function for runnnig a dynamic simulation on the Compute Studio servers
+        """
+        base, reform = behresp.response(base_calc, reform_calc,
+                                        self.params["behavior"],
+                                        dump=True)
+        self.base_data[year] = base[varlist]
+        self.reform_data[year] = reform[varlist]
+        del base, reform
+
     def _static_run(self, varlist, base_calc, reform_calc):
         """
         Run the calculator for a static analysis
         """
-        if "s006" not in varlist:  # ensure weight is always included
-            varlist.append("s006")
-
         for yr in range(self.start_year, self.end_year + 1):
             base_calc.advance_to_year(yr)
             reform_calc.advance_to_year(yr)
@@ -269,8 +319,6 @@ class TaxBrain:
         """
         Run a dynamic response
         """
-        if "s006" not in varlist:  # ensure weight is always included
-            varlist.append("s006")
         for year in range(self.start_year, self.end_year + 1):
             base_calc.advance_to_year(year)
             reform_calc.advance_to_year(year)
@@ -279,6 +327,7 @@ class TaxBrain:
                                             dump=True)
             self.base_data[year] = base[varlist]
             self.reform_data[year] = reform[varlist]
+            del base, reform
 
     def _process_user_mods(self, reform, assump):
         """

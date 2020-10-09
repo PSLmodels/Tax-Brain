@@ -2,6 +2,7 @@ import os
 import pytest
 import pandas as pd
 import numpy as np
+from pandas.util.testing import assert_frame_equal
 from taxbrain import TaxBrain
 
 
@@ -128,3 +129,15 @@ def test_user_input(reform_json_str, assump_json_str):
         TaxBrain(2018, 2020, use_cps=True, reform=True)
     with pytest.raises(TypeError):
         TaxBrain(2018, 2020, use_cps=True, assump=True)
+
+
+def test_cs_run(tb_static, reform_json_str, start_year, end_year):
+    """
+    Test the Compute Studio run methods to ensure we get the same results as
+    with the traditional methods
+    """
+    tb = TaxBrain(start_year, end_year, use_cps=True, reform=reform_json_str)
+    tb.run(cs_run=True)
+    for year in range(start_year, end_year + 1):
+        assert_frame_equal(tb.base_data[year], tb_static.base_data[year])
+        assert_frame_equal(tb.reform_data[year], tb_static.reform_data[year])
