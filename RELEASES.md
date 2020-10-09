@@ -1,15 +1,19 @@
 # Tax-Brain Release History
 
-## 2020-07-XX Release 2.3.5
+## 2020-07-XX Release 2.4.0
 
-Last Merged Pull Request [#76](https://github.com/PSLmodels/Tax-Brain/pull/76)
+Last Merged Pull Request [#135](https://github.com/PSLmodels/Tax-Brain/pull/135)
 
 Changes in this release:
 
-* Automated reports are now produced using just Pandoc ([#125](https://github.com/PSLmodels/Tax-Brain/pull/125))
+* Automated reports are now produced using just Pandoc ([#125](https://github.com/PSLmodels/Tax-Brain/pull/125), [#135](https://github.com/PSLmodels/Tax-Brain/pull/135))
 
 * The Tax-Brain Compute Studio app now includes automated reports in the
 downloadable content ([#76](https://github.com/PSLmodels/Tax-Brain/pull/76))
+
+* Tax-Brain now requires `taxcalc` version 3.0.0 or above and `behresp` 0.11.0 or above ([#128](https://github.com/PSLmodels/Tax-Brain/pull/128))
+
+* All images used in producing automated reports are now made with `matplotlib`, greatly reducing the number of external projects we need to install ([#134](https://github.com/PSLmodels/Tax-Brain/pull/134))
 
 
 ## 2020-07-07 Release 2.3.4
