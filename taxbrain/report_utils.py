@@ -11,6 +11,7 @@ from pathlib import Path
 from datetime import datetime
 from tabulate import tabulate
 from collections import defaultdict, deque
+from .utils import is_paramtools_format
 
 
 CUR_PATH = Path(__file__).resolve().parent
@@ -116,6 +117,8 @@ def policy_table(params):
     }
     reform_years = set()
     reform_by_year = defaultdict(lambda: deque())
+    if is_paramtools_format(params):
+        params = convert_params(params)
     pol = tc.Policy()  # policy object used for getting original value
     # loop through all of the policy parameters in a given reform
     for param, meta in params.items():
@@ -130,6 +133,7 @@ def policy_table(params):
                 pol_meta = pol.metadata()[_param]
                 default_indexed = pol_meta["indexed"]
                 new_indexed = meta[yr]
+                name = pol_meta["title"]
                 reform_by_year[yr].append(
                     [name, f"CPI Indexed: {default_indexed}",
                      f"CPI Indexed: {new_indexed}"]
@@ -145,6 +149,7 @@ def policy_table(params):
             # create individual lines for indexed parameters
             # think parameters that vary by marital status, number of kids, etc
             if len(default_val.shape) != 1:
+                # first find the indexed parameter we're working with
                 for vi in vi_map.keys():
                     if vi in pol_meta['value'][0].keys():
                         vi_name = vi
@@ -155,6 +160,8 @@ def policy_table(params):
                     _name = f"{name} - {vi_list[i]}"
                     _default_val = f"{val:,}"
                     _new_val = f"{new_val[i]:,}"
+                    if _default_val == _new_val:
+                        continue
                     reform_by_year[yr].append(
                         [_name, _default_val, _new_val]
                     )
@@ -474,3 +481,43 @@ def growth_assumptions(tb):
 
     else:
         return {"": "No new growth assumptions specified."}
+
+
+def convert_params(params):
+    """
+    Convert ParamTools style parameter inputs to traditional taxcalc style
+    parameters for report policy table creation
+
+    Parameters
+    ----------
+    params: ParamTools style reform dictionary
+    Returns
+    -------
+    reform: a dictionary in traditional taxcalc style
+    """
+    pol = tc.Policy()
+    pol.adjust(params)
+    indexed_params = []
+    reform = defaultdict(dict)
+    first_yr = pol.LAST_BUDGET_YEAR
+    for param in params.keys():
+        yrs = []
+        if param.endswith("-indexed"):
+            indexed_params.append(param)
+            continue
+        for adj in params[param]:
+            yrs.append(adj["year"])
+        yrs = set(yrs)
+        values = getattr(pol, f"_{param}")
+        for yr in yrs:
+            idx = yr - pol.JSON_START_YEAR
+            vals = values[idx]
+            if isinstance(vals, np.ndarray):
+                vals = list(vals)
+            first_yr = min(yr, first_yr)
+            reform[param][yr] = vals
+    # add indexed parameters as being implemented in first year of reform
+    for param in indexed_params:
+        val = params[param][0]['value']
+        reform[param][first_yr] = val
+    return reform
