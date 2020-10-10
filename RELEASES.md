@@ -1,6 +1,6 @@
 # Tax-Brain Release History
 
-## 2020-07-XX Release 2.4.0
+## 2020-10-09 Release 2.4.0
 
 Last Merged Pull Request [#135](https://github.com/PSLmodels/Tax-Brain/pull/135)
 
