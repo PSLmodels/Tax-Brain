@@ -18,6 +18,7 @@ requirements:
     - tabulate
     - pypandoc
     - matplotlib
+    - "numpy>=1.14"
 
 about:
   home: https://github.com/PSLmodels/Tax-Brain
