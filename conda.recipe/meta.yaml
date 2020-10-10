@@ -5,23 +5,20 @@ package:
 requirements:
   build:
     - python
-    - "taxcalc>=2.5.0"
-    - "behresp>=0.9.0"
+    - "taxcalc>=3.0.0"
+    - "behresp>=0.11.0"
     - dask
 
   run:
     - python
-    - "taxcalc>=2.4.2"
-    - "behresp>=0.9.0"
+    - "taxcalc>=3.0.0"
+    - "behresp>=0.11.0"
     - dask
     - bokeh
     - markdown
-    - cairo
-    - pango
-    - phantomjs
     - tabulate
-    - selenium
     - pypandoc
+    - matplotlib
 
 about:
   home: https://github.com/PSLmodels/Tax-Brain
