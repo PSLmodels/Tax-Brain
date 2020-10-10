@@ -8,6 +8,7 @@ requirements:
     - "taxcalc>=3.0.0"
     - "behresp>=0.11.0"
     - dask
+    - "numpy>=1.14"
 
   run:
     - python
@@ -19,6 +20,7 @@ requirements:
     - tabulate
     - pypandoc
     - matplotlib
+    - "numpy>=1.14"
 
 about:
   home: https://github.com/PSLmodels/Tax-Brain
