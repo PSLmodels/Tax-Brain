@@ -7,8 +7,6 @@ requirements:
     - python
     - "taxcalc>=3.0.0"
     - "behresp>=0.11.0"
-    - dask
-    - "numpy>=1.14"
 
   run:
     - python
