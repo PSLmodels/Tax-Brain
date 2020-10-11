@@ -5,6 +5,15 @@ package:
 requirements:
   build:
     - python
+    - "taxcalc>=3.0.0"
+    - "behresp>=0.11.0"
+    - dask
+    - bokeh
+    - markdown
+    - tabulate
+    - pypandoc
+    - matplotlib
+    - "numpy>=1.14"
 
   run:
     - python
