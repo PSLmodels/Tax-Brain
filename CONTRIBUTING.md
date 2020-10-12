@@ -31,3 +31,35 @@ conda activate taxbrain-dev
 Once you've made your changes, you can test them by running the command
 `pytest` in the terminal window. If you do not have access to the `puf.csv`
 file, run `pytest -m "not requires_puf` instead.
+
+## Releasing a new version
+
+We use [`Package Builder`](https://github.com/PSLmodels/Package-Builder) to 
+release new versions of Tax-Brain and upload them to the [pslmodels channel](https://anaconda.org/pslmodels)
+on Anaconda Cloud. To set up your environment for 
+installation, run these commands:
+
+```bash
+$ conda install -c PSLmodels pkgbld --yes
+$ conda config --add channels conda-forge
+```
+
+Once you've done that, you can build the package locally to test that everything
+workds correctly using:
+
+```bash
+$ cd Tax-Brain
+$ pbrelease Tax-Brain taxbrain 0.0.0 --local
+```
+
+If all goes well, uninstall the local package that was just created
+
+```bash
+$ conda uninstall taxbrain --yes
+```
+And then execute this command
+
+```bash
+$ pbrelease Tax-Brain taxbrain X.X.X
+```
+Where `X.X.X` is the release version.
