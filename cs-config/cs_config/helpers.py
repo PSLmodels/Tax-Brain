@@ -15,6 +15,7 @@ import copy
 import pandas as pd
 import numpy as np
 from collections import defaultdict
+from taxbrain.report_utils import convert_params
 from taxcalc import (Policy, DIFF_TABLE_COLUMNS, DIFF_TABLE_LABELS,
                      DIST_TABLE_COLUMNS, DIST_TABLE_LABELS,
                      add_income_table_row_variable,
@@ -29,7 +30,6 @@ from .tables import (summary_aggregate, summary_diff_xbin, summary_diff_xdec,
 
 TCPATH = inspect.getfile(Policy)
 TCDIR = os.path.dirname(TCPATH)
-
 
 
 def random_seed(user_mods, year):
@@ -67,7 +67,10 @@ def random_seed(user_mods, year):
     user_mods_copy["behavior"] = beh_mods_dict
     ans = 0
     for subdict_name in user_mods_copy:
-        ans += random_seed_from_subdict(user_mods_copy[subdict_name])
+        subdict = user_mods_copy[subdict_name]
+        if subdict_name == "policy":
+            subdict = convert_params(subdict)
+        ans += random_seed_from_subdict(subdict)
     return ans % np.iinfo(np.uint32).max
 
 

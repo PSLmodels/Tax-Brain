@@ -19,3 +19,4 @@ dependencies:
 - matplotlib
 - pip:
   - cs-kit
+  - cs2tc
