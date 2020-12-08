@@ -1,6 +1,7 @@
 # constants used by the new compconfig
 import paramtools
 from marshmallow import fields, Schema
+from datetime import datetime
 from taxbrain import TaxBrain
 
 
@@ -132,7 +133,7 @@ class MetaParameters(paramtools.Parameters):
             "title": "Start Year",
             "description": "Year for parameters.",
             "type": "int",
-            "value": 2019,
+            "value": min(datetime.now().year, TaxBrain.LAST_BUDGET_YEAR),
             "validators": {
                 "choice": {
                     "choices": [
