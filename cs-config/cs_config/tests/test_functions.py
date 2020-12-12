@@ -3,6 +3,7 @@ from cs_kit import CoreTestFunctions
 from cs_config import functions
 
 import copy
+import json
 
 
 OK_ADJUSTMENT = {
@@ -25,23 +26,32 @@ OK_ADJUSTMENT = {
 }
 
 
+# BAD_ADJUSTMENT = {
+#     "policy": {
+#         "STD": [
+#             {"MARS": "single", "year": 2019, "value": -10},
+#             {"MARS": "mjoint", "year": 2019, "value": 1},
+#             {"MARS": "mjoint", "year": 2022, "value": 10}
+#         ],
+#         "parameter_indexing_CPI_offset": [
+#             {"year": 2019, "value": -0.001}
+#         ],
+#         "ACTC_c": [{"year": 2019, "value": 2000.0}],
+#     },
+#     "behavior": {
+#         "sub": [
+#             {"value": -0.1}
+#         ]
+#     }
+# }
+
 BAD_ADJUSTMENT = {
+    "behavior": {},
     "policy": {
-        "STD": [
-            {"MARS": "single", "year": 2019, "value": -10},
-            {"MARS": "mjoint", "year": 2019, "value": 1},
-            {"MARS": "mjoint", "year": 2022, "value": 10}
-        ],
-        "parameter_indexing_CPI_offset": [
-            {"year": 2019, "value": -0.001}
-        ],
-        "ACTC_c": [{"year": 2019, "value": 2000.0}],
+        "II_brk7_checkbox": [{"value": True}],
+        "II_brk7": [{"value": 445400, "MARS": "single", "year": 2020}],
+        "II_brk6": [{"value": 316700, "MARS": "single", "year": 2020}],
     },
-    "behavior": {
-        "sub": [
-            {"value": -0.1}
-        ]
-    }
 }
 
 
