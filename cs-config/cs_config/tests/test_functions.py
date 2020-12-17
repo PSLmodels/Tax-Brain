@@ -3,7 +3,6 @@ from cs_kit import CoreTestFunctions
 from cs_config import functions
 
 import copy
-import json
 
 
 OK_ADJUSTMENT = {
