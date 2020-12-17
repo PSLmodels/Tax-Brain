@@ -70,8 +70,13 @@ def validate_inputs(meta_params_dict, adjustment, errors_warnings):
     """
     pol_params = cs2tc.convert_policy_adjustment(adjustment["policy"])
     policy_params = taxcalc.Policy()
-    policy_params.adjust(pol_params, raise_errors=False, ignore_warnings=True)
-    errors_warnings["policy"]["errors"].update(policy_params.errors)
+    # TODO: After paramtools updatre remove try/except block.
+    try:
+        policy_params.adjust(pol_params, raise_errors=False, ignore_warnings=True)
+        errors_warnings["policy"]["errors"].update(policy_params.errors)
+    except paramtools.ValidationError as e:
+        errors_warnings["policy"]["errors"] = policy_params.errors
+
 
     behavior_params = BehaviorParams()
     behavior_params.adjust(adjustment["behavior"], raise_errors=False)
