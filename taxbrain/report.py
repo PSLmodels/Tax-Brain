@@ -188,7 +188,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     # create graphs
     if verbose:
         print("Creating graphs")
-    dist_graph = taxbrain.distribution_plot(tb, tb.start_year, (5, 4),False)
+    dist_graph = taxbrain.distribution_plot(tb, tb.start_year, (5, 4), False)
     text_args["distribution_graph"] = export_plot(dist_graph, "dist")
 
     # differences graph

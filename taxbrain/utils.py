@@ -11,6 +11,7 @@ from typing import Union
 import taxcalc as tc
 from .typing import ParamToolsAdjustment, TaxcalcReform
 
+
 def weighted_sum(df, var, wt="s006"):
     """
     Return the weighted sum of specified variable
@@ -189,7 +190,7 @@ def is_paramtools_format(reform: Union[TaxcalcReform, ParamToolsAdjustment]):
     """
     for param, data in reform.items():
         if isinstance(data, dict):
-            return False # taxcalc reform
+            return False  # taxcalc reform
         else:
             # Not doing a specific check to see if the value is a list
             # since it could be a list or just a scalar value.
