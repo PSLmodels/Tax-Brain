@@ -44,6 +44,11 @@ BAD_ADJUSTMENT = {
     }
 }
 
+EMPTY_ADJUSTMENT = {
+    "policy": {},
+    "behavior": {}
+}
+
 
 CHECKBOX_ADJUSTMENT = {
     "policy": {
@@ -73,4 +78,13 @@ class TestFunctions2(CoreTestFunctions):
     validate_inputs = functions.validate_inputs
     run_model = functions.run_model
     ok_adjustment = CHECKBOX_ADJUSTMENT
+    bad_adjustment = BAD_ADJUSTMENT
+
+
+class TestFunctions3(CoreTestFunctions):
+    get_version = functions.get_version
+    get_inputs = functions.get_inputs
+    validate_inputs = functions.validate_inputs
+    run_model = functions.run_model
+    ok_adjustment = EMPTY_ADJUSTMENT
     bad_adjustment = BAD_ADJUSTMENT
