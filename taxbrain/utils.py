@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import matplotlib.ticker as ticker
 from collections import defaultdict
-from typing import Union
+from typing import Union, Tuple
 
 import taxcalc as tc
-from .typing import ParamToolsAdjustment, TaxcalcReform
+from .typing import ParamToolsAdjustment, TaxcalcReform, PlotColors
 
 
 def weighted_sum(df, var, wt="s006"):
@@ -198,11 +198,23 @@ def is_paramtools_format(reform: Union[TaxcalcReform, ParamToolsAdjustment]):
             return True
 
 
-def volcano_plot(tb, year, y_var="expanded_income", x_var="combined",
-                 min_y=0, max_y=9e99, log_scale=True,
-                 increase_color="#F15FE4", decrease_color="#41D6C2",
-                 dotsize=.75, figsize=(6, 4), dpi=100,
-                 xlabel="Change in Tax Liability", ylabel="Expanded Income"):
+def volcano_plot(
+    tb,
+    year: int,
+    y_var: str = "expanded_income",
+    x_var: str = "combined",
+    min_y: Union[int, float] = 0.01,
+    max_y: Union[int, float] = 9e99,
+    log_scale: bool = True,
+    increase_color: PlotColors = "#F15FE4",
+    decrease_color: PlotColors = "#41D6C2",
+    dotsize: Union[int, float] = .75, 
+    alpha: float = 0.5,
+    figsize: Tuple[Union[int, float], Union[int, float]] = (6, 4),
+    dpi: Union[int, float] = 100,
+    xlabel: str = "Change in Tax Liability",
+    ylabel: str = "Expanded Income"
+):
     """
     Create a volacnoe plot to show change in tax tax liability
 
@@ -211,7 +223,7 @@ def volcano_plot(tb, year, y_var="expanded_income", x_var="combined",
     tb: TaxBrain instance
     year: year for the plot
     min_y: minimum amount for the y variable to be included in the plot
-    max_Y: maximum amount for the y variable to be included in the plot
+    max_y: maximum amount for the y variable to be included in the plot
     y_var: variable on the y axis
     x_var: variable on the x axis
     log_scale: boolean value to indicate if the y-axis should use a log scale.
@@ -219,6 +231,7 @@ def volcano_plot(tb, year, y_var="expanded_income", x_var="combined",
     increase_color: color to use for dots when x increases
     decrease_color: color to use for dots when x decrease
     dotsize: size of the dots in the scatter plot
+    alpha: attribute for transparency of the dots
     figsize: tuple containing the figure size of the plot: (width, height)
     dpi: dots per inch in the figure. A higher value increases image quality
     xlabel: label on the x axis
@@ -244,14 +257,14 @@ def volcano_plot(tb, year, y_var="expanded_income", x_var="combined",
     mask = np.logical_and(_y >= min_y, _y <= max_y)
     y = _y[mask]
     x_change = _x_change[mask]
-    colors = np.where(x_change >= 0, increase_color, decrease_color)
+    colors = [increase_color if x >= 0 else decrease_color for x in x_change]
     xformatter = ticker.FuncFormatter(axis_formatter)
     yformatter = ticker.FuncFormatter(axis_formatter)
     if log_scale:
         yformatter = ticker.FuncFormatter(log_axis)
         y = np.log(y)
     fig, ax = plt.subplots(figsize=figsize)
-    ax.scatter(x_change, y, c=colors, s=dotsize)
+    ax.scatter(x_change, y, c=colors, s=dotsize, alpha=alpha)
     ax.axvline(0, color='black', alpha=0.5)
     ax.grid(True, linestyle="--")
     ax.xaxis.set_major_formatter(xformatter)
