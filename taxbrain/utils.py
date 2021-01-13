@@ -207,7 +207,8 @@ def lorenz_curve(
     base_color="blue",
     base_linestyle: str = "-",
     reform_color="red",
-    reform_linestyle: str = "--"
+    reform_linestyle: str = "--",
+    dpi: Union[int, float] = 100
 ):
     """
     Generate a Lorenz Curve
@@ -217,6 +218,14 @@ def lorenz_curve(
     tb: TaxBrain object
     year: year of data you want to use for the lorenz curve
     var: name of the variable to use
+    figsize: Tuple representing the size of the figure. (width, height)
+    xlabel: x axis label
+    ylabel: y axis label
+    base_color: color used for the base line
+    base_linestyle: linestyle for the base line
+    reform_color: color used for the reform line
+    reform_linestyle: linestyle for the reform line
+    dpi: dots per inch in the fiure. A higher value increases image quality
     """
     data = pd.DataFrame({
         "base": tb.base_data[year][var],
@@ -254,5 +263,7 @@ def lorenz_curve(
     ax.legend(loc="upper left")
     ax.set_xlabel(xlabel, fontweight="bold")
     ax.set_ylabel(ylabel, fontweight="bold")
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
 
     return fig
