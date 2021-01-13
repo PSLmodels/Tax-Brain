@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import matplotlib.ticker as ticker
 from collections import defaultdict
 from typing import Union
 
@@ -195,3 +196,68 @@ def is_paramtools_format(reform: Union[TaxcalcReform, ParamToolsAdjustment]):
             # Not doing a specific check to see if the value is a list
             # since it could be a list or just a scalar value.
             return True
+
+
+def volcano_plot(tb, year, y_var="expanded_income", x_var="combined",
+                 min_y=0, max_y=9e99, log_scale=True,
+                 increase_color="#F15FE4", decrease_color="#41D6C2",
+                 dotsize=.75, figsize=(6, 4), dpi=100,
+                 xlabel="Change in Tax Liability", ylabel="Expanded Income"):
+    """
+    Create a volacnoe plot to show change in tax tax liability
+
+    Parameters
+    ----------
+    tb: TaxBrain instance
+    year: year for the plot
+    min_y: minimum amount for the y variable to be included in the plot
+    max_Y: maximum amount for the y variable to be included in the plot
+    y_var: variable on the y axis
+    x_var: variable on the x axis
+    log_scale: boolean value to indicate if the y-axis should use a log scale.
+               If this is true, min_inc must be >= 0
+    increase_color: color to use for dots when x increases
+    decrease_color: color to use for dots when x decrease
+    dotsize: size of the dots in the scatter plot
+    figsize: tuple containing the figure size of the plot: (width, height)
+    dpi: dots per inch in the figure. A higher value increases image quality
+    xlabel: label on the x axis
+    ylabel: label on the y axis
+    """
+    def log_axis(x, pos):
+        """
+        Converts y-axis log values
+        """
+        return f"${np.exp(x):,.0f}"
+
+    def axis_formatter(x, pos):
+        if x >= 0:
+            return f"${x:,.0f}"
+        else:
+            return f"-${abs(x):,.0f}"
+
+    if log_scale and min_y < 0:
+        msg = "`min_y` must be >= 0 when `log_scale` is true"
+        raise ValueError(msg)
+    _y = tb.base_data[year][y_var]
+    _x_change = tb.reform_data[year][x_var] - tb.base_data[year][x_var]
+    mask = np.logical_and(_y >= min_y, _y <= max_y)
+    y = _y[mask]
+    x_change = _x_change[mask]
+    colors = np.where(x_change >= 0, increase_color, decrease_color)
+    xformatter = ticker.FuncFormatter(axis_formatter)
+    yformatter = ticker.FuncFormatter(axis_formatter)
+    if log_scale:
+        yformatter = ticker.FuncFormatter(log_axis)
+        y = np.log(y)
+    fig, ax = plt.subplots(figsize=figsize)
+    ax.scatter(x_change, y, c=colors, s=dotsize)
+    ax.axvline(0, color='black', alpha=0.5)
+    ax.grid(True, linestyle="--")
+    ax.xaxis.set_major_formatter(xformatter)
+    ax.xaxis.set_tick_params(rotation=25)
+    ax.yaxis.set_major_formatter(yformatter)
+    ax.set_xlabel(xlabel, fontweight="bold")
+    ax.set_ylabel(ylabel, fontweight="bold")
+
+    return fig
