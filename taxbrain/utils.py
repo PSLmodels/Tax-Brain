@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from collections import defaultdict
-from typing import Union
+from typing import Union, Tuple
 
 import taxcalc as tc
 from .typing import ParamToolsAdjustment, TaxcalcReform
@@ -195,3 +195,64 @@ def is_paramtools_format(reform: Union[TaxcalcReform, ParamToolsAdjustment]):
             # Not doing a specific check to see if the value is a list
             # since it could be a list or just a scalar value.
             return True
+
+
+def lorenz_curve(
+    tb,
+    year: int,
+    var: str,
+    figsize: Tuple[Union[int, float], Union[int, float]] = (6, 4),
+    xlabel: str = "Cummulative Percentage of Tax Units",
+    ylabel: str = "Cummulative Percentage of Income",
+    base_color="blue",
+    base_linestyle: str = "-",
+    reform_color="red",
+    reform_linestyle: str = "--"
+):
+    """
+    Generate a Lorenz Curve
+
+    Parameters
+    ----------
+    tb: TaxBrain object
+    year: year of data you want to use for the lorenz curve
+    var: name of the variable to use
+    """
+    data = pd.DataFrame({
+        "base": tb.base_data[year][var],
+        "reform": tb.reform_data[year][var],
+        "wt": tb.base_data[year]["s006"]
+    })
+    data["wt_base"] = data["base"] * data["wt"]
+    data["wt_reform"] = data["reform"] * data["wt"]
+    data.sort_values("base", inplace=True)
+    data["cwt"] = data["wt"].cumsum()
+    data['percentile'] = data["cwt"] / data["wt"].sum()
+    # each bin has 1% of the population
+    _bins = np.arange(0, 1.01, step=0.01)
+    data["bin"] = pd.cut(data['percentile'], bins=_bins)
+    gdf = data.groupby("bin")
+    base = gdf["wt_base"].sum()
+    base = np.where(base < 0, 0, base)
+    reform = gdf["wt_reform"].sum()
+    reform = np.where(reform < 0, 0, reform)
+    plot_data = pd.DataFrame({
+        "Base": base.cumsum() / data["wt_base"].sum(),
+        "Reform": reform.cumsum() / data["wt_reform"].sum(),
+        "Population": gdf["wt"].sum().cumsum() / data["wt"].sum()
+    })
+    fig, ax = plt.subplots()
+    ax.plot([0, 1], [0, 1], c="black", alpha=0.5)  # 45 degree line
+    ax.plot(
+        plot_data["Population"], plot_data["Base"], c=base_color,
+        linestyle=base_linestyle, label="Base"
+    )
+    ax.plot(
+        plot_data["Population"], plot_data["Reform"], c=reform_color,
+        linestyle=reform_linestyle, label="Reform"
+    )
+    ax.legend(loc="upper left")
+    ax.set_xlabel(xlabel, fontweight="bold")
+    ax.set_ylabel(ylabel, fontweight="bold")
+
+    return fig
