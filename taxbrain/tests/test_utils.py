@@ -25,4 +25,4 @@ def test_volcano_plot(tb_static):
 
 
 def test_lorenz_curve(tb_static):
-    fig = taxbrain.lorenz_curve(tb_static, 2019, "expanded_income")
+    fig = taxbrain.lorenz_curve(tb_static, 2019)

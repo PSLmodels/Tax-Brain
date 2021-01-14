@@ -201,7 +201,7 @@ def is_paramtools_format(reform: Union[TaxcalcReform, ParamToolsAdjustment]):
 def lorenz_curve(
     tb,
     year: int,
-    var: str,
+    var: str = "aftertax_income",
     figsize: Tuple[Union[int, float], Union[int, float]] = (6, 4),
     xlabel: str = "Cummulative Percentage of Tax Units",
     ylabel: str = "Cummulative Percentage of Income",
