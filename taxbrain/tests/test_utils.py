@@ -22,3 +22,7 @@ def test_volcano_plot(tb_static):
         tb_static, 2019,
         increase_color=(0.1, 0.2, 0.5), decrease_color=(0.2, 0.2, 0.5)
     )
+
+
+def test_lorenz_curve(tb_static):
+    fig = taxbrain.lorenz_curve(tb_static, 2019)
