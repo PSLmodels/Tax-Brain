@@ -7,7 +7,8 @@ from .report_utils import (form_intro, form_baseline_intro, write_text, date,
                            largest_tax_change, notable_changes,
                            behavioral_assumptions, consumption_assumptions,
                            policy_table, convert_table, growth_assumptions,
-                           md_to_pdf, DIFF_TABLE_ROW_NAMES)
+                           md_to_pdf, DIFF_TABLE_ROW_NAMES,
+                           dollar_str_formatting)
 
 
 CUR_PATH = Path(__file__).resolve().parent
@@ -34,11 +35,21 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     clean: boolean indicating whether all of the files written to create the
         report should be deleated and a byte representation of the PDF returned
     """
-    def format_table(df):
+    def format_table(df, int_cols, float_cols):
         """
         Apply formatting to a given table
+
+        Parameters
+        ----------
+        df: DataFrame being formatted
+        int_cols: columns that need to be converted to integers
+        float_cols: columns that need to be converted to floats
         """
-        for col in df.columns:
+        for col in int_cols:
+            df.update(
+                df[col].astype(int).apply("{:,}".format)
+            )
+        for col in float_cols:
             df.update(
                 df[col].astype(float).apply("{:,.2f}".format)
             )
@@ -106,7 +117,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     if rev_change < 0:
         rev_direction = "decrease"
     text_args["rev_direction"] = rev_direction
-    text_args["rev_change"] = f"{rev_change:,.0f}"
+    text_args["rev_change"] = dollar_str_formatting(rev_change)
 
     # create differences table
     if verbose:
@@ -128,10 +139,9 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     sub_diff_table = diff_table.drop(columns=drop_cols)
 
     # convert DataFrame to Markdown table
-    diff_table.index.name = "_Income Bin_"
-    # apply formatting
-    diff_table = format_table(diff_table)
-    diff_md = convert_table(sub_diff_table)
+    sub_diff_table.index.name = "_Income Bin_"
+    diff_table = format_table(sub_diff_table, [], list(sub_diff_table.columns))
+    diff_md = convert_table(diff_table)
     text_args["differences_table"] = diff_md
 
     # aggregate results
@@ -139,7 +149,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         print("Compiling aggregate results")
     # format aggregate table
     agg_table *= 1e-9
-    agg_table = format_table(agg_table)
+    agg_table = format_table(agg_table, list(agg_table.columns), [])
     agg_md = convert_table(agg_table)
     text_args["agg_table"] = agg_md
 
@@ -150,7 +160,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     agg_diff = agg_reform - agg_base
     agg_diff.index = ["Income Tax", "Payroll Tax", "Combined"]
     agg_diff *= 1e-9
-    agg_diff = format_table(agg_diff)
+    agg_diff = format_table(agg_diff, list(agg_diff.columns), [])
     text_args["agg_tax_type"] = convert_table(agg_diff)
 
     # summary of policy changes

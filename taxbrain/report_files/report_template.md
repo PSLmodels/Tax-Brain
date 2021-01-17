@@ -37,7 +37,7 @@ Over the budget window  ({{ start_year }} to {{ end_year }}), this policy is exp
 ## Notable Changes
 
 {% for change in notable_changes %}
-* {{ change }}
+{{ change }}
 {% endfor %}
 
 ## Aggregate Changes
