@@ -198,11 +198,17 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     # create graphs
     if verbose:
         print("Creating graphs")
-    dist_graph = taxbrain.distribution_plot(tb, tb.start_year, (5, 4), False)
+    dist_graph = taxbrain.distribution_plot(
+        tb, tb.start_year, (5, 4),
+        f"Fig. 2: Percentage Change in After-Tax Income - {tb.start_year}"
+    )
     text_args["distribution_graph"] = export_plot(dist_graph, "dist")
 
     # differences graph
-    diff_graph = taxbrain.differences_plot(tb, "combined", title=False)
+    diff_graph = taxbrain.differences_plot(
+        tb, "combined", (6, 3),
+        title="Fig. 1: Change in Aggregate Combined Tax Liability"
+    )
     text_args["agg_graph"] = export_plot(diff_graph, "difference")
 
     # fill in the report template

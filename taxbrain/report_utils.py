@@ -51,8 +51,7 @@ def md_to_pdf(md_text, outputfile_path):
     Parameters
     ----------
     md_text: report template written in markdown
-    base_url: path to the output directory
-    css_path: path to CSS file used for styling
+    outputfile_path: path to where the final file sohould be written
 
     Returns
     -------

@@ -24,7 +24,7 @@ def distribution_plot(
     tb,
     year: int,
     figsize: Tuple[Union[int, float], Union[int, float]] = (6, 4),
-    title: bool = True,
+    title: str = "default",
     include_text: bool = False
 ):
     """
@@ -118,9 +118,9 @@ def distribution_plot(
     ax.get_xaxis().set_major_formatter(
         mpl.ticker.FuncFormatter(lambda x, p: format(f'{int(x * 100)}%'))
     )
-    if title:
+    if title == "default":
         title = f"Percentage Change In After Tax Income - {year}"
-        ax.set_title(title, fontweight='bold')
+    ax.set_title(title)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     ax.tick_params(axis="y", which="both", length=0, pad=15)
@@ -128,7 +128,12 @@ def distribution_plot(
     return fig
 
 
-def differences_plot(tb, tax_type, figsize=(6, 4), title=True):
+def differences_plot(
+    tb,
+    tax_type: str,
+    figsize: Tuple[Union[int, float], Union[int, float]] = (6, 4),
+    title: str = "default"
+):
     """
     Create a bar chart that shows the change in total liability for a given
     tax
@@ -154,8 +159,9 @@ def differences_plot(tb, tax_type, figsize=(6, 4), title=True):
         plot_data.index, plot_data["combined"], alpha=0.55,
         color=plot_data["color"]
     )
-    if title:
-        ax.set_title(f"Change in Aggregate {tax_type.title()} Tax Liability")
+    if title == "default":
+        title = f"Change in Aggregate {tax_type.title()} Tax Liability"
+    ax.set_title(title)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     ax.get_yaxis().set_major_formatter(
