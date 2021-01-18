@@ -138,6 +138,11 @@ def differences_plot(
     Create a bar chart that shows the change in total liability for a given
     tax
     """
+    def axis_formatter(x, p):
+        if x >= 0:
+            return f"${x * 1e-9:,.2f}b"
+        else:
+            return f"-${x * 1e-9:,.2f}b"
     acceptable_taxes = ["income", "payroll", "combined"]
     msg = f"tax_type must be one of the following: {acceptable_taxes}"
     assert tax_type in acceptable_taxes, msg
@@ -165,7 +170,7 @@ def differences_plot(
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     ax.get_yaxis().set_major_formatter(
-        mpl.ticker.FuncFormatter(lambda x, p: format(f"${int(x / 1e9):,}b"))
+        mpl.ticker.FuncFormatter(axis_formatter)
     )
     ax.xaxis.set_ticks(list(plot_data.index))
     ax.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter(useOffset=False))

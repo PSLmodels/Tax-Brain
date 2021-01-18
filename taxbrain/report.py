@@ -99,7 +99,9 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         # catch "{}-indexed" parameter changes
         if "-" in var:
             var = var.split("-")[0]
-        area = pol_meta[var]["section_1"]
+        area = pol_meta[var]["section_1"].lower()
+        if area == "social security taxability":
+            area = "Social Security taxability"
         if area != "":
             pol_areas.add(area)
     pol_areas = list(pol_areas)
@@ -126,20 +128,29 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         tb.start_year, "standard_income_bins", "combined"
     ).fillna(0)
     diff_table.index = DIFF_TABLE_ROW_NAMES
+
+    decile_diff_table = tb.differences_table(
+        tb.start_year, "weighted_deciles", "combined"
+    ).fillna(0)
+    # move the "ALL" row to the bottom of the DataFrame
+    row = decile_diff_table.loc["ALL"].copy()
+    decile_diff_table.drop("ALL", inplace=True)
+    decile_diff_table = decile_diff_table.append(row)
+
     # find which income bin sees the largest change in tax liability
     largest_change = largest_tax_change(diff_table)
     text_args["largest_change_group"] = largest_change[0]
     text_args["largest_change_str"] = largest_change[1]
-    diff_table.columns = tc.DIFF_TABLE_LABELS
+    decile_diff_table.columns = tc.DIFF_TABLE_LABELS
     # drop certain columns to save space
     drop_cols = [
         "Share of Overall Change", "Count with Tax Cut",
         "Count with Tax Increase"
     ]
-    sub_diff_table = diff_table.drop(columns=drop_cols)
+    sub_diff_table = decile_diff_table.drop(columns=drop_cols)
 
     # convert DataFrame to Markdown table
-    sub_diff_table.index.name = "_Income Bin_"
+    sub_diff_table.index.name = "_Income &nbsp; Decile_"
     diff_table = format_table(sub_diff_table, [], list(sub_diff_table.columns))
     diff_md = convert_table(diff_table)
     text_args["differences_table"] = diff_md

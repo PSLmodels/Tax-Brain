@@ -544,4 +544,4 @@ def dollar_str_formatting(val: Union[int, float]) -> str:
     elif 1e6 <= val < 1e9:
         return f"{val * 1e-6:,.1f} million"
     else:
-        return f"{int(val):,f}"
+        return f"{int(round(val, 0)):,}"
