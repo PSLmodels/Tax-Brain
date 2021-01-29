@@ -20,7 +20,13 @@ def weighted_sum(df, var, wt="s006"):
     return (df[var] * df[wt]).sum()
 
 
-def distribution_plot(tb, year, figsize=(6, 4), title=True):
+def distribution_plot(
+    tb,
+    year: int,
+    figsize: Tuple[Union[int, float], Union[int, float]] = (6, 4),
+    title: str = "default",
+    include_text: bool = False
+):
     """
     Create a horizontal bar chart to display the distributional change in
     after tax income
@@ -98,22 +104,23 @@ def distribution_plot(tb, year, figsize=(6, 4), title=True):
         starts = data_cumsum[:, i] - widths
         ax.barh(labels, widths, left=starts, height=0.9,
                 label=colname, color=color)
-        # add text label
-        xcenters = starts + widths / 2
-        r, g, b, _ = color
-        text_color = "white" if r * g * b < 0.5 else "darkgrey"
-        for y, (x, c) in enumerate(zip(xcenters, widths)):
-            ax.text(x, y, f"{c * 100:.1f}%", ha="center", va="center",
-                    color=text_color)
+        if include_text:
+            # add text label
+            xcenters = starts + widths / 2
+            r, g, b, _ = color
+            text_color = "white" if r * g * b < 0.5 else "darkgrey"
+            for y, (x, c) in enumerate(zip(xcenters, widths)):
+                ax.text(x, y, f"{c * 100:.1f}%", ha="center", va="center",
+                        color=text_color)
     ax.legend(bbox_to_anchor=(1, 1), loc="upper left", fontsize="small")
     ax.set_xlabel("Portion of Bin", fontweight="bold")
     ax.set_ylabel("Expanded Income Bin", fontweight="bold")
     ax.get_xaxis().set_major_formatter(
         mpl.ticker.FuncFormatter(lambda x, p: format(f'{int(x * 100)}%'))
     )
-    if title:
+    if title == "default":
         title = f"Percentage Change In After Tax Income - {year}"
-        ax.set_title(title, fontweight='bold')
+    ax.set_title(title)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     ax.tick_params(axis="y", which="both", length=0, pad=15)
@@ -121,11 +128,21 @@ def distribution_plot(tb, year, figsize=(6, 4), title=True):
     return fig
 
 
-def differences_plot(tb, tax_type, figsize=(6, 4), title=True):
+def differences_plot(
+    tb,
+    tax_type: str,
+    figsize: Tuple[Union[int, float], Union[int, float]] = (6, 4),
+    title: str = "default"
+):
     """
     Create a bar chart that shows the change in total liability for a given
     tax
     """
+    def axis_formatter(x, p):
+        if x >= 0:
+            return f"${x * 1e-9:,.2f}b"
+        else:
+            return f"-${x * 1e-9:,.2f}b"
     acceptable_taxes = ["income", "payroll", "combined"]
     msg = f"tax_type must be one of the following: {acceptable_taxes}"
     assert tax_type in acceptable_taxes, msg
@@ -147,14 +164,16 @@ def differences_plot(tb, tax_type, figsize=(6, 4), title=True):
         plot_data.index, plot_data["combined"], alpha=0.55,
         color=plot_data["color"]
     )
-    if title:
-        ax.set_title(f"Change in Aggregate {tax_type.title()} Tax Liability")
+    if title == "default":
+        title = f"Change in Aggregate {tax_type.title()} Tax Liability"
+    ax.set_title(title)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     ax.get_yaxis().set_major_formatter(
-        mpl.ticker.FuncFormatter(lambda x, p: format(f"${int(x / 1e9):,}b"))
+        mpl.ticker.FuncFormatter(axis_formatter)
     )
     ax.xaxis.set_ticks(list(plot_data.index))
+    ax.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter(useOffset=False))
 
     return fig
 
@@ -198,6 +217,43 @@ def is_paramtools_format(reform: Union[TaxcalcReform, ParamToolsAdjustment]):
             return True
 
 
+def lorenz_data(tb, year: int, var: str = "aftertax_income"):
+    """
+    Pull data used for the lorenz curve plot
+
+    Parameters
+    ----------
+    tb: TaxBrain object
+    year: year of data to use
+    var: name of the variable to use
+    """
+    data = pd.DataFrame({
+        "base": tb.base_data[year][var],
+        "reform": tb.reform_data[year][var],
+        "wt": tb.base_data[year]["s006"]
+    })
+    data["wt_base"] = data["base"] * data["wt"]
+    data["wt_reform"] = data["reform"] * data["wt"]
+    data.sort_values("base", inplace=True)
+    data["cwt"] = data["wt"].cumsum()
+    data['percentile'] = data["cwt"] / data["wt"].sum()
+    # each bin has 1% of the population
+    _bins = np.arange(0, 1.01, step=0.01)
+    data["bin"] = pd.cut(data['percentile'], bins=_bins)
+    gdf = data.groupby("bin")
+    base = gdf["wt_base"].sum()
+    base = np.where(base < 0, 0, base)
+    reform = gdf["wt_reform"].sum()
+    reform = np.where(reform < 0, 0, reform)
+    final_data = pd.DataFrame({
+        "Base": base.cumsum() / data["wt_base"].sum(),
+        "Reform": reform.cumsum() / data["wt_reform"].sum(),
+        "Population": gdf["wt"].sum().cumsum() / data["wt"].sum()
+    })
+
+    return final_data
+
+
 def lorenz_curve(
     tb,
     year: int,
@@ -228,29 +284,7 @@ def lorenz_curve(
     reform_linestyle: linestyle for the reform line
     dpi: dots per inch in the fiure. A higher value increases image quality
     """
-    data = pd.DataFrame({
-        "base": tb.base_data[year][var],
-        "reform": tb.reform_data[year][var],
-        "wt": tb.base_data[year]["s006"]
-    })
-    data["wt_base"] = data["base"] * data["wt"]
-    data["wt_reform"] = data["reform"] * data["wt"]
-    data.sort_values("base", inplace=True)
-    data["cwt"] = data["wt"].cumsum()
-    data['percentile'] = data["cwt"] / data["wt"].sum()
-    # each bin has 1% of the population
-    _bins = np.arange(0, 1.01, step=0.01)
-    data["bin"] = pd.cut(data['percentile'], bins=_bins)
-    gdf = data.groupby("bin")
-    base = gdf["wt_base"].sum()
-    base = np.where(base < 0, 0, base)
-    reform = gdf["wt_reform"].sum()
-    reform = np.where(reform < 0, 0, reform)
-    plot_data = pd.DataFrame({
-        "Base": base.cumsum() / data["wt_base"].sum(),
-        "Reform": reform.cumsum() / data["wt_reform"].sum(),
-        "Population": gdf["wt"].sum().cumsum() / data["wt"].sum()
-    })
+    plot_data = lorenz_data(tb, year, var)
     fig, ax = plt.subplots()
     ax.plot([0, 1], [0, 1], c="black", alpha=0.5)  # 45 degree line
     ax.plot(
@@ -278,7 +312,7 @@ def volcano_plot(
     log_scale: bool = True,
     increase_color: PlotColors = "#F15FE4",
     decrease_color: PlotColors = "#41D6C2",
-    dotsize: Union[int, float] = .75, 
+    dotsize: Union[int, float] = .75,
     alpha: float = 0.5,
     figsize: Tuple[Union[int, float], Union[int, float]] = (6, 4),
     dpi: Union[int, float] = 100,

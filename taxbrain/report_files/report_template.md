@@ -37,26 +37,30 @@ Over the budget window  ({{ start_year }} to {{ end_year }}), this policy is exp
 ## Notable Changes
 
 {% for change in notable_changes %}
-* {{ change }}
+{{ change }}
 {% endfor %}
 
 ## Aggregate Changes
 
-#### Total Tax Liability Change (Billions)
+**Table 1: Total Tax Liability Change (Billions)**
 
 {{ agg_table }}
 
-#### Total Tax Liability Change by Tax Type (Billions)
+**Table 2: Total Tax Liability Change by Tax Type (Billions)**
 
 {{ agg_tax_type }}
 
 ![Change in Aggregate Tax Liability]({{ agg_graph }})
+\ 
 
 ## Distributional Analysis
+
+**Table 3: Differences Table - {{ start_year }}**^[The _0-10n_ bin is comprised of tax units with negative income, the _0-10z_ bin is comprised of tax units with no income, and the _0-10p_ bin is comprised of tax units in the bottom decile with positive income.]
 
 {{ differences_table }}
 
 ![Percentage Change in After Tax Income]({{ distribution_graph }})
+\ 
 
 ## Summary of Policy Changes
 

@@ -12,6 +12,7 @@ from datetime import datetime
 from tabulate import tabulate
 from collections import defaultdict, deque
 from .utils import is_paramtools_format
+from typing import Union
 
 
 CUR_PATH = Path(__file__).resolve().parent
@@ -50,8 +51,7 @@ def md_to_pdf(md_text, outputfile_path):
     Parameters
     ----------
     md_text: report template written in markdown
-    base_url: path to the output directory
-    css_path: path to CSS file used for styling
+    outputfile_path: path to where the final file sohould be written
 
     Returns
     -------
@@ -66,7 +66,7 @@ def md_to_pdf(md_text, outputfile_path):
     )
 
 
-def convert_table(df):
+def convert_table(df, tablefmt: str = "pipe") -> str:
     """
     Convert pandas DataFrame to Markdown style table
 
@@ -80,11 +80,11 @@ def convert_table(df):
     """
     if isinstance(df, pd.DataFrame):
         return tabulate(
-            df, headers="keys", tablefmt="pipe"
+            df, headers="keys", tablefmt=tablefmt
         )
     else:
         return tabulate(
-            df, headers="firstrow", tablefmt="pipe"
+            df, headers="firstrow", tablefmt=tablefmt
         )
 
 
@@ -281,17 +281,18 @@ def largest_tax_change(diff):
     else:
         largest_change_group = f"between {split_index[0]} and {split_index[1]}"
 
+    formatted_change = dollar_str_formatting(largest_change)
     if largest_change < 0:
-        largest_change_str = f"decrease by ${largest_change:,.2f}"
+        largest_change_str = f"decrease by ${formatted_change}"
     elif largest_change > 0:
-        largest_change_str = f"increase by ${largest_change:,.2f}"
+        largest_change_str = f"increase by ${formatted_change}"
     else:
         largest_change_str = "remain the same"
 
     return largest_change_group, largest_change_str
 
 
-def notable_changes(tb, threshold):
+def notable_changes(tb, threshold: float) -> str:
     """
     Find any notable changes in certain variables. "Notable" is definded as a
     percentage change above the given threshold.
@@ -302,7 +303,7 @@ def notable_changes(tb, threshold):
     threshold: Percentage change in an aggregate variable for it to be
         considered notable
     """
-    notable_list = []
+    notable_dict = defaultdict(list)
     # loop through all of the notable variables and see if there is a year
     # where they change more than the given threshold
     for var, desc in notable_vars.items():
@@ -340,14 +341,18 @@ def notable_changes(tb, threshold):
             else:
                 direction = "increases"
             pct_chng = max_pct_change * 100
-            notable_str = f"{desc} {direction} by {pct_chng:.2f}% in {max_yr}"
-            notable_list.append(notable_str)
+            notable_str = f"{desc} {direction} by {pct_chng:.2f}%"
+            notable_dict[max_yr].append(notable_str)
     # add default message if no notable changes
-    if len(notable_list) == 0:
-        min_chng = threshold * 100
-        msg = f"No notable variables changed by more than {min_chng:.2f}%"
-        notable_list.append(msg)
-    return notable_list
+    min_chng = threshold * 100
+    section = [f"No notable variables changed by more than {min_chng:.2f}%"]
+    if notable_dict:
+        section = []
+        for year, item in notable_dict.items():
+            section.append(f"_{year}_")
+            for change in item:
+                section.append(f"* {change}")
+    return section
 
 
 def behavioral_assumptions(tb):
@@ -521,3 +526,22 @@ def convert_params(params):
         val = params[param][0]['value']
         reform[param][first_yr] = val
     return reform
+
+
+def dollar_str_formatting(val: Union[int, float]) -> str:
+    """
+    Format dollar figures into $val trillion, $val billion, etc.
+
+    Parameters
+    ----------
+    val: revenue amount
+    """
+    val = abs(val)
+    if val >= 1e12:
+        return f"{val * 1e-12:,.1f} trillion"
+    elif 1e9 <= val < 1e12:
+        return f"{val * 1e-9:,.1f} billion"
+    elif 1e6 <= val < 1e9:
+        return f"{val * 1e-6:,.1f} million"
+    else:
+        return f"{int(round(val, 0)):,}"

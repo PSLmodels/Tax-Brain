@@ -7,7 +7,8 @@ from .report_utils import (form_intro, form_baseline_intro, write_text, date,
                            largest_tax_change, notable_changes,
                            behavioral_assumptions, consumption_assumptions,
                            policy_table, convert_table, growth_assumptions,
-                           md_to_pdf, DIFF_TABLE_ROW_NAMES)
+                           md_to_pdf, DIFF_TABLE_ROW_NAMES,
+                           dollar_str_formatting)
 
 
 CUR_PATH = Path(__file__).resolve().parent
@@ -34,11 +35,21 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     clean: boolean indicating whether all of the files written to create the
         report should be deleated and a byte representation of the PDF returned
     """
-    def format_table(df):
+    def format_table(df, int_cols, float_cols):
         """
         Apply formatting to a given table
+
+        Parameters
+        ----------
+        df: DataFrame being formatted
+        int_cols: columns that need to be converted to integers
+        float_cols: columns that need to be converted to floats
         """
-        for col in df.columns:
+        for col in int_cols:
+            df.update(
+                df[col].astype(int).apply("{:,}".format)
+            )
+        for col in float_cols:
             df.update(
                 df[col].astype(float).apply("{:,.2f}".format)
             )
@@ -88,7 +99,9 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         # catch "{}-indexed" parameter changes
         if "-" in var:
             var = var.split("-")[0]
-        area = pol_meta[var]["section_1"]
+        area = pol_meta[var]["section_1"].lower()
+        if area == "social security taxability":
+            area = "Social Security taxability"
         if area != "":
             pol_areas.add(area)
     pol_areas = list(pol_areas)
@@ -106,7 +119,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     if rev_change < 0:
         rev_direction = "decrease"
     text_args["rev_direction"] = rev_direction
-    text_args["rev_change"] = f"{rev_change:,.0f}"
+    text_args["rev_change"] = dollar_str_formatting(rev_change)
 
     # create differences table
     if verbose:
@@ -115,23 +128,31 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         tb.start_year, "standard_income_bins", "combined"
     ).fillna(0)
     diff_table.index = DIFF_TABLE_ROW_NAMES
+
+    decile_diff_table = tb.differences_table(
+        tb.start_year, "weighted_deciles", "combined"
+    ).fillna(0)
+    # move the "ALL" row to the bottom of the DataFrame
+    row = decile_diff_table.loc["ALL"].copy()
+    decile_diff_table.drop("ALL", inplace=True)
+    decile_diff_table = decile_diff_table.append(row)
+
     # find which income bin sees the largest change in tax liability
     largest_change = largest_tax_change(diff_table)
     text_args["largest_change_group"] = largest_change[0]
     text_args["largest_change_str"] = largest_change[1]
-    diff_table.columns = tc.DIFF_TABLE_LABELS
+    decile_diff_table.columns = tc.DIFF_TABLE_LABELS
     # drop certain columns to save space
     drop_cols = [
         "Share of Overall Change", "Count with Tax Cut",
         "Count with Tax Increase"
     ]
-    sub_diff_table = diff_table.drop(columns=drop_cols)
+    sub_diff_table = decile_diff_table.drop(columns=drop_cols)
 
     # convert DataFrame to Markdown table
-    diff_table.index.name = "_Income Bin_"
-    # apply formatting
-    diff_table = format_table(diff_table)
-    diff_md = convert_table(sub_diff_table)
+    sub_diff_table.index.name = "_Income &nbsp; Decile_"
+    diff_table = format_table(sub_diff_table, [], list(sub_diff_table.columns))
+    diff_md = convert_table(diff_table)
     text_args["differences_table"] = diff_md
 
     # aggregate results
@@ -139,7 +160,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         print("Compiling aggregate results")
     # format aggregate table
     agg_table *= 1e-9
-    agg_table = format_table(agg_table)
+    agg_table = format_table(agg_table, list(agg_table.columns), [])
     agg_md = convert_table(agg_table)
     text_args["agg_table"] = agg_md
 
@@ -150,7 +171,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     agg_diff = agg_reform - agg_base
     agg_diff.index = ["Income Tax", "Payroll Tax", "Combined"]
     agg_diff *= 1e-9
-    agg_diff = format_table(agg_diff)
+    agg_diff = format_table(agg_diff, list(agg_diff.columns), [])
     text_args["agg_tax_type"] = convert_table(agg_diff)
 
     # summary of policy changes
@@ -188,11 +209,17 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     # create graphs
     if verbose:
         print("Creating graphs")
-    dist_graph = taxbrain.distribution_plot(tb, tb.start_year, (5, 4), False)
+    dist_graph = taxbrain.distribution_plot(
+        tb, tb.start_year, (5, 4),
+        f"Fig. 2: Percentage Change in After-Tax Income - {tb.start_year}"
+    )
     text_args["distribution_graph"] = export_plot(dist_graph, "dist")
 
     # differences graph
-    diff_graph = taxbrain.differences_plot(tb, "combined", title=False)
+    diff_graph = taxbrain.differences_plot(
+        tb, "combined", (6, 3),
+        title="Fig. 1: Change in Aggregate Combined Tax Liability"
+    )
     text_args["agg_graph"] = export_plot(diff_graph, "difference")
 
     # fill in the report template
