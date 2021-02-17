@@ -121,7 +121,9 @@ class TaxBrain:
 
         del base_calc, reform_calc
 
-    def weighted_totals(self, var: str) -> pd.DataFrame:
+    def weighted_totals(
+        self, var: str, include_total: bool = False
+    ) -> pd.DataFrame:
         """
         Create a pandas DataFrame that shows the weighted sum or a specified
         variable under the baseline policy, reform policy, and the difference
@@ -129,6 +131,8 @@ class TaxBrain:
         Parameters
         ----------
         var: Variable you want the weighted total of.
+        include_total: If true the returned DataFrame will include a "total"
+            columns
         Returns
         -------
         A Pandas DataFrame with rows for the baseline total, reform total,
@@ -143,10 +147,15 @@ class TaxBrain:
             reform_totals[year] = (self.reform_data[year]["s006"] *
                                    self.reform_data[year][var]).sum()
             differences[year] = reform_totals[year] - base_totals[year]
-        return pd.DataFrame([base_totals, reform_totals, differences],
-                            index=["Base", "Reform", "Difference"])
+        table = pd.DataFrame([base_totals, reform_totals, differences],
+                             index=["Base", "Reform", "Difference"])
+        if include_total:
+            table["Total"] = table.sum(axis=1)
+        return table
 
-    def multi_var_table(self, varlist: list, calc: str) -> pd.DataFrame:
+    def multi_var_table(
+        self, varlist: list, calc: str, include_total: bool = False
+    ) -> pd.DataFrame:
         """
         Create a Pandas DataFrame with multiple variables from the specified
         data source
@@ -154,6 +163,8 @@ class TaxBrain:
         ----------
         varlist: list of variables to include in the table
         calc: specify reform or base calculator data
+        include_total: If true the returned DataFrame will include a "total"
+            columns
         Returns
         -------
         A Pandas DataFrame containing the weighted sum of each variable passed
@@ -174,7 +185,10 @@ class TaxBrain:
                 data_dict[var] += [weighted_sum(data[year], var)]
         df = pd.DataFrame(data_dict,
                           index=range(self.start_year, self.end_year + 1))
-        return df.transpose()
+        table = df.transpose()
+        if include_total:
+            table["Total"] = table.sum(axis=1)
+        return table
 
     def distribution_table(self, year: int, groupby: str,
                            income_measure: str, calc: str,

@@ -113,7 +113,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
 
     if verbose:
         print("Writing Summary")
-    agg_table = tb.weighted_totals("combined").fillna(0)
+    agg_table = tb.weighted_totals("combined", include_total=True).fillna(0)
     rev_change = agg_table.loc["Difference"].sum()
     rev_direction = "increase"
     if rev_change < 0:
@@ -166,8 +166,8 @@ def report(tb, name=None, change_threshold=0.05, description=None,
 
     # aggregate table by tax type
     tax_vars = ["iitax", "payrolltax", "combined"]
-    agg_base = tb.multi_var_table(tax_vars, "base")
-    agg_reform = tb.multi_var_table(tax_vars, "reform")
+    agg_base = tb.multi_var_table(tax_vars, "base", include_total=True)
+    agg_reform = tb.multi_var_table(tax_vars, "reform", include_total=True)
     agg_diff = agg_reform - agg_base
     agg_diff.index = ["Income Tax", "Payroll Tax", "Combined"]
     agg_diff *= 1e-9
