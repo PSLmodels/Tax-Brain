@@ -1,3 +1,4 @@
+(Chap_Usage)=
 # How to Use Tax-Brain
 
 The Tax-Brain package is centered around the `TaxBrain` object. Any analysis
