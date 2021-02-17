@@ -1,0 +1,30 @@
+- file: content/intro
+  numbered: false
+
+- part: Tax-Brain Example Use
+  chapters:
+  - file: content/usage
+  - file: content/examples/example
+  - file: content/reports
+
+- part: Web Application
+  chapters:
+  - file: content/webapp
+
+- part: Command Line Interface
+  chapters:
+  - file: content/cli
+
+- part: Contributing to Tax-Brain
+  chapters:
+  - file: content/contributing/contributor_guide
+
+- part: Tax-Brain Python API
+  chapters:
+  - file: content/api/public_api
+    sections:
+      - file: content/api/cli
+      - file: content/api/report
+      - file: content/api/report_utils
+      - file: content/api/taxbrain
+      - file: content/api/utils
