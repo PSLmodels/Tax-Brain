@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How to Use Tax-Brain &#8212; Tax-Brain</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Static Reform" href="examples/example.html" />
+    <link rel="prev" title="Tax-Brain" href="intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/taxbrain.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Tax-Brain</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Tax-Brain
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Tax-Brain Example Use
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   How to Use Tax-Brain
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="examples/example.html">
+   Static Reform
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="reports.html">
+   Automated Reports in TaxBrain
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Web Application
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="webapp.html">
+   Web Application
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Command Line Interface
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="cli.html">
+   Tax-Brain Command Line Interface
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Contributing to Tax-Brain
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="contributing/contributor_guide.html">
+   Contributing to Tax-Brain
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Tax-Brain Python API
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="api/public_api.html">
+   Tax-Brain Python API
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/cli.html">
+     Tax-Brain Command Line Interface
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/report.html">
+     Tax-Brain Report Generation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/report_utils.html">
+     Tax-Brain Report Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/taxbrain.html">
+     Tax-Brain Class Object
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/utils.html">
+     Tax-Brain Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/cli.html">
+     Tax-Brain Command Line Interface
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/content/usage.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/PSLmodels/Tax-Brain"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/PSLmodels/Tax-Brain/issues/new?title=Issue%20on%20page%20%2Fcontent/usage.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="how-to-use-tax-brain">
+<span id="chap-usage"></span><h1>How to Use Tax-Brain<a class="headerlink" href="#how-to-use-tax-brain" title="Permalink to this headline">¶</a></h1>
+<p>The Tax-Brain package is centered around the <code class="docutils literal notranslate"><span class="pre">TaxBrain</span></code> object. Any analysis
+using Tax-Brain starts by importing and creating a <code class="docutils literal notranslate"><span class="pre">TaxBrain</span></code> instance.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">taxbrain</span> <span class="kn">import</span> <span class="n">TaxBrain</span>
+
+<span class="n">tb</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mi">2029</span><span class="p">,</span> <span class="n">use_cps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="s2">&quot;reform.json&quot;</span><span class="p">,</span>
+              <span class="n">assump</span><span class="o">=</span><span class="s2">&quot;assumptions.json&quot;</span><span class="p">,</span> <span class="n">behavior</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sub&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">})</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">TaxBrain</span></code> takes the following arguments on initialization:</p>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">start_year</span></code>: First year in the analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">end_year</span></code>: Last year in the analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">microdata</span></code><sup>*</sup>: Either a path to a micro-data CSV file or a Pandas
+DataFrame containing micro-data suitable for use in Tax-Calculator</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">use_cps</span></code><sup>*</sup>: Boolean indicator for whether to use the CPS micro-data file
+included in Tax-Calculator. If this is true, do not give a value for the
+<code class="docutils literal notranslate"><span class="pre">microdata</span></code> argument.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reform</span></code><sup>*</sup>: Individual income tax policy reform. Can either be a string
+pointing to a JSON file, the contents of a JSON file, or a dictionary.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">behavior</span></code><sup>*</sup>: Individual behavioral assumptions used by the Behavioral-Responses
+package.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assump</span></code><sup>*</sup>: Economic assumptions. Can either be a string pointing to a
+JSON file, the contents of a JSON file, or a dictionary.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">verbose</span></code><sup>*</sup>: Boolean indicator for whether or not to print progress updates
+as the models run. Default value is False.</p></li>
+</ol>
+<p><sup>*</sup> indicates optional argument</p>
+<p>Tax-Brain will analyze these inputs to determine which models to run and for
+what years. To start the models, the users can simply use the <code class="docutils literal notranslate"><span class="pre">run</span></code> method:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tb</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will create two Tax-Calculator instances - one for current law (base)
+and another for the user specified policy (reform).</p>
+<p><code class="docutils literal notranslate"><span class="pre">run()</span></code> also takes an optional argument, <code class="docutils literal notranslate"><span class="pre">varlist</span></code>, to indicate which variables
+in the micro-data the user would like saved. Pandas DataFrames containing
+micro-data from the reform and base calculators are stored in the <code class="docutils literal notranslate"><span class="pre">reform_data</span></code>
+and <code class="docutils literal notranslate"><span class="pre">base_data</span></code>, respectively, attributes of the <code class="docutils literal notranslate"><span class="pre">TaxBrain</span></code> instance (both
+attributes are dictionaries).</p>
+<p>The dictionaries are structured so that each year in the analysis is a key
+paired to the DataFrame for that particular year:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Access the DataFrame containing data from the reform caclulator for the year 2019</span>
+<span class="n">tb</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="mi">2019</span><span class="p">]</span>
+<span class="c1"># Access the DataFrame containing data from the base calculator for the year 2020</span>
+<span class="n">tb</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="mi">2020</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>This gives the user the option of performing a more detailed analysis of the
+data or producing custom tables and graphs.
+There are also multiple built in methods for producing tables:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">weighted_totals(var)</span></code>: Produces a table with the weighted sum of the
+specified variables (<code class="docutils literal notranslate"><span class="pre">var</span></code>) for each year in the analysis under the baseline
+policy, reform policy, and the difference between the two.</p></li>
+<li><p>`distribution_table(year, groupby, income_measure, calc): Produces a table
+showing the distribution of a number of variables across the income spectrum.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">differences_table(year,</span> <span class="pre">groupby,</span> <span class="pre">tax_to_diff)</span></code>: Produces a table showing the
+change in a number of variables across the income distribution.</p></li>
+</ul>
+<p>As more models are added, Tax-Brain’s usage will change to adjust. While we
+will try and maintain backwards compatibility, that obviously cannot always
+happen. This document will be updated as Tax-Brain evolves.</p>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">Tax-Brain</a>
+    <a class='right-next' id="next-link" href="examples/example.html" title="next page">Static Reform</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Anderson Frailey<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>
