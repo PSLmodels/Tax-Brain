@@ -11,4 +11,4 @@ taxbrain.report
 .. currentmodule:: taxbrain.report
 
 .. automodule:: taxbrain.report
-  :members: report, export_plot
+  :members: report
