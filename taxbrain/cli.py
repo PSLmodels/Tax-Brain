@@ -19,7 +19,7 @@ def make_tables(tb, year, outpath):
         year to produce tables for
     outpath: str
         path to save output to
-    
+
     Returns
     -------
     None
