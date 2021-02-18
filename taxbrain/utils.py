@@ -242,7 +242,7 @@ def update_policy(
         Policy object for tax parameterization used for analysis
     reform: str or dict
         parameters for tax policy
-    
+
     Returns
     -------
     None
@@ -274,7 +274,7 @@ def is_paramtools_format(reform: Union[TaxcalcReform, ParamToolsAdjustment]):
     Returns
     -------
     bool
-        True if reform is likely to be in ParamTools format.
+        True if reform is likely to be in ParamTools format
     """
     for param, data in reform.items():
         if isinstance(data, dict):
@@ -297,7 +297,7 @@ def lorenz_data(tb, year: int, var: str = "aftertax_income"):
         year of data to use
     var: str
         name of the variable to use
-    
+
     Returns
     -------
     final_data: Pandas DataFrame
@@ -370,7 +370,7 @@ def lorenz_curve(
         linestyle for the reform line
     dpi: int
         dots per inch in the figure image
-    
+
     Returns
     -------
     None
@@ -446,7 +446,7 @@ def volcano_plot(
         label on the x axis
     ylabel: str
         label on the y axis
-    
+
     Returns
     -------
     fig: Matplotlib.pyplot figure object
