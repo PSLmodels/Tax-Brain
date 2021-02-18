@@ -29,33 +29,47 @@ class TaxBrain:
                  verbose=False):
         """
         Constructor for the TaxBrain class
+        
         Parameters
         ----------
-        start_year: First year in the analysis. Must be no earlier than the
-                    first year allowed in Tax-Calculator.
-        end_year: Last year in the analysis. Must be no later than the last
-                  year allowed in Tax-Calculator.
-        microdata: Either a path to a micro-data file or a Pandas DataFrame
-                   containing micro-data.
-        use_cps: A boolean value to indicate whether or not the analysis should
-                 be run using the CPS file included in Tax-Calculator.
-                 Note: use_cps cannot be True if a file was also specified with
-                 the microdata parameter.
-        reform: Individual income tax policy reform. Can be either a string
-                pointing to a JSON reform file, or the contents of a JSON file,
-                or a properly formatted JSON file.
-        behavior: Individual behavior assumptions use by the Behavior-Response
-                  package.
-        assump: A string pointing to a JSON file containing user specified
-                economic assumptions.
-        base_policy: Individual income tax policy to use as the baseline for
-                     the analysis. This policy will be implemented in the base
-                     calculator instance as well as the reform calulcator
-                     before the user provided reform is implemented. Can either
-                     be a string pointing to a JSON reform file, the contents
-                     of a JSON file, or a properly formatted dictionary.
-        verbose: A boolean value indicated whether or not to write model
-                 progress reports.
+        start_year: int
+            First year in the analysis. Must be no earlier than the
+            first year allowed in Tax-Calculator.
+        end_year: int
+            Last year in the analysis. Must be no later than the last
+            year allowed in Tax-Calculator.
+        microdata: str or Pandas DataFrame
+            Either a path to a micro-data file or a Pandas DataFrame
+            containing micro-data.
+        use_cps: bool
+            A boolean value to indicate whether or not the analysis should
+            be run using the CPS file included in Tax-Calculator.
+            Note: use_cps cannot be True if a file was also specified with
+            the microdata parameter.
+        reform: str or dict
+            Individual income tax policy reform. Can be either a string
+            pointing to a JSON reform file, or the contents of a JSON file,
+            or a properly formatted JSON file.
+        behavior: dict
+            Individual behavior assumptions use by the Behavior-Response
+            package.
+        assump: str
+            A string pointing to a JSON file containing user specified
+            economic assumptions.
+        base_policy: str or dict
+            Individual income tax policy to use as the baseline for
+            the analysis. This policy will be implemented in the base
+            calculator instance as well as the reform Calculator
+            before the user provided reform is implemented. Can either
+            be a string pointing to a JSON reform file, the contents
+            of a JSON file, or a properly formatted dictionary.
+        verbose: bool
+            A boolean value indicated whether or not to write model
+            progress reports.
+
+        Returns
+        -------
+        None
         """
         if not use_cps and microdata is None:
             raise ValueError("Must specify microdata or set 'use_cps' to True")
@@ -98,9 +112,12 @@ class TaxBrain:
         Run the calculators. TaxBrain will determine whether to do a static or
         partial equilibrium run based on the user's inputs when initializing
         the TaxBrain object.
+        
         Parameters
         ----------
-        varlist: list of variables from the microdata to be stored in each year
+        varlist: list
+            variables from the microdata to be stored in each year
+        
         Returns
         -------
         None
@@ -126,13 +143,17 @@ class TaxBrain:
         Create a pandas DataFrame that shows the weighted sum or a specified
         variable under the baseline policy, reform policy, and the difference
         between the two.
+
         Parameters
         ----------
-        var: Variable you want the weighted total of.
+        var: str
+            Variable name for variable you want the weighted total of.
+
         Returns
         -------
-        A Pandas DataFrame with rows for the baseline total, reform total,
-        and the difference between the two.
+        Pandas DataFrame
+            A Pandas DataFrame with rows for the baseline total,
+            reform total, and the difference between the two.
         """
         base_totals = {}
         reform_totals = {}
@@ -148,16 +169,23 @@ class TaxBrain:
 
     def multi_var_table(self, varlist: list, calc: str) -> pd.DataFrame:
         """
-        Create a Pandas DataFrame with multiple variables from the specified
-        data source
+        Create a Pandas DataFrame with multiple variables from the
+        specified data source
+
         Parameters
         ----------
-        varlist: list of variables to include in the table
-        calc: specify reform or base calculator data
+        varlist: list
+            list of variables to include in the table
+        calc: str
+            specify reform or base calculator data, can take either
+            `'REFORM'` or `'BASE'`
+
         Returns
         -------
-        A Pandas DataFrame containing the weighted sum of each variable passed
-        in the `varlist` argument for each year in the analysis.
+        df: Pandas DataFrame
+            A Pandas DataFrame containing the weighted sum of each
+            variable passed in the `varlist` argument for each year in
+            the analysis.
         """
         if not isinstance(varlist, list):
             msg = f"'varlist' is of type {type(varlist)}. Must be a list."
@@ -181,20 +209,31 @@ class TaxBrain:
                            pop_quantiles: bool = False) -> pd.DataFrame:
         """
         Method to create a distribution table
+        
         Parameters
         ----------
-        year: which year the distribution table data should be from
-        groupby: determines how the rows in the table are sorted
-            options: 'weighted_deciles', 'standard_income_bins', 'soi_agi_bin'
-        income_measure: determines which variable is used to sort the rows in
-                        the table
+        year: int
+            which year the distribution table data should be from
+        groupby: str
+            determines how the rows in the table are sorted
+            options: 'weighted_deciles', 'standard_income_bins',
+            'soi_agi_bin'
+        income_measure: str
+            determines which variable is used to sort the rows in
+            the table
             options: 'expanded_income' or 'expanded_income_baseline'
+        calc: str
+            which calculator to use, can take either
+            `'REFORM'` or `'BASE'`
         calc: which calculator to use: base or reform
-        pop_quantiles: whether or not weighted_deciles contain equal number of
+        pop_quantiles: bool
+            whether or not weighted_deciles contain equal number of
             tax units (False) or people (True)
+        
         Returns
         -------
-        DataFrame containing a distribution table
+        table: Pandas DataFrame
+            distribution table
         """
         # pull desired data
         if calc.lower() == "base":
@@ -228,18 +267,25 @@ class TaxBrain:
                           pop_quantiles: bool = False) -> pd.DataFrame:
         """
         Method to create a differences table
+        
         Parameters
         ----------
-        year: which year the difference table should be from
-        groupby: determines how the rows in the table are sorted
+        year: int
+            which year the difference table should be from
+        groupby: str
+            determines how the rows in the table are sorted
             options: 'weighted_deciles', 'standard_income_bins', 'soi_agi_bin'
-        tax_to_diff: which tax to take the difference of
+        tax_to_diff: str
+            which tax to take the difference of
             options: 'iitax', 'payrolltax', 'combined'
-        pop_quantiles: whether weighted_deciles contain an equal number of tax
+        pop_quantiles: bool
+            whether weighted_deciles contain an equal number of tax
             units (False) or people (True)
+        
         Returns
         -------
-        DataFrame containing a differences table
+        table: Pandas DataFrame 
+            differences table
         """
         base_data = self.base_data[year]
         reform_data = self.reform_data[year]
