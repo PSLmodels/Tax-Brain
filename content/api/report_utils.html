@@ -282,7 +282,7 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#taxbrain-report-utils">
+  <a class="reference internal nav-link" href="#module-taxbrain.report_utils">
    taxbrain.report_utils
   </a>
  </li>
@@ -300,8 +300,265 @@
   <div class="section" id="tax-brain-report-utilities">
 <span id="report-utils"></span><h1>Tax-Brain Report Utilities<a class="headerlink" href="#tax-brain-report-utilities" title="Permalink to this headline">¶</a></h1>
 <p><strong>report_utils</strong></p>
-<div class="section" id="taxbrain-report-utils">
-<h2>taxbrain.report_utils<a class="headerlink" href="#taxbrain-report-utils" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-taxbrain.report_utils">
+<span id="taxbrain-report-utils"></span><h2>taxbrain.report_utils<a class="headerlink" href="#module-taxbrain.report_utils" title="Permalink to this headline">¶</a></h2>
+<p>Helper Functions for creating the automated reports</p>
+<dl class="py function">
+<dt id="taxbrain.report_utils.behavioral_assumptions">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">behavioral_assumptions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#behavioral_assumptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.behavioral_assumptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of behavioral assumptions used</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tb</strong> (<em>TaxBrain object</em>) – instance of TaxBrain object for analysis</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>assumptions</strong> – list of behavioral assumptions used</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.report_utils.consumption_assumptions">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">consumption_assumptions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#consumption_assumptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.consumption_assumptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create table of consumption assumptions used in analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tb</strong> (<em>TaxBrain object</em>) – instance of TaxBrain object for analysis</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>md_tables</strong> – table of consumption assumptions for report</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.report_utils.convert_params">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">convert_params</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#convert_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.convert_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert ParamTools style parameter inputs to traditional taxcalc style
+parameters for report policy table creation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – ParamTools style reform dictionary</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>reform</strong> – a dictionary in traditional taxcalc style</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.report_utils.convert_table">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">convert_table</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tablefmt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'pipe'</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#convert_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.convert_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert pandas DataFrame to Markdown style table</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>Pandas DataFrame</em>) – DataFrame to convert</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>String that is a formatted markdown table</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.report_utils.date">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">date</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return formatted date</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.report_utils.dollar_str_formatting">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">dollar_str_formatting</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#dollar_str_formatting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.dollar_str_formatting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format dollar figures into $val trillion, $val billion, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>val</strong> (<em>float</em>) – revenue amount</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>formatted dollar figure</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.report_utils.form_baseline_intro">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">form_baseline_intro</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_law</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#form_baseline_intro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.form_baseline_intro" title="Permalink to this definition">¶</a></dt>
+<dd><p>Form final sentence of introduction paragraph</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>current_law</strong> (<em>bool</em>) – whether report is for the current law baseline</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>text or intro of baseline summary</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.report_utils.form_intro">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">form_intro</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pol_areas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#form_intro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.form_intro" title="Permalink to this definition">¶</a></dt>
+<dd><p>Form the introduction line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pol_areas</strong> (<em>list</em>) – list of all the policy areas included in the reform used to
+create a description of the reform</p></li>
+<li><p><strong>description</strong> (<em>str</em>) – user provided description of the reform</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>introduction text for report</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.report_utils.growth_assumptions">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">growth_assumptions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#growth_assumptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.growth_assumptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a table with all of the growth assumptions used in the analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tb</strong> (<em>TaxBrain object</em>) – instance of TaxBrain object for analysis</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>md_tables</strong> – table of growth assumptions for report</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.report_utils.largest_tax_change">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">largest_tax_change</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#largest_tax_change"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.largest_tax_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to find the largest change in tax liability</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>diff</strong> (<em>Pandas DataFrame</em>) – Differences table created by taxbrain</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>largest_change_group</strong> (<em>str</em>) – string relating group with the largest change</p></li>
+<li><p><strong>largest_change_str</strong> (<em>str</em>) – string relating size of largest change</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.report_utils.md_to_pdf">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">md_to_pdf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">md_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputfile_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#md_to_pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.md_to_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert Markdown version of report to a PDF. Returns bytes that can be
+saved as a PDF</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>md_text</strong> (<em>str</em>) – report template written in markdown</p></li>
+<li><p><strong>outputfile_path</strong> (<em>str</em>) – path to where the final file sohould be written</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Markdown text is saved as a PDF and the HTML used to create
+the report</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.report_utils.notable_changes">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">notable_changes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#notable_changes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.notable_changes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find any notable changes in certain variables. “Notable” is defined
+as a percentage change above the given threshold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tb</strong> (<em>TaxBrain object</em>) – instance of TaxBrain object for analysis</p></li>
+<li><p><strong>threshold</strong> (<em>float</em>) – Percentage change in an aggregate variable for it to be
+considered notable</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>section</strong> – text for section on notable changes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.report_utils.policy_table">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">policy_table</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#policy_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.policy_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a table showing the policy parameters in a reform and their
+default value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – policy parameters being implemented</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>md_tables</strong> – String containing a markdown style table that summarized the
+given parameters</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.report_utils.write_text">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">write_text</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#write_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.write_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fill in text with specified template</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>template_path</strong> (<em>str</em>) – path to read template from</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>rendered</strong> – rendered template</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 

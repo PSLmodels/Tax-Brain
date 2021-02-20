@@ -12,4 +12,4 @@ taxbrain.taxbrain
 
 .. autoclass:: TaxBrain
   :members: run, weighted_totals, multi_var_table, distribution_table,
-  differences_table
+    differences_table

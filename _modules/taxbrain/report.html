@@ -290,17 +290,33 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    tb: TaxBrain object</span>
-<span class="sd">    name: Name you want used for the title of the report</span>
-<span class="sd">    change_threshold: Percentage change (expressed as a decimal fraction) in</span>
+<span class="sd">        instance of a TaxBrain object</span>
+<span class="sd">    name: str</span>
+<span class="sd">        Name you want used for the title of the report</span>
+<span class="sd">    change_threshold: float</span>
+<span class="sd">        Percentage change (expressed as a decimal fraction) in</span>
 <span class="sd">        an aggregate variable for it to be considered notable</span>
-<span class="sd">    description: A description of the reform being run</span>
-<span class="sd">    outdir: Output directory</span>
-<span class="sd">    author: Person or persons to be listed as the author of the report</span>
-<span class="sd">    css: Path to a CSS file used to format the final report</span>
-<span class="sd">    verbose: boolean indicating whether or not to write progress as report is</span>
+<span class="sd">    description: str</span>
+<span class="sd">        A description of the reform being run</span>
+<span class="sd">    outdir: str</span>
+<span class="sd">        Output directory</span>
+<span class="sd">    author: str</span>
+<span class="sd">        Person or persons to be listed as the author of the report</span>
+<span class="sd">    css: str</span>
+<span class="sd">        Path to a CSS file used to format the final report</span>
+<span class="sd">    verbose: bool</span>
+<span class="sd">        boolean indicating whether or not to write progress as report is</span>
 <span class="sd">        created</span>
-<span class="sd">    clean: boolean indicating whether all of the files written to create the</span>
+<span class="sd">    clean: bool</span>
+<span class="sd">        boolean indicating whether all of the files written to create the</span>
 <span class="sd">        report should be deleated and a byte representation of the PDF returned</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    files or None: dict or None</span>
+<span class="sd">        returns either None (reports saved to disk) or dictionary with</span>
+<span class="sd">        string of bytes for markdown and pdf versions of the report</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">format_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">int_cols</span><span class="p">,</span> <span class="n">float_cols</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -308,9 +324,17 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        df: DataFrame being formatted</span>
-<span class="sd">        int_cols: columns that need to be converted to integers</span>
-<span class="sd">        float_cols: columns that need to be converted to floats</span>
+<span class="sd">        df: Pandas DataFrame</span>
+<span class="sd">            DataFrame being formatted</span>
+<span class="sd">        int_cols: list</span>
+<span class="sd">            columns that need to be converted to integers</span>
+<span class="sd">        float_cols: list</span>
+<span class="sd">            floatcolumns that need to be converted to floats</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        df: Pandas DataFrame</span>
+<span class="sd">            table of output</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">int_cols</span><span class="p">:</span>
             <span class="n">df</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
@@ -325,6 +349,18 @@
     <span class="k">def</span> <span class="nf">export_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Export plot as a PNG</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        plot: Matplolib.pyplot plot object</span>
+<span class="sd">            plot to export</span>
+<span class="sd">        graph: str</span>
+<span class="sd">            str to use in file name of plot to save</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            full filename indicating where plot is saved</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># export graph as a PNG</span>
         <span class="c1"># we could get a higher quality image with an SVG, but the SVG plots</span>

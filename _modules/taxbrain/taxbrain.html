@@ -1,0 +1,740 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>taxbrain.taxbrain &#8212; Tax-Brain</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <img src="../../_static/taxbrain.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Tax-Brain</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/intro.html">
+   Tax-Brain
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Tax-Brain Example Use
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/usage.html">
+   How to Use Tax-Brain
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/examples/example.html">
+   Static Reform
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/reports.html">
+   Automated Reports in TaxBrain
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Web Application
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/webapp.html">
+   Web Application
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Command Line Interface
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/cli.html">
+   Tax-Brain Command Line Interface
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Contributing to Tax-Brain
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/contributing/contributor_guide.html">
+   Contributing to Tax-Brain
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Tax-Brain Python API
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../../content/api/public_api.html">
+   Tax-Brain Python API
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../content/api/cli.html">
+     Tax-Brain Command Line Interface
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../content/api/report.html">
+     Tax-Brain Report Generation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../content/api/report_utils.html">
+     Tax-Brain Report Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../content/api/taxbrain.html">
+     Tax-Brain Class Object
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../content/api/utils.html">
+     Tax-Brain Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../content/api/cli.html">
+     Tax-Brain Command Line Interface
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/PSLmodels/Tax-Brain"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/PSLmodels/Tax-Brain/issues/new?title=Issue%20on%20page%20%2F_modules/taxbrain/taxbrain.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <h1>Source code for taxbrain.taxbrain</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">taxcalc</span> <span class="k">as</span> <span class="nn">tc</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">behresp</span>
+<span class="kn">from</span> <span class="nn">taxcalc.utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">DIST_VARIABLES</span><span class="p">,</span> <span class="n">DIFF_VARIABLES</span><span class="p">,</span>
+                           <span class="n">create_distribution_table</span><span class="p">,</span> <span class="n">create_difference_table</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">dask</span> <span class="kn">import</span> <span class="n">compute</span><span class="p">,</span> <span class="n">delayed</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">taxbrain.utils</span> <span class="kn">import</span> <span class="n">weighted_sum</span><span class="p">,</span> <span class="n">update_policy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+
+<div class="viewcode-block" id="TaxBrain"><a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain">[docs]</a><span class="k">class</span> <span class="nc">TaxBrain</span><span class="p">:</span>
+
+    <span class="n">FIRST_BUDGET_YEAR</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="o">.</span><span class="n">JSON_START_YEAR</span>
+    <span class="n">LAST_BUDGET_YEAR</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="o">.</span><span class="n">LAST_BUDGET_YEAR</span>
+    <span class="c1"># Default list of variables saved for each year</span>
+    <span class="n">DEFAULT_VARIABLES</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">DIST_VARIABLES</span><span class="p">)</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">DIFF_VARIABLES</span><span class="p">)))</span>
+
+    <span class="c1"># add dictionary to hold version of the various models</span>
+    <span class="n">VERSIONS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Tax-Calculator&quot;</span><span class="p">:</span> <span class="n">tc</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span>
+        <span class="s2">&quot;Behavioral-Responses&quot;</span><span class="p">:</span> <span class="n">behresp</span><span class="o">.</span><span class="n">__version__</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">end_year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">LAST_BUDGET_YEAR</span><span class="p">,</span>
+                 <span class="n">microdata</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">use_cps</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">reform</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">behavior</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">assump</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base_policy</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor for the TaxBrain class</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start_year: int</span>
+<span class="sd">            First year in the analysis. Must be no earlier than the</span>
+<span class="sd">            first year allowed in Tax-Calculator.</span>
+<span class="sd">        end_year: int</span>
+<span class="sd">            Last year in the analysis. Must be no later than the last</span>
+<span class="sd">            year allowed in Tax-Calculator.</span>
+<span class="sd">        microdata: str or Pandas DataFrame</span>
+<span class="sd">            Either a path to a micro-data file or a Pandas DataFrame</span>
+<span class="sd">            containing micro-data.</span>
+<span class="sd">        use_cps: bool</span>
+<span class="sd">            A boolean value to indicate whether or not the analysis should</span>
+<span class="sd">            be run using the CPS file included in Tax-Calculator.</span>
+<span class="sd">            Note: use_cps cannot be True if a file was also specified with</span>
+<span class="sd">            the microdata parameter.</span>
+<span class="sd">        reform: str or dict</span>
+<span class="sd">            Individual income tax policy reform. Can be either a string</span>
+<span class="sd">            pointing to a JSON reform file, or the contents of a JSON file,</span>
+<span class="sd">            or a properly formatted JSON file.</span>
+<span class="sd">        behavior: dict</span>
+<span class="sd">            Individual behavior assumptions use by the Behavior-Response</span>
+<span class="sd">            package.</span>
+<span class="sd">        assump: str</span>
+<span class="sd">            A string pointing to a JSON file containing user specified</span>
+<span class="sd">            economic assumptions.</span>
+<span class="sd">        base_policy: str or dict</span>
+<span class="sd">            Individual income tax policy to use as the baseline for</span>
+<span class="sd">            the analysis. This policy will be implemented in the base</span>
+<span class="sd">            calculator instance as well as the reform Calculator</span>
+<span class="sd">            before the user provided reform is implemented. Can either</span>
+<span class="sd">            be a string pointing to a JSON reform file, the contents</span>
+<span class="sd">            of a JSON file, or a properly formatted dictionary.</span>
+<span class="sd">        verbose: bool</span>
+<span class="sd">            A boolean value indicated whether or not to write model</span>
+<span class="sd">            progress reports.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">use_cps</span> <span class="ow">and</span> <span class="n">microdata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must specify microdata or set &#39;use_cps&#39; to True&quot;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">end_year</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="p">(</span>
+            <span class="s2">&quot;Start and end years must be integers&quot;</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="n">start_year</span> <span class="o">&lt;=</span> <span class="n">end_year</span><span class="p">,</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Specified end year, </span><span class="si">{</span><span class="n">end_year</span><span class="si">}</span><span class="s2">, is before specified start year, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">start_year</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="n">TaxBrain</span><span class="o">.</span><span class="n">FIRST_BUDGET_YEAR</span> <span class="o">&lt;=</span> <span class="n">start_year</span><span class="p">,</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Specified start_year, </span><span class="si">{</span><span class="n">start_year</span><span class="si">}</span><span class="s2">, comes before first known &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;budget year, </span><span class="si">{</span><span class="n">TaxBrain</span><span class="o">.</span><span class="n">FIRST_BUDGET_YEAR</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="n">end_year</span> <span class="o">&lt;=</span> <span class="n">TaxBrain</span><span class="o">.</span><span class="n">LAST_BUDGET_YEAR</span><span class="p">,</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Specified end_year, </span><span class="si">{</span><span class="n">end_year</span><span class="si">}</span><span class="s2">, comes after last known &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;budget year, </span><span class="si">{</span><span class="n">TaxBrain</span><span class="o">.</span><span class="n">LAST_BUDGET_YEAR</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">=</span> <span class="n">microdata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_cps</span> <span class="o">=</span> <span class="n">use_cps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_year</span> <span class="o">=</span> <span class="n">start_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">=</span> <span class="n">end_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">yr</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">yr</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+
+        <span class="c1"># Process user inputs early to throw any errors quickly</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_user_mods</span><span class="p">(</span><span class="n">reform</span><span class="p">,</span> <span class="n">assump</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;behavior&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">behavior</span>
+        <span class="k">if</span> <span class="n">base_policy</span><span class="p">:</span>
+            <span class="n">base_policy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_user_mods</span><span class="p">(</span><span class="n">base_policy</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base_policy</span><span class="p">[</span><span class="s2">&quot;policy&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">has_run</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="TaxBrain.run"><a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">DEFAULT_VARIABLES</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the calculators. TaxBrain will determine whether to do a static or</span>
+<span class="sd">        partial equilibrium run based on the user&#39;s inputs when initializing</span>
+<span class="sd">        the TaxBrain object.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        varlist: list</span>
+<span class="sd">            variables from the microdata to be stored in each year</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_calculators</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">varlist</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&#39;varlist&#39; is of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">varlist</span><span class="p">)</span><span class="si">}</span><span class="s2">. Must be a list.&quot;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;behavior&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running dynamic simulations&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_run</span><span class="p">(</span><span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running static simulations&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_static_run</span><span class="p">(</span><span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;has_run&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">del</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span></div>
+
+<div class="viewcode-block" id="TaxBrain.weighted_totals"><a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.weighted_totals">[docs]</a>    <span class="k">def</span> <span class="nf">weighted_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a pandas DataFrame that shows the weighted sum or a specified</span>
+<span class="sd">        variable under the baseline policy, reform policy, and the difference</span>
+<span class="sd">        between the two.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        var: str</span>
+<span class="sd">            Variable name for variable you want the weighted total of.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Pandas DataFrame</span>
+<span class="sd">            A Pandas DataFrame with rows for the baseline total,</span>
+<span class="sd">            reform total, and the difference between the two.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">base_totals</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">reform_totals</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">differences</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">base_totals</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;s006&quot;</span><span class="p">]</span> <span class="o">*</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">var</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">reform_totals</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;s006&quot;</span><span class="p">]</span> <span class="o">*</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">var</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">differences</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">reform_totals</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">-</span> <span class="n">base_totals</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">base_totals</span><span class="p">,</span> <span class="n">reform_totals</span><span class="p">,</span> <span class="n">differences</span><span class="p">],</span>
+                            <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Base&quot;</span><span class="p">,</span> <span class="s2">&quot;Reform&quot;</span><span class="p">,</span> <span class="s2">&quot;Difference&quot;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="TaxBrain.multi_var_table"><a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.multi_var_table">[docs]</a>    <span class="k">def</span> <span class="nf">multi_var_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">calc</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a Pandas DataFrame with multiple variables from the</span>
+<span class="sd">        specified data source</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        varlist: list</span>
+<span class="sd">            list of variables to include in the table</span>
+<span class="sd">        calc: str</span>
+<span class="sd">            specify reform or base calculator data, can take either</span>
+<span class="sd">            `&#39;REFORM&#39;` or `&#39;BASE&#39;`</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        df: Pandas DataFrame</span>
+<span class="sd">            A Pandas DataFrame containing the weighted sum of each</span>
+<span class="sd">            variable passed in the `varlist` argument for each year in</span>
+<span class="sd">            the analysis.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">varlist</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&#39;varlist&#39; is of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">varlist</span><span class="p">)</span><span class="si">}</span><span class="s2">. Must be a list.&quot;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">calc</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;REFORM&quot;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span>
+        <span class="k">elif</span> <span class="n">calc</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;BASE&quot;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;calc&#39; must be &#39;base&#39; or &#39;reform&#39;&quot;</span><span class="p">)</span>
+        <span class="n">data_dict</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">varlist</span><span class="p">:</span>
+                <span class="n">data_dict</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">weighted_sum</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">year</span><span class="p">],</span> <span class="n">var</span><span class="p">)]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">,</span>
+                          <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TaxBrain.distribution_table"><a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.distribution_table">[docs]</a>    <span class="k">def</span> <span class="nf">distribution_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">groupby</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                           <span class="n">income_measure</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">calc</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                           <span class="n">pop_quantiles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method to create a distribution table</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        year: int</span>
+<span class="sd">            which year the distribution table data should be from</span>
+<span class="sd">        groupby: str</span>
+<span class="sd">            determines how the rows in the table are sorted</span>
+<span class="sd">            options: &#39;weighted_deciles&#39;, &#39;standard_income_bins&#39;,</span>
+<span class="sd">            &#39;soi_agi_bin&#39;</span>
+<span class="sd">        income_measure: str</span>
+<span class="sd">            determines which variable is used to sort the rows in</span>
+<span class="sd">            the table</span>
+<span class="sd">            options: &#39;expanded_income&#39; or &#39;expanded_income_baseline&#39;</span>
+<span class="sd">        calc: str</span>
+<span class="sd">            which calculator to use, can take either</span>
+<span class="sd">            `&#39;REFORM&#39;` or `&#39;BASE&#39;`</span>
+<span class="sd">        calc: which calculator to use: base or reform</span>
+<span class="sd">        pop_quantiles: bool</span>
+<span class="sd">            whether or not weighted_deciles contain equal number of</span>
+<span class="sd">            tax units (False) or people (True)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        table: Pandas DataFrame</span>
+<span class="sd">            distribution table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pull desired data</span>
+        <span class="k">if</span> <span class="n">calc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;base&quot;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">calc</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;reform&quot;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;calc must be either BASE or REFORM&quot;</span><span class="p">)</span>
+        <span class="c1"># minor data preparation before calling the function</span>
+        <span class="k">if</span> <span class="n">pop_quantiles</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;XTOT&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">]</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count_ItemDed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;c04470&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span>
+        <span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count_StandardDed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;standard&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span>
+        <span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count_AMT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;c09600&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">income_measure</span> <span class="o">==</span> <span class="s2">&quot;expanded_income_baseline&quot;</span><span class="p">:</span>
+            <span class="n">base_income</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;expanded_income&quot;</span><span class="p">]</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;expanded_income_baseline&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base_income</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">create_distribution_table</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">groupby</span><span class="p">,</span> <span class="n">income_measure</span><span class="p">,</span>
+                                          <span class="n">pop_quantiles</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">table</span></div>
+
+<div class="viewcode-block" id="TaxBrain.differences_table"><a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.differences_table">[docs]</a>    <span class="k">def</span> <span class="nf">differences_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">groupby</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tax_to_diff</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                          <span class="n">pop_quantiles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method to create a differences table</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        year: int</span>
+<span class="sd">            which year the difference table should be from</span>
+<span class="sd">        groupby: str</span>
+<span class="sd">            determines how the rows in the table are sorted</span>
+<span class="sd">            options: &#39;weighted_deciles&#39;, &#39;standard_income_bins&#39;, &#39;soi_agi_bin&#39;</span>
+<span class="sd">        tax_to_diff: str</span>
+<span class="sd">            which tax to take the difference of</span>
+<span class="sd">            options: &#39;iitax&#39;, &#39;payrolltax&#39;, &#39;combined&#39;</span>
+<span class="sd">        pop_quantiles: bool</span>
+<span class="sd">            whether weighted_deciles contain an equal number of tax</span>
+<span class="sd">            units (False) or people (True)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        table: Pandas DataFrame </span>
+<span class="sd">            differences table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">base_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
+        <span class="n">reform_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">create_difference_table</span><span class="p">(</span><span class="n">base_data</span><span class="p">,</span> <span class="n">reform_data</span><span class="p">,</span> <span class="n">groupby</span><span class="p">,</span>
+                                        <span class="n">tax_to_diff</span><span class="p">,</span> <span class="n">pop_quantiles</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">table</span></div>
+
+    <span class="c1"># ----- private methods -----</span>
+    <span class="k">def</span> <span class="nf">_static_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the calculator for a static analysis</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;s006&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">varlist</span><span class="p">:</span>  <span class="c1"># ensure weight is always included</span>
+            <span class="n">varlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;s006&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">base_calc</span><span class="o">.</span><span class="n">advance_to_year</span><span class="p">(</span><span class="n">yr</span><span class="p">)</span>
+            <span class="n">reform_calc</span><span class="o">.</span><span class="n">advance_to_year</span><span class="p">(</span><span class="n">yr</span><span class="p">)</span>
+            <span class="c1"># run calculations in parallel</span>
+            <span class="n">delay</span> <span class="o">=</span> <span class="p">[</span><span class="n">delayed</span><span class="p">(</span><span class="n">base_calc</span><span class="o">.</span><span class="n">calc_all</span><span class="p">()),</span>
+                     <span class="n">delayed</span><span class="p">(</span><span class="n">reform_calc</span><span class="o">.</span><span class="n">calc_all</span><span class="p">())]</span>
+            <span class="n">compute</span><span class="p">(</span><span class="o">*</span><span class="n">delay</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span> <span class="o">=</span> <span class="n">base_calc</span><span class="o">.</span><span class="n">dataframe</span><span class="p">(</span><span class="n">varlist</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span> <span class="o">=</span> <span class="n">reform_calc</span><span class="o">.</span><span class="n">dataframe</span><span class="p">(</span><span class="n">varlist</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_dynamic_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run a dynamic response</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;s006&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">varlist</span><span class="p">:</span>  <span class="c1"># ensure weight is always included</span>
+            <span class="n">varlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;s006&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">base_calc</span><span class="o">.</span><span class="n">advance_to_year</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+            <span class="n">reform_calc</span><span class="o">.</span><span class="n">advance_to_year</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+            <span class="n">base</span><span class="p">,</span> <span class="n">reform</span> <span class="o">=</span> <span class="n">behresp</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;behavior&quot;</span><span class="p">],</span>
+                                            <span class="n">dump</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">base</span><span class="p">[</span><span class="n">varlist</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">reform</span><span class="p">[</span><span class="n">varlist</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_process_user_mods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reform</span><span class="p">,</span> <span class="n">assump</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Logic to process user mods and set self.params</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">key_validation</span><span class="p">(</span><span class="n">actual_keys</span><span class="p">,</span> <span class="n">required_keys</span><span class="p">,</span> <span class="n">d_name</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Validate keys if reform or assump is passed as a dictionary</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">missing_keys</span> <span class="o">=</span> <span class="n">required_keys</span> <span class="o">-</span> <span class="n">actual_keys</span>
+            <span class="k">if</span> <span class="n">missing_keys</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Required key(s) </span><span class="si">{</span><span class="n">missing_keys</span><span class="si">}</span><span class="s2"> missing from &#39;</span><span class="si">{</span><span class="n">d_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="n">illegal_keys</span> <span class="o">=</span> <span class="n">actual_keys</span> <span class="o">-</span> <span class="n">required_keys</span>
+            <span class="k">if</span> <span class="n">illegal_keys</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Illegal key(s) </span><span class="si">{</span><span class="n">illegal_keys</span><span class="si">}</span><span class="s2"> found in &#39;</span><span class="si">{</span><span class="n">d_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reform</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="c1"># If the reform is a dictionary, we&#39;ll leave it to Tax-Calculator</span>
+            <span class="c1"># to catch errors in its implementation</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">assump</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">assump</span><span class="p">:</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="o">.</span><span class="n">read_json_param_objects</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">assump</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">assump</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">actual_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">assump</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="n">required_keys</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="o">.</span><span class="n">REQUIRED_ASSUMP_KEYS</span>
+                <span class="n">key_validation</span><span class="p">(</span><span class="n">actual_keys</span><span class="p">,</span> <span class="n">required_keys</span><span class="p">,</span> <span class="s2">&quot;assump&quot;</span><span class="p">)</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">assump</span><span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;&#39;assump&#39; is not a string, dictionary, or None&quot;</span>
+                <span class="p">)</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;policy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reform</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reform</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">reform</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">assump</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">assump</span><span class="p">:</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="o">.</span><span class="n">read_json_param_objects</span><span class="p">(</span><span class="n">reform</span><span class="p">,</span> <span class="n">assump</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">assump</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="c1"># Check to ensure that the assumption dictionary contains</span>
+                <span class="c1"># all the needed keys. Tax-Calculator will check that they</span>
+                <span class="c1"># are ultimately defined correctly when attempting to</span>
+                <span class="c1"># use them.</span>
+                <span class="n">actual_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">assump</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="n">required_keys</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="o">.</span><span class="n">REQUIRED_ASSUMP_KEYS</span>
+                <span class="n">key_validation</span><span class="p">(</span><span class="n">actual_keys</span><span class="p">,</span> <span class="n">required_keys</span><span class="p">,</span> <span class="s2">&quot;assump&quot;</span><span class="p">)</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="o">.</span><span class="n">read_json_param_objects</span><span class="p">(</span><span class="n">reform</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">assump</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">params</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">assump</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;&#39;assump&#39; is not a string, dictionary, or None&quot;</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;&#39;reform&#39; is not a string, dictionary, or None&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># confirm that all the expected keys are there</span>
+        <span class="n">required_keys</span> <span class="o">=</span> <span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="o">.</span><span class="n">REQUIRED_ASSUMP_KEYS</span> <span class="o">|</span>
+                         <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="o">.</span><span class="n">REQUIRED_REFORM_KEYS</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="n">required_keys</span>
+
+        <span class="k">return</span> <span class="n">params</span>
+
+    <span class="k">def</span> <span class="nf">_make_calculators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function creates the baseline and reform calculators used when</span>
+<span class="sd">        the `run()` method is called</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create two microsimulation calculators</span>
+        <span class="n">gd_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
+        <span class="n">gf_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">()</span>
+        <span class="c1"># apply user specified growdiff</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">]:</span>
+            <span class="n">gd_base</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">])</span>
+            <span class="n">gd_base</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
+        <span class="c1"># Baseline calculator</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cps</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span>
+                                                 <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">)</span>
+        <span class="n">policy</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">]:</span>
+            <span class="n">update_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">])</span>
+        <span class="n">base_calc</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="p">(</span><span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span>
+                                  <span class="n">records</span><span class="o">=</span><span class="n">records</span><span class="p">,</span>
+                                  <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">)</span>
+
+        <span class="c1"># Reform calculator</span>
+        <span class="c1"># Initialize a policy object</span>
+        <span class="n">gd_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
+        <span class="n">gf_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">]:</span>
+            <span class="n">gd_reform</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">])</span>
+            <span class="n">gd_reform</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cps</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span>
+                                                 <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">)</span>
+        <span class="n">policy</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">]:</span>
+            <span class="n">update_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">])</span>
+        <span class="n">update_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;policy&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Initialize Calculator</span>
+        <span class="n">reform_calc</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="p">(</span><span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">records</span><span class="o">=</span><span class="n">records</span><span class="p">,</span>
+                                    <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">)</span>
+        <span class="c1"># delete all unneeded variables</span>
+        <span class="k">del</span> <span class="n">gd_base</span><span class="p">,</span> <span class="n">gd_reform</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="n">gf_base</span><span class="p">,</span> <span class="n">gf_reform</span><span class="p">,</span> <span class="n">policy</span>
+        <span class="k">return</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span></div>
+</pre></div>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Anderson Frailey<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

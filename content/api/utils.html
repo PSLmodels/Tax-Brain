@@ -281,7 +281,7 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#taxbrain-utils">
+  <a class="reference internal nav-link" href="#module-taxbrain.utils">
    taxbrain.utils
   </a>
  </li>
@@ -299,8 +299,208 @@
   <div class="section" id="tax-brain-utilities">
 <span id="utils"></span><h1>Tax-Brain Utilities<a class="headerlink" href="#tax-brain-utilities" title="Permalink to this headline">¶</a></h1>
 <p><strong>utils</strong></p>
-<div class="section" id="taxbrain-utils">
-<h2>taxbrain.utils<a class="headerlink" href="#taxbrain-utils" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-taxbrain.utils">
+<span id="taxbrain-utils"></span><h2>taxbrain.utils<a class="headerlink" href="#module-taxbrain.utils" title="Permalink to this headline">¶</a></h2>
+<p>Helper functions for the various taxbrain modules</p>
+<dl class="py function">
+<dt id="taxbrain.utils.differences_plot">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.utils.</span></code><code class="sig-name descname"><span class="pre">differences_plot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tax_type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(6,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'default'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/utils.html#differences_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.utils.differences_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a bar chart that shows the change in total liability for a given
+tax</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tb</strong> (<em>TaxBrain object</em>) – TaxBrain object for analysis</p></li>
+<li><p><strong>tax_type</strong> (<em>str</em>) – tax for which to show the change in liability
+options: ‘income’, ‘payroll’, ‘combined’</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em>) – representing the size of the figure (width, height) in inches</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – title for plot</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>fig</strong> – differences plot</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Matplotlib.pyplot figure object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.utils.distribution_plot">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.utils.</span></code><code class="sig-name descname"><span class="pre">distribution_plot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(6,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/utils.html#distribution_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.utils.distribution_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a horizontal bar chart to display the distributional change in
+after tax income</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tb</strong> (<em>TaxBrain object</em>) – TaxBrain object for analysis</p></li>
+<li><p><strong>year</strong> (<em>int</em>) – year to report distribution for</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em>) – representing the size of the figure (width, height) in inches</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – title for plot</p></li>
+<li><p><strong>include_text</strong> (<em>bool</em>) – whether to include text for labels</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>fig</strong> – distribution plot</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Matplotlib.pyplot figure object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.utils.is_paramtools_format">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.utils.</span></code><code class="sig-name descname"><span class="pre">is_paramtools_format</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reform</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ValueObject</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/utils.html#is_paramtools_format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.utils.is_paramtools_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check first item in reform to determine if it is using the ParamTools
+adjustment or the Tax-Calculator reform format.</p>
+<p>If first item is a dict, then it is likely be a Tax-Calculator reform:
+{</p>
+<blockquote>
+<div><p>param: {2020: 1000}</p>
+</div></blockquote>
+<p>}</p>
+<p>Otherwise, it is likely to be a ParamTools format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>reform</strong> (<em>str</em><em> or </em><em>dict</em>) – parameters for tax policy</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if reform is likely to be in ParamTools format</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.utils.lorenz_curve">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.utils.</span></code><code class="sig-name descname"><span class="pre">lorenz_curve</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'aftertax_income'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(6,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'Cummulative</span> <span class="pre">Percentage</span> <span class="pre">of</span> <span class="pre">Tax</span> <span class="pre">Units'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'Cummulative</span> <span class="pre">Percentage</span> <span class="pre">of</span> <span class="pre">Income'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_color</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'blue'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_linestyle</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'-'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reform_color</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'red'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reform_linestyle</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'--'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/utils.html#lorenz_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.utils.lorenz_curve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a Lorenz Curve</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tb</strong> (<em>TaxBrain class object</em>) – TaxBrain object for analysis</p></li>
+<li><p><strong>year</strong> (<em>int</em>) – year of data you want to use for the lorenz curve</p></li>
+<li><p><strong>var</strong> (<em>str</em>) – name of the variable to use</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em>) – representing the size of the figure (width, height) in inches</p></li>
+<li><p><strong>xlabel</strong> (<em>str</em>) – x axis label</p></li>
+<li><p><strong>ylabel</strong> (<em>str</em>) – y axis label</p></li>
+<li><p><strong>base_color</strong> (<em>str</em>) – color used for the base line</p></li>
+<li><p><strong>base_linestyle</strong> (<em>str</em>) – linestyle for the base line</p></li>
+<li><p><strong>reform_color</strong> (<em>str</em>) – color used for the reform line</p></li>
+<li><p><strong>reform_linestyle</strong> (<em>str</em>) – linestyle for the reform line</p></li>
+<li><p><strong>dpi</strong> (<em>int</em>) – dots per inch in the figure image</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.utils.lorenz_data">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.utils.</span></code><code class="sig-name descname"><span class="pre">lorenz_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'aftertax_income'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/utils.html#lorenz_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.utils.lorenz_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pull data used for the lorenz curve plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tb</strong> (<em>TaxBrain class object</em>) – TaxBrain object for analysis</p></li>
+<li><p><strong>year</strong> (<em>int</em>) – year of data to use</p></li>
+<li><p><strong>var</strong> (<em>str</em>) – name of the variable to use</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_data</strong> – DataFrame with Lorenz curve for baseline and reform</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.utils.update_policy">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.utils.</span></code><code class="sig-name descname"><span class="pre">update_policy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy_obj</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">taxcalc.policy.Policy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reform</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ValueObject</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/utils.html#update_policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.utils.update_policy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method that updates the Policy object with the reform
+dict using the appropriate method, given the reform format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>policy_obj</strong> (<em>Tax-Calculator Policy class object</em>) – Policy object for tax parameterization used for analysis</p></li>
+<li><p><strong>reform</strong> (<em>str</em><em> or </em><em>dict</em>) – parameters for tax policy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>modifies the Policy object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.utils.volcano_plot">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.utils.</span></code><code class="sig-name descname"><span class="pre">volcano_plot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_var</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'expanded_income'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_var</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'combined'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_y</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_y</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">9e+99</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_scale</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">increase_color</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'#F15FE4'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decrease_color</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'#41D6C2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dotsize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(6,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'Change</span> <span class="pre">in</span> <span class="pre">Tax</span> <span class="pre">Liability'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'Expanded</span> <span class="pre">Income'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/utils.html#volcano_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.utils.volcano_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a volcano plot to show change in tax tax liability</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tb</strong> (<em>TaxBrain class object</em>) – TaxBrain object for analysis</p></li>
+<li><p><strong>year</strong> (<em>int</em>) – year for the plot</p></li>
+<li><p><strong>min_y</strong> (<em>float</em>) – minimum amount for the y variable to be included in the plot</p></li>
+<li><p><strong>max_y</strong> (<em>float</em>) – maximum amount for the y variable to be included in the plot</p></li>
+<li><p><strong>y_var</strong> (<em>str</em>) – variable on the y axis</p></li>
+<li><p><strong>x_var</strong> (<em>str</em>) – variable on the x axis</p></li>
+<li><p><strong>log_scale</strong> (<em>bool</em>) – whether the y-axis should use a log scale. If this is true,
+min_inc must be &gt;= 0</p></li>
+<li><p><strong>increase_color</strong> (<em>str</em>) – color to use for dots when x increases</p></li>
+<li><p><strong>decrease_color</strong> (<em>str</em>) – color to use for dots when x decrease</p></li>
+<li><p><strong>dotsize</strong> (<em>int</em>) – size of the dots in the scatter plot</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – attribute for transparency of the dots</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em>) – the figure size of the plot (width, height) in inches</p></li>
+<li><p><strong>dpi</strong> (<em>int</em>) – dots per inch in the figure</p></li>
+<li><p><strong>xlabel</strong> (<em>str</em>) – label on the x axis</p></li>
+<li><p><strong>ylabel</strong> (<em>str</em>) – label on the y axis</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>fig</strong> – volcano plot figure</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Matplotlib.pyplot figure object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="taxbrain.utils.weighted_sum">
+<code class="sig-prename descclassname"><span class="pre">taxbrain.utils.</span></code><code class="sig-name descname"><span class="pre">weighted_sum</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'s006'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/utils.html#weighted_sum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.utils.weighted_sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the weighted sum of specified variable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>Pandas DataFrame</em>) – data overwhich to compute weighted sum</p></li>
+<li><p><strong>var</strong> (<em>str</em>) – variable name from df for which to computer weighted sum</p></li>
+<li><p><strong>wt</strong> (<em>str</em>) – name of weight variable in df</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>weighted sum</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 

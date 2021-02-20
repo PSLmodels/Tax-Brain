@@ -277,6 +277,20 @@
 <div class="viewcode-block" id="make_tables"><a class="viewcode-back" href="../../content/api/cli.html#taxbrain.cli.make_tables">[docs]</a><span class="k">def</span> <span class="nf">make_tables</span><span class="p">(</span><span class="n">tb</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">outpath</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Make and write all of the tables for a given year</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tb: TaxBrain object</span>
+<span class="sd">        instance of a TaxBrain object</span>
+<span class="sd">    year: int</span>
+<span class="sd">        year to produce tables for</span>
+<span class="sd">    outpath: str</span>
+<span class="sd">        path to save output to</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        tables saved to disk</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dist_table_base</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">distribution_table</span><span class="p">(</span>
         <span class="n">year</span><span class="p">,</span> <span class="s2">&quot;weighted_deciles&quot;</span><span class="p">,</span> <span class="s2">&quot;expanded_income&quot;</span><span class="p">,</span> <span class="s2">&quot;base&quot;</span>
@@ -303,6 +317,33 @@
              <span class="n">baseline</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">make_report</span><span class="p">,</span> <span class="n">author</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Core logic for the CLI</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    startyear: int</span>
+<span class="sd">        year to start analysis</span>
+<span class="sd">    endyear: int</span>
+<span class="sd">        last year for analysis</span>
+<span class="sd">    data: str or Pandas DataFrame</span>
+<span class="sd">        path to or DataFrame with data for Tax-Calculator</span>
+<span class="sd">    usecps: bool</span>
+<span class="sd">        whether to use the CPS or (if False) the PUF-based file</span>
+<span class="sd">    reform: dict</span>
+<span class="sd">        parameter changes for reform run in Tax-Calculator</span>
+<span class="sd">    behavior: dict</span>
+<span class="sd">        behavioral assumptions for Behavioral-Responses</span>
+<span class="sd">    assump: dict</span>
+<span class="sd">        consumption assumptions</span>
+<span class="sd">    base_policy: dict</span>
+<span class="sd">        parameter changes (relative to current law baseline) for baseline</span>
+<span class="sd">        policy</span>
+<span class="sd">    verbose: bool</span>
+<span class="sd">        indicator for printing of output</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        reports saved to disk at path specified by outdir</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tb</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span>
         <span class="n">start_year</span><span class="o">=</span><span class="n">startyear</span><span class="p">,</span> <span class="n">end_year</span><span class="o">=</span><span class="n">endyear</span><span class="p">,</span> <span class="n">microdata</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
@@ -336,6 +377,14 @@
 <div class="viewcode-block" id="cli_main"><a class="viewcode-back" href="../../content/api/cli.html#taxbrain.cli.cli_main">[docs]</a><span class="k">def</span> <span class="nf">cli_main</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Command line interface to taxbrain package</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parser_desription</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;This is the command line interface for the taxbrain package.&quot;</span>

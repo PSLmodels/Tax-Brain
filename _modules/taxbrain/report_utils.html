@@ -1,0 +1,948 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>taxbrain.report_utils &#8212; Tax-Brain</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <img src="../../_static/taxbrain.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Tax-Brain</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/intro.html">
+   Tax-Brain
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Tax-Brain Example Use
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/usage.html">
+   How to Use Tax-Brain
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/examples/example.html">
+   Static Reform
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/reports.html">
+   Automated Reports in TaxBrain
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Web Application
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/webapp.html">
+   Web Application
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Command Line Interface
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/cli.html">
+   Tax-Brain Command Line Interface
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Contributing to Tax-Brain
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../content/contributing/contributor_guide.html">
+   Contributing to Tax-Brain
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Tax-Brain Python API
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../../content/api/public_api.html">
+   Tax-Brain Python API
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../content/api/cli.html">
+     Tax-Brain Command Line Interface
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../content/api/report.html">
+     Tax-Brain Report Generation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../content/api/report_utils.html">
+     Tax-Brain Report Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../content/api/taxbrain.html">
+     Tax-Brain Class Object
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../content/api/utils.html">
+     Tax-Brain Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../content/api/cli.html">
+     Tax-Brain Command Line Interface
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/PSLmodels/Tax-Brain"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/PSLmodels/Tax-Brain/issues/new?title=Issue%20on%20page%20%2F_modules/taxbrain/report_utils.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <h1>Source code for taxbrain.report_utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Helper Functions for creating the automated reports</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pypandoc</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">taxcalc</span> <span class="k">as</span> <span class="nn">tc</span>
+<span class="kn">from</span> <span class="nn">jinja2</span> <span class="kn">import</span> <span class="n">Template</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">deque</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">is_paramtools_format</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+
+<span class="n">CUR_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+
+<span class="n">notable_vars</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;c00100&quot;</span><span class="p">:</span> <span class="s2">&quot;AGI&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;count_standard&quot;</span><span class="p">:</span> <span class="s2">&quot;Number of standard deduction filers&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="s2">&quot;Standard deduction amount&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;count_c04470&quot;</span><span class="p">:</span> <span class="s2">&quot;Number of itemizers&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;c04470&quot;</span><span class="p">:</span> <span class="s2">&quot;Total itemized deductions&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;c04600&quot;</span><span class="p">:</span> <span class="s2">&quot;Personal exemptions&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;c04800&quot;</span><span class="p">:</span> <span class="s2">&quot;Taxable income&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;c62100&quot;</span><span class="p">:</span> <span class="s2">&quot;Total AMT income&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;count_c09600&quot;</span><span class="p">:</span> <span class="s2">&quot;Number of AMT filers&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;c09600&quot;</span><span class="p">:</span> <span class="s2">&quot;Total AMT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;c05800&quot;</span><span class="p">:</span> <span class="s2">&quot;Total tax liability before credits&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;c07100&quot;</span><span class="p">:</span> <span class="s2">&quot;Total non-refundable credits&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;refund&quot;</span><span class="p">:</span> <span class="s2">&quot;Total refundable credits&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ubi&quot;</span><span class="p">:</span> <span class="s2">&quot;Universal Basic Income&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;benefit_cost_total&quot;</span><span class="p">:</span> <span class="s2">&quot;Spending on benefit programs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;benefit_value_total&quot;</span><span class="p">:</span> <span class="s2">&quot;Consumption value of benefits&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;expanded_income&quot;</span><span class="p">:</span> <span class="s2">&quot;Expanded income&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;aftertax_income&quot;</span><span class="p">:</span> <span class="s2">&quot;After-tax income&quot;</span>
+<span class="p">}</span>
+
+<span class="n">DIFF_TABLE_ROW_NAMES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&lt;$0K&#39;</span><span class="p">,</span> <span class="s1">&#39;=$0K&#39;</span><span class="p">,</span> <span class="s1">&#39;$0-10K&#39;</span><span class="p">,</span> <span class="s1">&#39;$10-20K&#39;</span><span class="p">,</span> <span class="s1">&#39;$20-30K&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;$30-40K&#39;</span><span class="p">,</span> <span class="s1">&#39;$40-50K&#39;</span><span class="p">,</span> <span class="s1">&#39;$50-75K&#39;</span><span class="p">,</span> <span class="s1">&#39;$75-100K&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;$100-200K&#39;</span><span class="p">,</span> <span class="s1">&#39;$200-500K&#39;</span><span class="p">,</span> <span class="s1">&#39;$500K-1M&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;$1M&#39;</span><span class="p">,</span> <span class="s1">&#39;ALL&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="md_to_pdf"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.md_to_pdf">[docs]</a><span class="k">def</span> <span class="nf">md_to_pdf</span><span class="p">(</span><span class="n">md_text</span><span class="p">,</span> <span class="n">outputfile_path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert Markdown version of report to a PDF. Returns bytes that can be</span>
+<span class="sd">    saved as a PDF</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    md_text: str</span>
+<span class="sd">        report template written in markdown</span>
+<span class="sd">    outputfile_path: str</span>
+<span class="sd">        path to where the final file sohould be written</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        Markdown text is saved as a PDF and the HTML used to create</span>
+<span class="sd">        the report</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># convert markdown text to pdf with pandoc</span>
+    <span class="n">pypandoc</span><span class="o">.</span><span class="n">convert_text</span><span class="p">(</span>
+        <span class="n">md_text</span><span class="p">,</span> <span class="s1">&#39;pdf&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;md&#39;</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="n">outputfile_path</span><span class="p">,</span>
+        <span class="n">extra_args</span><span class="o">=</span><span class="p">[</span>
+            <span class="s1">&#39;-V&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry:margin=1in&#39;</span>
+        <span class="p">]</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convert_table"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.convert_table">[docs]</a><span class="k">def</span> <span class="nf">convert_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">tablefmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pipe&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert pandas DataFrame to Markdown style table</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df: Pandas DataFrame</span>
+<span class="sd">        DataFrame to convert</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        String that is a formatted markdown table</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">tabulate</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s2">&quot;keys&quot;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="n">tablefmt</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tabulate</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s2">&quot;firstrow&quot;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="n">tablefmt</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="policy_table"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.policy_table">[docs]</a><span class="k">def</span> <span class="nf">policy_table</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a table showing the policy parameters in a reform and their</span>
+<span class="sd">    default value</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    params: dict</span>
+<span class="sd">        policy parameters being implemented</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    md_tables: str</span>
+<span class="sd">        String containing a markdown style table that summarized the</span>
+<span class="sd">        given parameters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># map out additional name information for vi indexed variables</span>
+    <span class="n">vi_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;MARS&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;Single&quot;</span><span class="p">,</span> <span class="s2">&quot;Married Filing Jointly&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Married Filing Separately&quot;</span><span class="p">,</span> <span class="s2">&quot;Head of Household&quot;</span><span class="p">,</span> <span class="s2">&quot;Widow&quot;</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;idedtype&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;Medical&quot;</span><span class="p">,</span> <span class="s2">&quot;State &amp; Local Taxes&quot;</span><span class="p">,</span> <span class="s2">&quot;Real EState Taxes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Casualty&quot;</span><span class="p">,</span> <span class="s2">&quot;Miscellaneous&quot;</span><span class="p">,</span> <span class="s2">&quot;Interest Paid&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Charitable Giving&quot;</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;EIC&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;0 Kids&quot;</span><span class="p">,</span> <span class="s2">&quot;1 Kid&quot;</span><span class="p">,</span> <span class="s2">&quot;2 Kids&quot;</span><span class="p">,</span> <span class="s2">&quot;3+ Kids&quot;</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+    <span class="n">reform_years</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">reform_by_year</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">deque</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">is_paramtools_format</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">convert_params</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">pol</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">()</span>  <span class="c1"># policy object used for getting original value</span>
+    <span class="c1"># loop through all of the policy parameters in a given reform</span>
+    <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">meta</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># find all the years the parameter is updated</span>
+        <span class="n">years</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">reform_years</span> <span class="o">=</span> <span class="n">reform_years</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">years</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+            <span class="c1"># find default information</span>
+            <span class="n">pol</span><span class="o">.</span><span class="n">set_year</span><span class="p">(</span><span class="n">yr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;-indexed&quot;</span><span class="p">):</span>
+                <span class="n">_param</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">pol_meta</span> <span class="o">=</span> <span class="n">pol</span><span class="o">.</span><span class="n">metadata</span><span class="p">()[</span><span class="n">_param</span><span class="p">]</span>
+                <span class="n">default_indexed</span> <span class="o">=</span> <span class="n">pol_meta</span><span class="p">[</span><span class="s2">&quot;indexed&quot;</span><span class="p">]</span>
+                <span class="n">new_indexed</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">pol_meta</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+                <span class="n">reform_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;CPI Indexed: </span><span class="si">{</span><span class="n">default_indexed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                     <span class="sa">f</span><span class="s2">&quot;CPI Indexed: </span><span class="si">{</span><span class="n">new_indexed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="n">pol_meta</span> <span class="o">=</span> <span class="n">pol</span><span class="o">.</span><span class="n">metadata</span><span class="p">()[</span><span class="n">param</span><span class="p">]</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">pol_meta</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+            <span class="n">default_val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pol</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+            <span class="n">new_val</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span>
+            <span class="c1"># skip any duplicated policy parameters</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">default_val</span> <span class="o">==</span> <span class="n">new_val</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="c1"># create individual lines for indexed parameters</span>
+            <span class="c1"># think parameters that vary by marital status, number of kids, etc</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">default_val</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># first find the indexed parameter we&#39;re working with</span>
+                <span class="k">for</span> <span class="n">vi</span> <span class="ow">in</span> <span class="n">vi_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">vi</span> <span class="ow">in</span> <span class="n">pol_meta</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">vi_name</span> <span class="o">=</span> <span class="n">vi</span>
+                        <span class="k">break</span>
+                <span class="n">vi_list</span> <span class="o">=</span> <span class="n">vi_map</span><span class="p">[</span><span class="n">vi_name</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">default_val</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="c1"># print(name, val, param, default_val)</span>
+                    <span class="n">_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">vi_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">_default_val</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">_new_val</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_val</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="k">if</span> <span class="n">_default_val</span> <span class="o">==</span> <span class="n">_new_val</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">reform_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">_name</span><span class="p">,</span> <span class="n">_default_val</span><span class="p">,</span> <span class="n">_new_val</span><span class="p">]</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">reform_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">default_val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_val</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+
+    <span class="c1"># convert all tables from CSV format to Markdown</span>
+    <span class="n">md_tables</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">reform_years</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">reform_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span>
+        <span class="n">content</span><span class="o">.</span><span class="n">appendleft</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">&quot;Policy&quot;</span><span class="p">,</span> <span class="s2">&quot;Original Value&quot;</span><span class="p">,</span> <span class="s2">&quot;New Value&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">md_tables</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_table</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">md_tables</span></div>
+
+
+<div class="viewcode-block" id="write_text"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.write_text">[docs]</a><span class="k">def</span> <span class="nf">write_text</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fill in text with specified template</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    template_path: str</span>
+<span class="sd">        path to read template from</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    rendered: str</span>
+<span class="sd">        rendered template</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">template_str</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">template_path</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="n">template_str</span><span class="p">)</span>
+    <span class="n">rendered</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rendered</span></div>
+
+
+<div class="viewcode-block" id="date"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.date">[docs]</a><span class="k">def</span> <span class="nf">date</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return formatted date</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+    <span class="n">month</span> <span class="o">=</span> <span class="n">today</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%B&quot;</span><span class="p">)</span>
+    <span class="n">day</span> <span class="o">=</span> <span class="n">today</span><span class="o">.</span><span class="n">day</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">month</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">day</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="n">date</span></div>
+
+
+<div class="viewcode-block" id="form_intro"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.form_intro">[docs]</a><span class="k">def</span> <span class="nf">form_intro</span><span class="p">(</span><span class="n">pol_areas</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Form the introduction line</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pol_areas: list</span>
+<span class="sd">        list of all the policy areas included in the reform used to</span>
+<span class="sd">        create a description of the reform</span>
+<span class="sd">    description: str</span>
+<span class="sd">        user provided description of the reform</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        introduction text for report</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># these are all of the possible strings used in the introduction sentance</span>
+    <span class="n">intro_text</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;modifing the </span><span class="si">{}</span><span class="s2"> section of the tax code&quot;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;modifing the </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2"> sections of the tax code&quot;</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;modifing the </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, and </span><span class="si">{}</span><span class="s2"> sections of the tax code&quot;</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;modifing a number of areas of the tax code, &quot;</span>
+            <span class="s2">&quot;including the </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, and </span><span class="si">{}</span><span class="s2"> sections&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">description</span><span class="p">:</span>
+        <span class="n">num_areas</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pol_areas</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">intro_line</span> <span class="o">=</span> <span class="n">intro_text</span><span class="p">[</span><span class="n">num_areas</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">num_areas</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">intro_line</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pol_areas</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">num_areas</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">intro_line</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pol_areas</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pol_areas</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">intro_line</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pol_areas</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pol_areas</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pol_areas</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">description</span></div>
+
+
+<div class="viewcode-block" id="form_baseline_intro"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.form_baseline_intro">[docs]</a><span class="k">def</span> <span class="nf">form_baseline_intro</span><span class="p">(</span><span class="n">current_law</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Form final sentence of introduction paragraph</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    current_law: bool</span>
+<span class="sd">        whether report is for the current law baseline</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        text or intro of baseline summary</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">current_law</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">, along with some modifications. A summary of these &quot;</span>
+            <span class="s2">&quot;modifications can be found in the </span><span class="se">\&quot;</span><span class="s2">Summary of Baseline Policy</span><span class="se">\&quot;</span><span class="s2"> &quot;</span>
+            <span class="s2">&quot;section&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="largest_tax_change"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.largest_tax_change">[docs]</a><span class="k">def</span> <span class="nf">largest_tax_change</span><span class="p">(</span><span class="n">diff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to find the largest change in tax liability</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    diff: Pandas DataFrame</span>
+<span class="sd">        Differences table created by taxbrain</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    largest_change_group: str</span>
+<span class="sd">        string relating group with the largest change</span>
+<span class="sd">    largest_change_str: str</span>
+<span class="sd">        string relating size of largest change</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sub_diff</span> <span class="o">=</span> <span class="n">diff</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;ALL&quot;</span><span class="p">)</span>  <span class="c1"># remove total row</span>
+    <span class="c1"># find the absolute largest change in total liability</span>
+    <span class="n">absolute_change</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sub_diff</span><span class="p">[</span><span class="s2">&quot;tot_change&quot;</span><span class="p">])</span>
+    <span class="n">largest</span> <span class="o">=</span> <span class="n">sub_diff</span><span class="p">[</span>
+        <span class="nb">max</span><span class="p">(</span><span class="n">absolute_change</span><span class="p">)</span> <span class="o">==</span> <span class="n">absolute_change</span>
+    <span class="p">]</span>
+    <span class="n">index_largest</span> <span class="o">=</span> <span class="n">largest</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">largest_change</span> <span class="o">=</span> <span class="n">largest</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># index in case there&quot;s a tie</span>
+    <span class="c1"># split index to form sentance</span>
+    <span class="n">split_index</span> <span class="o">=</span> <span class="n">index_largest</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_index</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">index_name</span> <span class="o">=</span> <span class="n">split_index</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">split_index</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">:</span>
+            <span class="n">direction_str</span> <span class="o">=</span> <span class="s2">&quot;greater than&quot;</span>
+        <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">&quot;&lt;&quot;</span><span class="p">:</span>
+            <span class="n">direction_str</span> <span class="o">=</span> <span class="s2">&quot;less than&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">direction_str</span> <span class="o">=</span> <span class="s2">&quot;equal to&quot;</span>
+        <span class="n">largest_change_group</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">direction_str</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">largest_change_group</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;between </span><span class="si">{</span><span class="n">split_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">split_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="n">formatted_change</span> <span class="o">=</span> <span class="n">dollar_str_formatting</span><span class="p">(</span><span class="n">largest_change</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">largest_change</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">largest_change_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;decrease by $</span><span class="si">{</span><span class="n">formatted_change</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">elif</span> <span class="n">largest_change</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">largest_change_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;increase by $</span><span class="si">{</span><span class="n">formatted_change</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">largest_change_str</span> <span class="o">=</span> <span class="s2">&quot;remain the same&quot;</span>
+
+    <span class="k">return</span> <span class="n">largest_change_group</span><span class="p">,</span> <span class="n">largest_change_str</span></div>
+
+
+<div class="viewcode-block" id="notable_changes"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.notable_changes">[docs]</a><span class="k">def</span> <span class="nf">notable_changes</span><span class="p">(</span><span class="n">tb</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find any notable changes in certain variables. &quot;Notable&quot; is defined</span>
+<span class="sd">    as a percentage change above the given threshold.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tb: TaxBrain object</span>
+<span class="sd">        instance of TaxBrain object for analysis</span>
+<span class="sd">    threshold: float</span>
+<span class="sd">        Percentage change in an aggregate variable for it to be</span>
+<span class="sd">        considered notable</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    section: str</span>
+<span class="sd">        text for section on notable changes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">notable_dict</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="c1"># loop through all of the notable variables and see if there is a year</span>
+    <span class="c1"># where they change more than the given threshold</span>
+    <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">desc</span> <span class="ow">in</span> <span class="n">notable_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;count_&quot;</span><span class="p">):</span>
+            <span class="c1"># count number of filers with a non-zero value for a given variable</span>
+            <span class="n">totals</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">years</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tb</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="n">tb</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">_var</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">base</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
+                <span class="n">reform</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
+                <span class="n">base_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                    <span class="n">base</span><span class="p">[</span><span class="n">_var</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">base</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">],</span> <span class="mi">0</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                <span class="n">reform_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                    <span class="n">reform</span><span class="p">[</span><span class="n">_var</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">reform</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">],</span> <span class="mi">0</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                <span class="n">diff</span> <span class="o">=</span> <span class="n">reform_total</span> <span class="o">-</span> <span class="n">base_total</span>
+                <span class="n">totals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span><span class="s2">&quot;Base&quot;</span><span class="p">:</span> <span class="n">base_total</span><span class="p">,</span> <span class="s2">&quot;Reform&quot;</span><span class="p">:</span> <span class="n">reform_total</span><span class="p">,</span>
+                     <span class="s2">&quot;Difference&quot;</span><span class="p">:</span> <span class="n">diff</span><span class="p">}</span>
+                <span class="p">)</span>
+                <span class="n">years</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+            <span class="n">totals</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">totals</span><span class="p">)</span>
+            <span class="n">totals</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">years</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">totals</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">weighted_totals</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="n">totals</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">totals</span><span class="p">[</span><span class="s2">&quot;Difference&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">totals</span><span class="p">[</span><span class="s2">&quot;Base&quot;</span><span class="p">]</span>
+        <span class="n">totals</span> <span class="o">=</span> <span class="n">totals</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.</span><span class="p">)</span>
+        <span class="n">max_pct_change</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">totals</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">])</span>
+        <span class="n">max_yr</span> <span class="o">=</span> <span class="n">totals</span><span class="p">[</span><span class="n">totals</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_pct_change</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">max_pct_change</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">max_pct_change</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">direction</span> <span class="o">=</span> <span class="s2">&quot;decreases&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">direction</span> <span class="o">=</span> <span class="s2">&quot;increases&quot;</span>
+            <span class="n">pct_chng</span> <span class="o">=</span> <span class="n">max_pct_change</span> <span class="o">*</span> <span class="mi">100</span>
+            <span class="n">notable_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">direction</span><span class="si">}</span><span class="s2"> by </span><span class="si">{</span><span class="n">pct_chng</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span>
+            <span class="n">notable_dict</span><span class="p">[</span><span class="n">max_yr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">notable_str</span><span class="p">)</span>
+    <span class="c1"># add default message if no notable changes</span>
+    <span class="n">min_chng</span> <span class="o">=</span> <span class="n">threshold</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="n">section</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;No notable variables changed by more than </span><span class="si">{</span><span class="n">min_chng</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">notable_dict</span><span class="p">:</span>
+        <span class="n">section</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">notable_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">section</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">_&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+                <span class="n">section</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;* </span><span class="si">{</span><span class="n">change</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">section</span></div>
+
+
+<div class="viewcode-block" id="behavioral_assumptions"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.behavioral_assumptions">[docs]</a><span class="k">def</span> <span class="nf">behavioral_assumptions</span><span class="p">(</span><span class="n">tb</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return list of behavioral assumptions used</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tb: TaxBrain object</span>
+<span class="sd">        instance of TaxBrain object for analysis</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    assumptions: list</span>
+<span class="sd">        list of behavioral assumptions used</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">behavior_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;sub&quot;</span><span class="p">:</span> <span class="s2">&quot;Substitution elasticity of taxable income: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;inc&quot;</span><span class="p">:</span> <span class="s2">&quot;Income elasticity of taxable income: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cg&quot;</span><span class="p">:</span> <span class="s2">&quot;Semi-elasticity of long-term capital gains: </span><span class="si">{}</span><span class="s2">&quot;</span>
+    <span class="p">}</span>
+    <span class="n">assumptions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># if there are some behavioral assumptions, loop through them</span>
+    <span class="k">if</span> <span class="n">tb</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;behavior&quot;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tb</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;behavior&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">assumptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">behavior_map</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">assumptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;No behavioral assumptions&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">assumptions</span></div>
+
+
+<div class="viewcode-block" id="consumption_assumptions"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.consumption_assumptions">[docs]</a><span class="k">def</span> <span class="nf">consumption_assumptions</span><span class="p">(</span><span class="n">tb</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create table of consumption assumptions used in analysis</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tb: TaxBrain object</span>
+<span class="sd">        instance of TaxBrain object for analysis</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    md_tables: str</span>
+<span class="sd">        table of consumption assumptions for report</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">tb</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;consumption&quot;</span><span class="p">]:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;consumption&quot;</span><span class="p">]</span>
+        <span class="c1"># create table of consumption assumptions</span>
+        <span class="n">consump_years</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">consump_by_year</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">deque</span><span class="p">())</span>
+        <span class="c1"># read consumption.json from taxcalc package</span>
+        <span class="n">consump_json</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
+            <span class="n">Path</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;consumption.json&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">consump_meta</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">consump_json</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">meta</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># find all the years the parameter is updated</span>
+            <span class="n">years</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">consump_years</span> <span class="o">=</span> <span class="n">consump_years</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">years</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">consump_meta</span><span class="p">[</span><span class="n">param</span><span class="p">][</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+            <span class="n">default_val</span> <span class="o">=</span> <span class="n">consump_meta</span><span class="p">[</span><span class="n">param</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+                <span class="c1"># find default information</span>
+                <span class="n">new_val</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span>
+                <span class="n">consump_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="n">default_val</span><span class="p">,</span> <span class="n">new_val</span><span class="p">]</span>
+                <span class="p">)</span>
+        <span class="n">md_tables</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># hold markdown version of the tables</span>
+        <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">consump_years</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">consump_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span>
+            <span class="n">content</span><span class="o">.</span><span class="n">appendleft</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Default Value&quot;</span><span class="p">,</span> <span class="s2">&quot;User Value&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">md_tables</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_table</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">md_tables</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;No new consumption assumptions specified.&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="n">msg</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="growth_assumptions"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.growth_assumptions">[docs]</a><span class="k">def</span> <span class="nf">growth_assumptions</span><span class="p">(</span><span class="n">tb</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a table with all of the growth assumptions used in the analysis</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tb: TaxBrain object</span>
+<span class="sd">        instance of TaxBrain object for analysis</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    md_tables: str</span>
+<span class="sd">        table of growth assumptions for report</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">growth_vars_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;ABOOK&quot;</span><span class="p">:</span> <span class="s2">&quot;General Business and Foreign Tax Credit Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ACGNS&quot;</span><span class="p">:</span> <span class="s2">&quot;Capital Gains Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ACPIM&quot;</span><span class="p">:</span> <span class="s2">&quot;CPI - Medical&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ACPIU&quot;</span><span class="p">:</span> <span class="s2">&quot;CPI - Urban Consumer&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ADIV&quot;</span><span class="p">:</span> <span class="s2">&quot;Dividend Income Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;AINTS&quot;</span><span class="p">:</span> <span class="s2">&quot;Interest Income Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;AIPD&quot;</span><span class="p">:</span> <span class="s2">&quot;Interest Paid Deduction Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ASCHCI&quot;</span><span class="p">:</span> <span class="s2">&quot;Schedule C Income Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ASCHCL&quot;</span><span class="p">:</span> <span class="s2">&quot;Schedule C Losses Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ASCHEI&quot;</span><span class="p">:</span> <span class="s2">&quot;Schedule E Income Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ASCHEL&quot;</span><span class="p">:</span> <span class="s2">&quot;Schedule E Losses Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ASCHFI&quot;</span><span class="p">:</span> <span class="s2">&quot;Schedule F Income Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ASCHFL&quot;</span><span class="p">:</span> <span class="s2">&quot;Schedule F Losses Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ASOCSEC&quot;</span><span class="p">:</span> <span class="s2">&quot;Social Security Benefit Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ATXPY&quot;</span><span class="p">:</span> <span class="s2">&quot;Personal Income Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;AUCOMP&quot;</span><span class="p">:</span> <span class="s2">&quot;Unemployment Compensation Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;AWAGE&quot;</span><span class="p">:</span> <span class="s2">&quot;Wage Income Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ABENOTHER&quot;</span><span class="p">:</span> <span class="s2">&quot;Other Benefits Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ABENMCARE&quot;</span><span class="p">:</span> <span class="s2">&quot;Medicare Benefits Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ABENMCAID&quot;</span><span class="p">:</span> <span class="s2">&quot;Medicaid Benfits Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ABENSSI&quot;</span><span class="p">:</span> <span class="s2">&quot;SSI Benefits Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ABENSNAP&quot;</span><span class="p">:</span> <span class="s2">&quot;SNAP Benefits Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ABENWIC&quot;</span><span class="p">:</span> <span class="s2">&quot;WIC Benfits Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ABENHOUSING&quot;</span><span class="p">:</span> <span class="s2">&quot;Housing Benefits Growth Rate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ABENTANF&quot;</span><span class="p">:</span> <span class="s2">&quot;TANF Benfits Growth Rates&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ABENVET&quot;</span><span class="p">:</span> <span class="s2">&quot;Veteran&#39;s Benfits Growth Rates&quot;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">tb</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">]:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">]</span>
+        <span class="n">growdiff_years</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">growdiff_by_year</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">deque</span><span class="p">())</span>
+
+        <span class="c1"># base GrowFactor object to pull default values</span>
+        <span class="n">base_gf</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">()</span>
+        <span class="c1"># create GrowDiff and GrowFactors for the new assumptions</span>
+        <span class="n">reform_gd</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
+        <span class="n">reform_gd</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">reform_gf</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">()</span>
+        <span class="n">reform_gd</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">reform_gf</span><span class="p">)</span>
+        <span class="c1"># loop through all of the reforms</span>
+        <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">meta</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># find all years a new value is specified</span>
+            <span class="n">years</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">growdiff_years</span> <span class="o">=</span> <span class="n">growdiff_years</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">years</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">growth_vars_map</span><span class="p">[</span><span class="n">param</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+                <span class="c1"># find default and new values</span>
+                <span class="n">default_val</span> <span class="o">=</span> <span class="n">base_gf</span><span class="o">.</span><span class="n">factor_value</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">yr</span><span class="p">)</span>
+                <span class="n">new_val</span> <span class="o">=</span> <span class="n">reform_gf</span><span class="o">.</span><span class="n">factor_value</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">yr</span><span class="p">)</span>
+                <span class="n">growdiff_by_year</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="n">default_val</span><span class="p">,</span> <span class="n">new_val</span><span class="p">]</span>
+                <span class="p">)</span>
+
+        <span class="c1"># create tables</span>
+        <span class="n">md_tables</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">growdiff_years</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">growdiff_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span>
+            <span class="n">content</span><span class="o">.</span><span class="n">appendleft</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Default Value&quot;</span><span class="p">,</span> <span class="s2">&quot;New Value&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">md_tables</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_table</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">md_tables</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="s2">&quot;No new growth assumptions specified.&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="convert_params"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.convert_params">[docs]</a><span class="k">def</span> <span class="nf">convert_params</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert ParamTools style parameter inputs to traditional taxcalc style</span>
+<span class="sd">    parameters for report policy table creation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    params: dict</span>
+<span class="sd">        ParamTools style reform dictionary</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    reform: dict</span>
+<span class="sd">        a dictionary in traditional taxcalc style</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pol</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">()</span>
+    <span class="n">pol</span><span class="o">.</span><span class="n">adjust</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">indexed_params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">reform</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">first_yr</span> <span class="o">=</span> <span class="n">pol</span><span class="o">.</span><span class="n">LAST_BUDGET_YEAR</span>
+    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">yrs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;-indexed&quot;</span><span class="p">):</span>
+            <span class="n">indexed_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">adj</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">]:</span>
+            <span class="n">yrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">adj</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">])</span>
+        <span class="n">yrs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">yrs</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pol</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">yrs</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">yr</span> <span class="o">-</span> <span class="n">pol</span><span class="o">.</span><span class="n">JSON_START_YEAR</span>
+            <span class="n">vals</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="n">vals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+            <span class="n">first_yr</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">yr</span><span class="p">,</span> <span class="n">first_yr</span><span class="p">)</span>
+            <span class="n">reform</span><span class="p">[</span><span class="n">param</span><span class="p">][</span><span class="n">yr</span><span class="p">]</span> <span class="o">=</span> <span class="n">vals</span>
+    <span class="c1"># add indexed parameters as being implemented in first year of reform</span>
+    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">indexed_params</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="n">reform</span><span class="p">[</span><span class="n">param</span><span class="p">][</span><span class="n">first_yr</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+    <span class="k">return</span> <span class="n">reform</span></div>
+
+
+<div class="viewcode-block" id="dollar_str_formatting"><a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.dollar_str_formatting">[docs]</a><span class="k">def</span> <span class="nf">dollar_str_formatting</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Format dollar figures into $val trillion, $val billion, etc.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    val: float</span>
+<span class="sd">        revenue amount</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        formatted dollar figure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;=</span> <span class="mf">1e12</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span> <span class="o">*</span> <span class="mf">1e-12</span><span class="si">:</span><span class="s2">,.1f</span><span class="si">}</span><span class="s2"> trillion&quot;</span>
+    <span class="k">elif</span> <span class="mf">1e9</span> <span class="o">&lt;=</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="mf">1e12</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="si">:</span><span class="s2">,.1f</span><span class="si">}</span><span class="s2"> billion&quot;</span>
+    <span class="k">elif</span> <span class="mf">1e6</span> <span class="o">&lt;=</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="mf">1e9</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span> <span class="o">*</span> <span class="mf">1e-6</span><span class="si">:</span><span class="s2">,.1f</span><span class="si">}</span><span class="s2"> million&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span></div>
+</pre></div>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Anderson Frailey<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>
