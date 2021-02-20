@@ -16,6 +16,20 @@ from .typing import ParamToolsAdjustment, TaxcalcReform, PlotColors
 def weighted_sum(df, var, wt="s006"):
     """
     Return the weighted sum of specified variable
+
+    Parameters
+    ----------
+    df: Pandas DataFrame
+        data overwhich to compute weighted sum
+    var: str
+        variable name from df for which to computer weighted sum
+    wt: str
+        name of weight variable in df
+    
+    Returns
+    -------
+    float
+        weighted sum
     """
     return (df[var] * df[wt]).sum()
 
@@ -30,6 +44,24 @@ def distribution_plot(
     """
     Create a horizontal bar chart to display the distributional change in
     after tax income
+
+    Parameters
+    ----------
+    tb: TaxBrain object
+        TaxBrain object for analysis
+    year: int
+        year to report distribution for
+    figsize: tuple
+        representing the size of the figure (width, height) in inches
+    title: str
+        title for plot
+    include_text: bool
+        whether to include text for labels
+
+    Returns
+    -------
+    fig: Matplotlib.pyplot figure object
+        distribution plot   
     """
     def find_percs(data, group):
         """
@@ -137,6 +169,23 @@ def differences_plot(
     """
     Create a bar chart that shows the change in total liability for a given
     tax
+
+    Parameters
+    ----------
+    tb: TaxBrain object
+        TaxBrain object for analysis
+    tax_type: str
+        tax for which to show the change in liability
+        options: 'income', 'payroll', 'combined'
+    figsize: tuple
+        representing the size of the figure (width, height) in inches
+    title: str
+        title for plot
+
+    Returns
+    -------
+    fig: Matplotlib.pyplot figure object
+        differences plot   
     """
     def axis_formatter(x, p):
         if x >= 0:
@@ -186,6 +235,18 @@ def update_policy(
     """
     Convenience method that updates the Policy object with the reform
     dict using the appropriate method, given the reform format.
+
+    Parameters
+    ----------
+    policy_obj: Tax-Calculator Policy class object
+        Policy object for tax parameterization used for analysis
+    reform: str or dict
+        parameters for tax policy
+
+    Returns
+    -------
+    None
+        modifies the Policy object
     """
     if is_paramtools_format(reform):
         policy_obj.adjust(reform, **kwargs)
@@ -205,8 +266,15 @@ def is_paramtools_format(reform: Union[TaxcalcReform, ParamToolsAdjustment]):
 
     Otherwise, it is likely to be a ParamTools format.
 
-    Returns:
-        format (bool): True if reform is likely to be in PT format.
+    Parameters
+    ----------
+    reform: str or dict
+        parameters for tax policy
+
+    Returns
+    -------
+    bool
+        True if reform is likely to be in ParamTools format
     """
     for param, data in reform.items():
         if isinstance(data, dict):
@@ -223,9 +291,17 @@ def lorenz_data(tb, year: int, var: str = "aftertax_income"):
 
     Parameters
     ----------
-    tb: TaxBrain object
-    year: year of data to use
-    var: name of the variable to use
+    tb: TaxBrain class object
+        TaxBrain object for analysis
+    year: int
+        year of data to use
+    var: str
+        name of the variable to use
+
+    Returns
+    -------
+    final_data: Pandas DataFrame
+        DataFrame with Lorenz curve for baseline and reform
     """
     data = pd.DataFrame({
         "base": tb.base_data[year][var],
@@ -272,17 +348,32 @@ def lorenz_curve(
 
     Parameters
     ----------
-    tb: TaxBrain object
-    year: year of data you want to use for the lorenz curve
-    var: name of the variable to use
-    figsize: Tuple representing the size of the figure. (width, height)
-    xlabel: x axis label
-    ylabel: y axis label
-    base_color: color used for the base line
-    base_linestyle: linestyle for the base line
-    reform_color: color used for the reform line
-    reform_linestyle: linestyle for the reform line
-    dpi: dots per inch in the fiure. A higher value increases image quality
+    tb: TaxBrain class object
+        TaxBrain object for analysis
+    year: int
+        year of data you want to use for the lorenz curve
+    var: str
+        name of the variable to use
+    figsize: tuple
+        representing the size of the figure (width, height) in inches
+    xlabel: str
+        x axis label
+    ylabel: str
+        y axis label
+    base_color: str
+        color used for the base line
+    base_linestyle: str
+        linestyle for the base line
+    reform_color: str
+        color used for the reform line
+    reform_linestyle: str
+        linestyle for the reform line
+    dpi: int
+        dots per inch in the figure image
+
+    Returns
+    -------
+    None
     """
     plot_data = lorenz_data(tb, year, var)
     fig, ax = plt.subplots()
@@ -320,26 +411,46 @@ def volcano_plot(
     ylabel: str = "Expanded Income"
 ):
     """
-    Create a volacnoe plot to show change in tax tax liability
+    Create a volcano plot to show change in tax tax liability
 
     Parameters
     ----------
-    tb: TaxBrain instance
-    year: year for the plot
-    min_y: minimum amount for the y variable to be included in the plot
-    max_y: maximum amount for the y variable to be included in the plot
-    y_var: variable on the y axis
-    x_var: variable on the x axis
-    log_scale: boolean value to indicate if the y-axis should use a log scale.
-               If this is true, min_inc must be >= 0
-    increase_color: color to use for dots when x increases
-    decrease_color: color to use for dots when x decrease
-    dotsize: size of the dots in the scatter plot
-    alpha: attribute for transparency of the dots
-    figsize: tuple containing the figure size of the plot: (width, height)
-    dpi: dots per inch in the figure. A higher value increases image quality
-    xlabel: label on the x axis
-    ylabel: label on the y axis
+    tb: TaxBrain class object
+        TaxBrain object for analysis
+    year: int
+        year for the plot
+    min_y: float
+        minimum amount for the y variable to be included in the plot
+    max_y: float
+        maximum amount for the y variable to be included in the plot
+    y_var: str
+        variable on the y axis
+    x_var: str
+        variable on the x axis
+    log_scale: bool
+        whether the y-axis should use a log scale. If this is true,
+        min_inc must be >= 0
+    increase_color: str
+        color to use for dots when x increases
+    decrease_color: str
+        color to use for dots when x decrease
+    dotsize: int
+        size of the dots in the scatter plot
+    alpha: float
+        attribute for transparency of the dots
+    figsize: tuple
+        the figure size of the plot (width, height) in inches
+    dpi: int
+        dots per inch in the figure
+    xlabel: str
+        label on the x axis
+    ylabel: str
+        label on the y axis
+
+    Returns
+    -------
+    fig: Matplotlib.pyplot figure object
+        volcano plot figure
     """
     def log_axis(x, pos):
         """

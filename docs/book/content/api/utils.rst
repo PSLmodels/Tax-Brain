@@ -12,5 +12,5 @@ taxbrain.utils
 
 .. automodule:: taxbrain.utils
   :members: weighted_sum, distribution_plot, differences_plot,
-  update_policy, is_paramtools_format, lorenz_data, lorenz_curve,
-  volcano_plot
+    update_policy, is_paramtools_format, lorenz_data, lorenz_curve,
+    volcano_plot
