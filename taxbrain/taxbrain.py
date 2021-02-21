@@ -113,7 +113,8 @@ class TaxBrain:
 
         self.has_run = False
 
-    def run(self, varlist: list = DEFAULT_VARIABLES):
+    def run(self, varlist: list = DEFAULT_VARIABLES, client=None,
+            num_workers=1):
         """
         Run the calculators. TaxBrain will determine whether to do a static or
         partial equilibrium run based on the user's inputs when initializing
@@ -135,9 +136,10 @@ class TaxBrain:
                 data_source = "cps"
             else:
                 data_source = "puf"
-            og_results = run_ogusa(micro_reform=self.params["policy"],
-                                   data_source=data_source,
-                                   start_year=self.start_year)
+            og_results = run_ogusa(
+                iit_reform=self.params["policy"],
+                data_source=data_source, start_year=self.start_year,
+                client=client, num_workers=num_workers)
             self._apply_ogusa(og_results)
         base_calc, reform_calc = self._make_calculators()
         if not isinstance(varlist, list):
@@ -466,12 +468,12 @@ class TaxBrain:
         None
         """
         # changes in wage growth rates are at the 4th index
-        wage_change = og_results[4]
+        wage_change = og_results
         gf = tc.GrowFactors()
         grow_diff = {}
         for i, yr in enumerate(range(self.start_year, self.end_year)):
             cur_val = gf.factor_value("AWAGE", yr)
-            grow_diff[yr] = float(cur_val * wage_change[i])
+            grow_diff[yr] = float(cur_val * (1 + wage_change[i]))
         final_growdiffs = {
             "AWAGE": grow_diff
         }
