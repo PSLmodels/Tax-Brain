@@ -1,8 +1,86 @@
 # Tax-Brain Release History
 
-## 2019-xx-xx Release x.x.x
+## 2020-10-10 Release 2.4.0
 
-Last Merged Pull Request: [#68](https://github.com/PSLmodels/Tax-Brain/pull/68)
+Last Merged Pull Request [#135](https://github.com/PSLmodels/Tax-Brain/pull/135)
+
+Changes in this release:
+
+* Automated reports are now produced using just Pandoc ([#125](https://github.com/PSLmodels/Tax-Brain/pull/125), [#135](https://github.com/PSLmodels/Tax-Brain/pull/135))
+
+* The Tax-Brain Compute Studio app now includes automated reports in the
+downloadable content ([#76](https://github.com/PSLmodels/Tax-Brain/pull/76))
+
+* Tax-Brain now requires `taxcalc` version 3.0.0 or above and `behresp` 0.11.0 or above ([#128](https://github.com/PSLmodels/Tax-Brain/pull/128))
+
+* All images used in producing automated reports are now made with `matplotlib`, greatly reducing the number of external projects we need to install ([#134](https://github.com/PSLmodels/Tax-Brain/pull/134))
+
+
+## 2020-07-07 Release 2.3.4
+
+Last Merged Pull Request [#124](https://github.com/PSLmodels/Tax-Brain/pull/124)
+
+No changes made to the model between release 2.3.3 and 2.3.4. The only changes
+were to the conda build instructions.
+
+## 2020-07-06 Release 2.3.3
+
+Last Merged Pull Request [#123](https://github.com/PSLmodels/Tax-Brain/pull/123)
+
+Changes in this release:
+
+* Fixes various Compute Studio bugs (
+  [#78](https://github.com/PSLmodels/Tax-Brain/pull/78),
+  [#82](https://github.com/PSLmodels/Tax-Brain/pull/82),
+  [#83](https://github.com/PSLmodels/Tax-Brain/pull/83)
+)
+* Update installation requirements (
+  [#80](https://github.com/PSLmodels/Tax-Brain/pull/80),
+  [#81](https://github.com/PSLmodels/Tax-Brain/pull/81),
+  [#84](https://github.com/PSLmodels/Tax-Brain/pull/84),
+  [#90](https://github.com/PSLmodels/Tax-Brain/pull/90),
+  [#91](https://github.com/PSLmodels/Tax-Brain/pull/91)
+)
+* Add Compute Studio Documentation (
+  [#87](https://github.com/PSLmodels/Tax-Brain/pull/87),
+  [#92](https://github.com/PSLmodels/Tax-Brain/pull/92)
+)
+* Compute Studio updates (
+  [#88](https://github.com/PSLmodels/Tax-Brain/pull/88),
+  [#89](https://github.com/PSLmodels/Tax-Brain/pull/89),
+  [#103](https://github.com/PSLmodels/Tax-Brain/pull/103),
+  [#108](https://github.com/PSLmodels/Tax-Brain/pull/108),
+  [#109](https://github.com/PSLmodels/Tax-Brain/pull/109),
+  [#111](https://github.com/PSLmodels/Tax-Brain/pull/111),
+  [#112](https://github.com/PSLmodels/Tax-Brain/pull/112),
+  [#118](https://github.com/PSLmodels/Tax-Brain/pull/118),
+)
+* Fix handling of baseline policy in the core taxbrain app
+([#93](https://github.com/PSLmodels/Tax-Brain/pull/93))
+* Update core taxbrain app to use Bokeh version 2.0.0 and Tax-Calculator 2.9.0
+([#113](https://github.com/PSLmodels/Tax-Brain/pull/113))
+* Add benefits totals to aggregate table
+([#120](https://github.com/PSLmodels/Tax-Brain/pull/118))
+* Update the report feature of the core taxbrain app to only use PNGs for graphs
+[#123](https://github.com/PSLmodels/Tax-Brain/pull/123)
+
+## 2019-07-30 Release 2.3.2
+
+Last Merged Pull Request: [#74](https://github.com/PSLmodels/Tax-Brain/pull/74)
+
+No changes made to the model between release 2.3.1 and 2.3.2. The only changes
+were to the conda build instructions.
+
+## 2019-07-29 Release 2.3.1
+
+Last Merged Pull Request: [#73](https://github.com/PSLmodels/Tax-Brain/pull/73)
+
+No changes made to the model between release 2.3.0 and 2.3.1. The only changes
+were to the conda build instructions.
+
+## 2019-07-24 Release 2.3.0
+
+Last Merged Pull Request: [#72](https://github.com/PSLmodels/Tax-Brain/pull/72)
 
 Changes in this release:
 
@@ -17,6 +95,7 @@ Changes in this release:
   than current law ([#64](https://github.com/PSLmodels/Tax-Brain/pull/64))
 * Update COMP table outputs so they are more readable ([#66](https://github.com/PSLmodels/Tax-Brain/pull/66))
 * Add TaxBrain command line interface ([#67](https://github.com/PSLmodels/Tax-Brain/pull/67), [#68](https://github.com/PSLmodels/Tax-Brain/pull/68))
+* Add automated report capabilities ([#69](https://github.com/PSLmodels/Tax-Brain/pull/69))
 
 ## 2019-05-24 Release 2.2.1
 

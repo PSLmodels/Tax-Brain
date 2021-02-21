@@ -2,7 +2,7 @@
 Command line interface for the Tax-Brain package
 """
 import argparse
-from taxbrain import TaxBrain
+from taxbrain import TaxBrain, report
 from pathlib import Path
 from datetime import datetime
 
@@ -10,6 +10,20 @@ from datetime import datetime
 def make_tables(tb, year, outpath):
     """
     Make and write all of the tables for a given year
+
+    Parameters
+    ----------
+    tb: TaxBrain object
+        instance of a TaxBrain object
+    year: int
+        year to produce tables for
+    outpath: str
+        path to save output to
+
+    Returns
+    -------
+    None
+        tables saved to disk
     """
     dist_table_base = tb.distribution_table(
         year, "weighted_deciles", "expanded_income", "base"
@@ -33,9 +47,36 @@ def make_tables(tb, year, outpath):
 
 
 def cli_core(startyear, endyear, data, usecps, reform, behavior, assump,
-             baseline, outdir, name, ogusa):
+             baseline, outdir, name, ogusa, make_report, author):
     """
     Core logic for the CLI
+
+    Parameters
+    ----------
+    startyear: int
+        year to start analysis
+    endyear: int
+        last year for analysis
+    data: str or Pandas DataFrame
+        path to or DataFrame with data for Tax-Calculator
+    usecps: bool
+        whether to use the CPS or (if False) the PUF-based file
+    reform: dict
+        parameter changes for reform run in Tax-Calculator
+    behavior: dict
+        behavioral assumptions for Behavioral-Responses
+    assump: dict
+        consumption assumptions
+    base_policy: dict
+        parameter changes (relative to current law baseline) for baseline
+        policy
+    verbose: bool
+        indicator for printing of output
+
+    Returns
+    -------
+    None
+        reports saved to disk at path specified by outdir
     """
     tb = TaxBrain(
         start_year=startyear, end_year=endyear, microdata=data,
@@ -60,10 +101,23 @@ def cli_core(startyear, endyear, data, usecps, reform, behavior, assump,
         yeardir.mkdir()
         make_tables(tb, year, yeardir)
 
+    if make_report:
+        report(
+            tb, name=name, outdir=outputpath, author=author
+        )
+
 
 def cli_main():
     """
     Command line interface to taxbrain package
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    None
     """
     parser_desription = (
         "This is the command line interface for the taxbrain package."
@@ -159,13 +213,28 @@ def cli_main():
         ),
         action="store_true"
     )
+    parser.add_argument(
+        "--report",
+        help=(
+            "including --report will trigger the creation of a PDF report "
+            "summarizing the effects of the tax policy being modeled."
+        ),
+        action="store_true"
+    )
+    parser.add_argument(
+        "--author",
+        help=(
+            "If you are creating a report, this the name that will be listed "
+            "as the author"
+        )
+    )
     args = parser.parse_args()
 
     # run the analysis
     cli_core(
         args.startyear, args.endyear, args.data, args.usecps, args.reform,
         args.behavior, args.assump, args.baseline, args.outdir, args.name,
-        args.ogusa
+        args.ogusa, args.author, args.report
     )
 
 

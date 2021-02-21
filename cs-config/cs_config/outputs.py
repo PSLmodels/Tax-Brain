@@ -4,7 +4,7 @@ Functions for creating the TaxBrain COMP outputs
 from bokeh.models import (ColumnDataSource, Toggle, CustomJS,
                           NumeralTickFormatter, HoverTool)
 from bokeh.models.widgets import Tabs, Panel, Div
-from bokeh.embed import components
+from bokeh.embed import json_item
 from bokeh.layouts import layout
 from bokeh.plotting import figure
 
@@ -34,22 +34,22 @@ def aggregate_plot(tb):
     fig = figure(title="Aggregate Tax Liability by Year",
                  width=700, height=500, tools="save")
     ii_base = fig.line(x="index", y="iitax", line_width=4,
-                       line_color="#12719e", legend="Income Tax - Base",
+                       line_color="#12719e", legend_label="Income Tax - Base",
                        source=base_cds)
     ii_reform = fig.line(x="index", y="iitax", line_width=4,
-                         line_color="#73bfe2", legend="Income Tax - Reform",
+                         line_color="#73bfe2", legend_label="Income Tax - Reform",
                          source=reform_cds)
     proll_base = fig.line(x="index", y="payrolltax", line_width=4,
-                          line_color="#98cf90", legend="Payroll Tax - Reform",
-                          source=reform_cds)
+                          line_color="#408941", legend_label="Payroll Tax - Base",
+                          source=base_cds)
     proll_reform = fig.line(x="index", y="payrolltax", line_width=4,
-                            line_color="#408941", legend="Payroll Tax - Base",
-                            source=base_cds)
+                            line_color="#98cf90", legend_label="Payroll Tax - Reform",
+                            source=reform_cds)
     comb_base = fig.line(x="index", y="combined", line_width=4,
-                         line_color="#a4201d", legend="Combined - Base",
+                         line_color="#a4201d", legend_label="Combined - Base",
                          source=base_cds)
     comb_reform = fig.line(x="index", y="combined", line_width=4,
-                           line_color="#e9807d", legend="Combined - Reform",
+                           line_color="#e9807d", legend_label="Combined - Reform",
                            source=reform_cds)
 
     # format figure
@@ -84,28 +84,27 @@ def aggregate_plot(tb):
     object2.visible = toggle.active
     object3.visible = toggle.active
     """
-    base_callback = CustomJS.from_coffeescript(code=plot_js, args={})
+    base_callback = CustomJS(code=plot_js, args={})
     base_toggle = Toggle(label="Base", button_type="primary",
-                         callback=base_callback, active=True)
+                         active=True)
     base_callback.args = {"toggle": base_toggle, "object1": ii_base,
                           "object2": proll_base, "object3": comb_base}
+    base_toggle.js_on_change('active', base_callback)
 
-    reform_callback = CustomJS.from_coffeescript(code=plot_js, args={})
+    reform_callback = CustomJS(code=plot_js, args={})
     reform_toggle = Toggle(label="Reform", button_type="primary",
-                           callback=reform_callback, active=True)
+                           active=True)
     reform_callback.args = {"toggle": reform_toggle, "object1": ii_reform,
                             "object2": proll_reform, "object3": comb_reform}
     fig_layout = layout([fig], [base_toggle, reform_toggle])
+    reform_toggle.js_on_change('active', reform_callback)
 
     # Components needed to embed the figure
-    js, div = components(fig_layout)
+    data = json_item(fig_layout)
     outputs = {
         "media_type": "bokeh",
         "title": "",
-        "data": {
-            "javascript": js,
-            "html": div
-        }
+        "data": data,
     }
 
     return outputs
@@ -163,8 +162,9 @@ def create_layout(data, start_year, end_year):
                     _data = grp_data[yr]
                     # create a data table for this tab
                     title = f"<h3>{_data['title']}</h3>"
-                    note = ("<p><i>All monetary values are in billions. "
-                            "All non-monetary values are in millions.</i></p>")
+                    note = ("<p><i>All monetary totals are in billions. "
+                            "All counts are in millions. "
+                            "Averages and shares are as shown.</i></p>")
                     tbl = Div(text=title + note + _data["renderable"],
                               width=1000)
                     grp_panel = Panel(child=tbl, title=grp.title())
@@ -191,25 +191,19 @@ def create_layout(data, start_year, end_year):
     table_layout = layout(
         children=[yr_tabs]
     )
-    agg_js, agg_div = components(agg_layout)
-    table_js, table_div = components(table_layout)
+    agg_data = json_item(agg_layout)
+    table_data = json_item(table_layout)
 
     # return a dictionary of outputs ready for COMP
     agg_outputs = {
         "media_type": "bokeh",
         "title": "Aggregate Results",
-        "data": {
-            "javascript": agg_js,
-            "html": agg_div
-        }
+        "data": agg_data,
     }
     table_outputs = {
         "media_type": "bokeh",
         "title": "Tables",
-        "data": {
-            "javascript": table_js,
-            "html": table_div
-        }
+        "data": table_data,
     }
 
     # return js, div, cdn_js, cdn_css, widget_js, widget_css

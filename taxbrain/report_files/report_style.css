@@ -1,0 +1,91 @@
+/* page formatting */
+@page {
+    @bottom-right {
+        content: counter(page)
+    }
+}
+h2 {
+    text-align: center;
+}
+/* cover page */
+@page :first {
+    @top-right {
+        content: url(taxbrain.png);
+        margin-top: 5%;
+    }
+}
+#title {
+    left: 0;
+    line-height: 200px;
+    margin-top: -250px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 100%;
+}
+#author {
+    left: 0;
+    line-height: 200px;
+    margin-top: -200px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 100%;
+}
+#date {
+    left: 0;
+    line-height: 200px;
+    margin-top: -150px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 100%;
+}
+/* table of contents */
+/* link formatting */
+#contents h3 a {
+    color: rgb(53, 50, 50);
+}
+#contents li a {
+    color: rgb(83, 79, 79);
+}
+#contents a {
+    text-decoration: none;
+}
+/* table formatting */
+table {
+    border: 0.5px solid;
+    border-color: black;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+tr {
+    font-size: 11px;
+    border-color: black;
+    border-right: 2px dashed;
+    padding-right: 0%;
+}
+tbody tr:nth-child(odd) {
+    background-color: rgb(199, 194, 194);
+}
+th {
+    font-size: 12px;
+    border-bottom: 1px solid;
+    border-right: 1px dashed;
+}
+td {
+    border-right: 1px dashed;
+    padding: 5px;
+}
+/* set the space around article sections */
+article {
+    align-content: space-between;
+}
+
+article #cover {
+    text-align: center;
+    align-content: center;
+    display: flex;
+    flex-wrap: wrap;
+}

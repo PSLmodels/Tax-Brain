@@ -4,30 +4,22 @@ import json
 import traceback
 import paramtools
 import pandas as pd
+import taxcalc
+import cs2tc
 from .constants import MetaParameters
-from .helpers import (convert_defaults, convert_adj, TCDIR,
-                      postprocess, nth_year_results, retrieve_puf,
-                      convert_behavior_adj)
+from .helpers import (TCDIR,
+                      postprocess, nth_year_results, retrieve_puf,)
 from .outputs import create_layout, aggregate_plot
-from taxbrain import TaxBrain
+from taxbrain import TaxBrain, report
 from dask import delayed, compute
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from marshmallow import fields
 
 
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
 
-with open(os.path.join(TCDIR, "policy_current_law.json"), "r") as f:
-    pcl = json.loads(f.read())
-
-RES = convert_defaults(pcl)
 CUR_PATH = os.path.abspath(os.path.dirname(__file__))
-
-
-class TCParams(paramtools.Parameters):
-    defaults = RES
-    label_to_extend = "year"
 
 
 class BehaviorParams(paramtools.Parameters):
@@ -40,79 +32,52 @@ class BehaviorParams(paramtools.Parameters):
     defaults = behavior_params
 
 
+def get_version():
+    model_versions_str = ""
+    for model, version in TaxBrain.VERSIONS.items():
+        model_versions_str += f"{model}: {version}\n"
+    return model_versions_str
+
+
 def get_inputs(meta_params_dict):
     """
     Return default parameters for Tax-Brain
     """
-    metaparams = MetaParameters()
-    metaparams.adjust(meta_params_dict)
+    meta_params = MetaParameters()
+    meta_params.adjust(meta_params_dict)
 
-    policy_params = TCParams()
+    policy_params = taxcalc.Policy()
+    policy_params.set_state(
+        year=meta_params.year.tolist(),
+    )
+
+    policy_defaults = cs2tc.convert_policy_defaults(meta_params, policy_params)
+
     behavior_params = BehaviorParams()
 
     default_params = {
-        "policy": policy_params.specification(
-            meta_data=True,
-            include_empty=True,
-            year=metaparams.year,
-            data_source=metaparams.data_source,
-            use_full_sample=metaparams.use_full_sample,
-            serializable=True
-        ),
-        "behavior": behavior_params.specification(
-            meta_data=True,
-            include_empty=True,
-            serializable=True
-        )
+        "policy": policy_defaults,
+        "behavior": behavior_params.dump()
     }
-    meta = metaparams.specification(
-        meta_data=True,
-        include_empty=True,
-        serializable=True
-    )
+    meta = meta_params.dump()
 
-    return meta, default_params
+    return {"meta_parameters": meta, "model_parameters": default_params}
 
 
 def validate_inputs(meta_params_dict, adjustment, errors_warnings):
     """
     Function to validate COMP inputs
     """
-    pol_params = {}
-    # drop checkbox parameters.
-    for param, data in list(adjustment["policy"].items()):
-        if not param.endswith("checkbox"):
-            pol_params[param] = data
-
-    policy_params = TCParams()
-    policy_params.adjust(pol_params, raise_errors=False)
+    pol_params = cs2tc.convert_policy_adjustment(adjustment["policy"])
+    policy_params = taxcalc.Policy()
+    policy_params.adjust(pol_params, raise_errors=False, ignore_warnings=True)
     errors_warnings["policy"]["errors"].update(policy_params.errors)
 
     behavior_params = BehaviorParams()
     behavior_params.adjust(adjustment["behavior"], raise_errors=False)
     errors_warnings["behavior"]["errors"].update(behavior_params.errors)
 
-    if policy_params.errors or behavior_params.errors:
-        return errors_warnings
-
-    # try to parse to the correct Tax-Calculator format.
-    try:
-        # update meta parameters
-        meta_params = MetaParameters()
-        meta_params.adjust(meta_params_dict)
-
-        tc_adj = {
-            "policy": convert_adj(adjustment["policy"],
-                                  meta_params.year.tolist()),
-            "behavior": convert_behavior_adj(adjustment["behavior"])
-        }
-        res = errors_warnings, tc_adj
-    except Exception:
-        res = errors_warnings
-        print("Error parsing:", adjustment)
-        traceback.print_exc()
-
-    return res
+    return {"errors_warnings": errors_warnings}
 
 
 def run_model(meta_params_dict, adjustment):
@@ -123,8 +88,8 @@ def run_model(meta_params_dict, adjustment):
     meta_params = MetaParameters()
     meta_params.adjust(meta_params_dict)
     # convert COMP user inputs to format accepted by tax-calculator
-    policy_mods = convert_adj(adjustment["policy"], meta_params.year.tolist())
-    behavior_mods = convert_behavior_adj(adjustment["behavior"])
+    policy_mods = cs2tc.convert_policy_adjustment(adjustment["policy"])
+    behavior_mods = cs2tc.convert_behavior_adjustment(adjustment["behavior"])
     user_mods = {
         "policy": policy_mods,
         "behavior": behavior_mods
@@ -184,13 +149,25 @@ def run_model(meta_params_dict, adjustment):
         for key, value in result.items():
             all_to_process[key] += value
     results, downloadable = postprocess(all_to_process)
+    # create report output if it is not a run with no reforme
+    if tb.params["policy"].keys():
+        report_outputs = report(tb, clean=True)
+        for name, data in report_outputs.items():
+            if name.endswith(".md"):
+                media_type = "Markdown"
+            elif name.endswith(".pdf"):
+                media_type = "PDF"
+            downloadable.append(
+                {
+                    "media_type": media_type,
+                    "title": name,
+                    "data": data
+                }
+            )
     agg_output, table_output = create_layout(results, start_year, end_year)
-    model_versions_str = ""
-    for model, version in TaxBrain.VERSIONS.items():
-        model_versions_str += f"{model}: {version}\n"
+
     comp_outputs = {
         "renderable": [agg_plot, agg_output, table_output],
-        "model_version": model_versions_str,
         "downloadable": downloadable
     }
     return comp_outputs

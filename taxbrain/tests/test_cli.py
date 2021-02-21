@@ -21,6 +21,11 @@ def test_cli():
     cli_core(
         startyear, endyear, data, usecps, reform, behavior, assump, baseline,
         outdir, name, ogusa
+    make_report = False
+    author = None
+    cli_core(
+        startyear, endyear, data, usecps, reform, behavior, assump, baseline,
+        outdir, name, make_report, author
     )
     outpath = Path(outdir, name)
     # assert that all folders and files have been created
@@ -33,7 +38,3 @@ def test_cli():
         assert Path(yearpath, f"distribution_table_reform_{year}.csv").exists()
         assert Path(yearpath, f"differences_table_{year}.csv").exists()
     shutil.rmtree(outpath)
-
-
-if __name__ == "__main__":
-    test_cli()

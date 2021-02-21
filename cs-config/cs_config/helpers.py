@@ -15,6 +15,7 @@ import copy
 import pandas as pd
 import numpy as np
 from collections import defaultdict
+from taxbrain.report_utils import convert_params
 from taxcalc import (Policy, DIFF_TABLE_COLUMNS, DIFF_TABLE_LABELS,
                      DIST_TABLE_COLUMNS, DIST_TABLE_LABELS,
                      add_income_table_row_variable,
@@ -29,158 +30,6 @@ from .tables import (summary_aggregate, summary_diff_xbin, summary_diff_xdec,
 
 TCPATH = inspect.getfile(Policy)
 TCDIR = os.path.dirname(TCPATH)
-
-
-def convert_defaults(pcl):
-
-    def handle_data_source(param_data):
-        puf = param_data["compatible_data"]["puf"]
-        cps = param_data["compatible_data"]["cps"]
-        if puf and cps:
-            return {}
-        elif puf:
-            return {"data_source": "PUF"}
-        elif cps:
-            return {"data_source": "CPS"}
-        else:
-            # both are false?
-            return {"data_source": "other"}
-
-    type_map = {
-        "real": "float",
-        "boolean": "bool",
-        "integer": "int",
-        "string": "str",
-    }
-
-    new_pcl = defaultdict(dict)
-    new_pcl["schema"] = POLICY_SCHEMA
-    LAST_YEAR = 2026
-    pol = Policy()
-    pol.set_year(2026)
-    for param, item in pcl.items():
-        values = []
-        pol_val = getattr(pol, f"_{param}").tolist()
-        min_year = min(item["value_yrs"])
-        data_source = handle_data_source(item)
-        if isinstance(pol_val[0], list):
-            for year in range(len(pol_val)):
-                if min_year + year > LAST_YEAR:
-                    break
-                for dim1 in range(len(pol_val[0])):
-                    values.append({
-                        "year": min_year + year,
-                        item["vi_name"]: item["vi_vals"][dim1],
-                        "value": pol_val[year][dim1],
-                        **data_source
-                    })
-        else:
-            for year in range(len(pol_val)):
-                if min_year + year > LAST_YEAR:
-                    break
-                values.append({
-                    "year": min_year + year,
-                    "value": pol_val[year],
-                    **data_source
-                })
-
-        new_pcl[param]['value'] = values
-        new_pcl[param]['title'] = pcl[param]["long_name"]
-        new_pcl[param]['type'] = type_map[pcl[param]["value_type"]]
-
-        new_pcl[param]["validators"] = {"range": pcl[param]["valid_values"]}
-
-        # checkbox if indexable
-        if item["indexable"]:
-            if item["indexed"]:
-                new_pcl[param]["checkbox"] = True
-            else:
-                new_pcl[param]["checkbox"] = False
-
-        to_keep = list(POLICY_SCHEMA["additional_members"].keys()) + [
-            "description", "notes",
-        ]
-        for k in to_keep:
-            if k in pcl[param]:
-                new_pcl[param][k] = pcl[param][k]
-
-    return new_pcl
-
-
-def convert_adj(adj, start_year):
-    type_map = {
-        "real": float,
-        "boolean": bool,
-        "integer": int,
-        "string": str,
-    }
-    pol = Policy()
-    new_adj = defaultdict(dict)
-    # Update all indexing fields first. This ensures that all indexing rules
-    # are set before adjusting the parameters they affect.
-    for param, valobjs in adj.items():
-        if param.endswith("checkbox"):
-            param_name = param.split("_checkbox")[0]
-            new_adj[f"{param_name}-indexed"][start_year] = valobjs[0]["value"]
-            pol.implement_reform(
-                {f"{param_name}-indexed": {start_year: valobjs[0]["value"]}},
-                raise_errors=False
-            )
-            continue
-    for param, valobjs in adj.items():
-        if param.endswith("checkbox"):
-            continue
-        for valobj in valobjs:
-            if not (set(valobj.keys()) -
-                    set(["value", "year", "data_source"])):
-                new_adj[param][valobj["year"]] = valobj["value"]
-            # has keys "year", "value", and one of "MARS", "idedtype", or "EIC"
-            else:
-                try:
-                    other_label = next(k for k in valobj.keys()
-                                    if k not in ("year", "value",
-                                                    "data_source"))
-                except StopIteration:
-                    print(valobj)
-                    raise StopIteration
-                param_meta = pol._vals[f"_{param}"]
-                if other_label != param_meta["vi_name"]:
-                    msg = (f"Label {other_label} does not match expected"
-                           f"label {param_meta['vi_name']}")
-                    raise ValueError(msg)
-                ol_ix = param_meta["vi_vals"].index(valobj[other_label])
-                other_label_ix = ol_ix
-
-                if valobj["year"] in new_adj[param]:
-                    defaultlist = new_adj[param][valobj["year"]]
-                else:
-                    year_ix = valobj["year"] - min(param_meta["value_yrs"])
-                    # shallow copy the list
-                    type_func = type_map[param_meta["value_type"]]
-                    # convert from numpy type to basic python type.
-                    defaultlist = list(
-                        map(type_func, getattr(pol, f"_{param}")[year_ix])
-                    )
-
-                defaultlist[other_label_ix] = valobj["value"]
-
-                new_adj[param][valobj["year"]] = defaultlist
-
-            # make sure values are updated so that extend logic works.
-            pol.implement_reform(new_adj, raise_errors=False)
-    return new_adj
-
-
-def convert_behavior_adj(adj):
-    """
-    Convert a COMP behavioral adjustment to work with the Behavioral-Responses
-    package
-    """
-    behavior = {}
-    if adj:
-        for param, value in adj.items():
-            behavior[param] = value[0]["value"]
-    return behavior
 
 
 def random_seed(user_mods, year):
@@ -218,7 +67,10 @@ def random_seed(user_mods, year):
     user_mods_copy["behavior"] = beh_mods_dict
     ans = 0
     for subdict_name in user_mods_copy:
-        ans += random_seed_from_subdict(user_mods_copy[subdict_name])
+        subdict = user_mods_copy[subdict_name]
+        if subdict_name == "policy":
+            subdict = convert_params(subdict)
+        ans += random_seed_from_subdict(subdict)
     return ans % np.iinfo(np.uint32).max
 
 
@@ -373,7 +225,7 @@ def postprocess(data_to_process):
     formats the results, and combines the aggregate results
     """
     labels = {x: DIFF_TABLE_LABELS[i]
-              for i, x in enumerate(DIFF_TABLE_COLUMNS[:-2])}
+              for i, x in enumerate(DIFF_TABLE_COLUMNS)}
     labels.update({x: DIST_TABLE_LABELS[i]
                    for i, x in enumerate(DIST_TABLE_COLUMNS)})
 
