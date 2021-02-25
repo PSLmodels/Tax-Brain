@@ -14,7 +14,6 @@ jobs:
         uses: actions/checkout@master
         with:
           persist-credentials: false
-
       - name: Setup Miniconda using Python ${{ matrix.python-version }}
         uses: conda-incubator/setup-miniconda@v2
         with:
@@ -22,7 +21,12 @@ jobs:
           environment-file: environment.yml
           python-version: ${{ matrix.python-version }}
           auto-activate-base: false
-
+      - name: Install TeXLive
+        uses: xu-cheng/texlive-action/full@v1
+        with:
+          run: |
+            apk add make
+            make
       - name: Build
         shell: bash -l {0}
         run: |
