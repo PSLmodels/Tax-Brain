@@ -70,12 +70,12 @@ def cli_main():
     """
     Command line interface to taxbrain package
     """
-    parser_desription = (
+    parser_description = (
         "This is the command line interface for the taxbrain package."
     )
     parser = argparse.ArgumentParser(
         prog="taxbrain",
-        description=parser_desription
+        description=parser_description
     )
     parser.add_argument(
         "startyear",
