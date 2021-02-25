@@ -60,8 +60,8 @@ def md_to_pdf(md_text, outputfile_path):
     # convert markdown text to pdf with pandoc
     pypandoc.convert_text(
         md_text, 'pdf', format='md', outputfile=outputfile_path,
-        extra_args=['-V', 'geometry:margin=1.5cm', '--pdf-engine',
-                    '/usr/bin/xelatex']
+        extra_args=['-V', 'geometry:margin=1.5cm',
+                    '--pdf-engine=xelatex']
     )
 
 
