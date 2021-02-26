@@ -24,7 +24,7 @@ jobs:
       - name: Build
         shell: bash -l {0}
         run: |
-          pip install pdflatex
+          sudo apt-get install texlive
           pip install -e .
           pip install pytest-cov
           pip install pytest-pycodestyle
