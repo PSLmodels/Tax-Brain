@@ -25,6 +25,7 @@ jobs:
         shell: bash -l {0}
         run: |
           sudo apt-get install texlive
+          sudo apt-get install texlive-latex-extra
           pip install -e .
           pip install pytest-cov
           pip install pytest-pycodestyle
