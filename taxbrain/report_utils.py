@@ -61,7 +61,7 @@ def md_to_pdf(md_text, outputfile_path):
     pypandoc.convert_text(
         md_text, 'pdf', format='md', outputfile=outputfile_path,
         extra_args=['-V', 'geometry:margin=1.5cm',
-                    '--pdf-engine=xelatex']
+                    '--pdf-engine', 'pdflatex']
     )
 
 
