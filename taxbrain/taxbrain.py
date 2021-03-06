@@ -5,8 +5,8 @@ from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
                            create_distribution_table, create_difference_table)
 from dask import compute, delayed
 from collections import defaultdict
-from taxbrain.utils import weighted_sum, update_policy
-from .tbogusa import run_ogusa
+from taxbrain import utils
+from taxbrain import tbogusa
 from typing import Union
 
 
@@ -136,7 +136,7 @@ class TaxBrain:
                 data_source = "cps"
             else:
                 data_source = "puf"
-            og_results = run_ogusa(
+            og_results = tbogusa.run_ogusa(
                 iit_reform=self.params["policy"],
                 data_source=data_source, start_year=self.start_year,
                 client=client, num_workers=num_workers)
@@ -218,7 +218,7 @@ class TaxBrain:
         data_dict = defaultdict(list)
         for year in range(self.start_year, self.end_year + 1):
             for var in varlist:
-                data_dict[var] += [weighted_sum(data[year], var)]
+                data_dict[var] += [utils.weighted_sum(data[year], var)]
         df = pd.DataFrame(data_dict,
                           index=range(self.start_year, self.end_year + 1))
         return df.transpose()
@@ -427,7 +427,7 @@ class TaxBrain:
             records = tc.Records(self.microdata, gfactors=gf_base)
         policy = tc.Policy(gf_base)
         if self.params["base_policy"]:
-            update_policy(policy, self.params["base_policy"])
+            utils.update_policy(policy, self.params["base_policy"])
         base_calc = tc.Calculator(policy=policy,
                                   records=records,
                                   verbose=self.verbose)
@@ -446,8 +446,8 @@ class TaxBrain:
             records = tc.Records(self.microdata, gfactors=gf_reform)
         policy = tc.Policy(gf_reform)
         if self.params["base_policy"]:
-            update_policy(policy, self.params["base_policy"])
-        update_policy(policy, self.params["policy"])
+            utils.update_policy(policy, self.params["base_policy"])
+        utils.update_policy(policy, self.params["policy"])
 
         # Initialize Calculator
         reform_calc = tc.Calculator(policy=policy, records=records,

@@ -11,7 +11,7 @@ from pathlib import Path
 from datetime import datetime
 from tabulate import tabulate
 from collections import defaultdict, deque
-from .utils import is_paramtools_format
+from taxbrain import utils
 from typing import Union
 
 
@@ -127,7 +127,7 @@ def policy_table(params):
     }
     reform_years = set()
     reform_by_year = defaultdict(lambda: deque())
-    if is_paramtools_format(params):
+    if utils.is_paramtools_format(params):
         params = convert_params(params)
     pol = tc.Policy()  # policy object used for getting original value
     # loop through all of the policy parameters in a given reform
