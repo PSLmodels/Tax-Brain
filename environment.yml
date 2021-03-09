@@ -12,6 +12,8 @@ dependencies:
 - paramtools>=0.10.1
 - pytest
 - dask
+- distributed
+- multiprocessing
 - bokeh
 - markdown
 - tabulate
