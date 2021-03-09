@@ -10,7 +10,7 @@ from collections import defaultdict
 from typing import Union, Tuple
 
 import taxcalc as tc
-from taxbrain import tb_typing
+from taxbrain.tb_typing import TaxcalcReform, ParamToolsAdjustment, PlotColors
 
 
 def weighted_sum(df, var, wt="s006"):
@@ -229,7 +229,7 @@ def differences_plot(
 
 def update_policy(
     policy_obj: tc.Policy,
-    reform: Union[tb_typing.TaxcalcReform, tb_typing.ParamToolsAdjustment],
+    reform: Union[TaxcalcReform, ParamToolsAdjustment],
     **kwargs
 ):
     """
@@ -254,8 +254,8 @@ def update_policy(
         policy_obj.implement_reform(reform, **kwargs)
 
 
-def is_paramtools_format(reform: Union[tb_typingTaxcalcReform,
-                         tb_typingParamToolsAdjustment]):
+def is_paramtools_format(reform: Union[TaxcalcReform,
+                         ParamToolsAdjustment]):
     """
     Check first item in reform to determine if it is using the ParamTools
     adjustment or the Tax-Calculator reform format.
@@ -338,9 +338,9 @@ def lorenz_curve(
     figsize: Tuple[Union[int, float], Union[int, float]] = (6, 4),
     xlabel: str = "Cummulative Percentage of Tax Units",
     ylabel: str = "Cummulative Percentage of Income",
-    base_color: tb_typing.PlotColors = "blue",
+    base_color: PlotColors = "blue",
     base_linestyle: str = "-",
-    reform_color: tb_typing.PlotColors = "red",
+    reform_color: PlotColors = "red",
     reform_linestyle: str = "--",
     dpi: Union[int, float] = 100
 ):
@@ -402,8 +402,8 @@ def volcano_plot(
     min_y: Union[int, float] = 0.01,
     max_y: Union[int, float] = 9e99,
     log_scale: bool = True,
-    increase_color: tb_typing.PlotColors = "#F15FE4",
-    decrease_color: tb_typing.PlotColors = "#41D6C2",
+    increase_color: PlotColors = "#F15FE4",
+    decrease_color: PlotColors = "#41D6C2",
     dotsize: Union[int, float] = .75,
     alpha: float = 0.5,
     figsize: Tuple[Union[int, float], Union[int, float]] = (6, 4),

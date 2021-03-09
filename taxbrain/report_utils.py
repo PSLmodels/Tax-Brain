@@ -2,7 +2,7 @@
 Helper Functions for creating the automated reports
 """
 import json
-import pypandoc
+# import pypandoc
 import numpy as np
 import pandas as pd
 import taxcalc as tc
@@ -43,31 +43,31 @@ DIFF_TABLE_ROW_NAMES = ['<$0K', '=$0K', '$0-10K', '$10-20K', '$20-30K',
                         '$100-200K', '$200-500K', '$500K-1M', '>$1M', 'ALL']
 
 
-def md_to_pdf(md_text, outputfile_path):
-    """
-    Convert Markdown version of report to a PDF. Returns bytes that can be
-    saved as a PDF
+# def md_to_pdf(md_text, outputfile_path):
+#     """
+#     Convert Markdown version of report to a PDF. Returns bytes that can be
+#     saved as a PDF
 
-    Parameters
-    ----------
-    md_text: str
-        report template written in markdown
-    outputfile_path: str
-        path to where the final file sohould be written
+#     Parameters
+#     ----------
+#     md_text: str
+#         report template written in markdown
+#     outputfile_path: str
+#         path to where the final file sohould be written
 
-    Returns
-    -------
-    None
-        Markdown text is saved as a PDF and the HTML used to create
-        the report
-    """
-    # convert markdown text to pdf with pandoc
-    pypandoc.convert_text(
-        md_text, 'pdf', format='md', outputfile=outputfile_path,
-        extra_args=[
-            '-V', 'geometry:margin=1in'
-        ]
-    )
+#     Returns
+#     -------
+#     None
+#         Markdown text is saved as a PDF and the HTML used to create
+#         the report
+#     """
+#     # convert markdown text to pdf with pandoc
+#     pypandoc.convert_text(
+#         md_text, 'pdf', format='md', outputfile=outputfile_path,
+#         extra_args=[
+#             '-V', 'geometry:margin=1in'
+#         ]
+#     )
 
 
 def convert_table(df, tablefmt: str = "pipe") -> str:

@@ -4,13 +4,21 @@ import behresp
 import taxbrain
 import taxcalc as tc
 from pathlib import Path
+# from taxbrain.report_utils import (
+#     form_intro, form_baseline_intro, write_text, date,
+#     largest_tax_change, notable_changes,
+#     behavioral_assumptions, consumption_assumptions,
+#     policy_table, convert_table, growth_assumptions,
+#     md_to_pdf, DIFF_TABLE_ROW_NAMES,
+#     dollar_str_formatting)
 from taxbrain.report_utils import (
     form_intro, form_baseline_intro, write_text, date,
     largest_tax_change, notable_changes,
     behavioral_assumptions, consumption_assumptions,
     policy_table, convert_table, growth_assumptions,
-    md_to_pdf, DIFF_TABLE_ROW_NAMES,
+    DIFF_TABLE_ROW_NAMES,
     dollar_str_formatting)
+
 
 CUR_PATH = Path(__file__).resolve().parent
 
