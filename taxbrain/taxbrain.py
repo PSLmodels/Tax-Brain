@@ -461,8 +461,10 @@ class TaxBrain:
         Apply the results of the OG-USA run
         Parameters
         ----------
-        self
-        og_results
+        og_results: Numpy array
+            percentage changes in macro variables used to update grow
+            factors
+
         Returns
         -------
         None
