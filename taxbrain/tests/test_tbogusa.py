@@ -1,7 +1,6 @@
 import pytest
 import multiprocessing
 import time
-from distributed import Client, LocalCluster
 import taxbrain
 
 NUM_WORKERS = min(multiprocessing.cpu_count(), 7)
