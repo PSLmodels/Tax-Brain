@@ -3,7 +3,6 @@ import os
 from ogusa.execute import runner
 from ogusa.utils import safe_read_pickle
 from pathlib import Path
-from scipy.optimize.nonlin import LinearMixing
 
 
 CUR_PATH = Path(__file__).resolve().parent
@@ -15,11 +14,35 @@ def run_ogusa(iit_base={}, iit_reform={}, og_spec_base={},
               og_spec_reform={}, data_source='cps', start_year=2021,
               num_years=10, client=None, num_workers=1):
     """
-    Run OG-USA Model
+    Runs OG-USA model and returns percentage changes in macro variables
+    used as growth factors for microdata.
+
     Parameters
     ----------
-    user_params: User params for OG-USA
-    micro_reform: Tax poilcy reform
+    iit_base: dict
+        baseline policy for Tax-Calculator
+    iit_reform: dict
+        reform policy for Tax-Calculator
+    og_spec_base: dict
+        OG-USA specifications for the baseline simulation
+    og_spec_reform: dict
+        OG-USA specifications for the reform simulation
+    data_source: str or Pandas DataFrame
+        path or DataFrame of microdata to be used by Tax-Calculator
+    start_year: int
+        year to start simulations in
+    num_years: int
+        number of years over which to return the results
+    client: Dask Client or None
+        Dask client to use
+    num_workers: int
+        number of workers for parallelization
+
+    Returns
+    -------
+    pct_w: Numpy array
+        percentage changes in wages, starting from start_year going to
+        start_year + num_years
     """
 
     '''
@@ -28,7 +51,7 @@ def run_ogusa(iit_base={}, iit_reform={}, og_spec_base={},
     ------------------------------------------------------------------------
     '''
     og_spec_base['start_year'] = start_year
-    og_spec_base['tax_func_type'] = 'linear'
+    og_spec_base['tax_func_type'] = 'GS'
     og_spec_base['age_specific'] = False
     kwargs = {'output_base': BASE_DIR, 'baseline_dir': BASE_DIR,
               'test': False, 'time_path': True, 'baseline': True,
@@ -45,7 +68,7 @@ def run_ogusa(iit_base={}, iit_reform={}, og_spec_base={},
     ------------------------------------------------------------------------
     '''
     og_spec_reform['start_year'] = start_year
-    og_spec_reform['tax_func_type'] = 'linear'
+    og_spec_reform['tax_func_type'] = 'GS'
     og_spec_reform['age_specific'] = False
     kwargs = {'output_base': REFORM_DIR, 'baseline_dir': BASE_DIR,
               'test': False, 'time_path': True, 'baseline': False,
