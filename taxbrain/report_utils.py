@@ -64,10 +64,10 @@ DIFF_TABLE_ROW_NAMES = ['<$0K', '=$0K', '$0-10K', '$10-20K', '$20-30K',
 #     # convert markdown text to pdf with pandoc
 #     pypandoc.convert_text(
 #         md_text, 'pdf', format='md', outputfile=outputfile_path,
-#         extra_args=[
-#             '-V', 'geometry:margin=1in'
-#         ]
+#         extra_args=['-V', 'geometry:margin=1.5cm',
+#                     '--pdf-engine', 'pdflatex']
 #     )
+
 
 
 def convert_table(df, tablefmt: str = "pipe") -> str:
