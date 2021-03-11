@@ -7,7 +7,7 @@ import multiprocessing
 from taxbrain import TaxBrain
 
 
-NUM_WORKERS = min(multiprocessing.cpu_count(), 7)
+NUM_WORKERS = min(multiprocessing.cpu_count(), 4)
 
 
 @pytest.fixture(scope="module")
@@ -153,4 +153,4 @@ def test_taxbrain_with_ogusa(dask_client):
     tb = TaxBrain(2018, 2019, use_cps=True, reform=reform,
                   base_policy=base, ogusa=True)
 
-    tb.run(client=dask_client, num_workers=NUM_WORKERS)
+    tb.run(client=None, num_workers=1)
