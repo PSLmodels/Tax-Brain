@@ -26,7 +26,7 @@
 
     
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
@@ -297,7 +297,7 @@
                  <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor for the TaxBrain class</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        start_year: int</span>
@@ -380,12 +380,12 @@
 <span class="sd">        Run the calculators. TaxBrain will determine whether to do a static or</span>
 <span class="sd">        partial equilibrium run based on the user&#39;s inputs when initializing</span>
 <span class="sd">        the TaxBrain object.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        varlist: list</span>
 <span class="sd">            variables from the microdata to be stored in each year</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
@@ -406,7 +406,9 @@
 
         <span class="k">del</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span></div>
 
-<div class="viewcode-block" id="TaxBrain.weighted_totals"><a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.weighted_totals">[docs]</a>    <span class="k">def</span> <span class="nf">weighted_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="TaxBrain.weighted_totals"><a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.weighted_totals">[docs]</a>    <span class="k">def</span> <span class="nf">weighted_totals</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">include_total</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a pandas DataFrame that shows the weighted sum or a specified</span>
 <span class="sd">        variable under the baseline policy, reform policy, and the difference</span>
@@ -416,6 +418,8 @@
 <span class="sd">        ----------</span>
 <span class="sd">        var: str</span>
 <span class="sd">            Variable name for variable you want the weighted total of.</span>
+<span class="sd">        include_total: bool</span>
+<span class="sd">            If true the returned DataFrame will include a &quot;total&quot; columns</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -432,10 +436,15 @@
             <span class="n">reform_totals</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;s006&quot;</span><span class="p">]</span> <span class="o">*</span>
                                    <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">var</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
             <span class="n">differences</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">reform_totals</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">-</span> <span class="n">base_totals</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">base_totals</span><span class="p">,</span> <span class="n">reform_totals</span><span class="p">,</span> <span class="n">differences</span><span class="p">],</span>
-                            <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Base&quot;</span><span class="p">,</span> <span class="s2">&quot;Reform&quot;</span><span class="p">,</span> <span class="s2">&quot;Difference&quot;</span><span class="p">])</span></div>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">base_totals</span><span class="p">,</span> <span class="n">reform_totals</span><span class="p">,</span> <span class="n">differences</span><span class="p">],</span>
+                             <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Base&quot;</span><span class="p">,</span> <span class="s2">&quot;Reform&quot;</span><span class="p">,</span> <span class="s2">&quot;Difference&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">include_total</span><span class="p">:</span>
+            <span class="n">table</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">table</span></div>
 
-<div class="viewcode-block" id="TaxBrain.multi_var_table"><a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.multi_var_table">[docs]</a>    <span class="k">def</span> <span class="nf">multi_var_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">calc</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="TaxBrain.multi_var_table"><a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.multi_var_table">[docs]</a>    <span class="k">def</span> <span class="nf">multi_var_table</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">calc</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">include_total</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a Pandas DataFrame with multiple variables from the</span>
 <span class="sd">        specified data source</span>
@@ -447,6 +456,8 @@
 <span class="sd">        calc: str</span>
 <span class="sd">            specify reform or base calculator data, can take either</span>
 <span class="sd">            `&#39;REFORM&#39;` or `&#39;BASE&#39;`</span>
+<span class="sd">        include_total: bool</span>
+<span class="sd">            If true the returned DataFrame will include a &quot;total&quot; column</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -470,14 +481,17 @@
                 <span class="n">data_dict</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">weighted_sum</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">year</span><span class="p">],</span> <span class="n">var</span><span class="p">)]</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">,</span>
                           <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span></div>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">include_total</span><span class="p">:</span>
+            <span class="n">table</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">table</span></div>
 
 <div class="viewcode-block" id="TaxBrain.distribution_table"><a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.distribution_table">[docs]</a>    <span class="k">def</span> <span class="nf">distribution_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">groupby</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                            <span class="n">income_measure</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">calc</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                            <span class="n">pop_quantiles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method to create a distribution table</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        year: int</span>
@@ -497,7 +511,7 @@
 <span class="sd">        pop_quantiles: bool</span>
 <span class="sd">            whether or not weighted_deciles contain equal number of</span>
 <span class="sd">            tax units (False) or people (True)</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        table: Pandas DataFrame</span>
@@ -535,7 +549,7 @@
                           <span class="n">pop_quantiles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method to create a differences table</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        year: int</span>
@@ -549,10 +563,10 @@
 <span class="sd">        pop_quantiles: bool</span>
 <span class="sd">            whether weighted_deciles contain an equal number of tax</span>
 <span class="sd">            units (False) or people (True)</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        table: Pandas DataFrame </span>
+<span class="sd">        table: Pandas DataFrame</span>
 <span class="sd">            differences table</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">base_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>

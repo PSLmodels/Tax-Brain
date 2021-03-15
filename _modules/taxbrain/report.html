@@ -26,7 +26,7 @@
 
     
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
@@ -311,7 +311,7 @@
 <span class="sd">    clean: bool</span>
 <span class="sd">        boolean indicating whether all of the files written to create the</span>
 <span class="sd">        report should be deleated and a byte representation of the PDF returned</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    --------</span>
 <span class="sd">    files or None: dict or None</span>
@@ -331,7 +331,7 @@
 <span class="sd">            columns that need to be converted to integers</span>
 <span class="sd">        float_cols: list</span>
 <span class="sd">            floatcolumns that need to be converted to floats</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        --------</span>
 <span class="sd">        df: Pandas DataFrame</span>
@@ -417,7 +417,7 @@
 
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Writing Summary&quot;</span><span class="p">)</span>
-    <span class="n">agg_table</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">weighted_totals</span><span class="p">(</span><span class="s2">&quot;combined&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">agg_table</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">weighted_totals</span><span class="p">(</span><span class="s2">&quot;combined&quot;</span><span class="p">,</span> <span class="n">include_total</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">rev_change</span> <span class="o">=</span> <span class="n">agg_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;Difference&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="n">rev_direction</span> <span class="o">=</span> <span class="s2">&quot;increase&quot;</span>
     <span class="k">if</span> <span class="n">rev_change</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -470,8 +470,8 @@
 
     <span class="c1"># aggregate table by tax type</span>
     <span class="n">tax_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;iitax&quot;</span><span class="p">,</span> <span class="s2">&quot;payrolltax&quot;</span><span class="p">,</span> <span class="s2">&quot;combined&quot;</span><span class="p">]</span>
-    <span class="n">agg_base</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">multi_var_table</span><span class="p">(</span><span class="n">tax_vars</span><span class="p">,</span> <span class="s2">&quot;base&quot;</span><span class="p">)</span>
-    <span class="n">agg_reform</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">multi_var_table</span><span class="p">(</span><span class="n">tax_vars</span><span class="p">,</span> <span class="s2">&quot;reform&quot;</span><span class="p">)</span>
+    <span class="n">agg_base</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">multi_var_table</span><span class="p">(</span><span class="n">tax_vars</span><span class="p">,</span> <span class="s2">&quot;base&quot;</span><span class="p">,</span> <span class="n">include_total</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">agg_reform</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">multi_var_table</span><span class="p">(</span><span class="n">tax_vars</span><span class="p">,</span> <span class="s2">&quot;reform&quot;</span><span class="p">,</span> <span class="n">include_total</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">agg_diff</span> <span class="o">=</span> <span class="n">agg_reform</span> <span class="o">-</span> <span class="n">agg_base</span>
     <span class="n">agg_diff</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Income Tax&quot;</span><span class="p">,</span> <span class="s2">&quot;Payroll Tax&quot;</span><span class="p">,</span> <span class="s2">&quot;Combined&quot;</span><span class="p">]</span>
     <span class="n">agg_diff</span> <span class="o">*=</span> <span class="mf">1e-9</span>

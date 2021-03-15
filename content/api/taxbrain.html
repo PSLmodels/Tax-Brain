@@ -26,7 +26,7 @@
 
     
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/sphinx-book-theme.37f24b989f4638ff9c27c22dc7559d4f.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
@@ -277,7 +277,8 @@
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
+            <i class="fas fa-list"></i>
+            Contents
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
@@ -363,7 +364,7 @@ tax units (False) or people (True)</p></li>
 
 <dl class="py method">
 <dt id="taxbrain.taxbrain.TaxBrain.multi_var_table">
-<code class="sig-name descname"><span class="pre">multi_var_table</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">varlist</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="reference internal" href="../../_modules/taxbrain/taxbrain.html#TaxBrain.multi_var_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.taxbrain.TaxBrain.multi_var_table" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">multi_var_table</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">varlist</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_total</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="reference internal" href="../../_modules/taxbrain/taxbrain.html#TaxBrain.multi_var_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.taxbrain.TaxBrain.multi_var_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Pandas DataFrame with multiple variables from the
 specified data source</p>
 <dl class="field-list simple">
@@ -372,6 +373,7 @@ specified data source</p>
 <li><p><strong>varlist</strong> (<em>list</em>) – list of variables to include in the table</p></li>
 <li><p><strong>calc</strong> (<em>str</em>) – specify reform or base calculator data, can take either
 <cite>‘REFORM’</cite> or <cite>‘BASE’</cite></p></li>
+<li><p><strong>include_total</strong> (<em>bool</em>) – If true the returned DataFrame will include a “total” column</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -387,7 +389,7 @@ the analysis.</p>
 
 <dl class="py method">
 <dt id="taxbrain.taxbrain.TaxBrain.run">
-<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">varlist</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">['expanded_income',</span> <span class="pre">'aftertax_income',</span> <span class="pre">'othertaxes',</span> <span class="pre">'payrolltax',</span> <span class="pre">'benefit_cost_total',</span> <span class="pre">'refund',</span> <span class="pre">'c04600',</span> <span class="pre">'taxbc',</span> <span class="pre">'ubi',</span> <span class="pre">'combined',</span> <span class="pre">'c00100',</span> <span class="pre">'benefit_value_total',</span> <span class="pre">'c04470',</span> <span class="pre">'c07100',</span> <span class="pre">'c62100',</span> <span class="pre">'c05800',</span> <span class="pre">'iitax',</span> <span class="pre">'s006',</span> <span class="pre">'XTOT',</span> <span class="pre">'standard',</span> <span class="pre">'c09600',</span> <span class="pre">'c04800',</span> <span class="pre">'surtax']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/taxbrain.html#TaxBrain.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.taxbrain.TaxBrain.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">varlist</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">['c04800',</span> <span class="pre">'benefit_cost_total',</span> <span class="pre">'benefit_value_total',</span> <span class="pre">'c04470',</span> <span class="pre">'s006',</span> <span class="pre">'aftertax_income',</span> <span class="pre">'c09600',</span> <span class="pre">'taxbc',</span> <span class="pre">'ubi',</span> <span class="pre">'refund',</span> <span class="pre">'c04600',</span> <span class="pre">'standard',</span> <span class="pre">'XTOT',</span> <span class="pre">'surtax',</span> <span class="pre">'c05800',</span> <span class="pre">'othertaxes',</span> <span class="pre">'iitax',</span> <span class="pre">'c62100',</span> <span class="pre">'c00100',</span> <span class="pre">'c07100',</span> <span class="pre">'payrolltax',</span> <span class="pre">'expanded_income',</span> <span class="pre">'combined']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/taxbrain.html#TaxBrain.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.taxbrain.TaxBrain.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the calculators. TaxBrain will determine whether to do a static or
 partial equilibrium run based on the user’s inputs when initializing
 the TaxBrain object.</p>
@@ -406,13 +408,16 @@ the TaxBrain object.</p>
 
 <dl class="py method">
 <dt id="taxbrain.taxbrain.TaxBrain.weighted_totals">
-<code class="sig-name descname"><span class="pre">weighted_totals</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="reference internal" href="../../_modules/taxbrain/taxbrain.html#TaxBrain.weighted_totals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.taxbrain.TaxBrain.weighted_totals" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">weighted_totals</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_total</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pandas.core.frame.DataFrame</span><a class="reference internal" href="../../_modules/taxbrain/taxbrain.html#TaxBrain.weighted_totals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.taxbrain.TaxBrain.weighted_totals" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a pandas DataFrame that shows the weighted sum or a specified
 variable under the baseline policy, reform policy, and the difference
 between the two.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>var</strong> (<em>str</em>) – Variable name for variable you want the weighted total of.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var</strong> (<em>str</em>) – Variable name for variable you want the weighted total of.</p></li>
+<li><p><strong>include_total</strong> (<em>bool</em>) – If true the returned DataFrame will include a “total” columns</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A Pandas DataFrame with rows for the baseline total,
