@@ -23,17 +23,33 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     Parameters
     ----------
     tb: TaxBrain object
-    name: Name you want used for the title of the report
-    change_threshold: Percentage change (expressed as a decimal fraction) in
+        instance of a TaxBrain object
+    name: str
+        Name you want used for the title of the report
+    change_threshold: float
+        Percentage change (expressed as a decimal fraction) in
         an aggregate variable for it to be considered notable
-    description: A description of the reform being run
-    outdir: Output directory
-    author: Person or persons to be listed as the author of the report
-    css: Path to a CSS file used to format the final report
-    verbose: boolean indicating whether or not to write progress as report is
+    description: str
+        A description of the reform being run
+    outdir: str
+        Output directory
+    author: str
+        Person or persons to be listed as the author of the report
+    css: str
+        Path to a CSS file used to format the final report
+    verbose: bool
+        boolean indicating whether or not to write progress as report is
         created
-    clean: boolean indicating whether all of the files written to create the
+    clean: bool
+        boolean indicating whether all of the files written to create the
         report should be deleated and a byte representation of the PDF returned
+
+    Returns
+    --------
+    files or None: dict or None
+        returns either None (reports saved to disk) or dictionary with
+        string of bytes for markdown and pdf versions of the report
+
     """
     def format_table(df, int_cols, float_cols):
         """
@@ -41,9 +57,17 @@ def report(tb, name=None, change_threshold=0.05, description=None,
 
         Parameters
         ----------
-        df: DataFrame being formatted
-        int_cols: columns that need to be converted to integers
-        float_cols: columns that need to be converted to floats
+        df: Pandas DataFrame
+            DataFrame being formatted
+        int_cols: list
+            columns that need to be converted to integers
+        float_cols: list
+            floatcolumns that need to be converted to floats
+
+        Returns
+        --------
+        df: Pandas DataFrame
+            table of output
         """
         for col in int_cols:
             df.update(
@@ -58,6 +82,18 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     def export_plot(plot, graph):
         """
         Export plot as a PNG
+
+        Parameters
+        -----------
+        plot: Matplolib.pyplot plot object
+            plot to export
+        graph: str
+            str to use in file name of plot to save
+
+        Returns
+        -------
+        str
+            full filename indicating where plot is saved
         """
         # export graph as a PNG
         # we could get a higher quality image with an SVG, but the SVG plots

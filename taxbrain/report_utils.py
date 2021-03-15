@@ -50,19 +50,22 @@ def md_to_pdf(md_text, outputfile_path):
 
     Parameters
     ----------
-    md_text: report template written in markdown
-    outputfile_path: path to where the final file sohould be written
+    md_text: str
+        report template written in markdown
+    outputfile_path: str
+        path to where the final file sohould be written
 
     Returns
     -------
-    Bytes that can be saved as a PDF and the HTML used to create the report
+    None
+        Markdown text is saved as a PDF and the HTML used to create
+        the report
     """
     # convert markdown text to pdf with pandoc
     pypandoc.convert_text(
         md_text, 'pdf', format='md', outputfile=outputfile_path,
-        extra_args=[
-            '-V', 'geometry:margin=1in'
-        ]
+        extra_args=['-V', 'geometry:margin=1.5cm',
+                    '--pdf-engine', 'pdflatex']
     )
 
 
@@ -73,10 +76,12 @@ def convert_table(df, tablefmt: str = "pipe") -> str:
     Parameters
     ----------
     df: Pandas DataFrame
+        DataFrame to convert
 
     Returns
     -------
-    String that is formatted as a markdown table
+    str
+        String that is a formatted markdown table
     """
     if isinstance(df, pd.DataFrame):
         return tabulate(
@@ -92,13 +97,17 @@ def policy_table(params):
     """
     Create a table showing the policy parameters in a reform and their
     default value
+
     Parameters
     ----------
-    params: policy parameters being implemented
+    params: dict
+        policy parameters being implemented
+
     Returns
     -------
-    String containing a markdown style table that summarized the given
-    parameters
+    md_tables: str
+        String containing a markdown style table that summarized the
+        given parameters
     """
     # map out additional name information for vi indexed variables
     vi_map = {
@@ -185,6 +194,16 @@ def policy_table(params):
 def write_text(template_path, **kwargs):
     """
     Fill in text with specified template
+
+    Parameters
+    ----------
+    template_path: str
+        path to read template from
+
+    Returns
+    -------
+    rendered: str
+        rendered template
     """
     template_str = Path(template_path).open("r").read()
     template = Template(template_str)
@@ -196,6 +215,14 @@ def write_text(template_path, **kwargs):
 def date():
     """
     Return formatted date
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    --------
+    None
     """
     today = datetime.today()
     month = today.strftime("%B")
@@ -211,9 +238,16 @@ def form_intro(pol_areas, description=None):
 
     Parameters
     ----------
-    pol_areas: list of all the policy areas included in the reform used to
+    pol_areas: list
+        list of all the policy areas included in the reform used to
         create a description of the reform
-    description: user provided description of the reform
+    description: str
+        user provided description of the reform
+
+    Returns
+    -------
+    str
+        introduction text for report
     """
     # these are all of the possible strings used in the introduction sentance
     intro_text = {
@@ -238,7 +272,17 @@ def form_intro(pol_areas, description=None):
 
 def form_baseline_intro(current_law):
     """
-    Form final sentance of introduction paragraph
+    Form final sentence of introduction paragraph
+
+    Parameters
+    -----------
+    current_law: bool
+        whether report is for the current law baseline
+
+    Returns
+    -------
+    str
+        text or intro of baseline summary
     """
     if not current_law:
         return f"{date()}"
@@ -256,7 +300,15 @@ def largest_tax_change(diff):
 
     Parameters
     ----------
-    diff: Differences table created by taxbrain
+    diff: Pandas DataFrame
+        Differences table created by taxbrain
+
+    Returns
+    -------
+    largest_change_group: str
+        string relating group with the largest change
+    largest_change_str: str
+        string relating size of largest change
     """
     sub_diff = diff.drop(index="ALL")  # remove total row
     # find the absolute largest change in total liability
@@ -294,14 +346,21 @@ def largest_tax_change(diff):
 
 def notable_changes(tb, threshold: float) -> str:
     """
-    Find any notable changes in certain variables. "Notable" is definded as a
-    percentage change above the given threshold.
+    Find any notable changes in certain variables. "Notable" is defined
+    as a percentage change above the given threshold.
 
     Parameters
     ----------
     tb: TaxBrain object
-    threshold: Percentage change in an aggregate variable for it to be
+        instance of TaxBrain object for analysis
+    threshold: float
+        Percentage change in an aggregate variable for it to be
         considered notable
+
+    Returns
+    -------
+    section: str
+        text for section on notable changes
     """
     notable_dict = defaultdict(list)
     # loop through all of the notable variables and see if there is a year
@@ -358,6 +417,16 @@ def notable_changes(tb, threshold: float) -> str:
 def behavioral_assumptions(tb):
     """
     Return list of behavioral assumptions used
+
+    Parameters
+    ----------
+    tb: TaxBrain object
+        instance of TaxBrain object for analysis
+
+    Returns
+    -------
+    assumptions: list
+        list of behavioral assumptions used
     """
     behavior_map = {
         "sub": "Substitution elasticity of taxable income: {}",
@@ -379,6 +448,16 @@ def behavioral_assumptions(tb):
 def consumption_assumptions(tb):
     """
     Create table of consumption assumptions used in analysis
+
+    Parameters
+    ----------
+    tb: TaxBrain object
+        instance of TaxBrain object for analysis
+
+    Returns
+    -------
+    md_tables: str
+        table of consumption assumptions for report
     """
     if tb.params["consumption"]:
         params = tb.params["consumption"]
@@ -418,6 +497,16 @@ def consumption_assumptions(tb):
 def growth_assumptions(tb):
     """
     Create a table with all of the growth assumptions used in the analysis
+
+    Parameters
+    ----------
+    tb: TaxBrain object
+        instance of TaxBrain object for analysis
+
+    Returns
+    -------
+    md_tables: str
+        table of growth assumptions for report
     """
     growth_vars_map = {
         "ABOOK": "General Business and Foreign Tax Credit Growth Rate",
@@ -495,10 +584,13 @@ def convert_params(params):
 
     Parameters
     ----------
-    params: ParamTools style reform dictionary
+    params: dict
+        ParamTools style reform dictionary
+
     Returns
     -------
-    reform: a dictionary in traditional taxcalc style
+    reform: dict
+        a dictionary in traditional taxcalc style
     """
     pol = tc.Policy()
     pol.adjust(params)
@@ -534,7 +626,13 @@ def dollar_str_formatting(val: Union[int, float]) -> str:
 
     Parameters
     ----------
-    val: revenue amount
+    val: float
+        revenue amount
+
+    Returns
+    -------
+    str
+        formatted dollar figure
     """
     val = abs(val)
     if val >= 1e12:
