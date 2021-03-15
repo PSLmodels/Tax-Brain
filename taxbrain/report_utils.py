@@ -98,12 +98,12 @@ def policy_table(params):
     """
     Create a table showing the policy parameters in a reform and their
     default value
-    
+
     Parameters
     ----------
     params: dict
         policy parameters being implemented
-    
+
     Returns
     -------
     md_tables: str
@@ -200,7 +200,7 @@ def write_text(template_path, **kwargs):
     ----------
     template_path: str
         path to read template from
-    
+
     Returns
     -------
     rendered: str
@@ -244,7 +244,7 @@ def form_intro(pol_areas, description=None):
         create a description of the reform
     description: str
         user provided description of the reform
-    
+
     Returns
     -------
     str
@@ -279,7 +279,7 @@ def form_baseline_intro(current_law):
     -----------
     current_law: bool
         whether report is for the current law baseline
-    
+
     Returns
     -------
     str

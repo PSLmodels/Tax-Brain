@@ -42,7 +42,7 @@ Over the budget window  ({{ start_year }} to {{ end_year }}), this policy is exp
 
 ## Aggregate Changes
 
-**Table 1: Total Tax Liability Change (Billions)**
+**Table 1: Total Tax Liability (Billions)**
 
 {{ agg_table }}
 
