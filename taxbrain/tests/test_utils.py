@@ -26,3 +26,11 @@ def test_volcano_plot(tb_static):
 
 def test_lorenz_curve(tb_static):
     fig = taxbrain.lorenz_curve(tb_static, 2019)
+
+
+def test_revenue_plot(tb_static):
+    fig = taxbrain.revenue_plot(tb_static)
+    with pytest.raises(ValueError):
+        taxbrain.revenue_plot(tb_static, tax_vars=["income", "combined"])
+    with pytest.raises(AssertionError):
+        taxbrain.revenue_plot(tb_static, tax_vars=[])
