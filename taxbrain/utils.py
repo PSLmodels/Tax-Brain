@@ -532,8 +532,8 @@ def revenue_plot(
         "Combined: Base": "#a4201d",
         "Combined: Reform": "#e9807d"
     }
-    base_data = tb.multi_var_table(tax_vars, "base")
-    reform_data = tb.multi_var_table(tax_vars, "reform")
+    base_data = tb.multi_var_table(tax_vars, "base", include_total=False)
+    reform_data = tb.multi_var_table(tax_vars, "reform", include_total=False)
     fig, ax = plt.subplots(figsize=figsize)
     years = base_data.columns
     for tax in tax_vars:
