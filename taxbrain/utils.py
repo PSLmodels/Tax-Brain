@@ -25,7 +25,7 @@ def weighted_sum(df, var, wt="s006"):
         variable name from df for which to computer weighted sum
     wt: str
         name of weight variable in df
-    
+
     Returns
     -------
     float
@@ -61,7 +61,7 @@ def distribution_plot(
     Returns
     -------
     fig: Matplotlib.pyplot figure object
-        distribution plot   
+        distribution plot
     """
     def find_percs(data, group):
         """
@@ -185,7 +185,7 @@ def differences_plot(
     Returns
     -------
     fig: Matplotlib.pyplot figure object
-        differences plot   
+        differences plot
     """
     def axis_formatter(x, p):
         if x >= 0:

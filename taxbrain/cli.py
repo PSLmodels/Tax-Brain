@@ -90,7 +90,7 @@ def cli_core(startyear, endyear, data, usecps, reform, behavior, assump,
     if not dirname:
         dirname = f"TaxBrain Analysis {datetime.today().date()}"
     outputpath = Path(outdir, dirname)
-    outputpath.mkdir()
+    outputpath.mkdir(exist_ok=True)
     # create output tables
     aggregate = tb.weighted_totals("combined")
     aggregate.to_csv(
@@ -98,7 +98,7 @@ def cli_core(startyear, endyear, data, usecps, reform, behavior, assump,
     )
     for year in range(startyear, endyear + 1):
         yeardir = Path(outputpath, str(year))
-        yeardir.mkdir()
+        yeardir.mkdir(exist_ok=True)
         make_tables(tb, year, yeardir)
 
     if make_report:
@@ -119,12 +119,12 @@ def cli_main():
     -------
     None
     """
-    parser_desription = (
+    parser_description = (
         "This is the command line interface for the taxbrain package."
     )
     parser = argparse.ArgumentParser(
         prog="taxbrain",
-        description=parser_desription
+        description=parser_description
     )
     parser.add_argument(
         "startyear",
