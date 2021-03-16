@@ -489,3 +489,73 @@ def volcano_plot(
     ax.set_ylabel(ylabel, fontweight="bold")
 
     return fig
+
+
+def revenue_plot(
+    tb,
+    tax_vars: list = ["iitax", "payrolltax", "combined"],
+    figsize: Tuple[Union[int, float], Union[int, float]] = (6, 4)
+):
+    """Plot the changes in tax revenue from a given reform
+
+    Parameters
+    ----------
+    tb : TaxBrain class object
+        TaxBrain object for analysis
+    tax_vars: list
+        List of tax varaibles to include on the graph
+    """
+    def axis_formatter(x, p):
+        if x >= 0:
+            return f"${x * 1e-9:,.2f}"
+        else:
+            return f"-${x * 1e-9:,.2f}"
+
+    assert tax_vars, "`tax_vars` must contain at least one tax variable"
+    for var in tax_vars:
+        if var not in ["iitax", "payrolltax", "combined"]:
+            msg = (
+                f"`{var}` is invalid. Valid tax variables are "
+                "`iitax`, `payrolltax`, `combined`"
+            )
+            raise ValueError(msg)
+    label_map = {
+        "iitax": "Income",
+        "payrolltax": "Payroll",
+        "combined": "Combined"
+    }
+    color_map = {
+        "Income: Base": "#12719e",
+        "Income: Reform": "#73bfe2",
+        "Payroll: Base": "#408941",
+        "Payroll: Reform": "#98cf90",
+        "Combined: Base": "#a4201d",
+        "Combined: Reform": "#e9807d"
+    }
+    base_data = tb.multi_var_table(tax_vars, "base", include_total=False)
+    reform_data = tb.multi_var_table(tax_vars, "reform", include_total=False)
+    fig, ax = plt.subplots(figsize=figsize)
+    years = base_data.columns
+    for tax in tax_vars:
+        base_label = f"{label_map[tax]}: Base"
+        reform_label = f"{label_map[tax]}: Reform"
+        ax.plot(
+            years, base_data.loc[tax], label=base_label,
+            color=color_map[base_label]
+            )
+        ax.plot(
+            years, reform_data.loc[tax], label=reform_label,
+            color=color_map[reform_label]
+        )
+
+    ax.legend(loc='upper right', bbox_to_anchor=(1.40, 1), title="Tax Type")
+    ax.set_ylabel("Tax Liability (Billions)")
+    ax.set_title("Tax Liability by Year")
+    # remove plot borders
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    # convert y axis to billions
+    ax.get_yaxis().set_major_formatter(
+        mpl.ticker.FuncFormatter(axis_formatter)
+    )
+    return fig
