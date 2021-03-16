@@ -757,6 +757,76 @@
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<span class="k">def</span> <span class="nf">revenue_plot</span><span class="p">(</span>
+    <span class="n">tb</span><span class="p">,</span>
+    <span class="n">tax_vars</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;iitax&quot;</span><span class="p">,</span> <span class="s2">&quot;payrolltax&quot;</span><span class="p">,</span> <span class="s2">&quot;combined&quot;</span><span class="p">],</span>
+    <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot the changes in tax revenue from a given reform</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tb : TaxBrain class object</span>
+<span class="sd">        TaxBrain object for analysis</span>
+<span class="sd">    tax_vars: list</span>
+<span class="sd">        List of tax varaibles to include on the graph</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">axis_formatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">x</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;-$</span><span class="si">{</span><span class="n">x</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">assert</span> <span class="n">tax_vars</span><span class="p">,</span> <span class="s2">&quot;`tax_vars` must contain at least one tax variable&quot;</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">tax_vars</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;iitax&quot;</span><span class="p">,</span> <span class="s2">&quot;payrolltax&quot;</span><span class="p">,</span> <span class="s2">&quot;combined&quot;</span><span class="p">]:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">` is invalid. Valid tax variables are &quot;</span>
+                <span class="s2">&quot;`iitax`, `payrolltax`, `combined`&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="n">label_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;iitax&quot;</span><span class="p">:</span> <span class="s2">&quot;Income&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;payrolltax&quot;</span><span class="p">:</span> <span class="s2">&quot;Payroll&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;combined&quot;</span><span class="p">:</span> <span class="s2">&quot;Combined&quot;</span>
+    <span class="p">}</span>
+    <span class="n">color_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Income: Base&quot;</span><span class="p">:</span> <span class="s2">&quot;#12719e&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Income: Reform&quot;</span><span class="p">:</span> <span class="s2">&quot;#73bfe2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Payroll: Base&quot;</span><span class="p">:</span> <span class="s2">&quot;#408941&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Payroll: Reform&quot;</span><span class="p">:</span> <span class="s2">&quot;#98cf90&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Combined: Base&quot;</span><span class="p">:</span> <span class="s2">&quot;#a4201d&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Combined: Reform&quot;</span><span class="p">:</span> <span class="s2">&quot;#e9807d&quot;</span>
+    <span class="p">}</span>
+    <span class="n">base_data</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">multi_var_table</span><span class="p">(</span><span class="n">tax_vars</span><span class="p">,</span> <span class="s2">&quot;base&quot;</span><span class="p">,</span> <span class="n">include_total</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">reform_data</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">multi_var_table</span><span class="p">(</span><span class="n">tax_vars</span><span class="p">,</span> <span class="s2">&quot;reform&quot;</span><span class="p">,</span> <span class="n">include_total</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="n">years</span> <span class="o">=</span> <span class="n">base_data</span><span class="o">.</span><span class="n">columns</span>
+    <span class="k">for</span> <span class="n">tax</span> <span class="ow">in</span> <span class="n">tax_vars</span><span class="p">:</span>
+        <span class="n">base_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label_map</span><span class="p">[</span><span class="n">tax</span><span class="p">]</span><span class="si">}</span><span class="s2">: Base&quot;</span>
+        <span class="n">reform_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label_map</span><span class="p">[</span><span class="n">tax</span><span class="p">]</span><span class="si">}</span><span class="s2">: Reform&quot;</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">years</span><span class="p">,</span> <span class="n">base_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tax</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">base_label</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">base_label</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">years</span><span class="p">,</span> <span class="n">reform_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tax</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">reform_label</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">reform_label</span><span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.40</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Tax Type&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Tax Liability (Billions)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Tax Liability by Year&quot;</span><span class="p">)</span>
+    <span class="c1"># remove plot borders</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="c1"># convert y axis to billions</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
+        <span class="n">mpl</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="n">axis_formatter</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span>
 </pre></div>
 
               </div>
