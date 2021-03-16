@@ -13,8 +13,7 @@ Additional models will be added in the near future to expand Tax-Brain's
 capabilities to include modeling business taxation and running dynamic
 general equilibrium simulations.
 
-To learn more about how Tax-Brain works, see [this](https://github.com/PSLmodels/Tax-Brain/blob/master/DOC.md)
-document.
+To learn more about how Tax-Brain works, see [the Tax-Brain documentation](http://taxbrain.pslmodels.org).
 
 ## Disclaimer
 
@@ -35,8 +34,8 @@ Tax-Brain is currently not available on PyPI.
 
 ## Using Tax-Brain
 
-View the sample code in [example.py](example.py) to see how to run Tax-Brain.
-Or, see [this document](https://github.com/PSLmodels/Tax-Brain/blob/master/USAGE.md)
+View the sample code in [example.py]([example.py](http://taxbrain.pslmodels.org/content/examples/example.html)) to see how to run Tax-Brain.
+Or, see [the user guide](http://taxbrain.pslmodels.org/content/usage.html)
 for a more detailed walk through.
 
 ## Citing Tax-Brain
@@ -57,7 +56,7 @@ directory.
 ## Additional Information
 
 * [Project Road Map](https://github.com/PSLmodels/Tax-Brain/blob/master/ROADMAP.md)
-* [Contributing](https://github.com/PSLmodels/Tax-Brain/blob/master/CONTRIBUTING.md)
+* [Contributing](http://taxbrain.pslmodels.org/content/contributing/contributor_guide.html)
 * [Contributors](https://github.com/PSLmodels/Tax-Brain/graphs/contributors)
 * [Release History](https://github.com/PSLmodels/Tax-Brain/blob/master/RELEASES.md)
 
@@ -66,5 +65,3 @@ directory.
 To release new versions of Tax-Brain, use the [Package-Builder](https://github.com/PSLmodels/Package-Builder)
 tool. Before using the tool, be sure to add the conda-forge channel to your
 conda config by using `conda config --add channels conda-forge`.
-
-***Looking for code powering the TaxBrain GUI at [apps.ospc.org/taxbrain](https://apps.ospc.org/taxbrain)? See [github.com/ospc-org/ospc.org](https://github.com/ospc-org/ospc.org).***
