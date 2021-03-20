@@ -1,8 +1,27 @@
 # Tax-Brain Release History
 
+## 2021-03-19 Release 2.5.0
+
+Last Merged Pull Request: [#165](https://github.com/PSLmodels/Tax-Brain/pull/165)
+
+Note: This will be the first release available on Conda-Forge and the first to support Python 3.8
+
+Changes in this release:
+
+* Fix Compute Studio random seed generation ([#141](https://github.com/PSLmodels/Tax-Brain/pull/141))
+* Add LaTex installer to Compute Studio instructions ([#142](https://github.com/PSLmodels/Tax-Brain/pull/142))
+* Skip report creation for Compute Studio runs with no reform ([#148](https://github.com/PSLmodels/Tax-Brain/pull/148))
+* Add Volcano Plot ([#149](https://github.com/PSLmodels/Tax-Brain/pull/149))
+* Add Lorenz Curve Plot ([#150](https://github.com/PSLmodels/Tax-Brain/pull/150))
+* Update automated reports ([#151](https://github.com/PSLmodels/Tax-Brain/pull/151))
+* Add an option to include a `Total` column in generated tables ([#154](https://github.com/PSLmodels/Tax-Brain/pull/154))
+* Update docstrings ([#159](https://github.com/PSLmodels/Tax-Brain/pull/159))
+* Add continuous integration and unit testing through GitHub Actions ([#160](https://github.com/PSLmodels/Tax-Brain/pull/160))
+* Add revenue plot ([#165](https://github.com/PSLmodels/Tax-Brain/pull/165))
+
 ## 2020-10-10 Release 2.4.0
 
-Last Merged Pull Request [#135](https://github.com/PSLmodels/Tax-Brain/pull/135)
+Last Merged Pull Request: [#135](https://github.com/PSLmodels/Tax-Brain/pull/135)
 
 Changes in this release:
 
@@ -18,7 +37,7 @@ downloadable content ([#76](https://github.com/PSLmodels/Tax-Brain/pull/76))
 
 ## 2020-07-07 Release 2.3.4
 
-Last Merged Pull Request [#124](https://github.com/PSLmodels/Tax-Brain/pull/124)
+Last Merged Pull Request: [#124](https://github.com/PSLmodels/Tax-Brain/pull/124)
 
 No changes made to the model between release 2.3.3 and 2.3.4. The only changes
 were to the conda build instructions.
