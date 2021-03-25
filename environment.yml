@@ -5,7 +5,7 @@ dependencies:
 - python>=3.6.5
 - taxcalc>=3.0.0
 - behresp>=0.11.0
-- pandas>=0.23
+- pandas>=1.2.3
 - numpy>=1.14
 - paramtools>=0.10.1
 - pytest
