@@ -1,14 +1,23 @@
 import shutil
+from taxbrain.utils import is_paramtools_format
 import behresp
 import taxbrain
 import taxcalc as tc
 from pathlib import Path
-from .report_utils import (form_intro, form_baseline_intro, write_text, date,
-                           largest_tax_change, notable_changes,
-                           behavioral_assumptions, consumption_assumptions,
-                           policy_table, convert_table, growth_assumptions,
-                           md_to_pdf, DIFF_TABLE_ROW_NAMES,
-                           dollar_str_formatting)
+# from taxbrain.report_utils import (
+#     form_intro, form_baseline_intro, write_text, date,
+#     largest_tax_change, notable_changes,
+#     behavioral_assumptions, consumption_assumptions,
+#     policy_table, convert_table, growth_assumptions,
+#     md_to_pdf, DIFF_TABLE_ROW_NAMES,
+#     dollar_str_formatting)
+from taxbrain.report_utils import (
+    form_intro, form_baseline_intro, write_text, date,
+    largest_tax_change, notable_changes,
+    behavioral_assumptions, consumption_assumptions,
+    policy_table, convert_table, growth_assumptions,
+    DIFF_TABLE_ROW_NAMES,
+    dollar_str_formatting)
 
 
 CUR_PATH = Path(__file__).resolve().parent
@@ -42,7 +51,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         created
     clean: bool
         boolean indicating whether all of the files written to create the
-        report should be deleated and a byte representation of the PDF returned
+        report should be deleted and a byte representation of the PDF returned
 
     Returns
     --------
@@ -143,7 +152,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     pol_areas = list(pol_areas)
     # add policy areas to the intro text
     text_args["introduction"] = form_intro(pol_areas, description)
-    # write final sentance of introduction
+    # write final sentence of introduction
     current_law = tb.params["base_policy"]
     text_args["baseline_intro"] = form_baseline_intro(current_law)
 
@@ -230,7 +239,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     if verbose:
         print("Compiling assumptions")
     text_args["behavior_assumps"] = behavioral_assumptions(tb)
-    # consumption asssumptions
+    # consumption assumptions
     text_args["consump_assumps"] = consumption_assumptions(tb)
     # growth assumptions
     text_args["growth_assumps"] = growth_assumptions(tb)
