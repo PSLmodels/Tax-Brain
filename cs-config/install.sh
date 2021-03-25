@@ -1,3 +1,6 @@
 # bash commands for installing your package
-conda install --no-deps -c pslmodels "taxbrain>=2.4.0"
-#apt-get install texlive -y
+git checkout -b v2.5.0 2.5.0 && \
+  git branch --show-current && \
+  pip install --no-deps -e .
+
+apt-get install texlive -y

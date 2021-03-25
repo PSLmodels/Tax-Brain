@@ -1,6 +1,5 @@
 name: taxbrain-dev
 channels:
-- pslmodels
 - conda-forge
 dependencies:
 - python>=3.6.5
