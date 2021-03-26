@@ -2,7 +2,22 @@ import os
 import pytest
 import pandas as pd
 import numpy as np
+from distributed import Client, LocalCluster
+import multiprocessing
 from taxbrain import TaxBrain
+
+
+NUM_WORKERS = min(multiprocessing.cpu_count(), 4)
+
+
+@pytest.fixture(scope="module")
+def dask_client():
+    cluster = LocalCluster(n_workers=NUM_WORKERS, threads_per_worker=2)
+    client = Client(cluster)
+    yield client
+    # teardown
+    client.close()
+    cluster.close()
 
 
 def test_arg_validation():
@@ -128,3 +143,14 @@ def test_user_input(reform_json_str, assump_json_str):
         TaxBrain(2018, 2020, use_cps=True, reform=True)
     with pytest.raises(TypeError):
         TaxBrain(2018, 2020, use_cps=True, assump=True)
+
+
+@pytest.mark.local
+def test_taxbrain_with_ogusa(dask_client):
+    base = {"II_em": {2019: 0}}
+    reform = {"II_em": {2025: 2000}}
+
+    tb = TaxBrain(2018, 2019, use_cps=True, reform=reform,
+                  base_policy=base, ogusa=True)
+
+    tb.run(client=None, num_workers=1)

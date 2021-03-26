@@ -2,7 +2,7 @@
 Helper Functions for creating the automated reports
 """
 import json
-import pypandoc
+# import pypandoc
 import numpy as np
 import pandas as pd
 import taxcalc as tc
@@ -11,7 +11,7 @@ from pathlib import Path
 from datetime import datetime
 from tabulate import tabulate
 from collections import defaultdict, deque
-from .utils import is_paramtools_format
+from taxbrain import utils
 from typing import Union
 
 
@@ -43,30 +43,31 @@ DIFF_TABLE_ROW_NAMES = ['<$0K', '=$0K', '$0-10K', '$10-20K', '$20-30K',
                         '$100-200K', '$200-500K', '$500K-1M', '>$1M', 'ALL']
 
 
-def md_to_pdf(md_text, outputfile_path):
-    """
-    Convert Markdown version of report to a PDF. Returns bytes that can be
-    saved as a PDF
+# def md_to_pdf(md_text, outputfile_path):
+#     """
+#     Convert Markdown version of report to a PDF. Returns bytes that can be
+#     saved as a PDF
 
-    Parameters
-    ----------
-    md_text: str
-        report template written in markdown
-    outputfile_path: str
-        path to where the final file sohould be written
+#     Parameters
+#     ----------
+#     md_text: str
+#         report template written in markdown
+#     outputfile_path: str
+#         path to where the final file sohould be written
 
-    Returns
-    -------
-    None
-        Markdown text is saved as a PDF and the HTML used to create
-        the report
-    """
-    # convert markdown text to pdf with pandoc
-    pypandoc.convert_text(
-        md_text, 'pdf', format='md', outputfile=outputfile_path,
-        extra_args=['-V', 'geometry:margin=1.5cm',
-                    '--pdf-engine', 'pdflatex']
-    )
+#     Returns
+#     -------
+#     None
+#         Markdown text is saved as a PDF and the HTML used to create
+#         the report
+#     """
+#     # convert markdown text to pdf with pandoc
+#     pypandoc.convert_text(
+#         md_text, 'pdf', format='md', outputfile=outputfile_path,
+#         extra_args=['-V', 'geometry:margin=1.5cm',
+#                     '--pdf-engine', 'pdflatex']
+#     )
+
 
 
 def convert_table(df, tablefmt: str = "pipe") -> str:
@@ -126,7 +127,7 @@ def policy_table(params):
     }
     reform_years = set()
     reform_by_year = defaultdict(lambda: deque())
-    if is_paramtools_format(params):
+    if utils.is_paramtools_format(params):
         params = convert_params(params)
     pol = tc.Policy()  # policy object used for getting original value
     # loop through all of the policy parameters in a given reform

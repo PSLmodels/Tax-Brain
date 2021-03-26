@@ -10,7 +10,7 @@ from collections import defaultdict
 from typing import Union, Tuple
 
 import taxcalc as tc
-from .typing import ParamToolsAdjustment, TaxcalcReform, PlotColors
+from taxbrain.tb_typing import TaxcalcReform, ParamToolsAdjustment, PlotColors
 
 
 def weighted_sum(df, var, wt="s006"):
@@ -254,7 +254,8 @@ def update_policy(
         policy_obj.implement_reform(reform, **kwargs)
 
 
-def is_paramtools_format(reform: Union[TaxcalcReform, ParamToolsAdjustment]):
+def is_paramtools_format(reform: Union[TaxcalcReform,
+                         ParamToolsAdjustment]):
     """
     Check first item in reform to determine if it is using the ParamTools
     adjustment or the Tax-Calculator reform format.

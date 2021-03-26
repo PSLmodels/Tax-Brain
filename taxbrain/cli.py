@@ -47,7 +47,7 @@ def make_tables(tb, year, outpath):
 
 
 def cli_core(startyear, endyear, data, usecps, reform, behavior, assump,
-             baseline, outdir, name, make_report, author):
+             baseline, outdir, name, ogusa, make_report, author):
     """
     Core logic for the CLI
 
@@ -81,7 +81,7 @@ def cli_core(startyear, endyear, data, usecps, reform, behavior, assump,
     tb = TaxBrain(
         start_year=startyear, end_year=endyear, microdata=data,
         use_cps=usecps, reform=reform, behavior=behavior,
-        assump=assump, base_policy=baseline, verbose=True
+        assump=assump, ogusa=ogusa, base_policy=baseline, verbose=True
     )
     tb.run()
 
@@ -207,6 +207,13 @@ def cli_main():
         default=None
     )
     parser.add_argument(
+        "--ogusa",
+        help=(
+            "If this argument is present, the model will be run using OG-USA"
+        ),
+        action="store_true"
+    )
+    parser.add_argument(
         "--report",
         help=(
             "including --report will trigger the creation of a PDF report "
@@ -227,7 +234,7 @@ def cli_main():
     cli_core(
         args.startyear, args.endyear, args.data, args.usecps, args.reform,
         args.behavior, args.assump, args.baseline, args.outdir, args.name,
-        args.report
+        args.ogusa, args.author, args.report
     )
 
 

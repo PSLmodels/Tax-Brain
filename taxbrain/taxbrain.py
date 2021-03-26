@@ -6,6 +6,7 @@ from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
 from dask import compute, delayed
 from collections import defaultdict
 from taxbrain.utils import weighted_sum, update_policy
+from taxbrain.tbogusa import run_ogusa
 from typing import Union
 
 
@@ -23,10 +24,11 @@ class TaxBrain:
     }
 
     def __init__(self, start_year: int, end_year: int = LAST_BUDGET_YEAR,
-                 microdata: Union[str, dict] = None, use_cps: bool = False,
+                 microdata: Union[str, pd.DataFrame] = None,
+                 use_cps: bool = False,
                  reform: Union[str, dict] = None, behavior: dict = None,
-                 assump=None, base_policy: Union[str, dict] = None,
-                 verbose=False):
+                 assump=None, ogusa: bool = False,
+                 base_policy: Union[str, dict] = None, verbose=False):
         """
         Constructor for the TaxBrain class
 
@@ -56,6 +58,9 @@ class TaxBrain:
         assump: str
             A string pointing to a JSON file containing user specified
             economic assumptions.
+        ogusa: bool
+            A boolean value to indicate whether or not the analysis should
+            be run with OG-USA
         base_policy: str or dict
             Individual income tax policy to use as the baseline for
             the analysis. This policy will be implemented in the base
@@ -99,6 +104,7 @@ class TaxBrain:
         # Process user inputs early to throw any errors quickly
         self.params = self._process_user_mods(reform, assump)
         self.params["behavior"] = behavior
+        self.ogusa = ogusa
         if base_policy:
             base_policy = self._process_user_mods(base_policy, None)
             self.params["base_policy"] = base_policy["policy"]
@@ -107,7 +113,8 @@ class TaxBrain:
 
         self.has_run = False
 
-    def run(self, varlist: list = DEFAULT_VARIABLES):
+    def run(self, varlist: list = DEFAULT_VARIABLES, client=None,
+            num_workers=1):
         """
         Run the calculators. TaxBrain will determine whether to do a static or
         partial equilibrium run based on the user's inputs when initializing
@@ -122,6 +129,18 @@ class TaxBrain:
         -------
         None
         """
+        if self.ogusa:
+            if self.verbose:
+                print("Running OG-USA")
+            if self.use_cps:
+                data_source = "cps"
+            else:
+                data_source = "puf"
+            og_results = run_ogusa(
+                iit_reform=self.params["policy"],
+                data_source=data_source, start_year=self.start_year,
+                client=client, num_workers=num_workers)
+            self._apply_ogusa(og_results)
         base_calc, reform_calc = self._make_calculators()
         if not isinstance(varlist, list):
             msg = f"'varlist' is of type {type(varlist)}. Must be a list."
@@ -450,3 +469,28 @@ class TaxBrain:
         # delete all unneeded variables
         del gd_base, gd_reform, records, gf_base, gf_reform, policy
         return base_calc, reform_calc
+
+    def _apply_ogusa(self, og_results):
+        """
+        Apply the results of the OG-USA run
+        Parameters
+        ----------
+        og_results: Numpy array
+            percentage changes in macro variables used to update grow
+            factors
+
+        Returns
+        -------
+        None
+        """
+        # changes in wage growth rates are at the 4th index
+        wage_change = og_results
+        gf = tc.GrowFactors()
+        grow_diff = {}
+        for i, yr in enumerate(range(self.start_year, self.end_year)):
+            cur_val = gf.factor_value("AWAGE", yr)
+            grow_diff[yr] = float(cur_val * (1 + wage_change[i]))
+        final_growdiffs = {
+            "AWAGE": grow_diff
+        }
+        self.params["growdiff_response"] = final_growdiffs
