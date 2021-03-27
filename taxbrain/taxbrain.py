@@ -1,9 +1,12 @@
 import taxcalc as tc
 import pandas as pd
+import numpy as np
+import time
 import behresp
 from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
                            create_distribution_table, create_difference_table)
 from dask import compute, delayed
+import dask.multiprocessing
 from collections import defaultdict
 from taxbrain.utils import weighted_sum, update_policy
 from typing import Union
@@ -107,7 +110,7 @@ class TaxBrain:
 
         self.has_run = False
 
-    def run(self, varlist: list = DEFAULT_VARIABLES):
+    def run(self, varlist: list = DEFAULT_VARIABLES, client=None, num_workers=1):
         """
         Run the calculators. TaxBrain will determine whether to do a static or
         partial equilibrium run based on the user's inputs when initializing
@@ -133,7 +136,15 @@ class TaxBrain:
         else:
             if self.verbose:
                 print("Running static simulations")
+            start_time = time.time()
             self._static_run(varlist, base_calc, reform_calc)
+            end_time = time.time()
+            print('Serial run time = ', end_time - start_time)
+            base_calc, reform_calc = self._make_calculators()
+            start_time = time.time()
+            self._static_run_parallel(varlist, base_calc, reform_calc, client, num_workers)
+            end_time = time.time()
+            print('Parallel run time = ', end_time - start_time)
         setattr(self, "has_run", True)
 
         del base_calc, reform_calc
@@ -308,6 +319,23 @@ class TaxBrain:
         return table
 
     # ----- private methods -----
+    def _taxcalc_advance(self, calc, varlist, year):
+        '''
+        This function advances the year used in Tax-Calculator, compute
+        taxes and rates, and save the results to a dictionary.
+        Args:
+            calc1 (Tax-Calculator Calculator object): TC calculator
+            year (int): year to begin advancing from
+        Returns:
+            tax_dict (dict): a dictionary of microdata with marginal tax
+                rates and other information computed in TC
+        '''
+        calc.advance_to_year(year)
+        calc.calc_all()
+        df = calc.dataframe(varlist)
+
+        return df
+
     def _static_run(self, varlist, base_calc, reform_calc):
         """
         Run the calculator for a static analysis
@@ -324,6 +352,35 @@ class TaxBrain:
             compute(*delay)
             self.base_data[yr] = base_calc.dataframe(varlist)
             self.reform_data[yr] = reform_calc.dataframe(varlist)
+
+    def _static_run_parallel(self, varlist, base_calc, reform_calc,
+                             client, num_workers):
+        """
+        Run the calculator for a static analysis
+        """
+        if "s006" not in varlist:  # ensure weight is always included
+            varlist.append("s006")
+        lazy_values = []
+        for yr in range(self.start_year, self.end_year + 1):
+            lazy_values.extend([
+                delayed(self._taxcalc_advance(base_calc, varlist, yr)),
+                delayed(self._taxcalc_advance(reform_calc, varlist, yr))
+                ])
+        if client:
+            futures = client.compute(lazy_values, num_workers=num_workers)
+            results = client.gather(futures)
+        else:
+            results = results = compute(
+                *lazy_values, scheduler=dask.multiprocessing.get,
+                num_workers=num_workers)
+
+        # add results to base and reform data
+        for i in np.arange(0, len(results), 2):
+            yr = self.start_year + i
+            self.base_data[yr] = results[i]
+            self.reform_data[yr] = results[i + 1]
+
+        del results
 
     def _dynamic_run(self, varlist, base_calc, reform_calc):
         """
