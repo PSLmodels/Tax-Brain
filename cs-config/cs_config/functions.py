@@ -68,6 +68,10 @@ def validate_inputs(meta_params_dict, adjustment, errors_warnings):
     """
     Function to validate COMP inputs
     """
+    meta_params = MetaParameters()
+    meta_params.adjust(meta_params_dict, raise_errors=False)
+    errors_warnings["policy"]["errors"].update(meta_params.errors)
+
     pol_params = cs2tc.convert_policy_adjustment(adjustment["policy"])
     policy_params = taxcalc.Policy()
     policy_params.adjust(pol_params, raise_errors=False, ignore_warnings=True)

@@ -135,13 +135,13 @@ class MetaParameters(paramtools.Parameters):
             "type": "int",
             "value": min(datetime.now().year, TaxBrain.LAST_BUDGET_YEAR),
             "validators": {
-                "choice": {
-                    "choices": [
-                        yr for yr in range(TaxBrain.FIRST_BUDGET_YEAR,
-                                           TaxBrain.LAST_BUDGET_YEAR + 1)
-                    ]
+                "when": {
+                    "param": "data_source",
+                    "is": "CPS",
+                    "then": {"range": {"min": 2014, "max": TaxBrain.LAST_BUDGET_YEAR}},
+                    "otherwise": {"range": {"min": 2013, "max": TaxBrain.LAST_BUDGET_YEAR}},
                 }
-            }
+            },
         },
         "data_source": {
             "title": "Data Source",
@@ -158,3 +158,24 @@ class MetaParameters(paramtools.Parameters):
             "validators": {"choice": {"choices": [True, False]}}
         }
     }
+
+    def dump(self, *args, **kwargs):
+        """
+        This method extends the default ParamTools dump method by swapping the
+        when validator for a choice validator. This is required because C/S does
+        not yet implement the when validator.
+        """
+        data = super().dump(*args, **kwargs)
+        if self.data_source == "CPS":
+            data["year"]["validators"] = {
+                "choice": {
+                    "choices": list(range(2014, TaxBrain.LAST_BUDGET_YEAR))
+                }
+            }
+        else:
+            data["year"]["validators"] = {
+                "choice": {
+                    "choices": list(range(2013, TaxBrain.LAST_BUDGET_YEAR))
+                }
+            }
+        return data
