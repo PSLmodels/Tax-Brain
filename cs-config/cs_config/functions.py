@@ -44,12 +44,16 @@ def get_inputs(meta_params_dict):
     Return default parameters for Tax-Brain
     """
     meta_params = MetaParameters()
-    meta_params.adjust(meta_params_dict)
+    with meta_params.transaction(defer_validation=True):
+        meta_params.adjust(meta_params_dict)
+        # Year must be at least 2014 when using the CPS. This rule is validated
+        # in the validate_inputs function below.
+        # See: https://github.com/PSLmodels/Tax-Brain/issues/176
+        if meta_params.data_source == "CPS" and meta_params.year < 2014:
+            meta_params.adjust({"year": 2014})
 
     policy_params = taxcalc.Policy()
-    policy_params.set_state(
-        year=meta_params.year.tolist(),
-    )
+    policy_params.set_state(year=meta_params.year.tolist())
 
     policy_defaults = cs2tc.convert_policy_defaults(meta_params, policy_params)
 
