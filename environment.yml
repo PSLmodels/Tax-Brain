@@ -7,7 +7,7 @@ dependencies:
 - behresp>=0.11.0
 - pandas>=0.23
 - numpy>=1.14
-- paramtools>=0.10.1
+- paramtools>=0.18.1
 - pytest
 - dask
 - bokeh
