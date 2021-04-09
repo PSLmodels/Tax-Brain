@@ -16,6 +16,7 @@ dependencies:
 - pypandoc
 - pip
 - matplotlib
+- s3fs
 - pip:
   - cs-kit
   - cs2tc
