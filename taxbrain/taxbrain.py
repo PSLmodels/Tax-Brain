@@ -2,6 +2,7 @@ import taxcalc as tc
 import pandas as pd
 import numpy as np
 import time
+from memory_profiler import profile
 import behresp
 from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
                            create_distribution_table, create_difference_table)
@@ -110,6 +111,7 @@ class TaxBrain:
 
         self.has_run = False
 
+    @profile
     def run(self, varlist: list = DEFAULT_VARIABLES, client=None, num_workers=1):
         """
         Run the calculators. TaxBrain will determine whether to do a static or
@@ -132,7 +134,16 @@ class TaxBrain:
         if self.params["behavior"]:
             if self.verbose:
                 print("Running dynamic simulations")
+            start_time = time.time()
             self._dynamic_run(varlist, base_calc, reform_calc)
+            end_time = time.time()
+            print('Serial run time = ', end_time - start_time)
+            base_calc, reform_calc = self._make_calculators()
+            start_time = time.time()
+            self._dynamic_run(varlist, base_calc, reform_calc, client,
+                              num_workers)
+            end_time = time.time()
+            print('Parallel run time = ', end_time - start_time)
         else:
             if self.verbose:
                 print("Running static simulations")
@@ -142,7 +153,8 @@ class TaxBrain:
             print('Serial run time = ', end_time - start_time)
             base_calc, reform_calc = self._make_calculators()
             start_time = time.time()
-            self._static_run_parallel(varlist, base_calc, reform_calc, client, num_workers)
+            self._static_run_parallel(varlist, base_calc, reform_calc,
+                                      client, num_workers)
             end_time = time.time()
             print('Parallel run time = ', end_time - start_time)
         setattr(self, "has_run", True)
@@ -336,6 +348,26 @@ class TaxBrain:
 
         return df
 
+    def _behresp_advance(self, base_calc, reform_calc, varlist, year):
+        '''
+        This function advances the year used in Tax-Calculator, compute
+        taxes and rates, and save the results to a dictionary.
+        Args:
+            calc1 (Tax-Calculator Calculator object): TC calculator
+            year (int): year to begin advancing from
+        Returns:
+            tax_dict (dict): a dictionary of microdata with marginal tax
+                rates and other information computed in TC
+        '''
+        base_calc.advance_to_year(year)
+        reform_calc.advance_to_year(year)
+        base, reform = behresp.response(
+            base_calc, reform_calc, self.params["behavior"], dump=True)
+        base_df = base[varlist]
+        reform_df = reform[varlist]
+
+        return [base_df, reform_df]
+
     def _static_run(self, varlist, base_calc, reform_calc):
         """
         Run the calculator for a static analysis
@@ -396,6 +428,35 @@ class TaxBrain:
                                             dump=True)
             self.base_data[year] = base[varlist]
             self.reform_data[year] = reform[varlist]
+
+    def _dynamic_run_parallel(self, varlist, base_calc, reform_calc,
+                              client, num_workers):
+        """
+        Run a dynamic response
+        """
+        if "s006" not in varlist:  # ensure weight is always included
+            varlist.append("s006")
+        lazy_values = []
+        for yr in range(self.start_year, self.end_year + 1):
+            lazy_values.extend([
+                delayed(self._behresp_advance(
+                    base_calc, reform_calc, varlist, yr))
+                ])
+        if client:
+            futures = client.compute(lazy_values, num_workers=num_workers)
+            results = client.gather(futures)
+        else:
+            results = results = compute(
+                *lazy_values, scheduler=dask.multiprocessing.get,
+                num_workers=num_workers)
+
+        # add results to base and reform data
+        for i in range(len(results)):
+            yr = self.start_year + i
+            self.base_data[yr] = results[i][0]
+            self.reform_data[yr] = results[i][1]
+
+        del results
 
     def _process_user_mods(self, reform, assump):
         """
