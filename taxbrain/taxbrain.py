@@ -1,8 +1,6 @@
 import taxcalc as tc
 import pandas as pd
 import numpy as np
-import time
-from memory_profiler import profile
 import behresp
 from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
                            create_distribution_table, create_difference_table)
@@ -111,8 +109,8 @@ class TaxBrain:
 
         self.has_run = False
 
-    @profile
-    def run(self, varlist: list = DEFAULT_VARIABLES, client=None, num_workers=1):
+    def run(self, varlist: list = DEFAULT_VARIABLES, client=None,
+            num_workers=1):
         """
         Run the calculators. TaxBrain will determine whether to do a static or
         partial equilibrium run based on the user's inputs when initializing
@@ -134,29 +132,13 @@ class TaxBrain:
         if self.params["behavior"]:
             if self.verbose:
                 print("Running dynamic simulations")
-            start_time = time.time()
-            self._dynamic_run(varlist, base_calc, reform_calc)
-            end_time = time.time()
-            print('Serial run time = ', end_time - start_time)
-            base_calc, reform_calc = self._make_calculators()
-            start_time = time.time()
-            self._dynamic_run(varlist, base_calc, reform_calc, client,
-                              num_workers)
-            end_time = time.time()
-            print('Parallel run time = ', end_time - start_time)
+            self._dynamic_run(
+                varlist, base_calc, reform_calc, client, num_workers)
         else:
             if self.verbose:
                 print("Running static simulations")
-            start_time = time.time()
-            self._static_run(varlist, base_calc, reform_calc)
-            end_time = time.time()
-            print('Serial run time = ', end_time - start_time)
-            base_calc, reform_calc = self._make_calculators()
-            start_time = time.time()
-            self._static_run_parallel(varlist, base_calc, reform_calc,
-                                      client, num_workers)
-            end_time = time.time()
-            print('Parallel run time = ', end_time - start_time)
+            self._static_run(varlist, base_calc, reform_calc,
+                             client, num_workers)
         setattr(self, "has_run", True)
 
         del base_calc, reform_calc
@@ -333,8 +315,8 @@ class TaxBrain:
     # ----- private methods -----
     def _taxcalc_advance(self, calc, varlist, year):
         '''
-        This function advances the year used in Tax-Calculator, compute
-        taxes and rates, and save the results to a dictionary.
+        This function advances the year used in Tax-Calculator, computes
+        tax liability and rates, and saves the results to a dictionary.
         Args:
             calc1 (Tax-Calculator Calculator object): TC calculator
             year (int): year to begin advancing from
@@ -350,8 +332,8 @@ class TaxBrain:
 
     def _behresp_advance(self, base_calc, reform_calc, varlist, year):
         '''
-        This function advances the year used in Tax-Calculator, compute
-        taxes and rates, and save the results to a dictionary.
+        This function advances the year used in the Behavioral Responses
+        model and saves the results to a dictionary.
         Args:
             calc1 (Tax-Calculator Calculator object): TC calculator
             year (int): year to begin advancing from
@@ -368,25 +350,8 @@ class TaxBrain:
 
         return [base_df, reform_df]
 
-    def _static_run(self, varlist, base_calc, reform_calc):
-        """
-        Run the calculator for a static analysis
-        """
-        if "s006" not in varlist:  # ensure weight is always included
-            varlist.append("s006")
-
-        for yr in range(self.start_year, self.end_year + 1):
-            base_calc.advance_to_year(yr)
-            reform_calc.advance_to_year(yr)
-            # run calculations in parallel
-            delay = [delayed(base_calc.calc_all()),
-                     delayed(reform_calc.calc_all())]
-            compute(*delay)
-            self.base_data[yr] = base_calc.dataframe(varlist)
-            self.reform_data[yr] = reform_calc.dataframe(varlist)
-
-    def _static_run_parallel(self, varlist, base_calc, reform_calc,
-                             client, num_workers):
+    def _static_run(self, varlist, base_calc, reform_calc, client,
+                    num_workers):
         """
         Run the calculator for a static analysis
         """
@@ -407,30 +372,16 @@ class TaxBrain:
                 num_workers=num_workers)
 
         # add results to base and reform data
+        yr = self.start_year
         for i in np.arange(0, len(results), 2):
-            yr = self.start_year + i
             self.base_data[yr] = results[i]
             self.reform_data[yr] = results[i + 1]
+            yr += 1
 
         del results
 
-    def _dynamic_run(self, varlist, base_calc, reform_calc):
-        """
-        Run a dynamic response
-        """
-        if "s006" not in varlist:  # ensure weight is always included
-            varlist.append("s006")
-        for year in range(self.start_year, self.end_year + 1):
-            base_calc.advance_to_year(year)
-            reform_calc.advance_to_year(year)
-            base, reform = behresp.response(base_calc, reform_calc,
-                                            self.params["behavior"],
-                                            dump=True)
-            self.base_data[year] = base[varlist]
-            self.reform_data[year] = reform[varlist]
-
-    def _dynamic_run_parallel(self, varlist, base_calc, reform_calc,
-                              client, num_workers):
+    def _dynamic_run(self, varlist, base_calc, reform_calc, client,
+                     num_workers):
         """
         Run a dynamic response
         """
