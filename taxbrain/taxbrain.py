@@ -1,9 +1,11 @@
 import taxcalc as tc
 import pandas as pd
+import numpy as np
 import behresp
 from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
                            create_distribution_table, create_difference_table)
 from dask import compute, delayed
+import dask.multiprocessing
 from collections import defaultdict
 from taxbrain.utils import weighted_sum, update_policy
 from typing import Union
@@ -107,7 +109,8 @@ class TaxBrain:
 
         self.has_run = False
 
-    def run(self, varlist: list = DEFAULT_VARIABLES):
+    def run(self, varlist: list = DEFAULT_VARIABLES, client=None,
+            num_workers=1):
         """
         Run the calculators. TaxBrain will determine whether to do a static or
         partial equilibrium run based on the user's inputs when initializing
@@ -129,11 +132,13 @@ class TaxBrain:
         if self.params["behavior"]:
             if self.verbose:
                 print("Running dynamic simulations")
-            self._dynamic_run(varlist, base_calc, reform_calc)
+            self._dynamic_run(
+                varlist, base_calc, reform_calc, client, num_workers)
         else:
             if self.verbose:
                 print("Running static simulations")
-            self._static_run(varlist, base_calc, reform_calc)
+            self._static_run(varlist, base_calc, reform_calc,
+                             client, num_workers)
         setattr(self, "has_run", True)
 
         del base_calc, reform_calc
@@ -308,37 +313,101 @@ class TaxBrain:
         return table
 
     # ----- private methods -----
-    def _static_run(self, varlist, base_calc, reform_calc):
+    def _taxcalc_advance(self, calc, varlist, year):
+        '''
+        This function advances the year used in Tax-Calculator, computes
+        tax liability and rates, and saves the results to a dictionary.
+        Args:
+            calc1 (Tax-Calculator Calculator object): TC calculator
+            year (int): year to begin advancing from
+        Returns:
+            tax_dict (dict): a dictionary of microdata with marginal tax
+                rates and other information computed in TC
+        '''
+        calc.advance_to_year(year)
+        calc.calc_all()
+        df = calc.dataframe(varlist)
+
+        return df
+
+    def _behresp_advance(self, base_calc, reform_calc, varlist, year):
+        '''
+        This function advances the year used in the Behavioral Responses
+        model and saves the results to a dictionary.
+        Args:
+            calc1 (Tax-Calculator Calculator object): TC calculator
+            year (int): year to begin advancing from
+        Returns:
+            tax_dict (dict): a dictionary of microdata with marginal tax
+                rates and other information computed in TC
+        '''
+        base_calc.advance_to_year(year)
+        reform_calc.advance_to_year(year)
+        base, reform = behresp.response(
+            base_calc, reform_calc, self.params["behavior"], dump=True)
+        base_df = base[varlist]
+        reform_df = reform[varlist]
+
+        return [base_df, reform_df]
+
+    def _static_run(self, varlist, base_calc, reform_calc, client,
+                    num_workers):
         """
         Run the calculator for a static analysis
         """
         if "s006" not in varlist:  # ensure weight is always included
             varlist.append("s006")
-
+        lazy_values = []
         for yr in range(self.start_year, self.end_year + 1):
-            base_calc.advance_to_year(yr)
-            reform_calc.advance_to_year(yr)
-            # run calculations in parallel
-            delay = [delayed(base_calc.calc_all()),
-                     delayed(reform_calc.calc_all())]
-            compute(*delay)
-            self.base_data[yr] = base_calc.dataframe(varlist)
-            self.reform_data[yr] = reform_calc.dataframe(varlist)
+            lazy_values.extend([
+                delayed(self._taxcalc_advance(base_calc, varlist, yr)),
+                delayed(self._taxcalc_advance(reform_calc, varlist, yr))
+                ])
+        if client:
+            futures = client.compute(lazy_values, num_workers=num_workers)
+            results = client.gather(futures)
+        else:
+            results = results = compute(
+                *lazy_values, scheduler=dask.multiprocessing.get,
+                num_workers=num_workers)
 
-    def _dynamic_run(self, varlist, base_calc, reform_calc):
+        # add results to base and reform data
+        yr = self.start_year
+        for i in np.arange(0, len(results), 2):
+            self.base_data[yr] = results[i]
+            self.reform_data[yr] = results[i + 1]
+            yr += 1
+
+        del results
+
+    def _dynamic_run(self, varlist, base_calc, reform_calc, client,
+                     num_workers):
         """
         Run a dynamic response
         """
         if "s006" not in varlist:  # ensure weight is always included
             varlist.append("s006")
-        for year in range(self.start_year, self.end_year + 1):
-            base_calc.advance_to_year(year)
-            reform_calc.advance_to_year(year)
-            base, reform = behresp.response(base_calc, reform_calc,
-                                            self.params["behavior"],
-                                            dump=True)
-            self.base_data[year] = base[varlist]
-            self.reform_data[year] = reform[varlist]
+        lazy_values = []
+        for yr in range(self.start_year, self.end_year + 1):
+            lazy_values.extend([
+                delayed(self._behresp_advance(
+                    base_calc, reform_calc, varlist, yr))
+                ])
+        if client:
+            futures = client.compute(lazy_values, num_workers=num_workers)
+            results = client.gather(futures)
+        else:
+            results = results = compute(
+                *lazy_values, scheduler=dask.multiprocessing.get,
+                num_workers=num_workers)
+
+        # add results to base and reform data
+        for i in range(len(results)):
+            yr = self.start_year + i
+            self.base_data[yr] = results[i][0]
+            self.reform_data[yr] = results[i][1]
+
+        del results
 
     def _process_user_mods(self, reform, assump):
         """

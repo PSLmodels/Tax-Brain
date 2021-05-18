@@ -77,6 +77,7 @@ def test_differences_table(tb_dynamic):
 
 
 def test_distribution_table(tb_static):
+    tb_static.run()
     table = tb_static.distribution_table(2019, "weighted_deciles",
                                          "expanded_income_baseline", "reform")
     assert isinstance(table, pd.DataFrame)
