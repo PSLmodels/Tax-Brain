@@ -125,6 +125,13 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         "author": author,
         "taxbrain": str(Path(CUR_PATH, "report_files", "taxbrain.png"))
     }
+    if tb.stacked:
+        stacked_table = tb.stacked_table * 1e-9
+        stacked_table = format_table(
+            stacked_table, [], list(stacked_table.columns)
+        )
+        stacked_table = convert_table(stacked_table)
+        text_args["stacked_table"] = stacked_table
     if verbose:
         print("Writing Introduction")
     # find policy areas used in the reform
