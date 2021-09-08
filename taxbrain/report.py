@@ -51,7 +51,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         string of bytes for markdown and pdf versions of the report
 
     """
-    def format_table(df, int_cols, float_cols):
+    def format_table(df, int_cols, float_cols, float_perc=2):
         """
         Apply formatting to a given table
 
@@ -63,6 +63,8 @@ def report(tb, name=None, change_threshold=0.05, description=None,
             columns that need to be converted to integers
         float_cols: list
             floatcolumns that need to be converted to floats
+        float_perc: int
+            Decimal percision for float columns the table. Default is 2
 
         Returns
         --------
@@ -75,7 +77,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
             )
         for col in float_cols:
             df.update(
-                df[col].astype(float).apply("{:,.2f}".format)
+                df[col].astype(float).apply("{:,.{}}".format, args=(float_perc,))
             )
         return df
 
@@ -128,7 +130,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     if tb.stacked:
         stacked_table = tb.stacked_table * 1e-9
         stacked_table = format_table(
-            stacked_table, [], list(stacked_table.columns)
+            stacked_table, [], list(stacked_table.columns), float_perc=1
         )
         stacked_table = convert_table(stacked_table)
         text_args["stacked_table"] = stacked_table
