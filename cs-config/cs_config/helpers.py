@@ -38,6 +38,8 @@ TCDIR = os.path.dirname(TCPATH)
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", None)
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", None)
 
+PUF_S3_FILE_NAME = "puf.20210720.csv.gzip"
+
 
 def random_seed(user_mods, year):
     """
@@ -353,7 +355,7 @@ def retrieve_puf(
     if has_credentials and s3_reader_installed:
         print("Reading puf from S3 bucket.")
         fs = S3FileSystem(key=AWS_ACCESS_KEY_ID, secret=AWS_SECRET_ACCESS_KEY,)
-        with fs.open("s3://ospc-data-files/puf.csv.gz") as f:
+        with fs.open(f"s3://ospc-data-files/{PUF_S3_FILE_NAME}") as f:
             # Skips over header from top of file.
             puf_df = pd.read_csv(f, compression="gzip")
         return puf_df
