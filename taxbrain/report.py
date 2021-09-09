@@ -188,10 +188,16 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     text_args["largest_change_str"] = largest_change[1]
     decile_diff_table.columns = tc.DIFF_TABLE_LABELS
     # drop certain columns to save space
-    drop_cols = [
-        "Share of Overall Change", "Count with Tax Cut",
-        "Count with Tax Increase"
-    ]
+    if tc.__version__ >= '3.2.1':
+        drop_cols = [
+            "Share of Overall Change", "Number of Returns with Tax Cut",
+            "Number of Returns with Tax Increase"
+        ]
+    else:
+        drop_cols = [
+            "Share of Overall Change", "Count with Tax Cut",
+            "Count with Tax Increase"
+        ]
     sub_diff_table = decile_diff_table.drop(columns=drop_cols)
 
     # convert DataFrame to Markdown table
