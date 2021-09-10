@@ -629,7 +629,7 @@ class TaxBrain:
         """
         This method makes the base calculator and policy and records objects
         for stacked reforms. The difference between this and the standard
-        _make_calcuators method is that this method 
+        _make_calcuators method is that this method
         only fully creates the baseline calculator. For the reform, it creates
         policy and records objects and implements any growth ssumptions provid
         by the user.
