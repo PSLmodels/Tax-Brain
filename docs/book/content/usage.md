@@ -90,6 +90,7 @@ tb = TaxBrain(2021, 2022, reform=reform_dict, stacked=True, use_cps=True)
 tb.run()
 tb.stacked_table * 1e-9
 ```
+This code will produce the following table:
 
 |                   |2021              |2022             |2021-2022                |
 |--------------------------|------------------|-----------------|-------------------------|
