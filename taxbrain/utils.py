@@ -376,7 +376,7 @@ def lorenz_curve(
     None
     """
     plot_data = lorenz_data(tb, year, var)
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=figsize)
     ax.plot([0, 1], [0, 1], c="black", alpha=0.5)  # 45 degree line
     ax.plot(
         plot_data["Population"], plot_data["Base"], c=base_color,
@@ -391,6 +391,8 @@ def lorenz_curve(
     ax.set_ylabel(ylabel, fontweight="bold")
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
+
+    return fig
 
 
 def volcano_plot(
