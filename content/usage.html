@@ -297,6 +297,19 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stacked-reforms">
+   Stacked Reforms
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -366,9 +379,57 @@ showing the distribution of a number of variables across the income spectrum.</p
 <li><p><code class="docutils literal notranslate"><span class="pre">differences_table(year,</span> <span class="pre">groupby,</span> <span class="pre">tax_to_diff)</span></code>: Produces a table showing the
 change in a number of variables across the income distribution.</p></li>
 </ul>
+<div class="section" id="stacked-reforms">
+<h2>Stacked Reforms<a class="headerlink" href="#stacked-reforms" title="Permalink to this headline">¶</a></h2>
+<p>TaxBrain also can produce stacked revenue estimates. To use this feature,
+simply modify your reform dictionary so that each key is the name of a section
+of your reform and each item is the associated reform provisions, as shown
+below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">payroll_json</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;{&quot;SS_Earnings_thd&quot;: {&quot;2021&quot;: 400000}}&quot;&quot;&quot;</span>
+<span class="n">CG_rate_json</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;{</span>
+<span class="s2">   &quot;CG_brk3&quot;: {&quot;2021&quot;: [1000000, 1000000, 1000000, 1000000, 1000000]},</span>
+<span class="s2">   &quot;CG_rt4&quot;: {&quot;2021&quot;: 0.396}</span>
+<span class="s2">}&quot;&quot;&quot;</span>
+<span class="n">reform_dict</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s2">&quot;Payroll Threshold Increase&quot;</span><span class="p">:</span> <span class="n">payroll_json</span><span class="p">,</span>
+   <span class="s2">&quot;Capital Gains Tax Changes&quot;</span><span class="p">:</span> <span class="n">CG_rate_json</span>
+<span class="p">}</span>
+<span class="n">tb</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">2022</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_dict</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_cps</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tb</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">tb</span><span class="o">.</span><span class="n">stacked_table</span> <span class="o">*</span> <span class="mf">1e-9</span>
+</pre></div>
+</div>
+<p>This code will produce the following table:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>2021</p></th>
+<th class="head"><p>2022</p></th>
+<th class="head"><p>2021-2022</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Payroll Threshold Increase</p></td>
+<td><p>65.97</p></td>
+<td><p>70.9</p></td>
+<td><p>136.87</p></td>
+</tr>
+<tr class="row-odd"><td><p>Capital Gains Tax Changes</p></td>
+<td><p>19.57</p></td>
+<td><p>18.95</p></td>
+<td><p>38.52</p></td>
+</tr>
+<tr class="row-even"><td><p>Total</p></td>
+<td><p>85.54</p></td>
+<td><p>89.85</p></td>
+<td><p>175.39</p></td>
+</tr>
+</tbody>
+</table>
 <p>As more models are added, Tax-Brain’s usage will change to adjust. While we
 will try and maintain backwards compatibility, that obviously cannot always
 happen. This document will be updated as Tax-Brain evolves.</p>
+</div>
 </div>
 
     <script type="text/x-thebe-config">

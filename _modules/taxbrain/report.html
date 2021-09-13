@@ -333,7 +333,7 @@
 <span class="sd">        string of bytes for markdown and pdf versions of the report</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">format_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">int_cols</span><span class="p">,</span> <span class="n">float_cols</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">format_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">int_cols</span><span class="p">,</span> <span class="n">float_cols</span><span class="p">,</span> <span class="n">float_perc</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply formatting to a given table</span>
 
@@ -345,6 +345,8 @@
 <span class="sd">            columns that need to be converted to integers</span>
 <span class="sd">        float_cols: list</span>
 <span class="sd">            floatcolumns that need to be converted to floats</span>
+<span class="sd">        float_perc: int</span>
+<span class="sd">            Decimal percision for float columns the table. Default is 2</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        --------</span>
@@ -357,7 +359,7 @@
             <span class="p">)</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">float_cols</span><span class="p">:</span>
             <span class="n">df</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-                <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:,.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
+                <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">&quot;{:,.</span><span class="si">{}</span><span class="s2">}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">float_perc</span><span class="p">,))</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span>
 
@@ -407,6 +409,13 @@
         <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span>
         <span class="s2">&quot;taxbrain&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">CUR_PATH</span><span class="p">,</span> <span class="s2">&quot;report_files&quot;</span><span class="p">,</span> <span class="s2">&quot;taxbrain.png&quot;</span><span class="p">))</span>
     <span class="p">}</span>
+    <span class="k">if</span> <span class="n">tb</span><span class="o">.</span><span class="n">stacked</span><span class="p">:</span>
+        <span class="n">stacked_table</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">stacked_table</span> <span class="o">*</span> <span class="mf">1e-9</span>
+        <span class="n">stacked_table</span> <span class="o">=</span> <span class="n">format_table</span><span class="p">(</span>
+            <span class="n">stacked_table</span><span class="p">,</span> <span class="p">[],</span> <span class="nb">list</span><span class="p">(</span><span class="n">stacked_table</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="n">float_perc</span><span class="o">=</span><span class="mi">1</span>
+        <span class="p">)</span>
+        <span class="n">stacked_table</span> <span class="o">=</span> <span class="n">convert_table</span><span class="p">(</span><span class="n">stacked_table</span><span class="p">)</span>
+        <span class="n">text_args</span><span class="p">[</span><span class="s2">&quot;stacked_table&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stacked_table</span>
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Writing Introduction&quot;</span><span class="p">)</span>
     <span class="c1"># find policy areas used in the reform</span>
@@ -461,10 +470,16 @@
     <span class="n">text_args</span><span class="p">[</span><span class="s2">&quot;largest_change_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">largest_change</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">decile_diff_table</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">DIFF_TABLE_LABELS</span>
     <span class="c1"># drop certain columns to save space</span>
-    <span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;Share of Overall Change&quot;</span><span class="p">,</span> <span class="s2">&quot;Count with Tax Cut&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Count with Tax Increase&quot;</span>
-    <span class="p">]</span>
+    <span class="k">if</span> <span class="n">tc</span><span class="o">.</span><span class="n">__version__</span> <span class="o">&gt;=</span> <span class="s1">&#39;3.2.1&#39;</span><span class="p">:</span>
+        <span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Share of Overall Change&quot;</span><span class="p">,</span> <span class="s2">&quot;Number of Returns with Tax Cut&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Number of Returns with Tax Increase&quot;</span>
+        <span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Share of Overall Change&quot;</span><span class="p">,</span> <span class="s2">&quot;Count with Tax Cut&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Count with Tax Increase&quot;</span>
+        <span class="p">]</span>
     <span class="n">sub_diff_table</span> <span class="o">=</span> <span class="n">decile_diff_table</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">drop_cols</span><span class="p">)</span>
 
     <span class="c1"># convert DataFrame to Markdown table</span>
