@@ -69,6 +69,37 @@ There are also multiple built in methods for producing tables:
 * `differences_table(year, groupby, tax_to_diff)`: Produces a table showing the
   change in a number of variables across the income distribution.
 
+## Stacked Reforms
+
+TaxBrain also can produce stacked revenue estimates. To use this feature,
+simply modify your reform dictionary so that each key is the name of a section
+of your reform and each item is the associated reform provisions, as shown
+below.
+
+```python
+payroll_json = """{"SS_Earnings_thd": {"2021": 400000}}"""
+CG_rate_json = """{
+   "CG_brk3": {"2021": [1000000, 1000000, 1000000, 1000000, 1000000]},
+   "CG_rt4": {"2021": 0.396}
+}"""
+reform_dict = {
+   "Payroll Threshold Increase": payroll_json,
+   "Capital Gains Tax Changes": CG_rate_json
+}
+tb = TaxBrain(2021, 2022, reform=reform_dict, stacked=True, use_cps=True)
+tb.run()
+tb.stacked_table * 1e-9
+```
+This code will produce the following table:
+
+|                   |2021              |2022             |2021-2022                |
+|--------------------------|------------------|-----------------|-------------------------|
+|Payroll Threshold Increase|65.97             |70.9             |136.87                   |
+|Capital Gains Tax Changes |19.57             |18.95            |38.52                    |
+|Total                     |85.54             |89.85            |175.39                   |
+
+
+
 As more models are added, Tax-Brain's usage will change to adjust. While we
 will try and maintain backwards compatibility, that obviously cannot always
 happen. This document will be updated as Tax-Brain evolves.

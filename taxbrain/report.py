@@ -51,7 +51,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         string of bytes for markdown and pdf versions of the report
 
     """
-    def format_table(df, int_cols, float_cols):
+    def format_table(df, int_cols, float_cols, float_perc=2):
         """
         Apply formatting to a given table
 
@@ -63,6 +63,8 @@ def report(tb, name=None, change_threshold=0.05, description=None,
             columns that need to be converted to integers
         float_cols: list
             floatcolumns that need to be converted to floats
+        float_perc: int
+            Decimal percision for float columns the table. Default is 2
 
         Returns
         --------
@@ -75,7 +77,7 @@ def report(tb, name=None, change_threshold=0.05, description=None,
             )
         for col in float_cols:
             df.update(
-                df[col].astype(float).apply("{:,.2f}".format)
+                df[col].astype(float).apply("{:,.{}}".format, args=(float_perc,))
             )
         return df
 
@@ -125,6 +127,13 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         "author": author,
         "taxbrain": str(Path(CUR_PATH, "report_files", "taxbrain.png"))
     }
+    if tb.stacked:
+        stacked_table = tb.stacked_table * 1e-9
+        stacked_table = format_table(
+            stacked_table, [], list(stacked_table.columns), float_perc=1
+        )
+        stacked_table = convert_table(stacked_table)
+        text_args["stacked_table"] = stacked_table
     if verbose:
         print("Writing Introduction")
     # find policy areas used in the reform
@@ -179,10 +188,16 @@ def report(tb, name=None, change_threshold=0.05, description=None,
     text_args["largest_change_str"] = largest_change[1]
     decile_diff_table.columns = tc.DIFF_TABLE_LABELS
     # drop certain columns to save space
-    drop_cols = [
-        "Share of Overall Change", "Count with Tax Cut",
-        "Count with Tax Increase"
-    ]
+    if tc.__version__ >= '3.2.1':
+        drop_cols = [
+            "Share of Overall Change", "Number of Returns with Tax Cut",
+            "Number of Returns with Tax Increase"
+        ]
+    else:
+        drop_cols = [
+            "Share of Overall Change", "Count with Tax Cut",
+            "Count with Tax Increase"
+        ]
     sub_diff_table = decile_diff_table.drop(columns=drop_cols)
 
     # convert DataFrame to Markdown table

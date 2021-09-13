@@ -59,6 +59,12 @@ Over the budget window  ({{ start_year }} to {{ end_year }}), this policy is exp
 
 {{ differences_table }}
 
+{% if stacked_table %}
+**Table 4: Stacked Revenue Estimates (Billions)**
+
+{{ stacked_table }}
+{% endif %}
+
 ![Percentage Change in After Tax Income]({{ distribution_graph }})
 \ 
 
