@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/sphinx-book-theme.e8f53015daec13862f6db5e763c41738.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
@@ -70,6 +70,10 @@
     
         <div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
       
       <img src="../../_static/taxbrain.png" class="logo" alt="logo">
       
@@ -163,31 +167,6 @@
    </i>
   </label>
   <ul class="current">
-   <li class="toctree-l2">
-    <a class="reference internal" href="cli.html">
-     Tax-Brain Command Line Interface
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="report.html">
-     Tax-Brain Report Generation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="report_utils.html">
-     Tax-Brain Report Utilities
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     Tax-Brain Class Object
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="utils.html">
-     Tax-Brain Utilities
-    </a>
-   </li>
    <li class="toctree-l2">
     <a class="reference internal" href="cli.html">
      Tax-Brain Command Line Interface
@@ -408,7 +387,7 @@ the analysis.</p>
 
 <dl class="py method">
 <dt id="taxbrain.taxbrain.TaxBrain.run">
-<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">varlist</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">['s006',</span> <span class="pre">'taxbc',</span> <span class="pre">'c62100',</span> <span class="pre">'c07100',</span> <span class="pre">'c00100',</span> <span class="pre">'c09600',</span> <span class="pre">'benefit_value_total',</span> <span class="pre">'c04470',</span> <span class="pre">'aftertax_income',</span> <span class="pre">'payrolltax',</span> <span class="pre">'ubi',</span> <span class="pre">'refund',</span> <span class="pre">'benefit_cost_total',</span> <span class="pre">'c04800',</span> <span class="pre">'combined',</span> <span class="pre">'c04600',</span> <span class="pre">'surtax',</span> <span class="pre">'c05800',</span> <span class="pre">'XTOT',</span> <span class="pre">'expanded_income',</span> <span class="pre">'othertaxes',</span> <span class="pre">'standard',</span> <span class="pre">'iitax']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/taxbrain.html#TaxBrain.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.taxbrain.TaxBrain.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">varlist</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">['aftertax_income',</span> <span class="pre">'c04800',</span> <span class="pre">'ubi',</span> <span class="pre">'s006',</span> <span class="pre">'combined',</span> <span class="pre">'XTOT',</span> <span class="pre">'othertaxes',</span> <span class="pre">'surtax',</span> <span class="pre">'c04470',</span> <span class="pre">'expanded_income',</span> <span class="pre">'c04600',</span> <span class="pre">'refund',</span> <span class="pre">'taxbc',</span> <span class="pre">'benefit_cost_total',</span> <span class="pre">'c00100',</span> <span class="pre">'c09600',</span> <span class="pre">'standard',</span> <span class="pre">'c07100',</span> <span class="pre">'iitax',</span> <span class="pre">'c05800',</span> <span class="pre">'benefit_value_total',</span> <span class="pre">'payrolltax',</span> <span class="pre">'c62100']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/taxbrain.html#TaxBrain.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.taxbrain.TaxBrain.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the calculators. TaxBrain will determine whether to do a static or
 partial equilibrium run based on the user’s inputs when initializing
 the TaxBrain object.</p>
@@ -505,7 +484,7 @@ reform total, and the difference between the two.</p>
         
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
+    <footer class="footer">
     <div class="container">
       <p>
         
