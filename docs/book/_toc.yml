@@ -18,9 +18,3 @@ parts:
 - caption: Tax-Brain Python API
   chapters:
   - file: content/api/public_api
-    sections:
-    - file: content/api/cli
-    - file: content/api/report
-    - file: content/api/report_utils
-    - file: content/api/taxbrain
-    - file: content/api/utils

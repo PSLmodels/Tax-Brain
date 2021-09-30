@@ -1,5 +1,20 @@
 # Tax-Brain Release History
 
+## 2021-09-25 Release 2.6.0
+
+Last Merged Pull Request: [#186](https://github.com/PSLmodels/Tax-Brain/pull/186)
+
+Changes in this release:
+
+* Fix Compute Studio installation: [#170](https://github.com/PSLmodels/Tax-Brain/pull/170),
+[#171](https://github.com/PSLmodels/Tax-Brain/pull/171), [#172](https://github.com/PSLmodels/Tax-Brain/pull/172),
+[#174](https://github.com/PSLmodels/Tax-Brain/pull/174)
+* Update parallelization techniques for `TaxBrain.run()`: [#175](https://github.com/PSLmodels/Tax-Brain/pull/175)
+* Add year parameter validation on Compute Studio: [#177](https://github.com/PSLmodels/Tax-Brain/pull/177)
+* Use default version installed via git: [#178](https://github.com/PSLmodels/Tax-Brain/pull/178)
+* Update function for retrieving the PUF: [#179](https://github.com/PSLmodels/Tax-Brain/pull/179)
+* Add stacked reform capabilities: [#181](https://github.com/PSLmodels/Tax-Brain/pull/181)
+
 ## 2021-03-19 Release 2.5.0
 
 Last Merged Pull Request: [#165](https://github.com/PSLmodels/Tax-Brain/pull/165)
