@@ -18,5 +18,5 @@ dependencies:
 - matplotlib
 - s3fs
 - pip:
-  - cs-kit
+  - "cs-kit>=1.16.8"
   - cs2tc
