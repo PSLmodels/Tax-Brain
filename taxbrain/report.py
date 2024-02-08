@@ -1,4 +1,5 @@
 import shutil
+import pandas as pd
 import behresp
 import taxbrain
 import taxcalc as tc
@@ -178,9 +179,9 @@ def report(tb, name=None, change_threshold=0.05, description=None,
         tb.start_year, "weighted_deciles", "combined"
     ).fillna(0)
     # move the "ALL" row to the bottom of the DataFrame
-    row = decile_diff_table.loc["ALL"].copy()
-    decile_diff_table.drop("ALL", inplace=True)
-    decile_diff_table = decile_diff_table.append(row)
+    target_row = decile_diff_table.loc["ALL", :]
+    decile_diff_table = decile_diff_table.shift(-1)
+    decile_diff_table.iloc[-1] = target_row.squeeze()
 
     # find which income bin sees the largest change in tax liability
     largest_change = largest_tax_change(diff_table)
