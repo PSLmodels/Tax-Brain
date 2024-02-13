@@ -16,9 +16,9 @@ jobs:
         with:
           persist-credentials: false
       - name: Install TeX Live
-          uses: zauguin/install-texlive@v3
-          with:
-             package_file: tl_packages
+        uses: zauguin/install-texlive@v3
+        with:
+          package_file: tl_packages
       - name: Setup Miniconda using Python ${{ matrix.python-version }}
         uses: conda-incubator/setup-miniconda@v2
         with:
