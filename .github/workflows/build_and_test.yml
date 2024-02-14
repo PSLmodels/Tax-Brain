@@ -22,7 +22,18 @@ jobs:
             scheme-basic
             cleveref
             hyperref
-            xcolor
+            iftex,
+            listings,
+            fancyvrb,
+            longtable,
+            booktabs,
+            graphicx,
+            bookmark,
+            xcolor,
+            soul,
+            geometry,
+            setspace,
+            babel
       - name: Setup Miniconda using Python ${{ matrix.python-version }}
         uses: conda-incubator/setup-miniconda@v2
         with:
