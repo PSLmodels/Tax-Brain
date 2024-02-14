@@ -35,6 +35,7 @@ jobs:
             setspace
             babel
             etoolbox
+            footnote
       - name: Setup Miniconda using Python ${{ matrix.python-version }}
         uses: conda-incubator/setup-miniconda@v2
         with:
