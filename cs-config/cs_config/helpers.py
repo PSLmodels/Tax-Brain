@@ -301,7 +301,7 @@ def postprocess(data_to_process):
                 # format table
                 for col in tbl.columns:
                     if col in MONEY_VARS:
-                        tbl.update(tbl[col].apply("${:,.2f}".format))
+                        tbl[col] = tbl[col].apply("${:,.2f}".format)
 
                 tags = RESULTS_TABLE_TAGS[id]
                 tbl_type = tags["table_type"]
