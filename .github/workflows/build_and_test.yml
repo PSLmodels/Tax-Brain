@@ -22,6 +22,7 @@ jobs:
             scheme-basic
             cleveref
             hyperref
+            xcolor
       - name: Setup Miniconda using Python ${{ matrix.python-version }}
         uses: conda-incubator/setup-miniconda@v2
         with:
