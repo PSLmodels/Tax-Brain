@@ -316,7 +316,7 @@ def lorenz_data(tb, year: int, var: str = "aftertax_income"):
     # each bin has 1% of the population
     _bins = np.arange(0, 1.01, step=0.01)
     data["bin"] = pd.cut(data['percentile'], bins=_bins)
-    gdf = data.groupby("bin")
+    gdf = data.groupby("bin", observed=False)
     base = gdf["wt_base"].sum()
     base = np.where(base < 0, 0, base)
     reform = gdf["wt_reform"].sum()
