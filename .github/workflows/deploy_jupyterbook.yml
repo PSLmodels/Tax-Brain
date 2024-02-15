@@ -26,6 +26,7 @@ jobs:
         run: |
           pip install jupyter-book
           pip install -e .
+          python -m ipykernel install --user --name=taxbrain-dev
           cd docs
           jb build ./book
 
