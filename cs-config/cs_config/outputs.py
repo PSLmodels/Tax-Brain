@@ -3,7 +3,7 @@ Functions for creating the TaxBrain COMP outputs
 """
 from bokeh.models import (ColumnDataSource, Toggle, CustomJS,
                           NumeralTickFormatter, HoverTool)
-from bokeh.models.widgets import Tabs, Panel, Div
+from bokeh.models import TabPanel, Tabs, Div
 from bokeh.embed import json_item
 from bokeh.layouts import layout
 from bokeh.plotting import figure
@@ -127,11 +127,11 @@ def create_layout(data, start_year, end_year):
     change_table = Div(text=ct_title + agg_data["change"]["renderable"],
                        width=1000)
 
-    current_tab = Panel(child=current_law_table,
+    current_tab = TabPanel(child=current_law_table,
                         title="Current Law")
-    reform_tab = Panel(child=reform_table,
+    reform_tab = TabPanel(child=reform_table,
                        title="Reform")
-    change_tab = Panel(child=change_table,
+    change_tab = TabPanel(child=change_table,
                        title="Change")
     agg_tabs = Tabs(tabs=[current_tab, reform_tab, change_tab])
 
@@ -167,20 +167,20 @@ def create_layout(data, start_year, end_year):
                             "Averages and shares are as shown.</i></p>")
                     tbl = Div(text=title + note + _data["renderable"],
                               width=1000)
-                    grp_panel = Panel(child=tbl, title=grp.title())
+                    grp_panel = TabPanel(child=tbl, title=grp.title())
                     grp_panels.append(grp_panel)
                 grp_tab = Tabs(tabs=grp_panels)
                 # panel for the sub tables
-                content_panel = Panel(child=grp_tab, title=key_map[key])
+                content_panel = TabPanel(child=grp_tab, title=key_map[key])
                 content_panels.append(content_panel)
             content_tab = Tabs(tabs=content_panels)
             # panel for the table types
-            tbl_panel = Panel(child=content_tab,
+            tbl_panel = TabPanel(child=content_tab,
                               title=key_map[tbl_type])
             tbl_panels.append(tbl_panel)
         type_tab = Tabs(tabs=tbl_panels)
         # panel for the year
-        yr_panel = Panel(child=type_tab, title=str(yr))
+        yr_panel = TabPanel(child=type_tab, title=str(yr))
         yr_panels.append(yr_panel)
 
     yr_tabs = Tabs(tabs=yr_panels)

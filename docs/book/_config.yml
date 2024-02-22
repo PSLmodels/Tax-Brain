@@ -2,7 +2,7 @@
 # Book settings
 title                    : Tax-Brain
 author                   : Anderson Frailey
-copyright                : '2021'
+copyright                : '2024'
 logo                     : '../taxbrain.png'
 
 ####################################################
@@ -42,7 +42,7 @@ launch_buttons:
 # Information about where the book exists on the web
 repository:
   url                    : https://github.com/PSLmodels/Tax-Brain
-  path_to_book           : 'book'
+  path_to_book           : 'docs/book'
 
 #######################################################################################
 # Advanced and power-user settings
@@ -51,6 +51,8 @@ sphinx:
                                'sphinx.ext.viewcode', 'sphinx.ext.napoleon',
                                'alabaster']   # A list of extra extensions to load by Sphinx.
   config                    :   # key-value pairs to directly over-ride the Sphinx configuration
+    bibtex_reference_style: author_year
+    mathjax_path          : https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 ####################################################
 # LaTeX information
