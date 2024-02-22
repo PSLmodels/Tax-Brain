@@ -1,475 +1,602 @@
 
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" data-content_root="../../" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Tax-Brain Report Utilities &#8212; Tax-Brain</title>
-    
-  <link href="../../_static/css/theme.css" rel="stylesheet" />
-  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    
-      
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
-
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/togglebutton.js"></script>
-    <script src="../../_static/clipboard.min.js"></script>
-    <script src="../../_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
-    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/api/report_utils';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Tax-Brain Class Object" href="taxbrain.html" />
     <link rel="prev" title="Tax-Brain Report Generation" href="report.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../../_static/taxbrain.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">Tax-Brain</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../intro.html">
-   Tax-Brain
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Tax-Brain Example Use
- </span>
-</p>
+    
+    
+    <img src="../../_static/taxbrain.png" class="logo__image only-light" alt="Tax-Brain - Home"/>
+    <script>document.write(`<img src="../../_static/taxbrain.png" class="logo__image only-dark" alt="Tax-Brain - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Tax-Brain
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tax-Brain Example Use</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../usage.html">
-   How to Use Tax-Brain
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../examples/example.html">
-   Static Reform
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../reports.html">
-   Automated Reports in TaxBrain
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">How to Use Tax-Brain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/example.html">Static Reform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reports.html">Automated Reports in TaxBrain</a></li>
 </ul>
-<p class="caption">
- <span class="caption-text">
-  Web Application
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Web Application</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../webapp.html">
-   Web Application
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../webapp.html">Web Application</a></li>
 </ul>
-<p class="caption">
- <span class="caption-text">
-  Command Line Interface
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Command Line Interface</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../cli.html">
-   Tax-Brain Command Line Interface
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Tax-Brain Command Line Interface</a></li>
 </ul>
-<p class="caption">
- <span class="caption-text">
-  Contributing to Tax-Brain
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing to Tax-Brain</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../contributing/contributor_guide.html">
-   Contributing to Tax-Brain
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributor_guide.html">Contributing to Tax-Brain</a></li>
 </ul>
-<p class="caption">
- <span class="caption-text">
-  Tax-Brain Python API
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tax-Brain Python API</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="public_api.html">
-   Tax-Brain Python API
-  </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul class="current">
-   <li class="toctree-l2">
-    <a class="reference internal" href="cli.html">
-     Tax-Brain Command Line Interface
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="report.html">
-     Tax-Brain Report Generation
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     Tax-Brain Report Utilities
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="taxbrain.html">
-     Tax-Brain Class Object
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="utils.html">
-     Tax-Brain Utilities
-    </a>
-   </li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="public_api.html">Tax-Brain Python API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="cli.html">Tax-Brain Command Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="report.html">Tax-Brain Report Generation</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Tax-Brain Report Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="taxbrain.html">Tax-Brain Class Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">Tax-Brain Utilities</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/PSLmodels/Tax-Brain" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/PSLmodels/Tax-Brain/issues/new?title=Issue%20on%20page%20%2Fcontent/api/report_utils.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
   </ul>
- </li>
-</ul>
+</div>
 
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/content/api/report_utils.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+  
 </div>
-
 </div>
+              
+              
 
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tax-Brain Report Utilities</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../../_sources/content/api/report_utils.rst"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.rst</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/PSLmodels/Tax-Brain"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/PSLmodels/Tax-Brain/issues/new?title=Issue%20on%20page%20%2Fcontent/api/report_utils.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div>
+                <h2> Contents </h2>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
+            <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#module-taxbrain.report_utils">
-   taxbrain.report_utils
-  </a>
- </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-taxbrain.report_utils">taxbrain.report_utils</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.behavioral_assumptions"><code class="docutils literal notranslate"><span class="pre">behavioral_assumptions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.consumption_assumptions"><code class="docutils literal notranslate"><span class="pre">consumption_assumptions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.convert_params"><code class="docutils literal notranslate"><span class="pre">convert_params()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.convert_table"><code class="docutils literal notranslate"><span class="pre">convert_table()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.date"><code class="docutils literal notranslate"><span class="pre">date()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.dollar_str_formatting"><code class="docutils literal notranslate"><span class="pre">dollar_str_formatting()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.form_baseline_intro"><code class="docutils literal notranslate"><span class="pre">form_baseline_intro()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.form_intro"><code class="docutils literal notranslate"><span class="pre">form_intro()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.growth_assumptions"><code class="docutils literal notranslate"><span class="pre">growth_assumptions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.largest_tax_change"><code class="docutils literal notranslate"><span class="pre">largest_tax_change()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.md_to_pdf"><code class="docutils literal notranslate"><span class="pre">md_to_pdf()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.notable_changes"><code class="docutils literal notranslate"><span class="pre">notable_changes()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.policy_table"><code class="docutils literal notranslate"><span class="pre">policy_table()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.write_text"><code class="docutils literal notranslate"><span class="pre">write_text()</span></code></a></li>
 </ul>
-
+</li>
+</ul>
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
-              <div>
+
+              
                 
-  <div class="section" id="tax-brain-report-utilities">
-<span id="report-utils"></span><h1>Tax-Brain Report Utilities<a class="headerlink" href="#tax-brain-report-utilities" title="Permalink to this headline">¶</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="tax-brain-report-utilities">
+<span id="report-utils"></span><h1>Tax-Brain Report Utilities<a class="headerlink" href="#tax-brain-report-utilities" title="Link to this heading">#</a></h1>
 <p><strong>report_utils</strong></p>
-<div class="section" id="module-taxbrain.report_utils">
-<span id="taxbrain-report-utils"></span><h2>taxbrain.report_utils<a class="headerlink" href="#module-taxbrain.report_utils" title="Permalink to this headline">¶</a></h2>
+<section id="module-taxbrain.report_utils">
+<span id="taxbrain-report-utils"></span><h2>taxbrain.report_utils<a class="headerlink" href="#module-taxbrain.report_utils" title="Link to this heading">#</a></h2>
 <p>Helper Functions for creating the automated reports</p>
 <dl class="py function">
-<dt id="taxbrain.report_utils.behavioral_assumptions">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">behavioral_assumptions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#behavioral_assumptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.behavioral_assumptions" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.behavioral_assumptions">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">behavioral_assumptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#behavioral_assumptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.behavioral_assumptions" title="Link to this definition">#</a></dt>
 <dd><p>Return list of behavioral assumptions used</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>tb</strong> (<em>TaxBrain object</em>) – instance of TaxBrain object for analysis</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>assumptions</strong> – list of behavioral assumptions used</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="taxbrain.report_utils.consumption_assumptions">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">consumption_assumptions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#consumption_assumptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.consumption_assumptions" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.consumption_assumptions">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">consumption_assumptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#consumption_assumptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.consumption_assumptions" title="Link to this definition">#</a></dt>
 <dd><p>Create table of consumption assumptions used in analysis</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>tb</strong> (<em>TaxBrain object</em>) – instance of TaxBrain object for analysis</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>md_tables</strong> – table of consumption assumptions for report</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="taxbrain.report_utils.convert_params">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">convert_params</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#convert_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.convert_params" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.convert_params">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">convert_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#convert_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.convert_params" title="Link to this definition">#</a></dt>
 <dd><p>Convert ParamTools style parameter inputs to traditional taxcalc style
 parameters for report policy table creation</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – ParamTools style reform dictionary</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>reform</strong> – a dictionary in traditional taxcalc style</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="taxbrain.report_utils.convert_table">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">convert_table</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tablefmt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'pipe'</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#convert_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.convert_table" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.convert_table">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">convert_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tablefmt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pipe'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#convert_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.convert_table" title="Link to this definition">#</a></dt>
 <dd><p>Convert pandas DataFrame to Markdown style table</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>df</strong> (<em>Pandas DataFrame</em>) – DataFrame to convert</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>String that is a formatted markdown table</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="taxbrain.report_utils.date">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">date</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.date" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.date">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">date</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.date" title="Link to this definition">#</a></dt>
 <dd><p>Return formatted date</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>None</strong> – </p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>None</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="taxbrain.report_utils.dollar_str_formatting">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">dollar_str_formatting</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#dollar_str_formatting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.dollar_str_formatting" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.dollar_str_formatting">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">dollar_str_formatting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#dollar_str_formatting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.dollar_str_formatting" title="Link to this definition">#</a></dt>
 <dd><p>Format dollar figures into $val trillion, $val billion, etc.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>val</strong> (<em>float</em>) – revenue amount</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>formatted dollar figure</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="taxbrain.report_utils.form_baseline_intro">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">form_baseline_intro</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_law</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#form_baseline_intro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.form_baseline_intro" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.form_baseline_intro">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">form_baseline_intro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_law</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#form_baseline_intro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.form_baseline_intro" title="Link to this definition">#</a></dt>
 <dd><p>Form final sentence of introduction paragraph</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>current_law</strong> (<em>bool</em>) – whether report is for the current law baseline</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>text or intro of baseline summary</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="taxbrain.report_utils.form_intro">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">form_intro</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pol_areas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#form_intro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.form_intro" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.form_intro">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">form_intro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pol_areas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#form_intro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.form_intro" title="Link to this definition">#</a></dt>
 <dd><p>Form the introduction line</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pol_areas</strong> (<em>list</em>) – list of all the policy areas included in the reform used to
 create a description of the reform</p></li>
 <li><p><strong>description</strong> (<em>str</em>) – user provided description of the reform</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>introduction text for report</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="taxbrain.report_utils.growth_assumptions">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">growth_assumptions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#growth_assumptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.growth_assumptions" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.growth_assumptions">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">growth_assumptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#growth_assumptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.growth_assumptions" title="Link to this definition">#</a></dt>
 <dd><p>Create a table with all of the growth assumptions used in the analysis</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>tb</strong> (<em>TaxBrain object</em>) – instance of TaxBrain object for analysis</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>md_tables</strong> – table of growth assumptions for report</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="taxbrain.report_utils.largest_tax_change">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">largest_tax_change</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#largest_tax_change"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.largest_tax_change" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.largest_tax_change">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">largest_tax_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#largest_tax_change"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.largest_tax_change" title="Link to this definition">#</a></dt>
 <dd><p>Function to find the largest change in tax liability</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>diff</strong> (<em>Pandas DataFrame</em>) – Differences table created by taxbrain</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>largest_change_group</strong> (<em>str</em>) – string relating group with the largest change</p></li>
 <li><p><strong>largest_change_str</strong> (<em>str</em>) – string relating size of largest change</p></li>
@@ -480,87 +607,87 @@ create a description of the reform</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="taxbrain.report_utils.md_to_pdf">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">md_to_pdf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">md_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputfile_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#md_to_pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.md_to_pdf" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.md_to_pdf">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">md_to_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">md_text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputfile_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#md_to_pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.md_to_pdf" title="Link to this definition">#</a></dt>
 <dd><p>Convert Markdown version of report to a PDF. Returns bytes that can be
 saved as a PDF</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>md_text</strong> (<em>str</em>) – report template written in markdown</p></li>
 <li><p><strong>outputfile_path</strong> (<em>str</em>) – path to where the final file sohould be written</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Markdown text is saved as a PDF and the HTML used to create
 the report</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="taxbrain.report_utils.notable_changes">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">notable_changes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#notable_changes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.notable_changes" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.notable_changes">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">notable_changes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#notable_changes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.notable_changes" title="Link to this definition">#</a></dt>
 <dd><p>Find any notable changes in certain variables. “Notable” is defined
 as a percentage change above the given threshold.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>tb</strong> (<em>TaxBrain object</em>) – instance of TaxBrain object for analysis</p></li>
 <li><p><strong>threshold</strong> (<em>float</em>) – Percentage change in an aggregate variable for it to be
 considered notable</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>section</strong> – text for section on notable changes</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="taxbrain.report_utils.policy_table">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">policy_table</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#policy_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.policy_table" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.policy_table">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">policy_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#policy_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.policy_table" title="Link to this definition">#</a></dt>
 <dd><p>Create a table showing the policy parameters in a reform and their
 default value</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – policy parameters being implemented</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>md_tables</strong> – String containing a markdown style table that summarized the
 given parameters</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="taxbrain.report_utils.write_text">
-<code class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></code><code class="sig-name descname"><span class="pre">write_text</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#write_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.write_text" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="taxbrain.report_utils.write_text">
+<span class="sig-prename descclassname"><span class="pre">taxbrain.report_utils.</span></span><span class="sig-name descname"><span class="pre">write_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/report_utils.html#write_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.report_utils.write_text" title="Link to this definition">#</a></dt>
 <dd><p>Fill in text with specified template</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>template_path</strong> (<em>str</em>) – path to read template from</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>rendered</strong> – rendered template</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -574,7 +701,7 @@ given parameters</p>
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./content/api"
         },
         predefinedOutput: true
@@ -582,56 +709,119 @@ given parameters</p>
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-        
-            
 
-
-
-<div class='prev-next-bottom'>
-    
-    <div id="prev">
-        <a class="left-prev" href="report.html" title="previous page">
-            <i class="prevnext-label fas fa-angle-left"></i>
-            <div class="prevnext-info">
-                <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Tax-Brain Report Generation</p>
-            </div>
-        </a>
-    </div>
-     <div id="next">
-        <a class="right-next" href="taxbrain.html" title="next page">
-            <div class="prevnext-info">
-                <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Tax-Brain Class Object</p>
-            </div>
-            <i class="prevnext-label fas fa-angle-right"></i>
-        </a>
-     </div>
-
-</div>
-        
-        </div>
-    </div>
-    <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Anderson Frailey<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
-</main>
-
-
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="report.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tax-Brain Report Generation</p>
       </div>
-    </div>
-  
-  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+    </a>
+    <a class="right-next"
+       href="taxbrain.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Tax-Brain Class Object</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-taxbrain.report_utils">taxbrain.report_utils</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.behavioral_assumptions"><code class="docutils literal notranslate"><span class="pre">behavioral_assumptions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.consumption_assumptions"><code class="docutils literal notranslate"><span class="pre">consumption_assumptions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.convert_params"><code class="docutils literal notranslate"><span class="pre">convert_params()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.convert_table"><code class="docutils literal notranslate"><span class="pre">convert_table()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.date"><code class="docutils literal notranslate"><span class="pre">date()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.dollar_str_formatting"><code class="docutils literal notranslate"><span class="pre">dollar_str_formatting()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.form_baseline_intro"><code class="docutils literal notranslate"><span class="pre">form_baseline_intro()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.form_intro"><code class="docutils literal notranslate"><span class="pre">form_intro()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.growth_assumptions"><code class="docutils literal notranslate"><span class="pre">growth_assumptions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.largest_tax_change"><code class="docutils literal notranslate"><span class="pre">largest_tax_change()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.md_to_pdf"><code class="docutils literal notranslate"><span class="pre">md_to_pdf()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.notable_changes"><code class="docutils literal notranslate"><span class="pre">notable_changes()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.policy_table"><code class="docutils literal notranslate"><span class="pre">policy_table()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#taxbrain.report_utils.write_text"><code class="docutils literal notranslate"><span class="pre">write_text()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
+  <div class="footer-item">
+    
+<p class="component-author">
+By Anderson Frailey
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

@@ -1,306 +1,406 @@
 
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" data-content_root="../../" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Static Reform &#8212; Tax-Brain</title>
-    
-  <link href="../../_static/css/theme.css" rel="stylesheet" />
-  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    
-      
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
-
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/togglebutton.js"></script>
-    <script src="../../_static/clipboard.min.js"></script>
-    <script src="../../_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
-    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/examples/example';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Automated Reports in TaxBrain" href="../reports.html" />
     <link rel="prev" title="How to Use Tax-Brain" href="../usage.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../../_static/taxbrain.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">Tax-Brain</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../intro.html">
-   Tax-Brain
-  </a>
- </li>
-</ul>
-<p class="caption">
- <span class="caption-text">
-  Tax-Brain Example Use
- </span>
-</p>
+    
+    
+    <img src="../../_static/taxbrain.png" class="logo__image only-light" alt="Tax-Brain - Home"/>
+    <script>document.write(`<img src="../../_static/taxbrain.png" class="logo__image only-dark" alt="Tax-Brain - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Tax-Brain
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tax-Brain Example Use</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../usage.html">
-   How to Use Tax-Brain
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Static Reform
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../reports.html">
-   Automated Reports in TaxBrain
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">How to Use Tax-Brain</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Static Reform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reports.html">Automated Reports in TaxBrain</a></li>
 </ul>
-<p class="caption">
- <span class="caption-text">
-  Web Application
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Web Application</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../webapp.html">
-   Web Application
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../webapp.html">Web Application</a></li>
 </ul>
-<p class="caption">
- <span class="caption-text">
-  Command Line Interface
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Command Line Interface</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../cli.html">
-   Tax-Brain Command Line Interface
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Tax-Brain Command Line Interface</a></li>
 </ul>
-<p class="caption">
- <span class="caption-text">
-  Contributing to Tax-Brain
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing to Tax-Brain</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../contributing/contributor_guide.html">
-   Contributing to Tax-Brain
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributor_guide.html">Contributing to Tax-Brain</a></li>
 </ul>
-<p class="caption">
- <span class="caption-text">
-  Tax-Brain Python API
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tax-Brain Python API</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../api/public_api.html">
-   Tax-Brain Python API
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../api/cli.html">
-     Tax-Brain Command Line Interface
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../api/report.html">
-     Tax-Brain Report Generation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../api/report_utils.html">
-     Tax-Brain Report Utilities
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../api/taxbrain.html">
-     Tax-Brain Class Object
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../api/utils.html">
-     Tax-Brain Utilities
-    </a>
-   </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/public_api.html">Tax-Brain Python API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/cli.html">Tax-Brain Command Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/report.html">Tax-Brain Report Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/report_utils.html">Tax-Brain Report Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/taxbrain.html">Tax-Brain Class Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/utils.html">Tax-Brain Utilities</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/PSLmodels/Tax-Brain" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/PSLmodels/Tax-Brain/issues/new?title=Issue%20on%20page%20%2Fcontent/examples/example.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
   </ul>
- </li>
-</ul>
+</div>
 
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/content/examples/example.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+  
 </div>
-
 </div>
+              
+              
 
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Static Reform</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../../_sources/content/examples/example.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/PSLmodels/Tax-Brain"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/PSLmodels/Tax-Brain/issues/new?title=Issue%20on%20page%20%2Fcontent/examples/example.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/PSLmodels/Tax-Brain/master?urlpath=tree/book/content/examples/example.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
-    </div>
-</div>
-
         </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
-            
-        </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
-              <div>
+
+              
                 
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <p>This notebook contains an example for how to use the <code class="docutils literal notranslate"><span class="pre">taxbrain</span></code> python package</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -318,8 +418,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="static-reform">
-<h1>Static Reform<a class="headerlink" href="#static-reform" title="Permalink to this headline">¶</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="static-reform">
+<h1>Static Reform<a class="headerlink" href="#static-reform" title="Link to this heading">#</a></h1>
 <p>After importing the <code class="docutils literal notranslate"><span class="pre">TaxBrain</span></code> class from the <code class="docutils literal notranslate"><span class="pre">taxbrain</span></code> package, we initiate an instance of the class by specifying the start and end year of the anlaysis, which microdata to use, and a policy reform. Additional arguments can be used to specify econoimc assumptions and individual behavioral elasticites.</p>
 <p>Once the class has been initiated, the <code class="docutils literal notranslate"><span class="pre">run()</span></code> method will handle executing each model</p>
 <div class="cell docutils container">
@@ -375,42 +475,42 @@
   <tbody>
     <tr>
       <th>Base</th>
-      <td>2.571828e+12</td>
-      <td>2.715400e+12</td>
-      <td>2.846491e+12</td>
-      <td>2.990706e+12</td>
-      <td>3.151490e+12</td>
-      <td>3.537569e+12</td>
-      <td>3.728943e+12</td>
-      <td>3.912164e+12</td>
-      <td>4.090795e+12</td>
-      <td>4.268168e+12</td>
+      <td>2.268028e+12</td>
+      <td>3.096166e+12</td>
+      <td>3.213183e+12</td>
+      <td>3.353333e+12</td>
+      <td>3.527652e+12</td>
+      <td>3.921699e+12</td>
+      <td>4.097372e+12</td>
+      <td>4.273907e+12</td>
+      <td>4.462825e+12</td>
+      <td>4.655436e+12</td>
     </tr>
     <tr>
       <th>Reform</th>
-      <td>2.624536e+12</td>
-      <td>2.781239e+12</td>
-      <td>2.926065e+12</td>
-      <td>3.085554e+12</td>
-      <td>3.263417e+12</td>
-      <td>3.659957e+12</td>
-      <td>3.871454e+12</td>
-      <td>4.075211e+12</td>
-      <td>4.263201e+12</td>
-      <td>4.449451e+12</td>
+      <td>2.325068e+12</td>
+      <td>3.174432e+12</td>
+      <td>3.309377e+12</td>
+      <td>3.467973e+12</td>
+      <td>3.662834e+12</td>
+      <td>4.070283e+12</td>
+      <td>4.266411e+12</td>
+      <td>4.464527e+12</td>
+      <td>4.663195e+12</td>
+      <td>4.865832e+12</td>
     </tr>
     <tr>
       <th>Difference</th>
-      <td>5.270752e+10</td>
-      <td>6.583917e+10</td>
-      <td>7.957361e+10</td>
-      <td>9.484773e+10</td>
-      <td>1.119264e+11</td>
-      <td>1.223880e+11</td>
-      <td>1.425109e+11</td>
-      <td>1.630469e+11</td>
-      <td>1.724056e+11</td>
-      <td>1.812827e+11</td>
+      <td>5.704073e+10</td>
+      <td>7.826675e+10</td>
+      <td>9.619325e+10</td>
+      <td>1.146401e+11</td>
+      <td>1.351819e+11</td>
+      <td>1.485843e+11</td>
+      <td>1.690389e+11</td>
+      <td>1.906206e+11</td>
+      <td>2.003697e+11</td>
+      <td>2.103964e+11</td>
     </tr>
   </tbody>
 </table>
@@ -463,22 +563,22 @@
   <tbody>
     <tr>
       <th>0-10n</th>
-      <td>0.115333</td>
+      <td>0.102049</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>0.028253</td>
-      <td>24.497135</td>
-      <td>5.471870</td>
-      <td>0.000631</td>
-      <td>0.001197</td>
+      <td>0.035165</td>
+      <td>34.458500</td>
+      <td>8.218450</td>
+      <td>0.000839</td>
+      <td>0.001470</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.003868</td>
+      <td>0.006304</td>
     </tr>
     <tr>
       <th>0-10z</th>
-      <td>8.506045</td>
+      <td>8.391348</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.000000</td>
@@ -493,213 +593,213 @@
     </tr>
     <tr>
       <th>0-10p</th>
-      <td>12.191270</td>
+      <td>12.213912</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>5.522697</td>
-      <td>45.300423</td>
-      <td>3.005029</td>
-      <td>0.036635</td>
-      <td>0.069506</td>
+      <td>5.512064</td>
+      <td>45.129394</td>
+      <td>3.694912</td>
+      <td>0.045129</td>
+      <td>0.079118</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.046035</td>
+      <td>-0.030308</td>
     </tr>
     <tr>
       <th>10-20</th>
-      <td>20.814365</td>
+      <td>20.707719</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>15.202324</td>
-      <td>73.037656</td>
-      <td>15.208011</td>
-      <td>0.316545</td>
-      <td>0.600569</td>
+      <td>15.024911</td>
+      <td>72.557053</td>
+      <td>17.183407</td>
+      <td>0.355829</td>
+      <td>0.623816</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.060796</td>
+      <td>-0.049667</td>
     </tr>
     <tr>
       <th>20-30</th>
-      <td>20.813097</td>
-      <td>0.003684</td>
-      <td>0.017700</td>
-      <td>14.892930</td>
-      <td>71.555567</td>
-      <td>28.382182</td>
-      <td>0.590721</td>
-      <td>1.120753</td>
+      <td>20.707209</td>
+      <td>0.019010</td>
+      <td>0.091802</td>
+      <td>13.227202</td>
+      <td>63.877280</td>
+      <td>26.991785</td>
+      <td>0.558925</td>
+      <td>0.979869</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.060109</td>
+      <td>-0.047428</td>
     </tr>
     <tr>
       <th>30-40</th>
-      <td>20.812646</td>
-      <td>0.107658</td>
-      <td>0.517273</td>
-      <td>12.245201</td>
-      <td>58.835387</td>
-      <td>30.982088</td>
-      <td>0.644819</td>
-      <td>1.223391</td>
+      <td>20.707414</td>
+      <td>0.259493</td>
+      <td>1.253142</td>
+      <td>11.851219</td>
+      <td>57.231765</td>
+      <td>29.342684</td>
+      <td>0.607611</td>
+      <td>1.065223</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.048941</td>
+      <td>-0.036821</td>
     </tr>
     <tr>
       <th>40-50</th>
-      <td>20.814848</td>
-      <td>0.393846</td>
-      <td>1.892140</td>
-      <td>12.605872</td>
-      <td>60.561919</td>
-      <td>33.336457</td>
-      <td>0.693893</td>
-      <td>1.316498</td>
+      <td>20.707314</td>
+      <td>1.017622</td>
+      <td>4.914311</td>
+      <td>12.911845</td>
+      <td>62.354033</td>
+      <td>27.950700</td>
+      <td>0.578784</td>
+      <td>1.014685</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.034722</td>
+      <td>-0.014438</td>
     </tr>
     <tr>
       <th>50-60</th>
-      <td>20.813603</td>
-      <td>1.661413</td>
-      <td>7.982344</td>
-      <td>13.266555</td>
-      <td>63.739831</td>
-      <td>15.158956</td>
-      <td>0.315512</td>
-      <td>0.598610</td>
+      <td>20.708056</td>
+      <td>2.995433</td>
+      <td>14.465061</td>
+      <td>12.844997</td>
+      <td>62.028988</td>
+      <td>-36.867881</td>
+      <td>-0.763462</td>
+      <td>-1.338451</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.020912</td>
+      <td>0.111299</td>
     </tr>
     <tr>
       <th>60-70</th>
-      <td>20.812398</td>
-      <td>3.244058</td>
-      <td>15.587141</td>
-      <td>12.647319</td>
-      <td>60.768196</td>
-      <td>-82.475428</td>
-      <td>-1.716511</td>
-      <td>-3.256673</td>
+      <td>20.706520</td>
+      <td>3.809639</td>
+      <td>18.398257</td>
+      <td>12.695252</td>
+      <td>61.310408</td>
+      <td>-154.654147</td>
+      <td>-3.202349</td>
+      <td>-5.614145</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.181236</td>
+      <td>0.261004</td>
     </tr>
     <tr>
       <th>70-80</th>
-      <td>20.812279</td>
-      <td>4.142464</td>
-      <td>19.903941</td>
-      <td>12.784183</td>
-      <td>61.426154</td>
-      <td>-209.261379</td>
-      <td>-4.355206</td>
-      <td>-8.262969</td>
+      <td>20.707762</td>
+      <td>4.051343</td>
+      <td>19.564367</td>
+      <td>13.340003</td>
+      <td>64.420304</td>
+      <td>-199.992490</td>
+      <td>-4.141397</td>
+      <td>-7.260421</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.314308</td>
+      <td>0.273015</td>
     </tr>
     <tr>
       <th>80-90</th>
-      <td>20.815758</td>
-      <td>5.345207</td>
-      <td>25.678658</td>
-      <td>13.271583</td>
-      <td>63.757388</td>
-      <td>-455.338094</td>
-      <td>-9.478207</td>
-      <td>-17.982647</td>
+      <td>20.706344</td>
+      <td>4.430289</td>
+      <td>21.395804</td>
+      <td>14.287998</td>
+      <td>69.002997</td>
+      <td>-429.479458</td>
+      <td>-8.892949</td>
+      <td>-15.590526</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.485572</td>
+      <td>0.418412</td>
     </tr>
     <tr>
       <th>90-100</th>
-      <td>20.813722</td>
-      <td>2.303335</td>
-      <td>11.066423</td>
-      <td>16.766514</td>
-      <td>80.555098</td>
-      <td>3154.586539</td>
-      <td>65.658688</td>
-      <td>124.571764</td>
+      <td>20.709729</td>
+      <td>1.427188</td>
+      <td>6.891390</td>
+      <td>17.358077</td>
+      <td>83.816051</td>
+      <td>3471.497416</td>
+      <td>71.893769</td>
+      <td>126.039361</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-1.309040</td>
+      <td>-1.295898</td>
     </tr>
     <tr>
       <th>ALL</th>
-      <td>208.135364</td>
-      <td>17.201665</td>
-      <td>8.264653</td>
-      <td>129.233431</td>
-      <td>62.091049</td>
-      <td>253.236737</td>
-      <td>52.707521</td>
+      <td>207.075375</td>
+      <td>18.010016</td>
+      <td>8.697324</td>
+      <td>129.088733</td>
+      <td>62.339007</td>
+      <td>275.458769</td>
+      <td>57.040728</td>
       <td>100.000000</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.336668</td>
+      <td>-0.321414</td>
     </tr>
     <tr>
       <th>90-95</th>
-      <td>10.406899</td>
-      <td>1.978420</td>
-      <td>19.010660</td>
-      <td>7.667279</td>
-      <td>73.674963</td>
-      <td>-573.761480</td>
-      <td>-5.971078</td>
-      <td>-11.328702</td>
+      <td>10.355767</td>
+      <td>1.287196</td>
+      <td>12.429747</td>
+      <td>8.243016</td>
+      <td>79.598317</td>
+      <td>-297.884968</td>
+      <td>-3.084827</td>
+      <td>-5.408114</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.458587</td>
+      <td>0.256537</td>
     </tr>
     <tr>
       <th>95-99</th>
-      <td>8.325281</td>
-      <td>0.324914</td>
-      <td>3.902744</td>
-      <td>7.192839</td>
-      <td>86.397553</td>
-      <td>142.390641</td>
-      <td>1.185442</td>
-      <td>2.249095</td>
+      <td>8.283195</td>
+      <td>0.139992</td>
+      <td>1.690078</td>
+      <td>7.285869</td>
+      <td>87.959648</td>
+      <td>312.562973</td>
+      <td>2.589020</td>
+      <td>4.538897</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.003750</td>
+      <td>-0.068107</td>
     </tr>
     <tr>
       <th>Top 1%</th>
-      <td>2.081542</td>
+      <td>2.070766</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>1.906396</td>
-      <td>91.585763</td>
-      <td>33842.372424</td>
-      <td>70.444324</td>
-      <td>133.651371</td>
+      <td>1.829191</td>
+      <td>88.334013</td>
+      <td>34957.870299</td>
+      <td>72.389576</td>
+      <td>126.908577</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-4.906652</td>
+      <td>-4.364074</td>
     </tr>
   </tbody>
 </table>
@@ -713,7 +813,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/example_10_0.png" src="../../_images/example_10_0.png" />
+<img alt="../../_images/b233db55f1e76cedff00da2436a253baf814d28f14e952e2de5febc54295b81c.png" src="../../_images/b233db55f1e76cedff00da2436a253baf814d28f14e952e2de5febc54295b81c.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -723,7 +823,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/example_11_0.png" src="../../_images/example_11_0.png" />
+<img alt="../../_images/961dd66146756a6f0c74ef43eb6c154614f79cc8eedf4cba66b730111205c553.png" src="../../_images/961dd66146756a6f0c74ef43eb6c154614f79cc8eedf4cba66b730111205c553.png" />
 </div>
 </div>
 <p>You can run a partial-equlibrium dynamic simulation by initiating the TaxBrian instance exactly as you would for the static reform, but with your behavioral assumptions specified</p>
@@ -781,42 +881,42 @@
   <tbody>
     <tr>
       <th>Base</th>
-      <td>2.571828e+12</td>
-      <td>2.715400e+12</td>
-      <td>2.846491e+12</td>
-      <td>2.990706e+12</td>
-      <td>3.151490e+12</td>
-      <td>3.537569e+12</td>
-      <td>3.728943e+12</td>
-      <td>3.912164e+12</td>
-      <td>4.090795e+12</td>
-      <td>4.268168e+12</td>
+      <td>2.268028e+12</td>
+      <td>3.096166e+12</td>
+      <td>3.213183e+12</td>
+      <td>3.353333e+12</td>
+      <td>3.527652e+12</td>
+      <td>3.921699e+12</td>
+      <td>4.097372e+12</td>
+      <td>4.273907e+12</td>
+      <td>4.462825e+12</td>
+      <td>4.655436e+12</td>
     </tr>
     <tr>
       <th>Reform</th>
-      <td>2.601925e+12</td>
-      <td>2.756096e+12</td>
-      <td>2.898242e+12</td>
-      <td>3.054837e+12</td>
-      <td>3.229669e+12</td>
-      <td>3.618923e+12</td>
-      <td>3.828904e+12</td>
-      <td>4.026075e+12</td>
-      <td>4.211117e+12</td>
-      <td>4.395952e+12</td>
+      <td>2.306036e+12</td>
+      <td>3.147545e+12</td>
+      <td>3.279764e+12</td>
+      <td>3.435419e+12</td>
+      <td>3.627030e+12</td>
+      <td>4.027664e+12</td>
+      <td>4.219799e+12</td>
+      <td>4.413940e+12</td>
+      <td>4.610049e+12</td>
+      <td>4.812248e+12</td>
     </tr>
     <tr>
       <th>Difference</th>
-      <td>3.009671e+10</td>
-      <td>4.069630e+10</td>
-      <td>5.175027e+10</td>
-      <td>6.413062e+10</td>
-      <td>7.817885e+10</td>
-      <td>8.135412e+10</td>
-      <td>9.996079e+10</td>
-      <td>1.139105e+11</td>
-      <td>1.203217e+11</td>
-      <td>1.277839e+11</td>
+      <td>3.800795e+10</td>
+      <td>5.137927e+10</td>
+      <td>6.658024e+10</td>
+      <td>8.208544e+10</td>
+      <td>9.937838e+10</td>
+      <td>1.059651e+11</td>
+      <td>1.224272e+11</td>
+      <td>1.400334e+11</td>
+      <td>1.472237e+11</td>
+      <td>1.568118e+11</td>
     </tr>
   </tbody>
 </table>
@@ -832,6 +932,10 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Distribution Table
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/share/miniconda/envs/taxbrain-dev/lib/python3.10/site-packages/taxcalc/utils.py:364: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+  gdf = dframe.groupby(&#39;table_row&#39;, as_index=False)
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -878,394 +982,394 @@
   <tbody>
     <tr>
       <th>0-10n</th>
-      <td>0.115333</td>
-      <td>-9.047595</td>
-      <td>0.115333</td>
-      <td>1.885216</td>
+      <td>0.102049</td>
+      <td>-7.649244</td>
+      <td>0.102049</td>
+      <td>1.812331</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.0</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>-9.047595</td>
+      <td>-7.649244</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.049084</td>
-      <td>0.049084</td>
+      <td>0.354646</td>
+      <td>-0.354646</td>
+      <td>0.064998</td>
+      <td>-0.289648</td>
       <td>0.0</td>
-      <td>0.611626</td>
-      <td>0.611626</td>
-      <td>-8.430574e+00</td>
-      <td>-8.479658e+00</td>
+      <td>0.799655</td>
+      <td>0.799655</td>
+      <td>-6.942145</td>
+      <td>-6.652498</td>
     </tr>
     <tr>
       <th>0-10z</th>
-      <td>8.506734</td>
-      <td>-0.086591</td>
-      <td>8.506734</td>
-      <td>121.959361</td>
+      <td>8.391348</td>
+      <td>-0.092134</td>
+      <td>8.391348</td>
+      <td>112.606869</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.0</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>-0.086591</td>
+      <td>-0.092134</td>
       <td>...</td>
       <td>0.000000</td>
+      <td>17.779859</td>
+      <td>-17.779859</td>
       <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
+      <td>-17.779859</td>
       <td>0.0</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>-6.441833e-08</td>
-      <td>-6.441833e-08</td>
+      <td>0.000000</td>
+      <td>17.779859</td>
     </tr>
     <tr>
       <th>0-10p</th>
-      <td>12.190350</td>
-      <td>23.835225</td>
-      <td>12.144855</td>
-      <td>178.016958</td>
-      <td>0.045495</td>
-      <td>0.116874</td>
+      <td>12.213637</td>
+      <td>28.259073</td>
+      <td>12.209500</td>
+      <td>167.006485</td>
+      <td>0.004137</td>
+      <td>0.020215</td>
       <td>0.0</td>
-      <td>0.156897</td>
-      <td>0.009477</td>
-      <td>23.734567</td>
+      <td>0.114706</td>
+      <td>0.004012</td>
+      <td>28.239184</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>0.690110</td>
-      <td>-0.669324</td>
-      <td>2.839255</td>
-      <td>2.169931</td>
+      <td>28.401750</td>
+      <td>-28.397738</td>
+      <td>3.495657</td>
+      <td>-24.902081</td>
       <td>0.0</td>
-      <td>17.591287</td>
-      <td>17.591287</td>
-      <td>4.252581e+01</td>
-      <td>4.035588e+01</td>
+      <td>19.567499</td>
+      <td>19.567499</td>
+      <td>50.337944</td>
+      <td>75.240025</td>
     </tr>
     <tr>
       <th>10-20</th>
-      <td>20.814011</td>
-      <td>177.819214</td>
-      <td>20.491224</td>
-      <td>289.192224</td>
-      <td>0.322101</td>
-      <td>4.482440</td>
+      <td>20.707630</td>
+      <td>206.860145</td>
+      <td>20.173601</td>
+      <td>279.073385</td>
+      <td>0.534030</td>
+      <td>8.393339</td>
       <td>0.0</td>
-      <td>13.335962</td>
-      <td>1.207506</td>
-      <td>173.742984</td>
+      <td>26.159500</td>
+      <td>2.418830</td>
+      <td>199.241677</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>9.353213</td>
-      <td>-8.131132</td>
-      <td>24.561933</td>
-      <td>16.430801</td>
+      <td>68.988629</td>
+      <td>-66.570284</td>
+      <td>27.592705</td>
+      <td>-38.977579</td>
       <td>0.0</td>
-      <td>89.166538</td>
-      <td>89.166538</td>
-      <td>2.804744e+02</td>
-      <td>2.640436e+02</td>
+      <td>107.361255</td>
+      <td>107.361255</td>
+      <td>323.068092</td>
+      <td>362.045671</td>
     </tr>
     <tr>
       <th>20-30</th>
-      <td>20.813074</td>
-      <td>318.530254</td>
-      <td>19.727546</td>
-      <td>305.886750</td>
-      <td>1.085527</td>
-      <td>17.711842</td>
+      <td>20.707284</td>
+      <td>316.342494</td>
+      <td>19.633727</td>
+      <td>286.706839</td>
+      <td>1.073557</td>
+      <td>19.045036</td>
       <td>0.0</td>
-      <td>107.303495</td>
-      <td>10.628916</td>
-      <td>302.825447</td>
+      <td>116.697579</td>
+      <td>11.638357</td>
+      <td>299.564633</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>16.086544</td>
-      <td>-6.282383</td>
-      <td>45.921631</td>
-      <td>39.639249</td>
+      <td>67.738392</td>
+      <td>-56.093025</td>
+      <td>43.585241</td>
+      <td>-12.507784</td>
       <td>0.0</td>
-      <td>196.784931</td>
-      <td>196.784931</td>
-      <td>5.424965e+02</td>
-      <td>5.028573e+02</td>
+      <td>258.295588</td>
+      <td>258.295588</td>
+      <td>590.652917</td>
+      <td>603.160701</td>
     </tr>
     <tr>
       <th>30-40</th>
-      <td>20.813979</td>
-      <td>369.826021</td>
-      <td>19.639097</td>
-      <td>345.024423</td>
-      <td>1.174882</td>
-      <td>20.363631</td>
+      <td>20.708037</td>
+      <td>392.536201</td>
+      <td>19.511127</td>
+      <td>297.128138</td>
+      <td>1.196909</td>
+      <td>22.216820</td>
       <td>0.0</td>
-      <td>170.540148</td>
-      <td>17.835818</td>
-      <td>352.426171</td>
+      <td>185.664189</td>
+      <td>19.386879</td>
+      <td>373.573434</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>13.746650</td>
-      <td>1.639923</td>
-      <td>52.621174</td>
-      <td>54.261097</td>
+      <td>67.114842</td>
+      <td>-47.714884</td>
+      <td>53.592431</td>
+      <td>5.877547</td>
       <td>0.0</td>
-      <td>337.505102</td>
-      <td>337.505102</td>
-      <td>7.416037e+02</td>
-      <td>6.873426e+02</td>
+      <td>369.313500</td>
+      <td>369.313500</td>
+      <td>787.593400</td>
+      <td>781.715853</td>
     </tr>
     <tr>
       <th>40-50</th>
-      <td>20.811791</td>
-      <td>482.550223</td>
-      <td>19.397962</td>
-      <td>349.136484</td>
-      <td>1.413829</td>
-      <td>26.956624</td>
+      <td>20.707352</td>
+      <td>550.188644</td>
+      <td>18.989982</td>
+      <td>306.143642</td>
+      <td>1.717370</td>
+      <td>34.434531</td>
       <td>0.0</td>
-      <td>245.348918</td>
-      <td>26.328386</td>
-      <td>459.980551</td>
+      <td>287.673231</td>
+      <td>30.614947</td>
+      <td>521.750746</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>13.507941</td>
-      <td>8.096689</td>
-      <td>65.973792</td>
-      <td>74.070482</td>
+      <td>78.255298</td>
+      <td>-47.631283</td>
+      <td>72.865300</td>
+      <td>25.234017</td>
       <td>0.0</td>
-      <td>402.260964</td>
-      <td>402.260964</td>
-      <td>9.321310e+02</td>
-      <td>8.580605e+02</td>
+      <td>404.510126</td>
+      <td>404.510126</td>
+      <td>994.329747</td>
+      <td>969.095730</td>
     </tr>
     <tr>
       <th>50-60</th>
-      <td>20.814918</td>
-      <td>661.630936</td>
-      <td>18.599439</td>
-      <td>347.051639</td>
-      <td>2.215478</td>
-      <td>42.562276</td>
+      <td>20.707858</td>
+      <td>735.450902</td>
+      <td>18.281486</td>
+      <td>324.340414</td>
+      <td>2.426372</td>
+      <td>50.251225</td>
       <td>0.0</td>
-      <td>367.465071</td>
-      <td>40.422590</td>
-      <td>627.504319</td>
+      <td>426.640889</td>
+      <td>47.219121</td>
+      <td>695.558808</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>14.123708</td>
-      <td>18.526753</td>
-      <td>89.173047</td>
-      <td>107.699799</td>
+      <td>93.096955</td>
+      <td>-45.871582</td>
+      <td>95.831669</td>
+      <td>49.960088</td>
       <td>0.0</td>
-      <td>443.722857</td>
-      <td>443.722857</td>
-      <td>1.170630e+03</td>
-      <td>1.062930e+03</td>
+      <td>466.953272</td>
+      <td>466.953272</td>
+      <td>1257.807277</td>
+      <td>1207.847189</td>
     </tr>
     <tr>
       <th>60-70</th>
-      <td>20.813189</td>
-      <td>857.110982</td>
-      <td>18.099519</td>
-      <td>366.018828</td>
-      <td>2.713669</td>
-      <td>53.607318</td>
+      <td>20.707239</td>
+      <td>959.250996</td>
+      <td>17.711594</td>
+      <td>354.189852</td>
+      <td>2.995645</td>
+      <td>64.791920</td>
       <td>0.0</td>
-      <td>523.426343</td>
-      <td>62.638891</td>
-      <td>815.836175</td>
+      <td>607.232422</td>
+      <td>72.412781</td>
+      <td>909.916077</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>14.958205</td>
-      <td>36.053421</td>
-      <td>113.998771</td>
-      <td>150.052193</td>
+      <td>112.431110</td>
+      <td>-40.008837</td>
+      <td>122.156637</td>
+      <td>82.147799</td>
       <td>0.0</td>
-      <td>543.781063</td>
-      <td>543.781063</td>
-      <td>1.484207e+03</td>
-      <td>1.334155e+03</td>
+      <td>578.175610</td>
+      <td>578.175610</td>
+      <td>1602.675994</td>
+      <td>1520.528195</td>
     </tr>
     <tr>
       <th>70-80</th>
-      <td>20.814527</td>
-      <td>1185.103833</td>
-      <td>17.122154</td>
-      <td>377.917252</td>
-      <td>3.692372</td>
-      <td>81.886507</td>
+      <td>20.707365</td>
+      <td>1364.757121</td>
+      <td>16.535283</td>
+      <td>368.004233</td>
+      <td>4.172082</td>
+      <td>102.236540</td>
       <td>0.0</td>
-      <td>795.203166</td>
-      <td>101.814527</td>
-      <td>1124.371659</td>
+      <td>942.537439</td>
+      <td>119.150684</td>
+      <td>1289.298141</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>12.562504</td>
-      <td>72.157058</td>
-      <td>154.279338</td>
-      <td>226.436396</td>
+      <td>121.709709</td>
+      <td>-2.537579</td>
+      <td>172.485952</td>
+      <td>169.948373</td>
       <td>0.0</td>
-      <td>633.042501</td>
-      <td>633.042501</td>
-      <td>1.925422e+03</td>
-      <td>1.698985e+03</td>
+      <td>634.318676</td>
+      <td>634.318676</td>
+      <td>2084.657860</td>
+      <td>1914.709486</td>
     </tr>
     <tr>
       <th>80-90</th>
-      <td>20.812826</td>
-      <td>1809.338784</td>
-      <td>15.228245</td>
-      <td>361.947418</td>
-      <td>5.584581</td>
-      <td>149.704843</td>
+      <td>20.707509</td>
+      <td>2092.253684</td>
+      <td>14.370639</td>
+      <td>343.627507</td>
+      <td>6.336871</td>
+      <td>184.540747</td>
       <td>0.0</td>
-      <td>1328.404025</td>
-      <td>181.367474</td>
-      <td>1699.916792</td>
+      <td>1578.989767</td>
+      <td>218.757862</td>
+      <td>1957.951848</td>
       <td>...</td>
-      <td>0.000000</td>
-      <td>7.436081</td>
-      <td>149.579066</td>
-      <td>229.308045</td>
-      <td>378.887111</td>
+      <td>0.004232</td>
+      <td>125.381287</td>
+      <td>93.403197</td>
+      <td>257.242142</td>
+      <td>350.645338</td>
       <td>0.0</td>
-      <td>659.928223</td>
-      <td>659.928223</td>
-      <td>2.634744e+03</td>
-      <td>2.255857e+03</td>
+      <td>640.544708</td>
+      <td>640.544708</td>
+      <td>2871.007071</td>
+      <td>2520.361733</td>
     </tr>
     <tr>
       <th>90-100</th>
-      <td>20.814634</td>
-      <td>5502.176794</td>
-      <td>9.999064</td>
-      <td>247.617682</td>
-      <td>10.815570</td>
-      <td>359.618346</td>
+      <td>20.708067</td>
+      <td>6230.716762</td>
+      <td>9.263076</td>
+      <td>228.650643</td>
+      <td>11.444991</td>
+      <td>391.404934</td>
       <td>0.0</td>
-      <td>4880.673404</td>
-      <td>1053.462076</td>
-      <td>5240.960913</td>
+      <td>5593.140056</td>
+      <td>1195.027525</td>
+      <td>5945.348021</td>
       <td>...</td>
-      <td>12.083528</td>
-      <td>1.731135</td>
-      <td>1037.285697</td>
-      <td>514.942876</td>
-      <td>1552.228574</td>
+      <td>13.799675</td>
+      <td>47.770914</td>
+      <td>1162.771035</td>
+      <td>553.908371</td>
+      <td>1716.679406</td>
       <td>0.0</td>
-      <td>547.216215</td>
-      <td>547.216215</td>
-      <td>6.298330e+03</td>
-      <td>4.746101e+03</td>
+      <td>513.133299</td>
+      <td>513.133299</td>
+      <td>6972.266959</td>
+      <td>5255.587552</td>
     </tr>
     <tr>
       <th>ALL</th>
-      <td>208.135364</td>
-      <td>11378.788078</td>
-      <td>179.071173</td>
-      <td>3291.654237</td>
-      <td>29.063506</td>
-      <td>757.010701</td>
+      <td>207.075375</td>
+      <td>12868.874646</td>
+      <td>175.173413</td>
+      <td>3069.290336</td>
+      <td>31.901963</td>
+      <td>877.335305</td>
       <td>0.0</td>
-      <td>8431.857428</td>
-      <td>1495.715662</td>
-      <td>10812.165391</td>
+      <td>9764.849779</td>
+      <td>1716.630998</td>
+      <td>12212.701191</td>
       <td>...</td>
-      <td>12.083528</td>
-      <td>104.196090</td>
-      <td>1308.255769</td>
-      <td>1293.668946</td>
-      <td>2601.924715</td>
+      <td>13.803907</td>
+      <td>829.023390</td>
+      <td>903.214514</td>
+      <td>1402.821103</td>
+      <td>2306.035617</td>
       <td>0.0</td>
-      <td>3871.611307</td>
-      <td>3871.611307</td>
-      <td>1.604413e+04</td>
-      <td>1.344221e+04</td>
+      <td>3992.973188</td>
+      <td>3992.973188</td>
+      <td>17527.455114</td>
+      <td>15221.419497</td>
     </tr>
     <tr>
       <th>90-95</th>
-      <td>10.407523</td>
-      <td>1441.345651</td>
-      <td>6.160445</td>
-      <td>152.514360</td>
-      <td>4.247078</td>
-      <td>126.279227</td>
+      <td>10.354038</td>
+      <td>1665.559602</td>
+      <td>5.585355</td>
+      <td>138.035489</td>
+      <td>4.768683</td>
+      <td>150.458191</td>
       <td>0.0</td>
-      <td>1162.124476</td>
-      <td>181.444739</td>
-      <td>1352.133823</td>
+      <td>1373.129891</td>
+      <td>220.110505</td>
+      <td>1558.197056</td>
       <td>...</td>
-      <td>0.000927</td>
-      <td>1.477666</td>
-      <td>165.520731</td>
-      <td>164.708564</td>
-      <td>330.229295</td>
+      <td>0.030247</td>
+      <td>34.083831</td>
+      <td>186.077892</td>
+      <td>188.944751</td>
+      <td>375.022643</td>
       <td>0.0</td>
-      <td>325.198036</td>
-      <td>325.198036</td>
-      <td>1.864336e+03</td>
-      <td>1.534107e+03</td>
+      <td>285.403221</td>
+      <td>285.403221</td>
+      <td>2037.860868</td>
+      <td>1662.838225</td>
     </tr>
     <tr>
       <th>95-99</th>
-      <td>8.325552</td>
-      <td>2118.503539</td>
-      <td>3.361479</td>
-      <td>83.555458</td>
-      <td>4.964072</td>
-      <td>165.197368</td>
+      <td>8.282851</td>
+      <td>2336.982680</td>
+      <td>3.205105</td>
+      <td>79.313010</td>
+      <td>5.077747</td>
+      <td>172.650622</td>
       <td>0.0</td>
-      <td>1856.210381</td>
-      <td>352.157306</td>
-      <td>1999.242338</td>
+      <td>2071.540730</td>
+      <td>396.259857</td>
+      <td>2211.787530</td>
       <td>...</td>
-      <td>0.831962</td>
-      <td>0.253469</td>
-      <td>340.517692</td>
-      <td>197.080748</td>
-      <td>537.598441</td>
+      <td>1.295661</td>
+      <td>13.632805</td>
+      <td>384.295574</td>
+      <td>212.123504</td>
+      <td>596.419078</td>
       <td>0.0</td>
-      <td>191.109698</td>
-      <td>191.109698</td>
-      <td>2.409318e+03</td>
-      <td>1.871719e+03</td>
+      <td>191.874589</td>
+      <td>191.874589</td>
+      <td>2623.200529</td>
+      <td>2026.781451</td>
     </tr>
     <tr>
       <th>Top 1%</th>
-      <td>2.081559</td>
-      <td>1942.327604</td>
-      <td>0.477139</td>
-      <td>11.547865</td>
-      <td>1.604420</td>
-      <td>68.141752</td>
+      <td>2.071178</td>
+      <td>2228.174479</td>
+      <td>0.472617</td>
+      <td>11.302143</td>
+      <td>1.598561</td>
+      <td>68.296121</td>
       <td>0.0</td>
-      <td>1862.338548</td>
-      <td>519.860031</td>
-      <td>1889.584752</td>
+      <td>2148.469436</td>
+      <td>578.657164</td>
+      <td>2175.363435</td>
       <td>...</td>
-      <td>11.250639</td>
-      <td>0.000000</td>
-      <td>531.247274</td>
-      <td>153.153564</td>
-      <td>684.400838</td>
+      <td>12.473767</td>
+      <td>0.054278</td>
+      <td>592.397569</td>
+      <td>152.840116</td>
+      <td>745.237685</td>
       <td>0.0</td>
-      <td>30.908482</td>
-      <td>30.908482</td>
-      <td>2.024676e+03</td>
-      <td>1.340275e+03</td>
+      <td>35.855489</td>
+      <td>35.855489</td>
+      <td>2311.205561</td>
+      <td>1565.967876</td>
     </tr>
   </tbody>
 </table>
 <p>16 rows × 24 columns</p>
 </div></div></div>
 </div>
-</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1279,7 +1383,7 @@
             mode: "taxbrain-dev"
         },
         kernelOptions: {
-            kernelName: "taxbrain-dev",
+            name: "taxbrain-dev",
             path: "./content/examples"
         },
         predefinedOutput: true
@@ -1287,56 +1391,90 @@
     </script>
     <script>kernelName = 'taxbrain-dev'</script>
 
-              </div>
+                </article>
               
-        
-            
 
-
-
-<div class='prev-next-bottom'>
-    
-    <div id="prev">
-        <a class="left-prev" href="../usage.html" title="previous page">
-            <i class="prevnext-label fas fa-angle-left"></i>
-            <div class="prevnext-info">
-                <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">How to Use Tax-Brain</p>
-            </div>
-        </a>
-    </div>
-     <div id="next">
-        <a class="right-next" href="../reports.html" title="next page">
-            <div class="prevnext-info">
-                <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Automated Reports in TaxBrain</p>
-            </div>
-            <i class="prevnext-label fas fa-angle-right"></i>
-        </a>
-     </div>
-
-</div>
-        
-        </div>
-    </div>
-    <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Anderson Frailey<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
-</main>
-
-
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../usage.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How to Use Tax-Brain</p>
       </div>
-    </div>
+    </a>
+    <a class="right-next"
+       href="../reports.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Automated Reports in TaxBrain</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <div class="footer-item">
+    
+<p class="component-author">
+By Anderson Frailey
+</p>
 
+  </div>
   
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
