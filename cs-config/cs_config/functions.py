@@ -18,6 +18,7 @@ from marshmallow import fields
 
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+PUF_S3_FILE_LOCATION = os.environ.get("PUF_S3_LOCATION", "s3://ospc-data-files/puf.20210720.csv.gz")
 
 CUR_PATH = os.path.abspath(os.path.dirname(__file__))
 
@@ -105,7 +106,7 @@ def run_model(meta_params_dict, adjustment):
     start_year = int(meta_params.year)
     use_cps = meta_params.data_source == "CPS"
     if meta_params.data_source == "PUF":
-        puf_df = retrieve_puf(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+        puf_df = retrieve_puf(PUF_S3_FILE_LOCATION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
         if puf_df is not None:
             if not isinstance(puf_df, pd.DataFrame):
                 raise TypeError("'puf_df' must be a Pandas DataFrame.")

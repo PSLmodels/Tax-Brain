@@ -38,7 +38,7 @@ TCDIR = os.path.dirname(TCPATH)
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", None)
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", None)
 
-PUF_S3_FILE_NAME = "puf.20210720.csv.gz"
+PUF_S3_FILE_LOCATION = os.environ.get("PUF_S3_LOCATION", "s3://ospc-data-files/puf.20210720.csv.gz")
 
 
 def random_seed(user_mods, year):
@@ -343,7 +343,7 @@ def pdf_to_clean_html(pdf):
 
 
 def retrieve_puf(
-    aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY
+    puf_s3_file_location=PUF_S3_FILE_LOCATION, aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY
 ):
     """
     Function for retrieving the PUF from the OSPC S3 bucket
@@ -352,10 +352,10 @@ def retrieve_puf(
     has_credentials = (
         aws_access_key_id is not None and aws_secret_access_key is not None
     )
-    if has_credentials and s3_reader_installed:
-        print("Reading puf from S3 bucket.")
+    if puf_s3_file_location and has_credentials and s3_reader_installed:
+        print("Reading puf from S3 bucket.", puf_s3_file_location)
         fs = S3FileSystem(key=AWS_ACCESS_KEY_ID, secret=AWS_SECRET_ACCESS_KEY,)
-        with fs.open(f"s3://ospc-data-files/{PUF_S3_FILE_NAME}") as f:
+        with fs.open(PUF_S3_FILE_NAME) as f:
             # Skips over header from top of file.
             puf_df = pd.read_csv(f, compression="gzip")
         return puf_df
