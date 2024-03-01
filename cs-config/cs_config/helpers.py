@@ -355,9 +355,9 @@ def retrieve_puf(
     if puf_s3_file_location and has_credentials and s3_reader_installed:
         print("Reading puf from S3 bucket.", puf_s3_file_location)
         fs = S3FileSystem(key=AWS_ACCESS_KEY_ID, secret=AWS_SECRET_ACCESS_KEY,)
-        with fs.open(PUF_S3_FILE_NAME) as f:
+        with fs.open(puf_s3_file_location) as f:
             # Skips over header from top of file.
-            puf_df = pd.read_csv(f, compression="gzip")
+            puf_df = pd.read_csv(f)
         return puf_df
     elif Path("puf.csv.gz").exists():
         print("Reading puf from puf.csv.gz.")
@@ -367,7 +367,8 @@ def retrieve_puf(
         return pd.read_csv("puf.csv")
     else:
         warnings.warn(
-            f"PUF file not available (has_credentials={has_credentials}, "
+            f"PUF file not available (puf_location={puf_s3_file_location}, "
+            f"has_credentials={has_credentials}, "
             f"s3_reader_installed={s3_reader_installed})"
         )
         return None
