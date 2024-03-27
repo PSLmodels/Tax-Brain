@@ -120,6 +120,8 @@ def fuzzed(df1, df2, reform_affected, table_row_type):
     df2 = copy.deepcopy(df2)
     # add copy of reform_affected to df2
     df2['reform_affected'] = copy.deepcopy(reform_affected)
+    # add reform_affected to df1 to support row assignment later on.
+    df1['reform_affected'] = False
     # construct table rows, for which filing units in each row must be fuzzed
     if table_row_type == 'xbin':
         df1 = add_income_table_row_variable(df1, 'expanded_income',
@@ -127,21 +129,22 @@ def fuzzed(df1, df2, reform_affected, table_row_type):
         df2['expanded_income_baseline'] = df1['expanded_income']
         df2 = add_income_table_row_variable(df2, 'expanded_income_baseline',
                                             STANDARD_INCOME_BINS)
-        del df2['expanded_income_baseline']
+        df2.drop(columns='expanded_income_baseline', inplace=True)
     elif table_row_type == 'xdec':
         df1 = add_quantile_table_row_variable(df1, 'expanded_income',
                                               10, decile_details=True)
         df2['expanded_income_baseline'] = df1['expanded_income']
         df2 = add_quantile_table_row_variable(df2, 'expanded_income_baseline',
                                               10, decile_details=True)
-        del df2['expanded_income_baseline']
+        df2.drop(columns='expanded_income_baseline', inplace=True)
     elif table_row_type == 'aggr':
         df1['table_row'] = np.ones(reform_affected.shape, dtype=int)
         df2['table_row'] = df1['table_row']
     gdf1 = df1.groupby('table_row', sort=False)
     gdf2 = df2.groupby('table_row', sort=False)
-    del df1['table_row']
-    del df2['table_row']
+    df1.drop(columns='table_row', inplace=True)
+    df2.drop(columns='table_row', inplace=True)
+
     # fuzz up to NUM_TO_FUZZ filing units randomly chosen in each group
     # (or table row), where fuzz means to replace the reform (2) results
     # with the baseline (1) results for each chosen filing unit
@@ -159,12 +162,11 @@ def fuzzed(df1, df2, reform_affected, table_row_type):
         group_list.append(group2)
         del group2
     df2 = pd.concat(group_list)
-    del df2['reform_affected']
     pd.options.mode.chained_assignment = 'warn'
     # reinstate index order of df1 and df2 and return
     df1.sort_index(inplace=True)
     df2.sort_index(inplace=True)
-    return (df1, df2)
+    return (df1.drop(columns="reform_affected"), df2.drop(columns="reform_affected"))
 
 
 def nth_year_results(tb, year, user_mods, fuzz, return_html=True):
