@@ -1,8 +1,14 @@
 """
 Functions for creating the TaxBrain COMP outputs
 """
-from bokeh.models import (ColumnDataSource, Toggle, CustomJS,
-                          NumeralTickFormatter, HoverTool)
+
+from bokeh.models import (
+    ColumnDataSource,
+    Toggle,
+    CustomJS,
+    NumeralTickFormatter,
+    HoverTool,
+)
 from bokeh.models import TabPanel, Tabs, Div
 from bokeh.embed import json_item
 from bokeh.layouts import layout
@@ -31,26 +37,60 @@ def aggregate_plot(tb):
     num_ticks = len(base_data)
     del base_data, reform_data
 
-    fig = figure(title="Aggregate Tax Liability by Year",
-                 width=700, height=500, tools="save")
-    ii_base = fig.line(x="index", y="iitax", line_width=4,
-                       line_color="#12719e", legend_label="Income Tax - Base",
-                       source=base_cds)
-    ii_reform = fig.line(x="index", y="iitax", line_width=4,
-                         line_color="#73bfe2", legend_label="Income Tax - Reform",
-                         source=reform_cds)
-    proll_base = fig.line(x="index", y="payrolltax", line_width=4,
-                          line_color="#408941", legend_label="Payroll Tax - Base",
-                          source=base_cds)
-    proll_reform = fig.line(x="index", y="payrolltax", line_width=4,
-                            line_color="#98cf90", legend_label="Payroll Tax - Reform",
-                            source=reform_cds)
-    comb_base = fig.line(x="index", y="combined", line_width=4,
-                         line_color="#a4201d", legend_label="Combined - Base",
-                         source=base_cds)
-    comb_reform = fig.line(x="index", y="combined", line_width=4,
-                           line_color="#e9807d", legend_label="Combined - Reform",
-                           source=reform_cds)
+    fig = figure(
+        title="Aggregate Tax Liability by Year",
+        width=700,
+        height=500,
+        tools="save",
+    )
+    ii_base = fig.line(
+        x="index",
+        y="iitax",
+        line_width=4,
+        line_color="#12719e",
+        legend_label="Income Tax - Base",
+        source=base_cds,
+    )
+    ii_reform = fig.line(
+        x="index",
+        y="iitax",
+        line_width=4,
+        line_color="#73bfe2",
+        legend_label="Income Tax - Reform",
+        source=reform_cds,
+    )
+    proll_base = fig.line(
+        x="index",
+        y="payrolltax",
+        line_width=4,
+        line_color="#408941",
+        legend_label="Payroll Tax - Base",
+        source=base_cds,
+    )
+    proll_reform = fig.line(
+        x="index",
+        y="payrolltax",
+        line_width=4,
+        line_color="#98cf90",
+        legend_label="Payroll Tax - Reform",
+        source=reform_cds,
+    )
+    comb_base = fig.line(
+        x="index",
+        y="combined",
+        line_width=4,
+        line_color="#a4201d",
+        legend_label="Combined - Base",
+        source=base_cds,
+    )
+    comb_reform = fig.line(
+        x="index",
+        y="combined",
+        line_width=4,
+        line_color="#e9807d",
+        legend_label="Combined - Reform",
+        source=reform_cds,
+    )
 
     # format figure
     fig.legend.location = "top_left"
@@ -66,15 +106,15 @@ def aggregate_plot(tb):
     """
     ii_hover = HoverTool(
         tooltips=tool_str.format("Individual Income Tax", "@iitax{0,0}"),
-        renderers=[ii_base, ii_reform]
+        renderers=[ii_base, ii_reform],
     )
     proll_hover = HoverTool(
         tooltips=tool_str.format("Payroll Tax", "@payrolltax{0,0}"),
-        renderers=[proll_base, proll_reform]
+        renderers=[proll_base, proll_reform],
     )
     combined_hover = HoverTool(
         tooltips=tool_str.format("Combined Tax", "@combined{0,0}"),
-        renderers=[comb_base, comb_reform]
+        renderers=[comb_base, comb_reform],
     )
     fig.add_tools(ii_hover, proll_hover, combined_hover)
 
@@ -85,19 +125,25 @@ def aggregate_plot(tb):
     object3.visible = toggle.active
     """
     base_callback = CustomJS(code=plot_js, args={})
-    base_toggle = Toggle(label="Base", button_type="primary",
-                         active=True)
-    base_callback.args = {"toggle": base_toggle, "object1": ii_base,
-                          "object2": proll_base, "object3": comb_base}
-    base_toggle.js_on_change('active', base_callback)
+    base_toggle = Toggle(label="Base", button_type="primary", active=True)
+    base_callback.args = {
+        "toggle": base_toggle,
+        "object1": ii_base,
+        "object2": proll_base,
+        "object3": comb_base,
+    }
+    base_toggle.js_on_change("active", base_callback)
 
     reform_callback = CustomJS(code=plot_js, args={})
-    reform_toggle = Toggle(label="Reform", button_type="primary",
-                           active=True)
-    reform_callback.args = {"toggle": reform_toggle, "object1": ii_reform,
-                            "object2": proll_reform, "object3": comb_reform}
+    reform_toggle = Toggle(label="Reform", button_type="primary", active=True)
+    reform_callback.args = {
+        "toggle": reform_toggle,
+        "object1": ii_reform,
+        "object2": proll_reform,
+        "object3": comb_reform,
+    }
     fig_layout = layout([fig], [base_toggle, reform_toggle])
-    reform_toggle.js_on_change('active', reform_callback)
+    reform_toggle.js_on_change("active", reform_callback)
 
     # Components needed to embed the figure
     data = json_item(fig_layout)
@@ -118,21 +164,21 @@ def create_layout(data, start_year, end_year):
     agg_data = data["aggr_outputs"]
     # create aggregate table
     clt_title = f"<h3>{agg_data['current']['title']}</h3>"
-    current_law_table = Div(text=clt_title + agg_data["current"]["renderable"],
-                            width=1000)
+    current_law_table = Div(
+        text=clt_title + agg_data["current"]["renderable"], width=1000
+    )
     rt_title = f"<h3>{agg_data['reform']['title']}</h3>"
-    reform_table = Div(text=rt_title + agg_data["reform"]["renderable"],
-                       width=1000)
+    reform_table = Div(
+        text=rt_title + agg_data["reform"]["renderable"], width=1000
+    )
     ct_title = f"<h3>{agg_data['change']['title']}</h3>"
-    change_table = Div(text=ct_title + agg_data["change"]["renderable"],
-                       width=1000)
+    change_table = Div(
+        text=ct_title + agg_data["change"]["renderable"], width=1000
+    )
 
-    current_tab = TabPanel(child=current_law_table,
-                        title="Current Law")
-    reform_tab = TabPanel(child=reform_table,
-                       title="Reform")
-    change_tab = TabPanel(child=change_table,
-                       title="Change")
+    current_tab = TabPanel(child=current_law_table, title="Current Law")
+    reform_tab = TabPanel(child=reform_table, title="Reform")
+    change_tab = TabPanel(child=change_table, title="Change")
     agg_tabs = Tabs(tabs=[current_tab, reform_tab, change_tab])
 
     key_map = {
@@ -142,7 +188,7 @@ def create_layout(data, start_year, end_year):
         "payroll": "Payroll Tax",
         "combined": "Combined Tax",
         "dist": "Distribution Table",
-        "diff": "Differences Table"
+        "diff": "Differences Table",
     }
 
     tbl_data = data["tbl_outputs"]
@@ -162,11 +208,14 @@ def create_layout(data, start_year, end_year):
                     _data = grp_data[yr]
                     # create a data table for this tab
                     title = f"<h3>{_data['title']}</h3>"
-                    note = ("<p><i>All monetary totals are in billions. "
-                            "All counts are in millions. "
-                            "Averages and shares are as shown.</i></p>")
-                    tbl = Div(text=title + note + _data["renderable"],
-                              width=1000)
+                    note = (
+                        "<p><i>All monetary totals are in billions. "
+                        "All counts are in millions. "
+                        "Averages and shares are as shown.</i></p>"
+                    )
+                    tbl = Div(
+                        text=title + note + _data["renderable"], width=1000
+                    )
                     grp_panel = TabPanel(child=tbl, title=grp.title())
                     grp_panels.append(grp_panel)
                 grp_tab = Tabs(tabs=grp_panels)
@@ -175,8 +224,7 @@ def create_layout(data, start_year, end_year):
                 content_panels.append(content_panel)
             content_tab = Tabs(tabs=content_panels)
             # panel for the table types
-            tbl_panel = TabPanel(child=content_tab,
-                              title=key_map[tbl_type])
+            tbl_panel = TabPanel(child=content_tab, title=key_map[tbl_type])
             tbl_panels.append(tbl_panel)
         type_tab = Tabs(tabs=tbl_panels)
         # panel for the year
@@ -185,12 +233,8 @@ def create_layout(data, start_year, end_year):
 
     yr_tabs = Tabs(tabs=yr_panels)
 
-    agg_layout = layout(
-        children=[agg_tabs]
-    )
-    table_layout = layout(
-        children=[yr_tabs]
-    )
+    agg_layout = layout(children=[agg_tabs])
+    table_layout = layout(children=[yr_tabs])
     agg_data = json_item(agg_layout)
     table_data = json_item(table_layout)
 

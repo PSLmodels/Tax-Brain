@@ -2,8 +2,12 @@ import taxcalc as tc
 import pandas as pd
 import numpy as np
 import behresp
-from taxcalc.utils import (DIST_VARIABLES, DIFF_VARIABLES,
-                           create_distribution_table, create_difference_table)
+from taxcalc.utils import (
+    DIST_VARIABLES,
+    DIFF_VARIABLES,
+    create_distribution_table,
+    create_difference_table,
+)
 from dask import compute, delayed
 import dask.multiprocessing
 from collections import defaultdict
@@ -22,14 +26,22 @@ class TaxBrain:
     # add dictionary to hold version of the various models
     VERSIONS = {
         "Tax-Calculator": tc.__version__,
-        "Behavioral-Responses": behresp.__version__
+        "Behavioral-Responses": behresp.__version__,
     }
 
-    def __init__(self, start_year: int, end_year: int = LAST_BUDGET_YEAR,
-                 microdata: Union[str, dict] = None, use_cps: bool = False,
-                 reform: Union[str, dict] = None, behavior: dict = None,
-                 assump=None, base_policy: Union[str, dict] = None,
-                 verbose=False, stacked=False):
+    def __init__(
+        self,
+        start_year: int,
+        end_year: int = LAST_BUDGET_YEAR,
+        microdata: Union[str, dict] = None,
+        use_cps: bool = False,
+        reform: Union[str, dict] = None,
+        behavior: dict = None,
+        assump=None,
+        base_policy: Union[str, dict] = None,
+        verbose=False,
+        stacked=False,
+    ):
         """
         Constructor for the TaxBrain class
 
@@ -79,9 +91,9 @@ class TaxBrain:
         """
         if not use_cps and microdata is None:
             raise ValueError("Must specify microdata or set 'use_cps' to True")
-        assert isinstance(start_year, int) & isinstance(end_year, int), (
-            "Start and end years must be integers"
-        )
+        assert isinstance(start_year, int) & isinstance(
+            end_year, int
+        ), "Start and end years must be integers"
         assert start_year <= end_year, (
             f"Specified end year, {end_year}, is before specified start year, "
             f"{start_year}."
@@ -115,8 +127,9 @@ class TaxBrain:
 
         self.has_run = False
 
-    def run(self, varlist: list = DEFAULT_VARIABLES, client=None,
-            num_workers=1):
+    def run(
+        self, varlist: list = DEFAULT_VARIABLES, client=None, num_workers=1
+    ):
         """
         Run the calculators. TaxBrain will determine whether to do a static or
         partial equilibrium run based on the user's inputs when initializing
@@ -146,12 +159,14 @@ class TaxBrain:
                 if self.verbose:
                     print("Running dynamic simulations")
                 self._dynamic_run(
-                    varlist, base_calc, reform_calc, client, num_workers)
+                    varlist, base_calc, reform_calc, client, num_workers
+                )
             else:
                 if self.verbose:
                     print("Running static simulations")
-                self._static_run(varlist, base_calc, reform_calc,
-                                 client, num_workers)
+                self._static_run(
+                    varlist, base_calc, reform_calc, client, num_workers
+                )
             del base_calc, reform_calc
 
         setattr(self, "has_run", True)
@@ -181,13 +196,17 @@ class TaxBrain:
         reform_totals = {}
         differences = {}
         for year in range(self.start_year, self.end_year + 1):
-            base_totals[year] = (self.base_data[year]["s006"] *
-                                 self.base_data[year][var]).sum()
-            reform_totals[year] = (self.reform_data[year]["s006"] *
-                                   self.reform_data[year][var]).sum()
+            base_totals[year] = (
+                self.base_data[year]["s006"] * self.base_data[year][var]
+            ).sum()
+            reform_totals[year] = (
+                self.reform_data[year]["s006"] * self.reform_data[year][var]
+            ).sum()
             differences[year] = reform_totals[year] - base_totals[year]
-        table = pd.DataFrame([base_totals, reform_totals, differences],
-                             index=["Base", "Reform", "Difference"])
+        table = pd.DataFrame(
+            [base_totals, reform_totals, differences],
+            index=["Base", "Reform", "Difference"],
+        )
         if include_total:
             table["Total"] = table.sum(axis=1)
         return table
@@ -229,16 +248,22 @@ class TaxBrain:
         for year in range(self.start_year, self.end_year + 1):
             for var in varlist:
                 data_dict[var] += [weighted_sum(data[year], var)]
-        df = pd.DataFrame(data_dict,
-                          index=range(self.start_year, self.end_year + 1))
+        df = pd.DataFrame(
+            data_dict, index=range(self.start_year, self.end_year + 1)
+        )
         table = df.transpose()
         if include_total:
             table["Total"] = table.sum(axis=1)
         return table
 
-    def distribution_table(self, year: int, groupby: str,
-                           income_measure: str, calc: str,
-                           pop_quantiles: bool = False) -> pd.DataFrame:
+    def distribution_table(
+        self,
+        year: int,
+        groupby: str,
+        income_measure: str,
+        calc: str,
+        pop_quantiles: bool = False,
+    ) -> pd.DataFrame:
         """
         Method to create a distribution table
 
@@ -279,24 +304,26 @@ class TaxBrain:
             data["count"] = data["s006"] * data["XTOT"]
         else:
             data["count"] = data["s006"]
-        data["count_ItemDed"] = data["count"].where(
-            data["c04470"] > 0., 0.
-        )
+        data["count_ItemDed"] = data["count"].where(data["c04470"] > 0.0, 0.0)
         data["count_StandardDed"] = data["count"].where(
-            data["standard"] > 0., 0.
+            data["standard"] > 0.0, 0.0
         )
-        data["count_AMT"] = data["count"].where(
-            data["c09600"] > 0., 0.
-        )
+        data["count_AMT"] = data["count"].where(data["c09600"] > 0.0, 0.0)
         if income_measure == "expanded_income_baseline":
             base_income = self.base_data[year]["expanded_income"]
             data["expanded_income_baseline"] = base_income
-        table = create_distribution_table(data, groupby, income_measure,
-                                          pop_quantiles)
+        table = create_distribution_table(
+            data, groupby, income_measure, pop_quantiles
+        )
         return table
 
-    def differences_table(self, year: int, groupby: str, tax_to_diff: str,
-                          pop_quantiles: bool = False) -> pd.DataFrame:
+    def differences_table(
+        self,
+        year: int,
+        groupby: str,
+        tax_to_diff: str,
+        pop_quantiles: bool = False,
+    ) -> pd.DataFrame:
         """
         Method to create a differences table
 
@@ -321,13 +348,14 @@ class TaxBrain:
         """
         base_data = self.base_data[year]
         reform_data = self.reform_data[year]
-        table = create_difference_table(base_data, reform_data, groupby,
-                                        tax_to_diff, pop_quantiles)
+        table = create_difference_table(
+            base_data, reform_data, groupby, tax_to_diff, pop_quantiles
+        )
         return table
 
     # ----- private methods -----
     def _taxcalc_advance(self, calc, varlist, year):
-        '''
+        """
         This function advances the year used in Tax-Calculator, computes
         tax liability and rates, and saves the results to a dictionary.
         Args:
@@ -336,7 +364,7 @@ class TaxBrain:
         Returns:
             tax_dict (dict): a dictionary of microdata with marginal tax
                 rates and other information computed in TC
-        '''
+        """
         calc.advance_to_year(year)
         calc.calc_all()
         df = calc.dataframe(varlist)
@@ -344,7 +372,7 @@ class TaxBrain:
         return df
 
     def _behresp_advance(self, base_calc, reform_calc, varlist, year):
-        '''
+        """
         This function advances the year used in the Behavioral Responses
         model and saves the results to a dictionary.
         Args:
@@ -353,18 +381,20 @@ class TaxBrain:
         Returns:
             tax_dict (dict): a dictionary of microdata with marginal tax
                 rates and other information computed in TC
-        '''
+        """
         base_calc.advance_to_year(year)
         reform_calc.advance_to_year(year)
         base, reform = behresp.response(
-            base_calc, reform_calc, self.params["behavior"], dump=True)
+            base_calc, reform_calc, self.params["behavior"], dump=True
+        )
         base_df = base[varlist]
         reform_df = reform[varlist]
 
         return [base_df, reform_df]
 
-    def _static_run(self, varlist, base_calc, reform_calc, client,
-                    num_workers):
+    def _static_run(
+        self, varlist, base_calc, reform_calc, client, num_workers
+    ):
         """
         Run the calculator for a static analysis
         """
@@ -372,17 +402,21 @@ class TaxBrain:
             varlist.append("s006")
         lazy_values = []
         for yr in range(self.start_year, self.end_year + 1):
-            lazy_values.extend([
-                delayed(self._taxcalc_advance(base_calc, varlist, yr)),
-                delayed(self._taxcalc_advance(reform_calc, varlist, yr))
-                ])
+            lazy_values.extend(
+                [
+                    delayed(self._taxcalc_advance(base_calc, varlist, yr)),
+                    delayed(self._taxcalc_advance(reform_calc, varlist, yr)),
+                ]
+            )
         if client:
             futures = client.compute(lazy_values, num_workers=num_workers)
             results = client.gather(futures)
         else:
             results = results = compute(
-                *lazy_values, scheduler=dask.multiprocessing.get,
-                num_workers=num_workers)
+                *lazy_values,
+                scheduler=dask.multiprocessing.get,
+                num_workers=num_workers,
+            )
 
         # add results to base and reform data
         yr = self.start_year
@@ -393,8 +427,9 @@ class TaxBrain:
 
         del results
 
-    def _dynamic_run(self, varlist, base_calc, reform_calc, client,
-                     num_workers):
+    def _dynamic_run(
+        self, varlist, base_calc, reform_calc, client, num_workers
+    ):
         """
         Run a dynamic response
         """
@@ -402,17 +437,24 @@ class TaxBrain:
             varlist.append("s006")
         lazy_values = []
         for yr in range(self.start_year, self.end_year + 1):
-            lazy_values.extend([
-                delayed(self._behresp_advance(
-                    base_calc, reform_calc, varlist, yr))
-                ])
+            lazy_values.extend(
+                [
+                    delayed(
+                        self._behresp_advance(
+                            base_calc, reform_calc, varlist, yr
+                        )
+                    )
+                ]
+            )
         if client:
             futures = client.compute(lazy_values, num_workers=num_workers)
             results = client.gather(futures)
         else:
             results = results = compute(
-                *lazy_values, scheduler=dask.multiprocessing.get,
-                num_workers=num_workers)
+                *lazy_values,
+                scheduler=dask.multiprocessing.get,
+                num_workers=num_workers,
+            )
 
         # add results to base and reform data
         for i in range(len(results)):
@@ -438,8 +480,9 @@ class TaxBrain:
             results = client.gather(futures)
         else:
             results = results = compute(
-                *lazy_values, scheduler=dask.multiprocessing.get,
-                num_workers=num_workers
+                *lazy_values,
+                scheduler=dask.multiprocessing.get,
+                num_workers=num_workers,
             )
         # add results to data and revenue outputs
         revenue_output["Baseline"] = np.zeros(BW_len)
@@ -474,17 +517,20 @@ class TaxBrain:
                 if k == reform_list[-1]:
                     self.reform_data[yr] = calc.dataframe(varlist)
         df = pd.DataFrame.from_dict(
-            revenue_output, orient='Index',
-            columns=np.arange(self.start_year, self.start_year + BW_len)
+            revenue_output,
+            orient="Index",
+            columns=np.arange(self.start_year, self.start_year + BW_len),
         )
         # Compute differences from one provision to another
         rev_est_tbl = df.diff()
         # Drop baseline revenue since reporting differences relative to baseline
-        rev_est_tbl.drop(labels='Baseline', inplace=True)
+        rev_est_tbl.drop(labels="Baseline", inplace=True)
 
         # Create totals across budget window
         tot_col = f"{self.start_year}-{self.end_year}"
-        rev_est_tbl[tot_col] = rev_est_tbl[list(rev_est_tbl.columns)].sum(axis=1)
+        rev_est_tbl[tot_col] = rev_est_tbl[list(rev_est_tbl.columns)].sum(
+            axis=1
+        )
         # Create totals across provisions
         rev_est_tbl.loc["Total"] = rev_est_tbl.sum()
 
@@ -495,6 +541,7 @@ class TaxBrain:
         """
         Logic to process user mods and set self.params
         """
+
         def key_validation(actual_keys, required_keys, d_name):
             """
             Validate keys if reform or assump is passed as a dictionary
@@ -565,13 +612,13 @@ class TaxBrain:
                     "'assump' is not a string, dictionary, or None"
                 )
         else:
-            raise TypeError(
-                "'reform' is not a string, dictionary, or None"
-            )
+            raise TypeError("'reform' is not a string, dictionary, or None")
 
         # confirm that all the expected keys are there
-        required_keys = (tc.Calculator.REQUIRED_ASSUMP_KEYS |
-                         tc.Calculator.REQUIRED_REFORM_KEYS)
+        required_keys = (
+            tc.Calculator.REQUIRED_ASSUMP_KEYS
+            | tc.Calculator.REQUIRED_REFORM_KEYS
+        )
         assert set(params.keys()) == required_keys
 
         return params
@@ -590,16 +637,17 @@ class TaxBrain:
             gd_base.apply_to(gf_base)
         # Baseline calculator
         if self.use_cps:
-            records = tc.Records.cps_constructor(data=self.microdata,
-                                                 gfactors=gf_base)
+            records = tc.Records.cps_constructor(
+                data=self.microdata, gfactors=gf_base
+            )
         else:
             records = tc.Records(self.microdata, gfactors=gf_base)
         policy = tc.Policy(gf_base)
         if self.params["base_policy"]:
             update_policy(policy, self.params["base_policy"])
-        base_calc = tc.Calculator(policy=policy,
-                                  records=records,
-                                  verbose=self.verbose)
+        base_calc = tc.Calculator(
+            policy=policy, records=records, verbose=self.verbose
+        )
 
         # Reform calculator
         # Initialize a policy object
@@ -609,8 +657,9 @@ class TaxBrain:
             gd_reform.update_growdiff(self.params["growdiff_response"])
             gd_reform.apply_to(gf_reform)
         if self.use_cps:
-            records = tc.Records.cps_constructor(data=self.microdata,
-                                                 gfactors=gf_reform)
+            records = tc.Records.cps_constructor(
+                data=self.microdata, gfactors=gf_reform
+            )
         else:
             records = tc.Records(self.microdata, gfactors=gf_reform)
         policy = tc.Policy(gf_reform)
@@ -619,8 +668,9 @@ class TaxBrain:
         update_policy(policy, self.params["policy"])
 
         # Initialize Calculator
-        reform_calc = tc.Calculator(policy=policy, records=records,
-                                    verbose=self.verbose)
+        reform_calc = tc.Calculator(
+            policy=policy, records=records, verbose=self.verbose
+        )
         # delete all unneeded variables
         del gd_base, gd_reform, records, gf_base, gf_reform, policy
         return base_calc, reform_calc
@@ -643,16 +693,17 @@ class TaxBrain:
             gd_base.apply_to(gf_base)
         # Baseline calculator
         if self.use_cps:
-            records = tc.Records.cps_constructor(data=self.microdata,
-                                                 gfactors=gf_base)
+            records = tc.Records.cps_constructor(
+                data=self.microdata, gfactors=gf_base
+            )
         else:
             records = tc.Records(self.microdata, gfactors=gf_base)
         policy = tc.Policy(gf_base)
         if self.params["base_policy"]:
             update_policy(policy, self.params["base_policy"])
-        base_calc = tc.Calculator(policy=policy,
-                                  records=records,
-                                  verbose=self.verbose)
+        base_calc = tc.Calculator(
+            policy=policy, records=records, verbose=self.verbose
+        )
 
         # Reform calculator
         # Initialize a policy object
@@ -662,8 +713,9 @@ class TaxBrain:
             gd_reform.update_growdiff(self.params["growdiff_response"])
             gd_reform.apply_to(gf_reform)
         if self.use_cps:
-            records = tc.Records.cps_constructor(data=self.microdata,
-                                                 gfactors=gf_reform)
+            records = tc.Records.cps_constructor(
+                data=self.microdata, gfactors=gf_reform
+            )
         else:
             records = tc.Records(self.microdata, gfactors=gf_reform)
         policy = tc.Policy(gf_reform)

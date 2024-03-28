@@ -19,8 +19,10 @@ def test_volcano_plot(tb_static):
     fig = taxbrain.volcano_plot(tb_static, 2019, min_y=-1000, log_scale=False)
     # testing using RGB tuples for the colors
     fig = taxbrain.volcano_plot(
-        tb_static, 2019,
-        increase_color=(0.1, 0.2, 0.5), decrease_color=(0.2, 0.2, 0.5)
+        tb_static,
+        2019,
+        increase_color=(0.1, 0.2, 0.5),
+        decrease_color=(0.2, 0.2, 0.5),
     )
 
 

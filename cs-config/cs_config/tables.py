@@ -1,6 +1,7 @@
 """
 Functions to create the tables displayed in COMP
 """
+
 from .constants import AGG_ROW_NAMES
 from taxbrain import TaxBrain
 
@@ -14,12 +15,9 @@ def summary_aggregate(res, tb):
             f"'res' is of type {type(res)}. Must be dictionary object."
         )
     if not isinstance(tb, TaxBrain):
-        raise TypeError(
-            f"'tb' is of type {type(tb)}. Must be TaxBrain object"
-        )
+        raise TypeError(f"'tb' is of type {type(tb)}. Must be TaxBrain object")
     # tax totals for baseline
-    tax_vars = ["iitax", "payrolltax", "combined",
-                "benefit_cost_total"]
+    tax_vars = ["iitax", "payrolltax", "combined", "benefit_cost_total"]
     aggr_base = tb.multi_var_table(tax_vars, "base")
     aggr_base.index = AGG_ROW_NAMES
     # tax totals for reform
@@ -47,24 +45,21 @@ def summary_dist_xbin(res, tb, year):
             f"'res' is of type {type(res)}. Must be dictionary object."
         )
     if not isinstance(tb, TaxBrain):
-        raise TypeError(
-            f"'tb' is of type {type(tb)}. Must be TaxBrain object"
-        )
+        raise TypeError(f"'tb' is of type {type(tb)}. Must be TaxBrain object")
     if not isinstance(year, int):
-        raise TypeError(
-            f"'year' is of type {type(year)}. Must be an integer"
-        )
+        raise TypeError(f"'year' is of type {type(year)}. Must be an integer")
     # create distribution tables grouped by xbin
     # baseline distribution table
-    res["dist1_xbin"] = tb.distribution_table(year, "standard_income_bins",
-                                              "expanded_income", "base")
+    res["dist1_xbin"] = tb.distribution_table(
+        year, "standard_income_bins", "expanded_income", "base"
+    )
     # reform distribution table
     # ensure income is grouped on the same measure
     expanded_income_baseline = tb.base_data[year]["expanded_income"]
     tb.reform_data[year]["expanded_income_baseline"] = expanded_income_baseline
-    res["dist2_xbin"] = tb.distribution_table(year, "standard_income_bins",
-                                              "expanded_income_baseline",
-                                              "reform")
+    res["dist2_xbin"] = tb.distribution_table(
+        year, "standard_income_bins", "expanded_income_baseline", "reform"
+    )
     del tb.reform_data[year]["expanded_income_baseline"]
     return res
 
@@ -81,20 +76,19 @@ def summary_diff_xbin(res, tb, year):
             f"'res' is of type {type(res)}. Must be dictionary object."
         )
     if not isinstance(tb, TaxBrain):
-        raise TypeError(
-            f"'tb' is of type {type(tb)}. Must be TaxBrain object"
-        )
+        raise TypeError(f"'tb' is of type {type(tb)}. Must be TaxBrain object")
     if not isinstance(year, int):
-        raise TypeError(
-            f"'year' is of type {type(year)}. Must be an integer"
-        )
+        raise TypeError(f"'year' is of type {type(year)}. Must be an integer")
     # create difference tables grouped by xbin
-    res["diff_itax_xbin"] = tb.differences_table(year, "standard_income_bins",
-                                                 "iitax")
-    res["diff_ptax_xbin"] = tb.differences_table(year, "standard_income_bins",
-                                                 "payrolltax")
-    res["diff_comb_xbin"] = tb.differences_table(year, "standard_income_bins",
-                                                 "combined")
+    res["diff_itax_xbin"] = tb.differences_table(
+        year, "standard_income_bins", "iitax"
+    )
+    res["diff_ptax_xbin"] = tb.differences_table(
+        year, "standard_income_bins", "payrolltax"
+    )
+    res["diff_comb_xbin"] = tb.differences_table(
+        year, "standard_income_bins", "combined"
+    )
     return res
 
 
@@ -110,23 +104,20 @@ def summary_dist_xdec(res, tb, year):
             f"'res' is of type {type(res)}. Must be dictionary object."
         )
     if not isinstance(tb, TaxBrain):
-        raise TypeError(
-            f"'tb' is of type {type(tb)}. Must be TaxBrain object"
-        )
+        raise TypeError(f"'tb' is of type {type(tb)}. Must be TaxBrain object")
     if not isinstance(year, int):
-        raise TypeError(
-            f"'year' is of type {type(year)}. Must be an integer"
-        )
+        raise TypeError(f"'year' is of type {type(year)}. Must be an integer")
     # create distribution tables grouped by xdec
-    res["dist1_xdec"] = tb.distribution_table(year, "weighted_deciles",
-                                              "expanded_income", "base")
+    res["dist1_xdec"] = tb.distribution_table(
+        year, "weighted_deciles", "expanded_income", "base"
+    )
     # reform distribution table
     # ensure income is grouped on the same measure
     expanded_income_baseline = tb.base_data[year]["expanded_income"]
     tb.reform_data[year]["expanded_income_baseline"] = expanded_income_baseline
-    res["dist2_xdec"] = tb.distribution_table(year, "weighted_deciles",
-                                              "expanded_income_baseline",
-                                              "reform")
+    res["dist2_xdec"] = tb.distribution_table(
+        year, "weighted_deciles", "expanded_income_baseline", "reform"
+    )
     del tb.reform_data[year]["expanded_income_baseline"]
     return res
 
@@ -143,18 +134,17 @@ def summary_diff_xdec(res, tb, year):
             f"'res' is of type {type(res)}. Must be dictionary object."
         )
     if not isinstance(tb, TaxBrain):
-        raise TypeError(
-            f"'tb' is of type {type(tb)}. Must be TaxBrain object"
-        )
+        raise TypeError(f"'tb' is of type {type(tb)}. Must be TaxBrain object")
     if not isinstance(year, int):
-        raise TypeError(
-            f"'year' is of type {type(year)}. Must be an integer"
-        )
+        raise TypeError(f"'year' is of type {type(year)}. Must be an integer")
     # create difference tables grouped by xdec
-    res["diff_itax_xdec"] = tb.differences_table(year, "weighted_deciles",
-                                                 "iitax")
-    res["diff_ptax_xdec"] = tb.differences_table(year, "weighted_deciles",
-                                                 "payrolltax")
-    res["diff_comb_xdec"] = tb.differences_table(year, "weighted_deciles",
-                                                 "combined")
+    res["diff_itax_xdec"] = tb.differences_table(
+        year, "weighted_deciles", "iitax"
+    )
+    res["diff_ptax_xdec"] = tb.differences_table(
+        year, "weighted_deciles", "payrolltax"
+    )
+    res["diff_comb_xdec"] = tb.differences_table(
+        year, "weighted_deciles", "combined"
+    )
     return res

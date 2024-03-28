@@ -43,21 +43,33 @@ def assump_json_str():
     return assump
 
 
-@pytest.fixture(scope="session",)
+@pytest.fixture(
+    scope="session",
+)
 def tb_static(reform_json_str):
     return TaxBrain(2018, 2019, use_cps=True, reform=reform_json_str)
 
 
 @pytest.fixture(scope="session")
 def tb_dynamic(reform_json_str):
-    return TaxBrain(2018, 2019, use_cps=True, reform=reform_json_str,
-                    behavior={"sub": 0.25})
+    return TaxBrain(
+        2018,
+        2019,
+        use_cps=True,
+        reform=reform_json_str,
+        behavior={"sub": 0.25},
+    )
 
 
 @pytest.fixture(scope="session")
 def empty_mods():
-    return {"consumption": {}, "growdiff_response": {}, "policy": {},
-            "growdiff_baseline": {}, "behavior": {}}
+    return {
+        "consumption": {},
+        "growdiff_response": {},
+        "policy": {},
+        "growdiff_baseline": {},
+        "behavior": {},
+    }
 
 
 @pytest.fixture(scope="session")
@@ -69,14 +81,17 @@ def puf_df():
 @pytest.fixture(scope="session")
 def sample_input():
     params = {
-        'params': {
-            'policy': {'_FICA_ss_trt': {'2019': [0.15]}},
-            'behavior': {'sub': {'2019': [0.1]}}
+        "params": {
+            "policy": {"_FICA_ss_trt": {"2019": [0.15]}},
+            "behavior": {"sub": {"2019": [0.1]}},
         },
-        'jsonstrs': '',
-        'errors_warnings': {
-            'policy': {'errors': {}, 'warnings': {}},
-            'behavior': {'errors': {}, 'warnings': {}}
-        }, 'start_year': 2019, 'data_source': 'PUF', 'use_full_sample': False
+        "jsonstrs": "",
+        "errors_warnings": {
+            "policy": {"errors": {}, "warnings": {}},
+            "behavior": {"errors": {}, "warnings": {}},
+        },
+        "start_year": 2019,
+        "data_source": "PUF",
+        "use_full_sample": False,
     }
     return params
