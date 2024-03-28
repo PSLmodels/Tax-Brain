@@ -55,9 +55,15 @@ def distribute(calc, corp_revenue, year, start_year, param_updates=None):
     # adjust parameters for the transition to the long run
     shares = {}
     for k, v in CI_PARAMS["Incidence"].items():
-        increment = (v - SHORT_RUN_SHARES[k]) / CI_PARAMS["Long run years"]
-        # use min() so don't "overshoot" the long run share
-        shares[k] = SHORT_RUN_SHARES[k] + min(i, CI_PARAMS["Long run years"]) * increment
+        if CI_PARAMS["Long run years"] == 0:
+            shares[k] = v
+        else:
+            increment = (v - SHORT_RUN_SHARES[k]) / CI_PARAMS["Long run years"]
+            # use min() so don't "overshoot" the long run share
+            shares[k] = (
+                SHORT_RUN_SHARES[k]
+                + min(i, CI_PARAMS["Long run years"]) * increment
+            )
 
     # update income in the calc object
     calc_corp = _update_income(calc_corp, corp_revenue, shares)
