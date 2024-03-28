@@ -2,15 +2,11 @@
 import numpy as np
 import taxcalc as tc
 import copy
+import pytest
 from taxbrain import corporate_incidence
 
 
 # Tests of corporate_incidence functions
-
-"""
-2. Test that shares sum to 1 in each year (distribute function)
-3. Some expected tests with distribute (including cases with 100% on capital/labor, diff timing (including immediate))
-"""
 
 
 def test_update_income_shares():
@@ -52,21 +48,21 @@ def test_update_income_shares():
     for v in wage_income_vars:
         sum_test += (test_calc.array(v) * test_calc.array("s006")).sum()
         sum_base += (calc1.array(v) * calc1.array("s006")).sum()
-    pct = ((sum_test - sum_base) / revenue)
+    pct = (sum_test - sum_base) / revenue
     assert np.allclose(pct, shares["Labor share"])
     sum_test = 0
     sum_base = 0
     for v in shareholder_income_vars:
         sum_test += (test_calc.array(v) * test_calc.array("s006")).sum()
         sum_base += (calc1.array(v) * calc1.array("s006")).sum()
-    pct = ((sum_test - sum_base) / revenue)
+    pct = (sum_test - sum_base) / revenue
     assert np.allclose(pct, shares["Shareholder share"])
     sum_test = 0
     sum_base = 0
     for v in other_capital_income_vars:
         sum_test += (test_calc.array(v) * test_calc.array("s006")).sum()
         sum_base += (calc1.array(v) * calc1.array("s006")).sum()
-    pct = ((sum_test - sum_base) / revenue)
+    pct = (sum_test - sum_base) / revenue
     assert np.allclose(pct, shares["All capital share"])
 
 
@@ -115,7 +111,93 @@ def test_update_income_totals():
     assert np.allclose(revenue, diff)
 
 
-def test_share_transition():
+expected_shares5 = {
+    "Labor share": {
+        2025: 0.0,
+        2026: 0.04,
+        2027: 0.08,
+        2028: 0.12,
+        2029: 0.16,
+        2030: 0.2,
+        2031: 0.2,
+        2032: 0.2,
+        2033: 0.2,
+    },
+    "Shareholder share": {
+        2025: 1.0,
+        2026: 0.94,
+        2027: 0.88,
+        2028: 0.82,
+        2029: 0.76,
+        2030: 0.7,
+        2031: 0.7,
+        2032: 0.7,
+        2033: 0.7,
+    },
+    "All capital share": {
+        2025: 0.0,
+        2026: 0.02,
+        2027: 0.04,
+        2028: 0.06,
+        2029: 0.08,
+        2030: 0.1,
+        2031: 0.1,
+        2032: 0.1,
+        2033: 0.1,
+    },
+}
+expected_shares0 = {
+    "Labor share": {
+        2025: 0.2,
+        2026: 0.2,
+        2027: 0.2,
+        2028: 0.2,
+    },
+    "Shareholder share": {
+        2025: 0.7,
+        2026: 0.7,
+        2027: 0.7,
+        2028: 0.7,
+    },
+    "All capital share": {
+        2025: 0.1,
+        2026: 0.1,
+        2027: 0.1,
+        2028: 0.1,
+    },
+}
+expected_shares1 = {
+    "Labor share": {
+        2025: 0.0,
+        2026: 0.2,
+        2027: 0.2,
+        2028: 0.2,
+    },
+    "Shareholder share": {
+        2025: 1.0,
+        2026: 0.7,
+        2027: 0.7,
+        2028: 0.7,
+    },
+    "All capital share": {
+        2025: 0.0,
+        2026: 0.1,
+        2027: 0.1,
+        2028: 0.1,
+    },
+}
+
+
+@pytest.mark.parametrize(
+    "transition_years,end_year,expected_shares",
+    [
+        (5, 2033, expected_shares5),
+        (0, 2028, expected_shares0),
+        (1, 2028, expected_shares1),
+    ],
+    ids=["5 years", "immediate", "1 year"],
+)
+def test_share_transition(transition_years, end_year, expected_shares):
     """
     Test the transition of share over time in the
     corp_incidence_distribute function.
@@ -146,56 +228,16 @@ def test_share_transition():
             "Shareholder share": 0.7,
             "All capital share": 0.1,
         },
-        "Long run years": 5
-    }
-
-    # Expected shares
-    expected_shares = {
-        "Labor share": {
-            2025: 0.0,
-            2026: 0.04,
-            2027: 0.08,
-            2028: 0.12,
-            2029: 0.16,
-            2030: 0.2,
-            2031: 0.2,
-            2032: 0.2,
-            2033: 0.2,
-        },
-        "Shareholder share": {
-            2025: 1.0,
-            2026: 0.94,
-            2027: 0.88,
-            2028: 0.82,
-            2029: 0.76,
-            2030: 0.7,
-            2031: 0.7,
-            2032: 0.7,
-            2033: 0.7,
-        },
-        "All capital share": {
-            2025: 0.0,
-            2026: 0.02,
-            2027: 0.04,
-            2028: 0.06,
-            2029: 0.08,
-            2030: 0.1,
-            2031: 0.1,
-            2032: 0.1,
-            2033: 0.1,
-        }
+        "Long run years": transition_years,
     }
 
     # Now check shares match expectation for each year
-    for year in range(2025, 2034):
+    for year in range(2025, end_year + 1):
         print("Checking for year ", year)
         calc1.advance_to_year(year)
         test_calc = corporate_incidence.distribute(
-            copy.deepcopy(calc1),
-            revenue,
-            year,
-            2025,
-            param_updates)
+            copy.deepcopy(calc1), revenue, year, 2025, param_updates
+        )
 
         # Check that shares match expected
         sum_test = 0
@@ -203,23 +245,22 @@ def test_share_transition():
         for v in wage_income_vars:
             sum_test += (test_calc.array(v) * test_calc.array("s006")).sum()
             sum_base += (calc1.array(v) * calc1.array("s006")).sum()
-        pct1 = ((sum_test - sum_base) / revenue)
+        pct1 = (sum_test - sum_base) / revenue
         assert np.allclose(pct1, expected_shares["Labor share"][year])
         sum_test = 0
         sum_base = 0
         for v in shareholder_income_vars:
             sum_test += (test_calc.array(v) * test_calc.array("s006")).sum()
             sum_base += (calc1.array(v) * calc1.array("s006")).sum()
-        pct2 = ((sum_test - sum_base) / revenue)
+        pct2 = (sum_test - sum_base) / revenue
         assert np.allclose(pct2, expected_shares["Shareholder share"][year])
         sum_test = 0
         sum_base = 0
         for v in other_capital_income_vars:
             sum_test += (test_calc.array(v) * test_calc.array("s006")).sum()
             sum_base += (calc1.array(v) * calc1.array("s006")).sum()
-        pct3 = ((sum_test - sum_base) / revenue)
+        pct3 = (sum_test - sum_base) / revenue
         assert np.allclose(pct3, expected_shares["All capital share"][year])
 
         # also check that shares always sum to 1
         assert np.allclose(1.0, pct1 + pct2 + pct3)
-
