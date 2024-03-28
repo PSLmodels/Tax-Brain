@@ -20,3 +20,4 @@ dependencies:
 - pip:
   - "cs-kit>=1.16.8"
   - cs2tc
+  - black
