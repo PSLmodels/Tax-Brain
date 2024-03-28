@@ -54,12 +54,10 @@ def distribute(calc, corp_revenue, year, start_year, param_updates=None):
         corp_revenue = corp_revenue[i]
     # adjust parameters for the transition to the long run
     shares = {}
-    for k, v in CI_PARAMS["Incidence"]:
+    for k, v in CI_PARAMS["Incidence"].items():
         increment = (v - SHORT_RUN_SHARES[k]) / CI_PARAMS["Long run years"]
-        shares[k] = SHORT_RUN_SHARES[k] + i * increment
-        # TODO: maybe a test or assert to be sure shares always sum to 1, but I think they will with this linear transition
-        # It would get more complicated if we think the movement bewteen capital and labor happens faster/slower than the shift
-        # from shareholders to all owners of capital
+        # use min() so don't "overshoot" the long run share
+        shares[k] = SHORT_RUN_SHARES[k] + min(i, CI_PARAMS["Long run years"]) * increment
 
     # update income in the calc object
     calc_corp = _update_income(calc_corp, corp_revenue, shares)
