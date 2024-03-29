@@ -39,6 +39,8 @@ class TaxBrain:
         behavior: dict = None,
         assump=None,
         base_policy: Union[str, dict] = None,
+        corp_revenue: Union[dict, list, np.array] = None,
+        corp_incidence_assumptions: dict = None,
         verbose=False,
         stacked=False,
     ):
@@ -78,6 +80,14 @@ class TaxBrain:
             before the user provided reform is implemented. Can either
             be a string pointing to a JSON reform file, the contents
             of a JSON file, or a properly formatted dictionary.
+        corp_revenue: dict, list, or numpy array
+            A set of corporate revenue estimates for a given set of
+            years.  The estimates much line up with start_year and
+            end_year.
+        corp_incidence_assumptions: dict
+            A dictionary summarizing the assumptions about the
+            distribution of the corporate income tax.  See
+            taxbrain.corporate_incidence.CI_params for an example.
         verbose: bool
             A boolean value indicated whether or not to write model
             progress reports.
@@ -106,12 +116,18 @@ class TaxBrain:
             f"Specified end_year, {end_year}, comes after last known "
             f"budget year, {TaxBrain.LAST_BUDGET_YEAR}."
         )
+        if corp_revenue:
+            assert len(corp_revenue) == end_year - start_year + 1, (
+            f"Corporate revenue is not given for each budget year"
+            )
         self.microdata = microdata
         self.use_cps = use_cps
         self.start_year = start_year
         self.end_year = end_year
         self.base_data = {yr: {} for yr in range(start_year, end_year + 1)}
         self.reform_data = {yr: {} for yr in range(start_year, end_year + 1)}
+        self.corp_revenue = corp_revenue
+        self.ci_params = corp_incidence_assumptions
         self.verbose = verbose
         self.stacked = stacked
         self.stacked_reforms = None  # only used if stacked is true
