@@ -12,6 +12,7 @@ from dask import compute, delayed
 import dask.multiprocessing
 from collections import defaultdict
 from taxbrain.utils import weighted_sum, update_policy
+from taxbrain.corporate_incidence import distribute as dist_corp
 from typing import Union
 from paramtools import ValidationError
 
@@ -92,7 +93,7 @@ class TaxBrain:
             A boolean value indicated whether or not to write model
             progress reports.
         stacked: bool
-            A boolean value indicating wheather the provided reform is in the
+            A boolean value indicating weather the provided reform is in the
             format used for stacked reform analysis
 
         Returns
@@ -117,9 +118,9 @@ class TaxBrain:
             f"budget year, {TaxBrain.LAST_BUDGET_YEAR}."
         )
         if corp_revenue:
-            assert len(corp_revenue) == end_year - start_year + 1, (
-            f"Corporate revenue is not given for each budget year"
-            )
+            assert (
+                len(corp_revenue) == end_year - start_year + 1
+            ), f"Corporate revenue is not given for each budget year"
         self.microdata = microdata
         self.use_cps = use_cps
         self.start_year = start_year
@@ -370,18 +371,25 @@ class TaxBrain:
         return table
 
     # ----- private methods -----
-    def _taxcalc_advance(self, calc, varlist, year):
+    def _taxcalc_advance(self, calc, varlist, year, reform=False):
         """
         This function advances the year used in Tax-Calculator, computes
         tax liability and rates, and saves the results to a dictionary.
         Args:
-            calc1 (Tax-Calculator Calculator object): TC calculator
+            calc (Tax-Calculator Calculator object): TC calculator
+            varlist (list): variables to return
             year (int): year to begin advancing from
+            reform (bool): whether Calculator object is for the reform policy
+
         Returns:
             tax_dict (dict): a dictionary of microdata with marginal tax
                 rates and other information computed in TC
         """
         calc.advance_to_year(year)
+        if reform:
+            calc = dist_corp(
+                calc, self.corp_revenue, year, self.start_year, self.ci_params
+            )
         calc.calc_all()
         df = calc.dataframe(varlist)
 
@@ -400,6 +408,13 @@ class TaxBrain:
         """
         base_calc.advance_to_year(year)
         reform_calc.advance_to_year(year)
+        reform_calc = dist_corp(
+            reform_calc,
+            self.corp_revenue,
+            year,
+            self.start_year,
+            self.ci_params,
+        )
         base, reform = behresp.response(
             base_calc, reform_calc, self.params["behavior"], dump=True
         )
@@ -421,7 +436,11 @@ class TaxBrain:
             lazy_values.extend(
                 [
                     delayed(self._taxcalc_advance(base_calc, varlist, yr)),
-                    delayed(self._taxcalc_advance(reform_calc, varlist, yr)),
+                    delayed(
+                        self._taxcalc_advance(
+                            reform_calc, varlist, yr, reform=True
+                        )
+                    ),
                 ]
             )
         if client:
@@ -523,6 +542,15 @@ class TaxBrain:
             # loop over each year in budget window
             for yr in np.arange(self.start_year, self.end_year + 1):
                 calc.advance_to_year(yr)
+                # change income in accordance with corp income tax
+                # distributed across individual taxpayers
+                calc = dist_corp(
+                    calc,
+                    self.corp_revenue,
+                    yr,
+                    self.start_year,
+                    self.ci_params,
+                )
                 # makes calculations on microdata
                 calc.calc_all()
                 # compute total revenue
