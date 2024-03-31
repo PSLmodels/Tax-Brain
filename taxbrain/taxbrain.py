@@ -386,10 +386,11 @@ class TaxBrain:
                 rates and other information computed in TC
         """
         calc.advance_to_year(year)
-        if reform:
-            calc = dist_corp(
-                calc, self.corp_revenue, year, self.start_year, self.ci_params
-            )
+        if self.corp_revenue is not None:
+            if reform:
+                calc = dist_corp(
+                    calc, self.corp_revenue, year, self.start_year, self.ci_params
+                )
         calc.calc_all()
         df = calc.dataframe(varlist)
 
@@ -408,13 +409,14 @@ class TaxBrain:
         """
         base_calc.advance_to_year(year)
         reform_calc.advance_to_year(year)
-        reform_calc = dist_corp(
-            reform_calc,
-            self.corp_revenue,
-            year,
-            self.start_year,
-            self.ci_params,
-        )
+        if self.corp_revenue is not None:
+            reform_calc = dist_corp(
+                reform_calc,
+                self.corp_revenue,
+                year,
+                self.start_year,
+                self.ci_params,
+            )
         base, reform = behresp.response(
             base_calc, reform_calc, self.params["behavior"], dump=True
         )
@@ -544,13 +546,14 @@ class TaxBrain:
                 calc.advance_to_year(yr)
                 # change income in accordance with corp income tax
                 # distributed across individual taxpayers
-                calc = dist_corp(
-                    calc,
-                    self.corp_revenue,
-                    yr,
-                    self.start_year,
-                    self.ci_params,
-                )
+                if self.corp_revenue is not None:
+                    calc = dist_corp(
+                        calc,
+                        self.corp_revenue,
+                        yr,
+                        self.start_year,
+                        self.ci_params,
+                    )
                 # makes calculations on microdata
                 calc.calc_all()
                 # compute total revenue
