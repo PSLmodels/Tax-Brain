@@ -389,7 +389,11 @@ class TaxBrain:
         if self.corp_revenue is not None:
             if reform:
                 calc = dist_corp(
-                    calc, self.corp_revenue, year, self.start_year, self.ci_params
+                    calc,
+                    self.corp_revenue,
+                    year,
+                    self.start_year,
+                    self.ci_params,
                 )
         calc.calc_all()
         df = calc.dataframe(varlist)
