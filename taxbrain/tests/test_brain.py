@@ -34,6 +34,25 @@ def test_baseline_policy():
     tb.run()
 
 
+def test_run_corporate_distribution():
+    """
+    Tests the taxbrain.run method with the distribution of corporate
+    income tax revenue.
+    """
+    base = {"II_em": {2019: 0}}
+    reform = {"II_em": {2025: 2000}}
+    corp_revenue = [1_000_000_000, 2_000_000_000]
+    tb = TaxBrain(
+        2018,
+        2019,
+        use_cps=True,
+        reform=reform,
+        base_policy=base,
+        corp_revenue=corp_revenue,
+    )
+    tb.run()
+
+
 def test_dynamic_run(tb_dynamic):
     tb_dynamic.run()
 
