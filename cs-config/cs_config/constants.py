@@ -147,7 +147,7 @@ class MetaParameters(paramtools.Parameters):
             "title": "Data Source",
             "description": "CPS is currently the only supported data source",
             "type": "str",
-            "value": "PUF",
+            "value": "CPS",
             "validators": {"choice": {"choices": ["CPS"]}}
         },
         "use_full_sample": {
