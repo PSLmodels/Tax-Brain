@@ -145,10 +145,10 @@ class MetaParameters(paramtools.Parameters):
         },
         "data_source": {
             "title": "Data Source",
-            "description": "Data source can be PUF or CPS",
+            "description": "CPS is currently the only supported data source",
             "type": "str",
             "value": "PUF",
-            "validators": {"choice": {"choices": ["PUF", "CPS"]}}
+            "validators": {"choice": {"choices": ["CPS"]}}
         },
         "use_full_sample": {
             "title": "Use Full Sample",
