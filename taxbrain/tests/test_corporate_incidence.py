@@ -95,7 +95,6 @@ def test_update_income_totals():
         "p22250",
         "p23250",
         "e00600",
-        "e00650",
         "e00300",
         "e00400",
         "e01100",
@@ -214,7 +213,7 @@ def test_share_transition(transition_years, end_year, expected_shares):
     # Define different income sources
     # TODO: should make these constants in corp_incidence.py
     wage_income_vars = ["e00200"]
-    shareholder_income_vars = ["p22250", "p23250", "e00600", "e00650"]
+    shareholder_income_vars = ["p22250", "p23250", "e00600"]
     other_capital_income_vars = [
         "e00300",
         "e00400",
