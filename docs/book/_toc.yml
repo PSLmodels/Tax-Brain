@@ -4,6 +4,7 @@ parts:
 - caption: Tax-Brain Example Use
   chapters:
   - file: content/usage
+  - file: content/corp_incidence
   - file: content/examples/example
   - file: content/reports
 - caption: Web Application
