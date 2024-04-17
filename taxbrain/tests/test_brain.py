@@ -93,6 +93,23 @@ def test_stacked_run():
     # check that there is a stacked table now
     assert isinstance(tb.stacked_table, pd.DataFrame)
 
+def test_stacked_run_corporate():
+    # reforms to use
+    payroll_json = """{"SS_Earnings_thd": {"2021": 400000}}"""
+    CG_rate_json = """{
+        "CG_brk3": {"2021": [1000000, 1000000, 1000000, 1000000, 1000000]},
+        "CG_rt4": {"2021": 0.396}
+    }"""
+    reform_dict = {
+        "Payroll Threshold Increase": payroll_json,
+        "Capital Gains Tax Changes": CG_rate_json,
+    }
+    tb = TaxBrain(2021, 2022, reform=reform_dict, stacked=True, use_cps=True,
+                  corp_revenue=[100_000_000, 100_000_000])
+    tb.run()
+    # check that there is a stacked table now
+    assert isinstance(tb.stacked_table, pd.DataFrame)
+
 
 def test_weighted_totals(tb_static):
     table = tb_static.weighted_totals("combined")
