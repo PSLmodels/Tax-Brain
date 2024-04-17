@@ -4,14 +4,6 @@ import copy
 
 # Default parameters for the CorporateIncidence class
 CI_PARAMS = {
-    "Normal returns": {
-        "Dividends": 0.4,
-        "Capital gains": 0.4,
-        "Self-employment income": 0.4,
-        # TODO: check if taxdata has other breakouts for ordinary income
-        "Taxable interest": 1.0,
-        "Tax-exempt interest": 1.0,
-    },  # TODO: do we need to do this with supernormal and not - or are the incidence shares enough for this model?
     "Incidence": {  # long-run incidence of corporate tax
         "Labor share": 0.5,
         "Shareholder share": 0.4,
