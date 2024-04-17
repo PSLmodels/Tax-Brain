@@ -34,7 +34,7 @@ def test_update_income_shares():
     )
 
     wage_income_vars = ["e00200"]
-    shareholder_income_vars = ["p22250", "p23250", "e00600", "e00650"]
+    shareholder_income_vars = ["p22250", "p23250", "e00600"]
     other_capital_income_vars = [
         "e00300",
         "e00400",

@@ -84,7 +84,7 @@ def _update_income(calc, revenue, shares):
     agg_other_capital = shares["All capital share"] * revenue
     # With aggregates, compute pct change in each
     wage_income_vars = ["e00200"]
-    shareholder_income_vars = ["p22250", "p23250", "e00600", "e00650"]
+    shareholder_income_vars = ["p22250", "p23250", "e00600"]
     other_capital_income_vars = [
         "e00300",
         "e00400",
@@ -106,13 +106,16 @@ def _update_income(calc, revenue, shares):
     pct_change_other_capital = agg_other_capital / denom
 
     # we will apply these percentage changes to the relevant income sources
-    for v in wage_income_vars:
+    # need to scale other wages so their sum equals total
+    for v in wage_income_vars + ["e00200p", "e00200s"]:
         delta = calc.array(v) * pct_change_wage
         calc.incarray(v, delta)
     for v in shareholder_income_vars:
         delta = calc.array(v) * pct_change_shareholder
         calc.incarray(v, delta)
-    for v in other_capital_income_vars:
+    for v in other_capital_income_vars + ["e00650"]:
+        # scale qualified dividends as well, though they are included
+        # in e00600
         delta = calc.array(v) * pct_change_other_capital
         calc.incarray(v, delta)
 
