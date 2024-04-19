@@ -49,11 +49,12 @@ def test_start_year_with_data_source():
     """
     Test interaction between PUF and CPS data sources and the start year.
     """
-    data = functions.get_inputs({"data_source": "PUF"})
-    assert (
-        data["meta_parameters"]["year"]["validators"]["choice"]["choices"][0]
-        == 2013
-    )
+    # Commenting out PUF for now since not on CS web app
+    # data = functions.get_inputs({"data_source": "PUF"})
+    # assert (
+    #     data["meta_parameters"]["year"]["validators"]["choice"]["choices"][0]
+    #     == 2013
+    # )
     data = functions.get_inputs({"data_source": "CPS"})
     assert (
         data["meta_parameters"]["year"]["validators"]["choice"]["choices"][0]
