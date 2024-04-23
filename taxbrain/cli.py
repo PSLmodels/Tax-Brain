@@ -1,6 +1,7 @@
 """
 Command line interface for the Tax-Brain package
 """
+
 import argparse
 from taxbrain import TaxBrain, report
 from pathlib import Path
@@ -37,17 +38,25 @@ def make_tables(tb, year, outpath):
     dist_table_reform.to_csv(
         Path(outpath, f"distribution_table_reform_{year}.csv")
     )
-    diff_table = tb.differences_table(
-        year, "weighted_deciles", "combined"
-    )
-    diff_table.to_csv(
-        Path(outpath, f"differences_table_{year}.csv")
-    )
+    diff_table = tb.differences_table(year, "weighted_deciles", "combined")
+    diff_table.to_csv(Path(outpath, f"differences_table_{year}.csv"))
     del dist_table_base, dist_table_reform, diff_table
 
 
-def cli_core(startyear, endyear, data, usecps, reform, behavior, assump,
-             baseline, outdir, name, make_report, author):
+def cli_core(
+    startyear,
+    endyear,
+    data,
+    usecps,
+    reform,
+    behavior,
+    assump,
+    baseline,
+    outdir,
+    name,
+    make_report,
+    author,
+):
     """
     Core logic for the CLI
 
@@ -79,9 +88,15 @@ def cli_core(startyear, endyear, data, usecps, reform, behavior, assump,
         reports saved to disk at path specified by outdir
     """
     tb = TaxBrain(
-        start_year=startyear, end_year=endyear, microdata=data,
-        use_cps=usecps, reform=reform, behavior=behavior,
-        assump=assump, base_policy=baseline, verbose=True
+        start_year=startyear,
+        end_year=endyear,
+        microdata=data,
+        use_cps=usecps,
+        reform=reform,
+        behavior=behavior,
+        assump=assump,
+        base_policy=baseline,
+        verbose=True,
     )
     tb.run()
 
@@ -93,18 +108,14 @@ def cli_core(startyear, endyear, data, usecps, reform, behavior, assump,
     outputpath.mkdir(exist_ok=True)
     # create output tables
     aggregate = tb.weighted_totals("combined")
-    aggregate.to_csv(
-        Path(outputpath, "aggregate_tax_liability.csv")
-    )
+    aggregate.to_csv(Path(outputpath, "aggregate_tax_liability.csv"))
     for year in range(startyear, endyear + 1):
         yeardir = Path(outputpath, str(year))
         yeardir.mkdir(exist_ok=True)
         make_tables(tb, year, yeardir)
 
     if make_report:
-        report(
-            tb, name=name, outdir=outputpath, author=author
-        )
+        report(tb, name=name, outdir=outputpath, author=author)
 
 
 def cli_main():
@@ -123,24 +134,19 @@ def cli_main():
         "This is the command line interface for the taxbrain package."
     )
     parser = argparse.ArgumentParser(
-        prog="taxbrain",
-        description=parser_description
+        prog="taxbrain", description=parser_description
     )
     parser.add_argument(
         "startyear",
-        help=(
-            "startyear is the first year of the analysis you want to run."
-        ),
+        help=("startyear is the first year of the analysis you want to run."),
         default=TaxBrain.FIRST_BUDGET_YEAR,
-        type=int
+        type=int,
     )
     parser.add_argument(
         "endyear",
-        help=(
-            "endyear is the last year of the analysis you want to run."
-        ),
+        help=("endyear is the last year of the analysis you want to run."),
         default=TaxBrain.LAST_BUDGET_YEAR,
-        type=int
+        type=int,
     )
     parser.add_argument(
         "--data",
@@ -148,7 +154,7 @@ def cli_main():
             "The file path to a micro-dataset that is formatted for use in "
             "Tax-Calculator."
         ),
-        default=None
+        default=None,
     )
     parser.add_argument(
         "--usecps",
@@ -157,14 +163,12 @@ def cli_main():
             "Tax-Calculator will be used for the analysis."
         ),
         default=False,
-        action="store_true"
+        action="store_true",
     ),
     parser.add_argument(
         "--reform",
-        help=(
-            "--reform should be a path to a JSON file."
-        ),
-        default=None
+        help=("--reform should be a path to a JSON file."),
+        default=None,
     )
     parser.add_argument(
         "--behavior",
@@ -172,7 +176,7 @@ def cli_main():
             "--behavior should be a path to a JSON file containing behavioral "
             "assumptions."
         ),
-        default=None
+        default=None,
     )
     parser.add_argument(
         "--assump",
@@ -180,14 +184,14 @@ def cli_main():
             "--assump should be a path to a JSON file containing user "
             "specified economic assumptions."
         ),
-        default=None
+        default=None,
     )
     parser.add_argument(
         "--baseline",
         help=(
             "--baseline should be a path to a JSON file containing a policy "
             "that will be used as the baseline of the analysis"
-        )
+        ),
     )
     parser.add_argument(
         "--outdir",
@@ -196,7 +200,7 @@ def cli_main():
             "--outdir will result in files being written to the current "
             "directory."
         ),
-        default=""
+        default="",
     ),
     parser.add_argument(
         "--name",
@@ -204,7 +208,7 @@ def cli_main():
             "Name of the analysis. This will be used to name the directory "
             "where all output files will be written."
         ),
-        default=None
+        default=None,
     )
     parser.add_argument(
         "--report",
@@ -212,22 +216,30 @@ def cli_main():
             "including --report will trigger the creation of a PDF report "
             "summarizing the effects of the tax policy being modeled."
         ),
-        action="store_true"
+        action="store_true",
     )
     parser.add_argument(
         "--author",
         help=(
             "If you are creating a report, this the name that will be listed "
             "as the author"
-        )
+        ),
     )
     args = parser.parse_args()
 
     # run the analysis
     cli_core(
-        args.startyear, args.endyear, args.data, args.usecps, args.reform,
-        args.behavior, args.assump, args.baseline, args.outdir, args.name,
-        args.report
+        args.startyear,
+        args.endyear,
+        args.data,
+        args.usecps,
+        args.reform,
+        args.behavior,
+        args.assump,
+        args.baseline,
+        args.outdir,
+        args.name,
+        args.report,
     )
 
 

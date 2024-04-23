@@ -7,8 +7,12 @@ import pandas as pd
 import taxcalc
 import cs2tc
 from .constants import MetaParameters
-from .helpers import (TCDIR,
-                      postprocess, nth_year_results, retrieve_puf,)
+from .helpers import (
+    TCDIR,
+    postprocess,
+    nth_year_results,
+    retrieve_puf,
+)
 from .outputs import create_layout, aggregate_plot
 from taxbrain import TaxBrain, report
 from dask import delayed, compute
@@ -18,7 +22,9 @@ from marshmallow import fields
 
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-PUF_S3_FILE_LOCATION = os.environ.get("PUF_S3_LOCATION", "s3://ospc-data-files/puf.20210720.csv.gz")
+PUF_S3_FILE_LOCATION = os.environ.get(
+    "PUF_S3_LOCATION", "s3://ospc-data-files/puf.20210720.csv.gz"
+)
 
 CUR_PATH = os.path.abspath(os.path.dirname(__file__))
 
@@ -27,6 +33,7 @@ class BehaviorParams(paramtools.Parameters):
     """
     Class for creating behavioral parameters
     """
+
     array_first = True
     with open(os.path.join(CUR_PATH, "behavior_params.json"), "r") as f:
         behavior_params = json.load(f)
@@ -62,7 +69,7 @@ def get_inputs(meta_params_dict):
 
     default_params = {
         "policy": policy_defaults,
-        "behavior": behavior_params.dump()
+        "behavior": behavior_params.dump(),
     }
     meta = meta_params.dump()
 
@@ -99,14 +106,13 @@ def run_model(meta_params_dict, adjustment):
     # convert COMP user inputs to format accepted by tax-calculator
     policy_mods = cs2tc.convert_policy_adjustment(adjustment["policy"])
     behavior_mods = cs2tc.convert_behavior_adjustment(adjustment["behavior"])
-    user_mods = {
-        "policy": policy_mods,
-        "behavior": behavior_mods
-    }
+    user_mods = {"policy": policy_mods, "behavior": behavior_mods}
     start_year = int(meta_params.year)
     use_cps = meta_params.data_source == "CPS"
     if meta_params.data_source == "PUF":
-        puf_df = retrieve_puf(PUF_S3_FILE_LOCATION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+        puf_df = retrieve_puf(
+            PUF_S3_FILE_LOCATION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+        )
         if puf_df is not None:
             if not isinstance(puf_df, pd.DataFrame):
                 raise TypeError("'puf_df' must be a Pandas DataFrame.")
@@ -132,20 +138,25 @@ def run_model(meta_params_dict, adjustment):
         sample = full_sample
         end_year = min(start_year + 10, TaxBrain.LAST_BUDGET_YEAR)
     else:
-        sample = full_sample.sample(frac=sampling_frac,
-                                    random_state=sampling_seed)
+        sample = full_sample.sample(
+            frac=sampling_frac, random_state=sampling_seed
+        )
         end_year = start_year
 
-    tb = TaxBrain(start_year, end_year, microdata=sample,
-                  use_cps=use_cps,
-                  reform=policy_mods,
-                  behavior=behavior_mods)
+    tb = TaxBrain(
+        start_year,
+        end_year,
+        microdata=sample,
+        use_cps=use_cps,
+        reform=policy_mods,
+        behavior=behavior_mods,
+    )
     tb.run()
 
     # Collect results for each year
     delayed_list = []
     for year in range(start_year, end_year + 1):
-        print('delaying for', year)
+        print("delaying for", year)
         delay = delayed(nth_year_results)(tb, year, user_mods, fuzz)
         delayed_list.append(delay)
     results = compute(*delayed_list)
@@ -167,16 +178,12 @@ def run_model(meta_params_dict, adjustment):
             elif name.endswith(".pdf"):
                 media_type = "PDF"
             downloadable.append(
-                {
-                    "media_type": media_type,
-                    "title": name,
-                    "data": data
-                }
+                {"media_type": media_type, "title": name, "data": data}
             )
     agg_output, table_output = create_layout(results, start_year, end_year)
 
     comp_outputs = {
         "renderable": [agg_plot, agg_output, table_output],
-        "downloadable": downloadable
+        "downloadable": downloadable,
     }
     return comp_outputs

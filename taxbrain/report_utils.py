@@ -1,6 +1,7 @@
 """
 Helper Functions for creating the automated reports
 """
+
 import json
 import pypandoc
 import numpy as np
@@ -35,12 +36,25 @@ notable_vars = {
     "benefit_cost_total": "Spending on benefit programs",
     "benefit_value_total": "Consumption value of benefits",
     "expanded_income": "Expanded income",
-    "aftertax_income": "After-tax income"
+    "aftertax_income": "After-tax income",
 }
 
-DIFF_TABLE_ROW_NAMES = ['<$0K', '=$0K', '$0-10K', '$10-20K', '$20-30K',
-                        '$30-40K', '$40-50K', '$50-75K', '$75-100K',
-                        '$100-200K', '$200-500K', '$500K-1M', '>$1M', 'ALL']
+DIFF_TABLE_ROW_NAMES = [
+    "<$0K",
+    "=$0K",
+    "$0-10K",
+    "$10-20K",
+    "$20-30K",
+    "$30-40K",
+    "$40-50K",
+    "$50-75K",
+    "$75-100K",
+    "$100-200K",
+    "$200-500K",
+    "$500K-1M",
+    ">$1M",
+    "ALL",
+]
 
 
 def md_to_pdf(md_text, outputfile_path):
@@ -63,9 +77,11 @@ def md_to_pdf(md_text, outputfile_path):
     """
     # convert markdown text to pdf with pandoc
     pypandoc.convert_text(
-        md_text, 'pdf', format='md', outputfile=outputfile_path,
-        extra_args=['-V', 'geometry:margin=1.5cm',
-                    '--pdf-engine', 'pdflatex']
+        md_text,
+        "pdf",
+        format="md",
+        outputfile=outputfile_path,
+        extra_args=["-V", "geometry:margin=1.5cm", "--pdf-engine", "pdflatex"],
     )
 
 
@@ -84,13 +100,9 @@ def convert_table(df, tablefmt: str = "pipe") -> str:
         String that is a formatted markdown table
     """
     if isinstance(df, pd.DataFrame):
-        return tabulate(
-            df, headers="keys", tablefmt=tablefmt
-        )
+        return tabulate(df, headers="keys", tablefmt=tablefmt)
     else:
-        return tabulate(
-            df, headers="firstrow", tablefmt=tablefmt
-        )
+        return tabulate(df, headers="firstrow", tablefmt=tablefmt)
 
 
 def policy_table(params):
@@ -112,17 +124,22 @@ def policy_table(params):
     # map out additional name information for vi indexed variables
     vi_map = {
         "MARS": [
-            "Single", "Married Filing Jointly",
-            "Married Filing Separately", "Head of Household", "Widow"
+            "Single",
+            "Married Filing Jointly",
+            "Married Filing Separately",
+            "Head of Household",
+            "Widow",
         ],
         "idedtype": [
-            "Medical", "State & Local Taxes", "Real EState Taxes",
-            "Casualty", "Miscellaneous", "Interest Paid",
-            "Charitable Giving"
+            "Medical",
+            "State & Local Taxes",
+            "Real EState Taxes",
+            "Casualty",
+            "Miscellaneous",
+            "Interest Paid",
+            "Charitable Giving",
         ],
-        "EIC": [
-            "0 Kids", "1 Kid", "2 Kids", "3+ Kids"
-        ]
+        "EIC": ["0 Kids", "1 Kid", "2 Kids", "3+ Kids"],
     }
     reform_years = set()
     reform_by_year = defaultdict(lambda: deque())
@@ -144,8 +161,11 @@ def policy_table(params):
                 new_indexed = meta[yr]
                 name = pol_meta["title"]
                 reform_by_year[yr].append(
-                    [name, f"CPI Indexed: {default_indexed}",
-                     f"CPI Indexed: {new_indexed}"]
+                    [
+                        name,
+                        f"CPI Indexed: {default_indexed}",
+                        f"CPI Indexed: {new_indexed}",
+                    ]
                 )
                 continue
             pol_meta = pol.metadata()[param]
@@ -160,7 +180,7 @@ def policy_table(params):
             if len(default_val.shape) != 1:
                 # first find the indexed parameter we're working with
                 for vi in vi_map.keys():
-                    if vi in pol_meta['value'][0].keys():
+                    if vi in pol_meta["value"][0].keys():
                         vi_name = vi
                         break
                 vi_list = vi_map[vi_name]
@@ -171,9 +191,7 @@ def policy_table(params):
                     _new_val = f"{new_val[i]:,}"
                     if _default_val == _new_val:
                         continue
-                    reform_by_year[yr].append(
-                        [_name, _default_val, _new_val]
-                    )
+                    reform_by_year[yr].append([_name, _default_val, _new_val])
             else:
                 reform_by_year[yr].append(
                     [name, f"{default_val[0]:,}", f"{new_val:,}"]
@@ -183,9 +201,7 @@ def policy_table(params):
     md_tables = {}
     for yr in reform_years:
         content = reform_by_year[yr]
-        content.appendleft(
-            ["Policy", "Original Value", "New Value"]
-        )
+        content.appendleft(["Policy", "Original Value", "New Value"])
         md_tables[yr] = convert_table(content)
 
     return md_tables
@@ -254,8 +270,10 @@ def form_intro(pol_areas, description=None):
         1: "modifing the {} section of the tax code",
         2: "modifing the {} and {} sections of the tax code",
         3: "modifing the {}, {}, and {} sections of the tax code",
-        4: ("modifing a number of areas of the tax code, "
-            "including the {}, {}, and {} sections")
+        4: (
+            "modifing a number of areas of the tax code, "
+            "including the {}, {}, and {} sections"
+        ),
     }
     if not description:
         num_areas = min(len(pol_areas), 4)
@@ -289,7 +307,7 @@ def form_baseline_intro(current_law):
     else:
         return (
             f"{date()}, along with some modifications. A summary of these "
-            "modifications can be found in the \"Summary of Baseline Policy\" "
+            'modifications can be found in the "Summary of Baseline Policy" '
             "section"
         )
 
@@ -313,9 +331,7 @@ def largest_tax_change(diff):
     sub_diff = diff.drop(index="ALL")  # remove total row
     # find the absolute largest change in total liability
     absolute_change = abs(sub_diff["tot_change"])
-    largest = sub_diff[
-        max(absolute_change) == absolute_change
-    ]
+    largest = sub_diff[max(absolute_change) == absolute_change]
     index_largest = largest.index.values[0]
     largest_change = largest["mean"].values[0]  # index in case there"s a tie
     # split index to form sentance
@@ -374,16 +390,17 @@ def notable_changes(tb, threshold: float) -> str:
                 _var = var.split("_")[1]
                 base = tb.base_data[year]
                 reform = tb.reform_data[year]
-                base_total = np.where(
-                    base[_var] != 0, base["s006"], 0
-                ).sum()
+                base_total = np.where(base[_var] != 0, base["s006"], 0).sum()
                 reform_total = np.where(
                     reform[_var] != 0, reform["s006"], 0
                 ).sum()
                 diff = reform_total - base_total
                 totals.append(
-                    {"Base": base_total, "Reform": reform_total,
-                     "Difference": diff}
+                    {
+                        "Base": base_total,
+                        "Reform": reform_total,
+                        "Difference": diff,
+                    }
                 )
                 years.append(year)
             totals = pd.DataFrame(totals)
@@ -391,7 +408,7 @@ def notable_changes(tb, threshold: float) -> str:
         else:
             totals = tb.weighted_totals(var).transpose()
         totals["pct_change"] = totals["Difference"] / totals["Base"]
-        totals = totals.fillna(0.)
+        totals = totals.fillna(0.0)
         max_pct_change = max(totals["pct_change"])
         max_yr = totals[totals["pct_change"] == max_pct_change].index.values[0]
         if abs(max_pct_change) >= threshold:
@@ -431,15 +448,13 @@ def behavioral_assumptions(tb):
     behavior_map = {
         "sub": "Substitution elasticity of taxable income: {}",
         "inc": "Income elasticity of taxable income: {}",
-        "cg": "Semi-elasticity of long-term capital gains: {}"
+        "cg": "Semi-elasticity of long-term capital gains: {}",
     }
     assumptions = []
     # if there are some behavioral assumptions, loop through them
     if tb.params["behavior"]:
         for param, val in tb.params["behavior"].items():
-            assumptions.append(
-                behavior_map[param].format(val)
-            )
+            assumptions.append(behavior_map[param].format(val))
     else:
         assumptions.append("No behavioral assumptions")
     return assumptions
@@ -465,9 +480,11 @@ def consumption_assumptions(tb):
         consump_years = set()
         consump_by_year = defaultdict(lambda: deque())
         # read consumption.json from taxcalc package
-        consump_json = Path(
-            Path(tc.__file__).resolve().parent, "consumption.json"
-        ).open("r").read()
+        consump_json = (
+            Path(Path(tc.__file__).resolve().parent, "consumption.json")
+            .open("r")
+            .read()
+        )
         consump_meta = json.loads(consump_json)
         for param, meta in params.items():
             # find all the years the parameter is updated
@@ -478,15 +495,11 @@ def consumption_assumptions(tb):
             for yr in years:
                 # find default information
                 new_val = meta[yr]
-                consump_by_year[yr].append(
-                    [name, default_val, new_val]
-                )
+                consump_by_year[yr].append([name, default_val, new_val])
         md_tables = {}  # hold markdown version of the tables
         for yr in consump_years:
             content = consump_by_year[yr]
-            content.appendleft(
-                ["", "Default Value", "User Value"]
-            )
+            content.appendleft(["", "Default Value", "User Value"])
             md_tables[yr] = convert_table(content)
         return md_tables
     else:
@@ -534,7 +547,7 @@ def growth_assumptions(tb):
         "ABENWIC": "WIC Benfits Growth Rate",
         "ABENHOUSING": "Housing Benefits Growth Rate",
         "ABENTANF": "TANF Benfits Growth Rates",
-        "ABENVET": "Veteran's Benfits Growth Rates"
+        "ABENVET": "Veteran's Benfits Growth Rates",
     }
     if tb.params["growdiff_response"]:
         params = tb.params["growdiff_response"]
@@ -558,17 +571,13 @@ def growth_assumptions(tb):
                 # find default and new values
                 default_val = base_gf.factor_value(param, yr)
                 new_val = reform_gf.factor_value(param, yr)
-                growdiff_by_year.append(
-                    [name, default_val, new_val]
-                )
+                growdiff_by_year.append([name, default_val, new_val])
 
         # create tables
         md_tables = {}
         for yr in growdiff_years:
             content = growdiff_by_year[yr]
-            content.appendleft(
-                ["", "Default Value", "New Value"]
-            )
+            content.appendleft(["", "Default Value", "New Value"])
             md_tables[yr] = convert_table(content)
 
         return md_tables
@@ -615,7 +624,7 @@ def convert_params(params):
             reform[param][yr] = vals
     # add indexed parameters as being implemented in first year of reform
     for param in indexed_params:
-        val = params[param][0]['value']
+        val = params[param][0]["value"]
         reform[param][first_yr] = val
     return reform
 
