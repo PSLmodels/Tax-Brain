@@ -41,7 +41,7 @@
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
@@ -178,7 +178,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tax-Brain Example Use</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../content/usage.html">How to Use Tax-Brain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/corp_incidence.html">Distributing the Corporate Income Tax</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../content/examples/example.html">Static Reform</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="../../content/reports.html">Automated Reports in TaxBrain</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Web Application</span></p>
@@ -357,12 +359,17 @@ document.write(`
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">behresp</span>
-<span class="kn">from</span> <span class="nn">taxcalc.utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">DIST_VARIABLES</span><span class="p">,</span> <span class="n">DIFF_VARIABLES</span><span class="p">,</span>
-                           <span class="n">create_distribution_table</span><span class="p">,</span> <span class="n">create_difference_table</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">taxcalc.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DIST_VARIABLES</span><span class="p">,</span>
+    <span class="n">DIFF_VARIABLES</span><span class="p">,</span>
+    <span class="n">create_distribution_table</span><span class="p">,</span>
+    <span class="n">create_difference_table</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">dask</span> <span class="kn">import</span> <span class="n">compute</span><span class="p">,</span> <span class="n">delayed</span>
 <span class="kn">import</span> <span class="nn">dask.multiprocessing</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">taxbrain.utils</span> <span class="kn">import</span> <span class="n">weighted_sum</span><span class="p">,</span> <span class="n">update_policy</span>
+<span class="kn">from</span> <span class="nn">taxbrain.corporate_incidence</span> <span class="kn">import</span> <span class="n">distribute</span> <span class="k">as</span> <span class="n">dist_corp</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">paramtools</span> <span class="kn">import</span> <span class="n">ValidationError</span>
 
@@ -379,14 +386,24 @@ document.write(`
     <span class="c1"># add dictionary to hold version of the various models</span>
     <span class="n">VERSIONS</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;Tax-Calculator&quot;</span><span class="p">:</span> <span class="n">tc</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span>
-        <span class="s2">&quot;Behavioral-Responses&quot;</span><span class="p">:</span> <span class="n">behresp</span><span class="o">.</span><span class="n">__version__</span>
+        <span class="s2">&quot;Behavioral-Responses&quot;</span><span class="p">:</span> <span class="n">behresp</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">end_year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">LAST_BUDGET_YEAR</span><span class="p">,</span>
-                 <span class="n">microdata</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">use_cps</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">reform</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">behavior</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">assump</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base_policy</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">start_year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">end_year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">LAST_BUDGET_YEAR</span><span class="p">,</span>
+        <span class="n">microdata</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_cps</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">reform</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">behavior</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">assump</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">base_policy</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">corp_revenue</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">corp_incidence_assumptions</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">stacked</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor for the TaxBrain class</span>
 
@@ -423,11 +440,19 @@ document.write(`
 <span class="sd">            before the user provided reform is implemented. Can either</span>
 <span class="sd">            be a string pointing to a JSON reform file, the contents</span>
 <span class="sd">            of a JSON file, or a properly formatted dictionary.</span>
+<span class="sd">        corp_revenue: dict, list, or numpy array</span>
+<span class="sd">            A set of corporate revenue estimates for a given set of</span>
+<span class="sd">            years.  The estimates much line up with start_year and</span>
+<span class="sd">            end_year.</span>
+<span class="sd">        corp_incidence_assumptions: dict</span>
+<span class="sd">            A dictionary summarizing the assumptions about the</span>
+<span class="sd">            distribution of the corporate income tax.  See</span>
+<span class="sd">            taxbrain.corporate_incidence.CI_params for an example.</span>
 <span class="sd">        verbose: bool</span>
 <span class="sd">            A boolean value indicated whether or not to write model</span>
 <span class="sd">            progress reports.</span>
 <span class="sd">        stacked: bool</span>
-<span class="sd">            A boolean value indicating wheather the provided reform is in the</span>
+<span class="sd">            A boolean value indicating weather the provided reform is in the</span>
 <span class="sd">            format used for stacked reform analysis</span>
 
 <span class="sd">        Returns</span>
@@ -436,9 +461,9 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">use_cps</span> <span class="ow">and</span> <span class="n">microdata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must specify microdata or set &#39;use_cps&#39; to True&quot;</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">end_year</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="p">(</span>
-            <span class="s2">&quot;Start and end years must be integers&quot;</span>
-        <span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">end_year</span><span class="p">,</span> <span class="nb">int</span>
+        <span class="p">),</span> <span class="s2">&quot;Start and end years must be integers&quot;</span>
         <span class="k">assert</span> <span class="n">start_year</span> <span class="o">&lt;=</span> <span class="n">end_year</span><span class="p">,</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Specified end year, </span><span class="si">{</span><span class="n">end_year</span><span class="si">}</span><span class="s2">, is before specified start year, &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">start_year</span><span class="si">}</span><span class="s2">.&quot;</span>
@@ -451,12 +476,18 @@ document.write(`
             <span class="sa">f</span><span class="s2">&quot;Specified end_year, </span><span class="si">{</span><span class="n">end_year</span><span class="si">}</span><span class="s2">, comes after last known &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;budget year, </span><span class="si">{</span><span class="n">TaxBrain</span><span class="o">.</span><span class="n">LAST_BUDGET_YEAR</span><span class="si">}</span><span class="s2">.&quot;</span>
         <span class="p">)</span>
+        <span class="k">if</span> <span class="n">corp_revenue</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">corp_revenue</span><span class="p">)</span> <span class="o">==</span> <span class="n">end_year</span> <span class="o">-</span> <span class="n">start_year</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Corporate revenue is not given for each budget year&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">=</span> <span class="n">microdata</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">use_cps</span> <span class="o">=</span> <span class="n">use_cps</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_year</span> <span class="o">=</span> <span class="n">start_year</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">=</span> <span class="n">end_year</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">yr</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">yr</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">corp_revenue</span> <span class="o">=</span> <span class="n">corp_revenue</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ci_params</span> <span class="o">=</span> <span class="n">corp_incidence_assumptions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stacked</span> <span class="o">=</span> <span class="n">stacked</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stacked_reforms</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># only used if stacked is true</span>
@@ -474,8 +505,9 @@ document.write(`
 
 <div class="viewcode-block" id="TaxBrain.run">
 <a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.run">[docs]</a>
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">DEFAULT_VARIABLES</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">num_workers</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">DEFAULT_VARIABLES</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run the calculators. TaxBrain will determine whether to do a static or</span>
 <span class="sd">        partial equilibrium run based on the user&#39;s inputs when initializing</span>
@@ -505,12 +537,14 @@ document.write(`
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running dynamic simulations&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_run</span><span class="p">(</span>
-                    <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">)</span>
+                    <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">num_workers</span>
+                <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running static simulations&quot;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_static_run</span><span class="p">(</span><span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span>
-                                 <span class="n">client</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_static_run</span><span class="p">(</span>
+                    <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">num_workers</span>
+                <span class="p">)</span>
             <span class="k">del</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span>
 
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;has_run&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
@@ -543,13 +577,17 @@ document.write(`
         <span class="n">reform_totals</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">differences</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">base_totals</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;s006&quot;</span><span class="p">]</span> <span class="o">*</span>
-                                 <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">var</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-            <span class="n">reform_totals</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;s006&quot;</span><span class="p">]</span> <span class="o">*</span>
-                                   <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">var</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">base_totals</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;s006&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">var</span><span class="p">]</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">reform_totals</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;s006&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">var</span><span class="p">]</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
             <span class="n">differences</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">reform_totals</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">-</span> <span class="n">base_totals</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">base_totals</span><span class="p">,</span> <span class="n">reform_totals</span><span class="p">,</span> <span class="n">differences</span><span class="p">],</span>
-                             <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Base&quot;</span><span class="p">,</span> <span class="s2">&quot;Reform&quot;</span><span class="p">,</span> <span class="s2">&quot;Difference&quot;</span><span class="p">])</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">base_totals</span><span class="p">,</span> <span class="n">reform_totals</span><span class="p">,</span> <span class="n">differences</span><span class="p">],</span>
+            <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Base&quot;</span><span class="p">,</span> <span class="s2">&quot;Reform&quot;</span><span class="p">,</span> <span class="s2">&quot;Difference&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">include_total</span><span class="p">:</span>
             <span class="n">table</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">table</span></div>
@@ -594,8 +632,9 @@ document.write(`
         <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">varlist</span><span class="p">:</span>
                 <span class="n">data_dict</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">weighted_sum</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">year</span><span class="p">],</span> <span class="n">var</span><span class="p">)]</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">,</span>
-                          <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="n">data_dict</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
         <span class="n">table</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">include_total</span><span class="p">:</span>
             <span class="n">table</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -604,9 +643,14 @@ document.write(`
 
 <div class="viewcode-block" id="TaxBrain.distribution_table">
 <a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.distribution_table">[docs]</a>
-    <span class="k">def</span> <span class="nf">distribution_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">groupby</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                           <span class="n">income_measure</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">calc</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                           <span class="n">pop_quantiles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">distribution_table</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">groupby</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">income_measure</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">calc</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">pop_quantiles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method to create a distribution table</span>
 
@@ -647,27 +691,29 @@ document.write(`
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;XTOT&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">]</span>
-        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count_ItemDed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;c04470&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span>
-        <span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count_ItemDed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;c04470&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count_StandardDed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;standard&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;standard&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
         <span class="p">)</span>
-        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count_AMT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;c09600&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span>
-        <span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count_AMT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;c09600&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">income_measure</span> <span class="o">==</span> <span class="s2">&quot;expanded_income_baseline&quot;</span><span class="p">:</span>
             <span class="n">base_income</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;expanded_income&quot;</span><span class="p">]</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;expanded_income_baseline&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base_income</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="n">create_distribution_table</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">groupby</span><span class="p">,</span> <span class="n">income_measure</span><span class="p">,</span>
-                                          <span class="n">pop_quantiles</span><span class="p">)</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">create_distribution_table</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">groupby</span><span class="p">,</span> <span class="n">income_measure</span><span class="p">,</span> <span class="n">pop_quantiles</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">table</span></div>
 
 
 <div class="viewcode-block" id="TaxBrain.differences_table">
 <a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.differences_table">[docs]</a>
-    <span class="k">def</span> <span class="nf">differences_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">groupby</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tax_to_diff</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                          <span class="n">pop_quantiles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">differences_table</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">groupby</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">tax_to_diff</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">pop_quantiles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method to create a differences table</span>
 
@@ -692,31 +738,44 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">base_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
         <span class="n">reform_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="n">create_difference_table</span><span class="p">(</span><span class="n">base_data</span><span class="p">,</span> <span class="n">reform_data</span><span class="p">,</span> <span class="n">groupby</span><span class="p">,</span>
-                                        <span class="n">tax_to_diff</span><span class="p">,</span> <span class="n">pop_quantiles</span><span class="p">)</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">create_difference_table</span><span class="p">(</span>
+            <span class="n">base_data</span><span class="p">,</span> <span class="n">reform_data</span><span class="p">,</span> <span class="n">groupby</span><span class="p">,</span> <span class="n">tax_to_diff</span><span class="p">,</span> <span class="n">pop_quantiles</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">table</span></div>
 
 
     <span class="c1"># ----- private methods -----</span>
-    <span class="k">def</span> <span class="nf">_taxcalc_advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">_taxcalc_advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function advances the year used in Tax-Calculator, computes</span>
 <span class="sd">        tax liability and rates, and saves the results to a dictionary.</span>
 <span class="sd">        Args:</span>
-<span class="sd">            calc1 (Tax-Calculator Calculator object): TC calculator</span>
+<span class="sd">            calc (Tax-Calculator Calculator object): TC calculator</span>
+<span class="sd">            varlist (list): variables to return</span>
 <span class="sd">            year (int): year to begin advancing from</span>
+<span class="sd">            reform (bool): whether Calculator object is for the reform policy</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            tax_dict (dict): a dictionary of microdata with marginal tax</span>
 <span class="sd">                rates and other information computed in TC</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">calc</span><span class="o">.</span><span class="n">advance_to_year</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">corp_revenue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">reform</span><span class="p">:</span>
+                <span class="n">calc</span> <span class="o">=</span> <span class="n">dist_corp</span><span class="p">(</span>
+                    <span class="n">calc</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">corp_revenue</span><span class="p">,</span>
+                    <span class="n">year</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ci_params</span><span class="p">,</span>
+                <span class="p">)</span>
         <span class="n">calc</span><span class="o">.</span><span class="n">calc_all</span><span class="p">()</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">dataframe</span><span class="p">(</span><span class="n">varlist</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">df</span>
 
     <span class="k">def</span> <span class="nf">_behresp_advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function advances the year used in the Behavioral Responses</span>
 <span class="sd">        model and saves the results to a dictionary.</span>
 <span class="sd">        Args:</span>
@@ -725,18 +784,28 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            tax_dict (dict): a dictionary of microdata with marginal tax</span>
 <span class="sd">                rates and other information computed in TC</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">base_calc</span><span class="o">.</span><span class="n">advance_to_year</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
         <span class="n">reform_calc</span><span class="o">.</span><span class="n">advance_to_year</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">corp_revenue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">reform_calc</span> <span class="o">=</span> <span class="n">dist_corp</span><span class="p">(</span>
+                <span class="n">reform_calc</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">corp_revenue</span><span class="p">,</span>
+                <span class="n">year</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ci_params</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="n">base</span><span class="p">,</span> <span class="n">reform</span> <span class="o">=</span> <span class="n">behresp</span><span class="o">.</span><span class="n">response</span><span class="p">(</span>
-            <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;behavior&quot;</span><span class="p">],</span> <span class="n">dump</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;behavior&quot;</span><span class="p">],</span> <span class="n">dump</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
         <span class="n">base_df</span> <span class="o">=</span> <span class="n">base</span><span class="p">[</span><span class="n">varlist</span><span class="p">]</span>
         <span class="n">reform_df</span> <span class="o">=</span> <span class="n">reform</span><span class="p">[</span><span class="n">varlist</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="p">[</span><span class="n">base_df</span><span class="p">,</span> <span class="n">reform_df</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_static_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span>
-                    <span class="n">num_workers</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_static_run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">num_workers</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run the calculator for a static analysis</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -744,17 +813,25 @@ document.write(`
             <span class="n">varlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;s006&quot;</span><span class="p">)</span>
         <span class="n">lazy_values</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">lazy_values</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
-                <span class="n">delayed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_taxcalc_advance</span><span class="p">(</span><span class="n">base_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">yr</span><span class="p">)),</span>
-                <span class="n">delayed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_taxcalc_advance</span><span class="p">(</span><span class="n">reform_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">yr</span><span class="p">))</span>
-                <span class="p">])</span>
+            <span class="n">lazy_values</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">delayed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_taxcalc_advance</span><span class="p">(</span><span class="n">base_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">yr</span><span class="p">)),</span>
+                    <span class="n">delayed</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_taxcalc_advance</span><span class="p">(</span>
+                            <span class="n">reform_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">yr</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="kc">True</span>
+                        <span class="p">)</span>
+                    <span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">client</span><span class="p">:</span>
             <span class="n">futures</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">lazy_values</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">)</span>
             <span class="n">results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">futures</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">results</span> <span class="o">=</span> <span class="n">results</span> <span class="o">=</span> <span class="n">compute</span><span class="p">(</span>
-                <span class="o">*</span><span class="n">lazy_values</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">dask</span><span class="o">.</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">get</span><span class="p">,</span>
-                <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">)</span>
+                <span class="o">*</span><span class="n">lazy_values</span><span class="p">,</span>
+                <span class="n">scheduler</span><span class="o">=</span><span class="n">dask</span><span class="o">.</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">get</span><span class="p">,</span>
+                <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="c1"># add results to base and reform data</span>
         <span class="n">yr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_year</span>
@@ -765,8 +842,9 @@ document.write(`
 
         <span class="k">del</span> <span class="n">results</span>
 
-    <span class="k">def</span> <span class="nf">_dynamic_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span>
-                     <span class="n">num_workers</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_dynamic_run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">num_workers</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run a dynamic response</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -774,17 +852,24 @@ document.write(`
             <span class="n">varlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;s006&quot;</span><span class="p">)</span>
         <span class="n">lazy_values</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">lazy_values</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
-                <span class="n">delayed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_behresp_advance</span><span class="p">(</span>
-                    <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">yr</span><span class="p">))</span>
-                <span class="p">])</span>
+            <span class="n">lazy_values</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">delayed</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_behresp_advance</span><span class="p">(</span>
+                            <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">yr</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">client</span><span class="p">:</span>
             <span class="n">futures</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">lazy_values</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">)</span>
             <span class="n">results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">futures</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">results</span> <span class="o">=</span> <span class="n">results</span> <span class="o">=</span> <span class="n">compute</span><span class="p">(</span>
-                <span class="o">*</span><span class="n">lazy_values</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">dask</span><span class="o">.</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">get</span><span class="p">,</span>
-                <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">)</span>
+                <span class="o">*</span><span class="n">lazy_values</span><span class="p">,</span>
+                <span class="n">scheduler</span><span class="o">=</span><span class="n">dask</span><span class="o">.</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">get</span><span class="p">,</span>
+                <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="c1"># add results to base and reform data</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)):</span>
@@ -810,8 +895,9 @@ document.write(`
             <span class="n">results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">futures</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">results</span> <span class="o">=</span> <span class="n">results</span> <span class="o">=</span> <span class="n">compute</span><span class="p">(</span>
-                <span class="o">*</span><span class="n">lazy_values</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">dask</span><span class="o">.</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">get</span><span class="p">,</span>
-                <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span>
+                <span class="o">*</span><span class="n">lazy_values</span><span class="p">,</span>
+                <span class="n">scheduler</span><span class="o">=</span><span class="n">dask</span><span class="o">.</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">get</span><span class="p">,</span>
+                <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="c1"># add results to data and revenue outputs</span>
         <span class="n">revenue_output</span><span class="p">[</span><span class="s2">&quot;Baseline&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">BW_len</span><span class="p">)</span>
@@ -836,6 +922,16 @@ document.write(`
             <span class="c1"># loop over each year in budget window</span>
             <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
                 <span class="n">calc</span><span class="o">.</span><span class="n">advance_to_year</span><span class="p">(</span><span class="n">yr</span><span class="p">)</span>
+                <span class="c1"># change income in accordance with corp income tax</span>
+                <span class="c1"># distributed across individual taxpayers</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">corp_revenue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">calc</span> <span class="o">=</span> <span class="n">dist_corp</span><span class="p">(</span>
+                        <span class="n">calc</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">corp_revenue</span><span class="p">,</span>
+                        <span class="n">yr</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">ci_params</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="c1"># makes calculations on microdata</span>
                 <span class="n">calc</span><span class="o">.</span><span class="n">calc_all</span><span class="p">()</span>
                 <span class="c1"># compute total revenue</span>
@@ -846,17 +942,20 @@ document.write(`
                 <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">reform_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">dataframe</span><span class="p">(</span><span class="n">varlist</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
-            <span class="n">revenue_output</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;Index&#39;</span><span class="p">,</span>
-            <span class="n">columns</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_year</span> <span class="o">+</span> <span class="n">BW_len</span><span class="p">)</span>
+            <span class="n">revenue_output</span><span class="p">,</span>
+            <span class="n">orient</span><span class="o">=</span><span class="s2">&quot;Index&quot;</span><span class="p">,</span>
+            <span class="n">columns</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_year</span> <span class="o">+</span> <span class="n">BW_len</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="c1"># Compute differences from one provision to another</span>
         <span class="n">rev_est_tbl</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span>
         <span class="c1"># Drop baseline revenue since reporting differences relative to baseline</span>
-        <span class="n">rev_est_tbl</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="s1">&#39;Baseline&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">rev_est_tbl</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="s2">&quot;Baseline&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># Create totals across budget window</span>
         <span class="n">tot_col</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">end_year</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="n">rev_est_tbl</span><span class="p">[</span><span class="n">tot_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">rev_est_tbl</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">rev_est_tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">)]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">rev_est_tbl</span><span class="p">[</span><span class="n">tot_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">rev_est_tbl</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">rev_est_tbl</span><span class="o">.</span><span class="n">columns</span><span class="p">)]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+        <span class="p">)</span>
         <span class="c1"># Create totals across provisions</span>
         <span class="n">rev_est_tbl</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rev_est_tbl</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
@@ -867,6 +966,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Logic to process user mods and set self.params</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">def</span> <span class="nf">key_validation</span><span class="p">(</span><span class="n">actual_keys</span><span class="p">,</span> <span class="n">required_keys</span><span class="p">,</span> <span class="n">d_name</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Validate keys if reform or assump is passed as a dictionary</span>
@@ -937,13 +1037,13 @@ document.write(`
                     <span class="s2">&quot;&#39;assump&#39; is not a string, dictionary, or None&quot;</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s2">&quot;&#39;reform&#39; is not a string, dictionary, or None&quot;</span>
-            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;reform&#39; is not a string, dictionary, or None&quot;</span><span class="p">)</span>
 
         <span class="c1"># confirm that all the expected keys are there</span>
-        <span class="n">required_keys</span> <span class="o">=</span> <span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="o">.</span><span class="n">REQUIRED_ASSUMP_KEYS</span> <span class="o">|</span>
-                         <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="o">.</span><span class="n">REQUIRED_REFORM_KEYS</span><span class="p">)</span>
+        <span class="n">required_keys</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="o">.</span><span class="n">REQUIRED_ASSUMP_KEYS</span>
+            <span class="o">|</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="o">.</span><span class="n">REQUIRED_REFORM_KEYS</span>
+        <span class="p">)</span>
         <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="n">required_keys</span>
 
         <span class="k">return</span> <span class="n">params</span>
@@ -962,16 +1062,17 @@ document.write(`
             <span class="n">gd_base</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
         <span class="c1"># Baseline calculator</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cps</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span>
-                                                 <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">)</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">)</span>
         <span class="n">policy</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">]:</span>
             <span class="n">update_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">])</span>
-        <span class="n">base_calc</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="p">(</span><span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span>
-                                  <span class="n">records</span><span class="o">=</span><span class="n">records</span><span class="p">,</span>
-                                  <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">)</span>
+        <span class="n">base_calc</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="p">(</span>
+            <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">records</span><span class="o">=</span><span class="n">records</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span>
+        <span class="p">)</span>
 
         <span class="c1"># Reform calculator</span>
         <span class="c1"># Initialize a policy object</span>
@@ -981,8 +1082,9 @@ document.write(`
             <span class="n">gd_reform</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">])</span>
             <span class="n">gd_reform</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cps</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span>
-                                                 <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">)</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">)</span>
         <span class="n">policy</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
@@ -991,8 +1093,9 @@ document.write(`
         <span class="n">update_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;policy&quot;</span><span class="p">])</span>
 
         <span class="c1"># Initialize Calculator</span>
-        <span class="n">reform_calc</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="p">(</span><span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">records</span><span class="o">=</span><span class="n">records</span><span class="p">,</span>
-                                    <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">)</span>
+        <span class="n">reform_calc</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="p">(</span>
+            <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">records</span><span class="o">=</span><span class="n">records</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span>
+        <span class="p">)</span>
         <span class="c1"># delete all unneeded variables</span>
         <span class="k">del</span> <span class="n">gd_base</span><span class="p">,</span> <span class="n">gd_reform</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="n">gf_base</span><span class="p">,</span> <span class="n">gf_reform</span><span class="p">,</span> <span class="n">policy</span>
         <span class="k">return</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span>
@@ -1015,16 +1118,17 @@ document.write(`
             <span class="n">gd_base</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
         <span class="c1"># Baseline calculator</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cps</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span>
-                                                 <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">)</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">)</span>
         <span class="n">policy</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">]:</span>
             <span class="n">update_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">])</span>
-        <span class="n">base_calc</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="p">(</span><span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span>
-                                  <span class="n">records</span><span class="o">=</span><span class="n">records</span><span class="p">,</span>
-                                  <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">)</span>
+        <span class="n">base_calc</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Calculator</span><span class="p">(</span>
+            <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">records</span><span class="o">=</span><span class="n">records</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span>
+        <span class="p">)</span>
 
         <span class="c1"># Reform calculator</span>
         <span class="c1"># Initialize a policy object</span>
@@ -1034,8 +1138,9 @@ document.write(`
             <span class="n">gd_reform</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">])</span>
             <span class="n">gd_reform</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cps</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span>
-                                                 <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">)</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">)</span>
         <span class="n">policy</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>

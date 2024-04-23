@@ -41,7 +41,7 @@
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
@@ -178,7 +178,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tax-Brain Example Use</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../content/usage.html">How to Use Tax-Brain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/corp_incidence.html">Distributing the Corporate Income Tax</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../content/examples/example.html">Static Reform</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="../../content/reports.html">Automated Reports in TaxBrain</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Web Application</span></p>
@@ -356,6 +358,7 @@ document.write(`
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Helper functions for the various taxbrain modules</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -399,7 +402,7 @@ document.write(`
     <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
     <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
-    <span class="n">include_text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">include_text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a horizontal bar chart to display the distributional change in</span>
@@ -423,6 +426,7 @@ document.write(`
 <span class="sd">    fig: Matplotlib.pyplot figure object</span>
 <span class="sd">        distribution plot</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">find_percs</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Find the percentage of people in the data set that saw</span>
@@ -430,28 +434,45 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pop</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
         <span class="n">large_pos_chng</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">pop</span>
-        <span class="n">small_pos_chng</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">][(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">&amp;</span>
-                                      <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">pop</span>
-        <span class="n">small_chng</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">][(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
-                                  <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">pop</span>
-        <span class="n">small_neg_change</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">][(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span>
-                                        <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">5</span><span class="p">)]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">pop</span>
+        <span class="n">small_pos_chng</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">][</span>
+                <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="o">/</span> <span class="n">pop</span>
+        <span class="p">)</span>
+        <span class="n">small_chng</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">][</span>
+                <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="o">/</span> <span class="n">pop</span>
+        <span class="p">)</span>
+        <span class="n">small_neg_change</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">][</span>
+                <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="o">/</span> <span class="n">pop</span>
+        <span class="p">)</span>
         <span class="n">large_neg_change</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">pop</span>
 
         <span class="k">return</span> <span class="p">(</span>
-            <span class="n">large_pos_chng</span><span class="p">,</span> <span class="n">small_pos_chng</span><span class="p">,</span> <span class="n">small_chng</span><span class="p">,</span> <span class="n">small_neg_change</span><span class="p">,</span>
-            <span class="n">large_neg_change</span>
+            <span class="n">large_pos_chng</span><span class="p">,</span>
+            <span class="n">small_pos_chng</span><span class="p">,</span>
+            <span class="n">small_chng</span><span class="p">,</span>
+            <span class="n">small_neg_change</span><span class="p">,</span>
+            <span class="n">large_neg_change</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="c1"># extract needed data from the TaxBrain object</span>
     <span class="n">ati_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-        <span class="p">{</span><span class="s2">&quot;base&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;aftertax_income&quot;</span><span class="p">],</span>
-         <span class="s2">&quot;reform&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;aftertax_income&quot;</span><span class="p">],</span>
-         <span class="s2">&quot;s006&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;s006&quot;</span><span class="p">]}</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;base&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;aftertax_income&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;reform&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;aftertax_income&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;s006&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;s006&quot;</span><span class="p">],</span>
+        <span class="p">}</span>
     <span class="p">)</span>
     <span class="n">ati_data</span><span class="p">[</span><span class="s2">&quot;diff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ati_data</span><span class="p">[</span><span class="s2">&quot;reform&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">ati_data</span><span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">]</span>
     <span class="n">ati_data</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ati_data</span><span class="p">[</span><span class="s2">&quot;diff&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">ati_data</span><span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
-    <span class="n">ati_data</span> <span class="o">=</span> <span class="n">ati_data</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.</span><span class="p">)</span>  <span class="c1"># fill in NaNs for graphing</span>
+    <span class="n">ati_data</span> <span class="o">=</span> <span class="n">ati_data</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>  <span class="c1"># fill in NaNs for graphing</span>
     <span class="c1"># group tupules: (low income, high income, income group name)</span>
     <span class="n">groups</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="o">-</span><span class="mf">9e99</span><span class="p">,</span> <span class="mf">9e99</span><span class="p">,</span> <span class="s2">&quot;All&quot;</span><span class="p">),</span>
@@ -465,27 +486,32 @@ document.write(`
         <span class="p">(</span><span class="mi">30000</span><span class="p">,</span> <span class="mi">40000</span><span class="p">,</span> <span class="s2">&quot;$30K-40K&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="mi">20000</span><span class="p">,</span> <span class="mi">30000</span><span class="p">,</span> <span class="s2">&quot;$20K-30K&quot;</span><span class="p">),</span>
         <span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">20000</span><span class="p">,</span> <span class="s2">&quot;$10K-20K&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="o">-</span><span class="mf">9e99</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="s2">&quot;Less than $10K&quot;</span><span class="p">)</span>
+        <span class="p">(</span><span class="o">-</span><span class="mf">9e99</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="s2">&quot;Less than $10K&quot;</span><span class="p">),</span>
     <span class="p">]</span>
 
     <span class="n">plot_data</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
     <span class="c1"># traverse list in reverse to get the axis of the plot in correct order</span>
     <span class="k">for</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">grp</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
         <span class="c1"># find income changes by group</span>
-        <span class="n">sub_data</span> <span class="o">=</span> <span class="n">ati_data</span><span class="p">[(</span><span class="n">ati_data</span><span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">)</span> <span class="o">&amp;</span>
-                            <span class="p">(</span><span class="n">ati_data</span><span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">low</span><span class="p">)]</span>
+        <span class="n">sub_data</span> <span class="o">=</span> <span class="n">ati_data</span><span class="p">[</span>
+            <span class="p">(</span><span class="n">ati_data</span><span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ati_data</span><span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">low</span><span class="p">)</span>
+        <span class="p">]</span>
         <span class="n">results</span> <span class="o">=</span> <span class="n">find_percs</span><span class="p">(</span><span class="n">sub_data</span><span class="p">,</span> <span class="n">grp</span><span class="p">)</span>
         <span class="n">plot_data</span><span class="p">[</span><span class="n">grp</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span>
 
     <span class="n">legend_labels</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;Increase of &gt; 5%&quot;</span><span class="p">,</span> <span class="s2">&quot;Increase 1-5%&quot;</span><span class="p">,</span> <span class="s2">&quot;Change &lt; 1%&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Decrease of 1-5%&quot;</span><span class="p">,</span> <span class="s2">&quot;Decrease &gt; 5%&quot;</span>
+        <span class="s2">&quot;Increase of &gt; 5%&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Increase 1-5%&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Change &lt; 1%&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Decrease of 1-5%&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Decrease &gt; 5%&quot;</span><span class="p">,</span>
     <span class="p">]</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">plot_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">plot_data</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
     <span class="n">data_cumsum</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">category_colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;GnBu&quot;</span><span class="p">)(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="p">)</span>
 
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
@@ -494,21 +520,28 @@ document.write(`
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">colname</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">legend_labels</span><span class="p">,</span> <span class="n">category_colors</span><span class="p">)):</span>
         <span class="n">widths</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
         <span class="n">starts</span> <span class="o">=</span> <span class="n">data_cumsum</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">widths</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">starts</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
-                <span class="n">label</span><span class="o">=</span><span class="n">colname</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span>
+            <span class="n">labels</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">starts</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">colname</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">include_text</span><span class="p">:</span>
             <span class="c1"># add text label</span>
             <span class="n">xcenters</span> <span class="o">=</span> <span class="n">starts</span> <span class="o">+</span> <span class="n">widths</span> <span class="o">/</span> <span class="mi">2</span>
             <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">color</span>
             <span class="n">text_color</span> <span class="o">=</span> <span class="s2">&quot;white&quot;</span> <span class="k">if</span> <span class="n">r</span> <span class="o">*</span> <span class="n">g</span> <span class="o">*</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="s2">&quot;darkgrey&quot;</span>
             <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">xcenters</span><span class="p">,</span> <span class="n">widths</span><span class="p">)):</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
-                        <span class="n">color</span><span class="o">=</span><span class="n">text_color</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                    <span class="n">x</span><span class="p">,</span>
+                    <span class="n">y</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                    <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="n">text_color</span><span class="p">,</span>
+                <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Portion of Bin&quot;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Expanded Income Bin&quot;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
-        <span class="n">mpl</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">))</span>
+        <span class="n">mpl</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">format</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">))</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">title</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
         <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Percentage Change In After Tax Income - </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -527,7 +560,7 @@ document.write(`
     <span class="n">tb</span><span class="p">,</span>
     <span class="n">tax_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a bar chart that shows the change in total liability for a given</span>
@@ -550,11 +583,13 @@ document.write(`
 <span class="sd">    fig: Matplotlib.pyplot figure object</span>
 <span class="sd">        differences plot</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">axis_formatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-9</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2">b&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;-$</span><span class="si">{</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-9</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2">b&quot;</span>
+
     <span class="n">acceptable_taxes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;income&quot;</span><span class="p">,</span> <span class="s2">&quot;payroll&quot;</span><span class="p">,</span> <span class="s2">&quot;combined&quot;</span><span class="p">]</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;tax_type must be one of the following: </span><span class="si">{</span><span class="n">acceptable_taxes</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="k">assert</span> <span class="n">tax_type</span> <span class="ow">in</span> <span class="n">acceptable_taxes</span><span class="p">,</span> <span class="n">msg</span>
@@ -570,11 +605,13 @@ document.write(`
     <span class="n">tax_var</span> <span class="o">=</span> <span class="n">tax_vars</span><span class="p">[</span><span class="n">acceptable_taxes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">tax_type</span><span class="p">)]</span>
     <span class="n">plot_data</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">plot_data</span><span class="p">[</span><span class="n">tax_var</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.55</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.55</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_axisbelow</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
-        <span class="n">plot_data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">plot_data</span><span class="p">[</span><span class="s2">&quot;combined&quot;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.55</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="n">plot_data</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+        <span class="n">plot_data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+        <span class="n">plot_data</span><span class="p">[</span><span class="s2">&quot;combined&quot;</span><span class="p">],</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.55</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">plot_data</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">],</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">title</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
         <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Change in Aggregate </span><span class="si">{</span><span class="n">tax_type</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> Tax Liability&quot;</span>
@@ -596,7 +633,7 @@ document.write(`
 <span class="k">def</span> <span class="nf">update_policy</span><span class="p">(</span>
     <span class="n">policy_obj</span><span class="p">:</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">,</span>
     <span class="n">reform</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">TaxcalcReform</span><span class="p">,</span> <span class="n">ParamToolsAdjustment</span><span class="p">],</span>
-    <span class="o">**</span><span class="n">kwargs</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convenience method that updates the Policy object with the reform</span>
@@ -675,29 +712,33 @@ document.write(`
 <span class="sd">    final_data: Pandas DataFrame</span>
 <span class="sd">        DataFrame with Lorenz curve for baseline and reform</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-        <span class="s2">&quot;base&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">var</span><span class="p">],</span>
-        <span class="s2">&quot;reform&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">var</span><span class="p">],</span>
-        <span class="s2">&quot;wt&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;s006&quot;</span><span class="p">]</span>
-    <span class="p">})</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;base&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">var</span><span class="p">],</span>
+            <span class="s2">&quot;reform&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="n">var</span><span class="p">],</span>
+            <span class="s2">&quot;wt&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">][</span><span class="s2">&quot;s006&quot;</span><span class="p">],</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
     <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wt_base&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;base&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wt&quot;</span><span class="p">]</span>
     <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wt_reform&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;reform&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wt&quot;</span><span class="p">]</span>
     <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;base&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">data</span><span class="p">[</span><span class="s2">&quot;cwt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wt&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
-    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;percentile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;cwt&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wt&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;percentile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;cwt&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wt&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="c1"># each bin has 1% of the population</span>
     <span class="n">_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.01</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
-    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;bin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;percentile&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">_bins</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;bin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;percentile&quot;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">_bins</span><span class="p">)</span>
     <span class="n">gdf</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;bin&quot;</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">base</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;wt_base&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="n">base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">base</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
     <span class="n">reform</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;wt_reform&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="n">reform</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">reform</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">reform</span><span class="p">)</span>
-    <span class="n">final_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-        <span class="s2">&quot;Base&quot;</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wt_base&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
-        <span class="s2">&quot;Reform&quot;</span><span class="p">:</span> <span class="n">reform</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wt_reform&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
-        <span class="s2">&quot;Population&quot;</span><span class="p">:</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;wt&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wt&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="p">})</span>
+    <span class="n">final_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;Base&quot;</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wt_base&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+            <span class="s2">&quot;Reform&quot;</span><span class="p">:</span> <span class="n">reform</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wt_reform&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+            <span class="s2">&quot;Population&quot;</span><span class="p">:</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;wt&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wt&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_data</span></div>
 
@@ -716,7 +757,7 @@ document.write(`
     <span class="n">base_linestyle</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span>
     <span class="n">reform_color</span><span class="p">:</span> <span class="n">PlotColors</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
     <span class="n">reform_linestyle</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span>
-    <span class="n">dpi</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">dpi</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate a Lorenz Curve</span>
@@ -754,12 +795,18 @@ document.write(`
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>  <span class="c1"># 45 degree line</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="n">plot_data</span><span class="p">[</span><span class="s2">&quot;Population&quot;</span><span class="p">],</span> <span class="n">plot_data</span><span class="p">[</span><span class="s2">&quot;Base&quot;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">base_color</span><span class="p">,</span>
-        <span class="n">linestyle</span><span class="o">=</span><span class="n">base_linestyle</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Base&quot;</span>
+        <span class="n">plot_data</span><span class="p">[</span><span class="s2">&quot;Population&quot;</span><span class="p">],</span>
+        <span class="n">plot_data</span><span class="p">[</span><span class="s2">&quot;Base&quot;</span><span class="p">],</span>
+        <span class="n">c</span><span class="o">=</span><span class="n">base_color</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="n">base_linestyle</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Base&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-        <span class="n">plot_data</span><span class="p">[</span><span class="s2">&quot;Population&quot;</span><span class="p">],</span> <span class="n">plot_data</span><span class="p">[</span><span class="s2">&quot;Reform&quot;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">reform_color</span><span class="p">,</span>
-        <span class="n">linestyle</span><span class="o">=</span><span class="n">reform_linestyle</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Reform&quot;</span>
+        <span class="n">plot_data</span><span class="p">[</span><span class="s2">&quot;Population&quot;</span><span class="p">],</span>
+        <span class="n">plot_data</span><span class="p">[</span><span class="s2">&quot;Reform&quot;</span><span class="p">],</span>
+        <span class="n">c</span><span class="o">=</span><span class="n">reform_color</span><span class="p">,</span>
+        <span class="n">linestyle</span><span class="o">=</span><span class="n">reform_linestyle</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Reform&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
@@ -783,12 +830,12 @@ document.write(`
     <span class="n">log_scale</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">increase_color</span><span class="p">:</span> <span class="n">PlotColors</span> <span class="o">=</span> <span class="s2">&quot;#F15FE4&quot;</span><span class="p">,</span>
     <span class="n">decrease_color</span><span class="p">:</span> <span class="n">PlotColors</span> <span class="o">=</span> <span class="s2">&quot;#41D6C2&quot;</span><span class="p">,</span>
-    <span class="n">dotsize</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">.75</span><span class="p">,</span>
+    <span class="n">dotsize</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">,</span>
     <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
     <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
     <span class="n">dpi</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
     <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Change in Tax Liability&quot;</span><span class="p">,</span>
-    <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Expanded Income&quot;</span>
+    <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Expanded Income&quot;</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a volcano plot to show change in tax tax liability</span>
@@ -832,6 +879,7 @@ document.write(`
 <span class="sd">    fig: Matplotlib.pyplot figure object</span>
 <span class="sd">        volcano plot figure</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">log_axis</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts y-axis log values</span>
@@ -860,7 +908,7 @@ document.write(`
         <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_change</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">dotsize</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">xformatter</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
@@ -875,7 +923,7 @@ document.write(`
 <span class="k">def</span> <span class="nf">revenue_plot</span><span class="p">(</span>
     <span class="n">tb</span><span class="p">,</span>
     <span class="n">tax_vars</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;iitax&quot;</span><span class="p">,</span> <span class="s2">&quot;payrolltax&quot;</span><span class="p">,</span> <span class="s2">&quot;combined&quot;</span><span class="p">],</span>
-    <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the changes in tax revenue from a given reform</span>
 
@@ -886,6 +934,7 @@ document.write(`
 <span class="sd">    tax_vars: list</span>
 <span class="sd">        List of tax varaibles to include on the graph</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">axis_formatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-9</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -903,7 +952,7 @@ document.write(`
     <span class="n">label_map</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;iitax&quot;</span><span class="p">:</span> <span class="s2">&quot;Income&quot;</span><span class="p">,</span>
         <span class="s2">&quot;payrolltax&quot;</span><span class="p">:</span> <span class="s2">&quot;Payroll&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;combined&quot;</span><span class="p">:</span> <span class="s2">&quot;Combined&quot;</span>
+        <span class="s2">&quot;combined&quot;</span><span class="p">:</span> <span class="s2">&quot;Combined&quot;</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">color_map</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;Income: Base&quot;</span><span class="p">:</span> <span class="s2">&quot;#12719e&quot;</span><span class="p">,</span>
@@ -911,7 +960,7 @@ document.write(`
         <span class="s2">&quot;Payroll: Base&quot;</span><span class="p">:</span> <span class="s2">&quot;#408941&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Payroll: Reform&quot;</span><span class="p">:</span> <span class="s2">&quot;#98cf90&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Combined: Base&quot;</span><span class="p">:</span> <span class="s2">&quot;#a4201d&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Combined: Reform&quot;</span><span class="p">:</span> <span class="s2">&quot;#e9807d&quot;</span>
+        <span class="s2">&quot;Combined: Reform&quot;</span><span class="p">:</span> <span class="s2">&quot;#e9807d&quot;</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">base_data</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">multi_var_table</span><span class="p">(</span><span class="n">tax_vars</span><span class="p">,</span> <span class="s2">&quot;base&quot;</span><span class="p">,</span> <span class="n">include_total</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">reform_data</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">multi_var_table</span><span class="p">(</span><span class="n">tax_vars</span><span class="p">,</span> <span class="s2">&quot;reform&quot;</span><span class="p">,</span> <span class="n">include_total</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -921,20 +970,24 @@ document.write(`
         <span class="n">base_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label_map</span><span class="p">[</span><span class="n">tax</span><span class="p">]</span><span class="si">}</span><span class="s2">: Base&quot;</span>
         <span class="n">reform_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label_map</span><span class="p">[</span><span class="n">tax</span><span class="p">]</span><span class="si">}</span><span class="s2">: Reform&quot;</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-            <span class="n">years</span><span class="p">,</span> <span class="n">base_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tax</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">base_label</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">base_label</span><span class="p">]</span>
-            <span class="p">)</span>
+            <span class="n">years</span><span class="p">,</span>
+            <span class="n">base_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tax</span><span class="p">],</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">base_label</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">base_label</span><span class="p">],</span>
+        <span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-            <span class="n">years</span><span class="p">,</span> <span class="n">reform_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tax</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">reform_label</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">reform_label</span><span class="p">]</span>
+            <span class="n">years</span><span class="p">,</span>
+            <span class="n">reform_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tax</span><span class="p">],</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">reform_label</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">reform_label</span><span class="p">],</span>
         <span class="p">)</span>
 
-    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.40</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Tax Type&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.40</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Tax Type&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Tax Liability (Billions)&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Tax Liability by Year&quot;</span><span class="p">)</span>
     <span class="c1"># remove plot borders</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;top&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;right&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
     <span class="c1"># convert y axis to billions</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
         <span class="n">mpl</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">FuncFormatter</span><span class="p">(</span><span class="n">axis_formatter</span><span class="p">)</span>

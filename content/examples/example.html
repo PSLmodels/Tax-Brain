@@ -42,7 +42,7 @@
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
@@ -61,7 +61,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Automated Reports in TaxBrain" href="../reports.html" />
-    <link rel="prev" title="How to Use Tax-Brain" href="../usage.html" />
+    <link rel="prev" title="Distributing the Corporate Income Tax" href="../corp_incidence.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -179,7 +179,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tax-Brain Example Use</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">How to Use Tax-Brain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../corp_incidence.html">Distributing the Corporate Income Tax</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Static Reform</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="../reports.html">Automated Reports in TaxBrain</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Web Application</span></p>
@@ -376,7 +378,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -392,6 +396,16 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Static Reform</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-reform-with-corporate-income-tax-incidence">Dynamic Reform with Corporate Income Tax Incidence</a></li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -1366,6 +1380,122 @@ document.write(`
 </div></div></div>
 </div>
 </section>
+<section class="tex2jax_ignore mathjax_ignore" id="dynamic-reform-with-corporate-income-tax-incidence">
+<h1>Dynamic Reform with Corporate Income Tax Incidence<a class="headerlink" href="#dynamic-reform-with-corporate-income-tax-incidence" title="Link to this heading">#</a></h1>
+<p>Now we simulate a dynamic revenue estimate while accounting for the incidence of a corporate income tax change.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Corporate revenue estimate</span>
+<span class="n">corp_rev</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5_000_000_000</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">end_year</span> <span class="o">-</span> <span class="n">start_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">incidence_assumptions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Incidence&quot;</span><span class="p">:</span> <span class="p">{</span>  <span class="c1"># long-run incidence of corporate tax</span>
+        <span class="s2">&quot;Labor share&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="s2">&quot;Shareholder share&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span>
+        <span class="s2">&quot;All capital share&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;Long run years&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>  <span class="c1"># number of years to reach long-run incidence</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tb_dynamic</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">use_cps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_url</span><span class="p">,</span>
+                      <span class="n">behavior</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sub&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">},</span>
+                      <span class="n">corp_revenue</span><span class="o">=</span><span class="n">corp_rev</span><span class="p">,</span>
+                      <span class="n">corp_incidence_assumptions</span><span class="o">=</span><span class="n">incidence_assumptions</span><span class="p">)</span>
+<span class="n">tb_dynamic</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Partial Equilibrium - Combined Tax Liability&quot;</span><span class="p">)</span>
+<span class="n">tb_dynamic</span><span class="o">.</span><span class="n">weighted_totals</span><span class="p">(</span><span class="s2">&quot;combined&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Partial Equilibrium - Combined Tax Liability
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>2021</th>
+      <th>2022</th>
+      <th>2023</th>
+      <th>2024</th>
+      <th>2025</th>
+      <th>2026</th>
+      <th>2027</th>
+      <th>2028</th>
+      <th>2029</th>
+      <th>2030</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Base</th>
+      <td>2.271315e+12</td>
+      <td>3.067829e+12</td>
+      <td>3.246660e+12</td>
+      <td>3.395741e+12</td>
+      <td>3.575933e+12</td>
+      <td>3.979720e+12</td>
+      <td>4.161644e+12</td>
+      <td>4.344157e+12</td>
+      <td>4.543405e+12</td>
+      <td>4.749710e+12</td>
+    </tr>
+    <tr>
+      <th>Reform</th>
+      <td>2.311004e+12</td>
+      <td>3.121100e+12</td>
+      <td>3.313873e+12</td>
+      <td>3.478419e+12</td>
+      <td>3.675133e+12</td>
+      <td>4.084667e+12</td>
+      <td>4.284068e+12</td>
+      <td>4.484878e+12</td>
+      <td>4.692227e+12</td>
+      <td>4.906319e+12</td>
+    </tr>
+    <tr>
+      <th>Difference</th>
+      <td>3.968873e+10</td>
+      <td>5.327112e+10</td>
+      <td>6.721343e+10</td>
+      <td>8.267846e+10</td>
+      <td>9.920007e+10</td>
+      <td>1.049468e+11</td>
+      <td>1.224242e+11</td>
+      <td>1.407211e+11</td>
+      <td>1.488219e+11</td>
+      <td>1.566086e+11</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1376,16 +1506,16 @@ document.write(`
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "taxbrain-dev"
+            mode: "python"
         },
         kernelOptions: {
-            name: "taxbrain-dev",
+            name: "python3",
             path: "./content/examples"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'taxbrain-dev'</script>
+    <script>kernelName = 'python3'</script>
 
                 </article>
               
@@ -1398,12 +1528,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../usage.html"
+       href="../corp_incidence.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">How to Use Tax-Brain</p>
+        <p class="prev-next-title">Distributing the Corporate Income Tax</p>
       </div>
     </a>
     <a class="right-next"
@@ -1422,7 +1552,22 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"></div>
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Static Reform</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-reform-with-corporate-income-tax-incidence">Dynamic Reform with Corporate Income Tax Incidence</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>

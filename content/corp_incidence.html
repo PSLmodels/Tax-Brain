@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Tax-Brain &#8212; Tax-Brain</title>
+    <title>Distributing the Corporate Income Tax &#8212; Tax-Brain</title>
   
   
   
@@ -59,10 +59,11 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'content/intro';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/corp_incidence';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="How to Use Tax-Brain" href="usage.html" />
+    <link rel="next" title="Static Reform" href="examples/example.html" />
+    <link rel="prev" title="How to Use Tax-Brain" href="usage.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +125,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -142,7 +141,7 @@
 
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="intro.html">
   
   
   
@@ -173,16 +172,16 @@
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
                     Tax-Brain
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tax-Brain Example Use</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="usage.html">How to Use Tax-Brain</a></li>
-<li class="toctree-l1"><a class="reference internal" href="corp_incidence.html">Distributing the Corporate Income Tax</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Distributing the Corporate Income Tax</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/example.html">Static Reform</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="reports.html">Automated Reports in TaxBrain</a></li>
@@ -280,7 +279,7 @@
       
       
       
-      <li><a href="https://github.com/PSLmodels/Tax-Brain/issues/new?title=Issue%20on%20page%20%2Fcontent/intro.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/PSLmodels/Tax-Brain/issues/new?title=Issue%20on%20page%20%2Fcontent/corp_incidence.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -310,7 +309,7 @@
       
       
       
-      <li><a href="../_sources/content/intro.md" target="_blank"
+      <li><a href="../_sources/content/corp_incidence.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -394,7 +393,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Tax-Brain</h1>
+    <h1>Distributing the Corporate Income Tax</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -404,14 +403,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disclaimer">Disclaimer</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-tax-brain">Installing Tax-Brain</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-tax-brain">Using Tax-Brain</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-tax-brain">Citing Tax-Brain</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tax-brain-interface">Tax-Brain Interface</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-information">Additional Information</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#releasing-new-versions-of-tax-brain">Releasing New Versions of Tax-Brain</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theoretical-considerations">Theoretical considerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mechanics-in-tax-brain">Mechanics in <code class="docutils literal notranslate"><span class="pre">Tax-Brain</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-revenue-and-distribution-assumptions">Defining revenue and distribution assumptions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-of-the-cit-across-individual-taxpayers">Distribution of the CIT across individual taxpayers</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-about-macroeconomic-effects">What about macroeconomic effects?</a></li>
 </ul>
             </nav>
         </div>
@@ -423,84 +421,65 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="tax-brain">
-<h1>Tax-Brain<a class="headerlink" href="#tax-brain" title="Link to this heading">#</a></h1>
-<p>Tax-Brain is a Python package that wraps multiple economic models in one easy
-to use interface.</p>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
-<p>Tax-Brain makes it easy for users to simulate the US tax system by providing a
-single interface for multiple tax models. Currently, Tax-Brain interfaces with
-<a class="reference external" href="https://github.com/PSLmodels/Tax-Calculator">Tax-Calculator</a> and
-<a class="reference external" href="https://github.com/PSLmodels/Behavioral-Responses">Behavioral-Responses</a>.
-Additional models will be added in the near future to expand Tax-Brain’s
-capabilities to include modeling business taxation and running dynamic
-general equilibrium simulations.</p>
-<p>To learn more about how Tax-Brain works, see <a class="reference external" href="https://github.com/PSLmodels/Tax-Brain/blob/master/DOC.md">this</a>
-document.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="distributing-the-corporate-income-tax">
+<h1>Distributing the Corporate Income Tax<a class="headerlink" href="#distributing-the-corporate-income-tax" title="Link to this heading">#</a></h1>
+<p>This section of the documentation describes how Tax-Brain can be used to distribute the corporate income tax burden across individual taxpayers.</p>
+<section id="theoretical-considerations">
+<h2>Theoretical considerations<a class="headerlink" href="#theoretical-considerations" title="Link to this heading">#</a></h2>
+<p>The while the statutory incidence of the corporate income tax is on the corporate entity, the economic incidence (as for any tax) will be born by people.  In this case, the people who may bear this incidence could be shareholders in the corporation (through changes in dividends or capital gains), its employees (through changes in wages), its consumers (though changes in prices of goods and services), or other owners of capital (through the reallocation of productive assets across the corporate and non-corporate sectors or between the United States and the rest of the world).</p>
+<p>Economists generally believe that shareholders initially bear the full burden of the corporate income tax.  This is because $1 in corporate income tax paid means one less dollar for dividend distributions (or one less dollar held in retained earnings and thus one less dollar of capital gains) and there is not sufficient time for wages or prices to adjust or for capital to be relocated in way that shifts the burden the corporate income tax.</p>
+<p>In addition, it’s generally believed that the market for goods and services is competitive and that if corporations were to try to pass on any increase in the corporate income tax to their consumers, that those consumers could shift their consumption towards the product of non-corporate businesses.  Because of this, the consensus among economists is that consumers to not bear any part of the corporate income tax.</p>
+<p>While users should form their own judgments about the incidence of the corporate income tax, some considerations they may bear in mind are the following:</p>
+<ol class="arabic simple">
+<li><p>What share of corporate profits represent a normal return to capital and what share represent super normal (or above market) rate of return?  Generally speaking, the incidence of the super normal return will tend to fall fully on shareholders of the firm, while the normal return will be split between workers, shareholders, and other owners of capital.</p></li>
+<li><p>How mobile is productive capital or corporate income? That is, can corporations easily shift production or profits abroad – or even to non-corporate entities.  The more mobile is capital, the smaller share of the incidence it will bear in the long run – and the faster it will get to this long run state.</p></li>
+<li><p>How rigid are wages?  If adjusting wages is very easy, then the long run incidence on workers will be achieved in fewer years.  However, do note that research suggests asymmetries in the ability of wages to adjust upward or downward.</p></li>
+</ol>
 </section>
-<section id="disclaimer">
-<h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Link to this heading">#</a></h2>
-<p>Tax-brain and its underlying models are constantly being improved upon. For
-that reason, the results output by Tax-Brain may differ over time. It is
-strongly suggested that the user make note of which version of Tax-Brain,
-they are using when reporting their results.</p>
+<section id="mechanics-in-tax-brain">
+<h2>Mechanics in <code class="docutils literal notranslate"><span class="pre">Tax-Brain</span></code><a class="headerlink" href="#mechanics-in-tax-brain" title="Link to this heading">#</a></h2>
 </section>
-<section id="installing-tax-brain">
-<h2>Installing Tax-Brain<a class="headerlink" href="#installing-tax-brain" title="Link to this heading">#</a></h2>
-<p>You can install the latest official release from Conda using this command:
-<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-c</span> <span class="pre">pslmodels</span> <span class="pre">taxbrain</span></code>.</p>
-<p>Similarly, you can update to the latest release of Tax-Brain using
-<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">update</span> <span class="pre">-c</span> <span class="pre">pslmodels</span> <span class="pre">taxbrain</span></code>.</p>
-<p>Tax-Brain is currently not available on PyPI.</p>
-</section>
-<section id="using-tax-brain">
-<h2>Using Tax-Brain<a class="headerlink" href="#using-tax-brain" title="Link to this heading">#</a></h2>
-<p>View the sample code in <a class="reference external" href="https://github.com/PSLmodels/Tax-Brain/blob/master/example.py"><code class="docutils literal notranslate"><span class="pre">example.py</span></code></a> to see how to run Tax-Brain.
-Or, see <a class="reference internal" href="usage.html#chap-usage"><span class="std std-ref">How to Use Tax-Brain</span></a>
-for a more detailed walk through.</p>
-</section>
-<section id="citing-tax-brain">
-<h2>Citing Tax-Brain<a class="headerlink" href="#citing-tax-brain" title="Link to this heading">#</a></h2>
-<p>Please cite the source of your analysis as “Tax-Brain release #.#.#, author’s
-calculations.” If you would like to link to Tax-Brain, please use
-<code class="docutils literal notranslate"><span class="pre">https://github.com/PSLmodels/Tax-Brain</span></code>. It is also strongly suggested that
-you describe your input data and note the versions of the underlying models.</p>
-</section>
-<section id="tax-brain-interface">
-<h2>Tax-Brain Interface<a class="headerlink" href="#tax-brain-interface" title="Link to this heading">#</a></h2>
-<p>In addition to its Python API, Tax-Brain also powers a web application on
-<a class="reference external" href="https://compute.studio/">Compute Studio</a>. That application can be found
-<a class="reference external" href="https://compute.studio/PSLmodels/Tax-Brain/">here</a>. The code behind the
-GUI can be found in this repository in the <a class="reference external" href="https://github.com/PSLmodels/Tax-Brain/tree/master/cs-config">cs-config</a>
-directory.</p>
-</section>
-<section id="additional-information">
-<h2>Additional Information<a class="headerlink" href="#additional-information" title="Link to this heading">#</a></h2>
+<section id="defining-revenue-and-distribution-assumptions">
+<h2>Defining revenue and distribution assumptions<a class="headerlink" href="#defining-revenue-and-distribution-assumptions" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Tax-Brain</span></code> follows the assumptions above and assumes that the burden of the corporate income tax will be split across shareholders, workers, and owners of other capital.  It further allows for the user to specify the long-run shares of incidence across these three groups (which must sum to one) and the time it takes to achieve the long run incidence.  <code class="docutils literal notranslate"><span class="pre">Tax-Brain</span></code> then assumes a linear transition from the initial incidence (where 100% of the burden falls on shareholders) to this long run incidence.</p>
+<p>To distribute the corporate income tax, <code class="docutils literal notranslate"><span class="pre">Tax-Brain</span></code> users must have the following:</p>
+<ol class="arabic simple">
+<li><p>Year by year totals of the corporate income tax burden (in dollars).  This can be specied as a list, Numpy array, or dictionary with <code class="docutils literal notranslate"><span class="pre">{&quot;year&quot;:</span> <span class="pre">value}</span></code> pairs.</p></li>
+<li><p>A dictionary specifying the assumptions about long-run incidence.  This dictionary should be formatted as:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+ <span class="s2">&quot;Incidence&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="s2">&quot;Labor share&quot;</span><span class="p">:</span> <span class="n">value_float</span><span class="p">,</span>
+     <span class="s2">&quot;Shareholder share&quot;</span><span class="p">:</span> <span class="n">value_float</span><span class="p">,</span>
+     <span class="s2">&quot;All capital share&quot;</span><span class="p">:</span> <span class="n">value_float</span><span class="p">,</span>
+ <span class="p">},</span>
+ <span class="s2">&quot;Long run years&quot;</span><span class="p">:</span> <span class="n">value_int</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The two objects above will then be passed as arguments when instantiating an instance of the <code class="docutils literal notranslate"><span class="pre">TaxBrain</span></code> class object through its <code class="docutils literal notranslate"><span class="pre">corp_revenue</span></code> and <code class="docutils literal notranslate"><span class="pre">corp_incidence_assumptions</span></code> keyword arguments (the default is to run <code class="docutils literal notranslate"><span class="pre">Tax-Brain</span></code> without accounting for any corporate tax incidence).</p>
+<p>After instantiating a <code class="docutils literal notranslate"><span class="pre">TaxBrain</span></code> object with these arguments, one can use the normal <code class="docutils literal notranslate"><span class="pre">TaxBrain.run()</span></code> to run <code class="docutils literal notranslate"><span class="pre">Tax-Brain</span></code> and produce the standard output.</p>
+<p>The difference when running the model with a consideration of the corporate incidence is that before any individual income tax or payroll tax reforms are considered, the incidence of the corporate income tax is distributed across records in the individual tax file.  This will change their income (relative to the baseline before the CIT change), which will affect their tax liability.</p>
+<section id="distribution-of-the-cit-across-individual-taxpayers">
+<h3>Distribution of the CIT across individual taxpayers<a class="headerlink" href="#distribution-of-the-cit-across-individual-taxpayers" title="Link to this heading">#</a></h3>
+<p>The corporate income tax is distributed across individual taxpayers in a proportional manner.  For example, assume that 50% of the corporate income tax is borne by shareholders and that corporate income taxes paid are <span class="math notranslate nohighlight">\(50 billion.  When distributing the corporate income tax, `Tax-Brain` will change aggregate shareholder income (short-term capital gains, `p22250`, long-term capital gains, `p23250`, and dividends,`e00600`) by \)</span> $50 billion * 0.50 = $25 billion<span class="math notranslate nohighlight">\(.  To allocate this \)</span>25 billion across individual taxpayers, we assume equal percentage changes across taxpayers.  Thus, taxpayers with more shareholder income have larger dollar value changes in their income.  The percentage shareholder income is adjusted by is determined as <span class="math notranslate nohighlight">\( pct = \frac{\text{shareholder incidence} \times \text{CIT Revenue}}{\text{Aggregate shareholder income}}\)</span>.  So, continuing with our example, suppose aggregate shareholder income is <span class="math notranslate nohighlight">\(500 billion, then the percentage change in shareholder income applied to each taxpayer is \)</span>\frac{0.5 * 50}{500} = \frac{25}{500} = \frac{1}{20} = 5%$.</p>
+<p>Analogous adjustments are made to wage income (<code class="docutils literal notranslate"><span class="pre">e00200</span></code>, <code class="docutils literal notranslate"><span class="pre">e00200p</span></code>, <code class="docutils literal notranslate"><span class="pre">e00200s</span></code>) and other capital income, which is made up of:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/PSLmodels/Tax-Brain/blob/master/ROADMAP.md">Project Road Map</a></p></li>
-<li><p><a class="reference external" href="https://github.com/PSLmodels/Tax-Brain/blob/master/CONTRIBUTING.md">Contributing</a></p></li>
-<li><p><a class="reference external" href="https://github.com/PSLmodels/Tax-Brain/graphs/contributors">Contributors</a></p></li>
-<li><p><a class="reference external" href="https://github.com/PSLmodels/Tax-Brain/blob/master/RELEASES.md">Release History</a></p></li>
+<li><p>Taxable interest: <code class="docutils literal notranslate"><span class="pre">e00300</span></code></p></li>
+<li><p>Tax exempt interest: <code class="docutils literal notranslate"><span class="pre">e00400</span></code></p></li>
+<li><p>Capital gains not on Schedule D: <code class="docutils literal notranslate"><span class="pre">e01100</span></code></p></li>
+<li><p>Other gains/losses: <code class="docutils literal notranslate"><span class="pre">e01200</span></code></p></li>
+<li><p>Schedule E income from rents, royalties, S corporations, and partnerships: <code class="docutils literal notranslate"><span class="pre">e02000</span></code></p></li>
 </ul>
 </section>
-<section id="releasing-new-versions-of-tax-brain">
-<h2>Releasing New Versions of Tax-Brain<a class="headerlink" href="#releasing-new-versions-of-tax-brain" title="Link to this heading">#</a></h2>
-<p>To release new versions of Tax-Brain, use the <a class="reference external" href="https://github.com/PSLmodels/Package-Builder">Package-Builder</a>
-tool. Before using the tool, be sure to add the conda-forge channel to your
-conda config by using <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">config</span> <span class="pre">--add</span> <span class="pre">channels</span> <span class="pre">conda-forge</span></code>.</p>
-<p><em><strong>Looking for code powering the TaxBrain GUI at <a class="reference external" href="https://apps.ospc.org/taxbrain">apps.ospc.org/taxbrain</a>? See <a class="reference external" href="https://github.com/ospc-org/ospc.org">github.com/ospc-org/ospc.org</a>.</strong></em></p>
 </section>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
+<section id="what-about-macroeconomic-effects">
+<h2>What about macroeconomic effects?<a class="headerlink" href="#what-about-macroeconomic-effects" title="Link to this heading">#</a></h2>
+<p>Changes in the corporate income tax rate affect the cost of capital and thus demand for investment.  Aggregate demand for investment and the stock of capital affect wages and interest rates.  These in turn affect income of individual taxpayers.</p>
+<p>While these responses may be quantitatively important, <code class="docutils literal notranslate"><span class="pre">Tax-Brain</span></code> does not itself compute these macroeconomics effects.  However, users can incorporate them into the analysis <code class="docutils literal notranslate"><span class="pre">Tax-Brain</span></code> produces.</p>
+<p>The first step to doing this is to use a macroeconomic model capable of simulating changes in aggregate wages, corporate profits, GDP, and interest rates for a given tax policy change.  For example, one could use the PSL-cataloged <a class="reference external" href="http://pslmodels.github.io/OG-USA/"><code class="docutils literal notranslate"><span class="pre">OG-UGA</span></code></a> model. Or perhaps the <a class="reference external" href="https://www.federalreserve.gov/econres/us-models-about.htm">FRB/US model</a>.</p>
+<p>With a measure of change in these variables relative to the CBO baseline, one can update the extrapolation of the tax microdata used in <code class="docutils literal notranslate"><span class="pre">Tax-Brain</span></code> to account for the macroeconomic changes of the tax reform.  The can be passed to the <code class="docutils literal notranslate"><span class="pre">TaxBrain</span></code> class object through the <code class="docutils literal notranslate"><span class="pre">assump</span></code> keyword argument when instantiating the object.  The <code class="docutils literal notranslate"><span class="pre">assump</span></code> object will need to be a dictionary and one will pass the updated growth factors via the <code class="docutils literal notranslate"><span class="pre">{growdiff_response:</span> <span class="pre">value}</span></code> pair in that dictionary.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -533,12 +512,21 @@ conda config by using <code class="docutils literal notranslate"><span class="pr
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
-    <a class="right-next"
+    <a class="left-prev"
        href="usage.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How to Use Tax-Brain</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="examples/example.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">How to Use Tax-Brain</p>
+        <p class="prev-next-title">Static Reform</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -558,14 +546,13 @@ conda config by using <code class="docutils literal notranslate"><span class="pr
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disclaimer">Disclaimer</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-tax-brain">Installing Tax-Brain</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-tax-brain">Using Tax-Brain</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-tax-brain">Citing Tax-Brain</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tax-brain-interface">Tax-Brain Interface</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-information">Additional Information</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#releasing-new-versions-of-tax-brain">Releasing New Versions of Tax-Brain</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theoretical-considerations">Theoretical considerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mechanics-in-tax-brain">Mechanics in <code class="docutils literal notranslate"><span class="pre">Tax-Brain</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-revenue-and-distribution-assumptions">Defining revenue and distribution assumptions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-of-the-cit-across-individual-taxpayers">Distribution of the CIT across individual taxpayers</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-about-macroeconomic-effects">What about macroeconomic effects?</a></li>
 </ul>
   </nav></div>
 

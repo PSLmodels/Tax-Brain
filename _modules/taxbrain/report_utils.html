@@ -41,7 +41,7 @@
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
@@ -178,7 +178,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tax-Brain Example Use</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../content/usage.html">How to Use Tax-Brain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/corp_incidence.html">Distributing the Corporate Income Tax</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../content/examples/example.html">Static Reform</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="../../content/reports.html">Automated Reports in TaxBrain</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Web Application</span></p>
@@ -356,6 +358,7 @@ document.write(`
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Helper Functions for creating the automated reports</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">pypandoc</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -390,12 +393,25 @@ document.write(`
     <span class="s2">&quot;benefit_cost_total&quot;</span><span class="p">:</span> <span class="s2">&quot;Spending on benefit programs&quot;</span><span class="p">,</span>
     <span class="s2">&quot;benefit_value_total&quot;</span><span class="p">:</span> <span class="s2">&quot;Consumption value of benefits&quot;</span><span class="p">,</span>
     <span class="s2">&quot;expanded_income&quot;</span><span class="p">:</span> <span class="s2">&quot;Expanded income&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;aftertax_income&quot;</span><span class="p">:</span> <span class="s2">&quot;After-tax income&quot;</span>
+    <span class="s2">&quot;aftertax_income&quot;</span><span class="p">:</span> <span class="s2">&quot;After-tax income&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">DIFF_TABLE_ROW_NAMES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&lt;$0K&#39;</span><span class="p">,</span> <span class="s1">&#39;=$0K&#39;</span><span class="p">,</span> <span class="s1">&#39;$0-10K&#39;</span><span class="p">,</span> <span class="s1">&#39;$10-20K&#39;</span><span class="p">,</span> <span class="s1">&#39;$20-30K&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;$30-40K&#39;</span><span class="p">,</span> <span class="s1">&#39;$40-50K&#39;</span><span class="p">,</span> <span class="s1">&#39;$50-75K&#39;</span><span class="p">,</span> <span class="s1">&#39;$75-100K&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;$100-200K&#39;</span><span class="p">,</span> <span class="s1">&#39;$200-500K&#39;</span><span class="p">,</span> <span class="s1">&#39;$500K-1M&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;$1M&#39;</span><span class="p">,</span> <span class="s1">&#39;ALL&#39;</span><span class="p">]</span>
+<span class="n">DIFF_TABLE_ROW_NAMES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;&lt;$0K&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;=$0K&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;$0-10K&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;$10-20K&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;$20-30K&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;$30-40K&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;$40-50K&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;$50-75K&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;$75-100K&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;$100-200K&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;$200-500K&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;$500K-1M&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;&gt;$1M&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ALL&quot;</span><span class="p">,</span>
+<span class="p">]</span>
 
 
 <div class="viewcode-block" id="md_to_pdf">
@@ -420,9 +436,11 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># convert markdown text to pdf with pandoc</span>
     <span class="n">pypandoc</span><span class="o">.</span><span class="n">convert_text</span><span class="p">(</span>
-        <span class="n">md_text</span><span class="p">,</span> <span class="s1">&#39;pdf&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;md&#39;</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="n">outputfile_path</span><span class="p">,</span>
-        <span class="n">extra_args</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;-V&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry:margin=1.5cm&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;--pdf-engine&#39;</span><span class="p">,</span> <span class="s1">&#39;pdflatex&#39;</span><span class="p">]</span>
+        <span class="n">md_text</span><span class="p">,</span>
+        <span class="s2">&quot;pdf&quot;</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;md&quot;</span><span class="p">,</span>
+        <span class="n">outputfile</span><span class="o">=</span><span class="n">outputfile_path</span><span class="p">,</span>
+        <span class="n">extra_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;-V&quot;</span><span class="p">,</span> <span class="s2">&quot;geometry:margin=1.5cm&quot;</span><span class="p">,</span> <span class="s2">&quot;--pdf-engine&quot;</span><span class="p">,</span> <span class="s2">&quot;pdflatex&quot;</span><span class="p">],</span>
     <span class="p">)</span></div>
 
 
@@ -444,13 +462,9 @@ document.write(`
 <span class="sd">        String that is a formatted markdown table</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">tabulate</span><span class="p">(</span>
-            <span class="n">df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s2">&quot;keys&quot;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="n">tablefmt</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">tabulate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s2">&quot;keys&quot;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="n">tablefmt</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">tabulate</span><span class="p">(</span>
-            <span class="n">df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s2">&quot;firstrow&quot;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="n">tablefmt</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">tabulate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s2">&quot;firstrow&quot;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="n">tablefmt</span><span class="p">)</span></div>
 
 
 
@@ -475,17 +489,22 @@ document.write(`
     <span class="c1"># map out additional name information for vi indexed variables</span>
     <span class="n">vi_map</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;MARS&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;Single&quot;</span><span class="p">,</span> <span class="s2">&quot;Married Filing Jointly&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Married Filing Separately&quot;</span><span class="p">,</span> <span class="s2">&quot;Head of Household&quot;</span><span class="p">,</span> <span class="s2">&quot;Widow&quot;</span>
+            <span class="s2">&quot;Single&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Married Filing Jointly&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Married Filing Separately&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Head of Household&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Widow&quot;</span><span class="p">,</span>
         <span class="p">],</span>
         <span class="s2">&quot;idedtype&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;Medical&quot;</span><span class="p">,</span> <span class="s2">&quot;State &amp; Local Taxes&quot;</span><span class="p">,</span> <span class="s2">&quot;Real EState Taxes&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Casualty&quot;</span><span class="p">,</span> <span class="s2">&quot;Miscellaneous&quot;</span><span class="p">,</span> <span class="s2">&quot;Interest Paid&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Charitable Giving&quot;</span>
+            <span class="s2">&quot;Medical&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;State &amp; Local Taxes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Real EState Taxes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Casualty&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Miscellaneous&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Interest Paid&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Charitable Giving&quot;</span><span class="p">,</span>
         <span class="p">],</span>
-        <span class="s2">&quot;EIC&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;0 Kids&quot;</span><span class="p">,</span> <span class="s2">&quot;1 Kid&quot;</span><span class="p">,</span> <span class="s2">&quot;2 Kids&quot;</span><span class="p">,</span> <span class="s2">&quot;3+ Kids&quot;</span>
-        <span class="p">]</span>
+        <span class="s2">&quot;EIC&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;0 Kids&quot;</span><span class="p">,</span> <span class="s2">&quot;1 Kid&quot;</span><span class="p">,</span> <span class="s2">&quot;2 Kids&quot;</span><span class="p">,</span> <span class="s2">&quot;3+ Kids&quot;</span><span class="p">],</span>
     <span class="p">}</span>
     <span class="n">reform_years</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">reform_by_year</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">deque</span><span class="p">())</span>
@@ -507,8 +526,11 @@ document.write(`
                 <span class="n">new_indexed</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="n">pol_meta</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
                 <span class="n">reform_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;CPI Indexed: </span><span class="si">{</span><span class="n">default_indexed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                     <span class="sa">f</span><span class="s2">&quot;CPI Indexed: </span><span class="si">{</span><span class="n">new_indexed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                    <span class="p">[</span>
+                        <span class="n">name</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s2">&quot;CPI Indexed: </span><span class="si">{</span><span class="n">default_indexed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s2">&quot;CPI Indexed: </span><span class="si">{</span><span class="n">new_indexed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="p">]</span>
                 <span class="p">)</span>
                 <span class="k">continue</span>
             <span class="n">pol_meta</span> <span class="o">=</span> <span class="n">pol</span><span class="o">.</span><span class="n">metadata</span><span class="p">()[</span><span class="n">param</span><span class="p">]</span>
@@ -523,7 +545,7 @@ document.write(`
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">default_val</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="c1"># first find the indexed parameter we&#39;re working with</span>
                 <span class="k">for</span> <span class="n">vi</span> <span class="ow">in</span> <span class="n">vi_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="n">vi</span> <span class="ow">in</span> <span class="n">pol_meta</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">vi</span> <span class="ow">in</span> <span class="n">pol_meta</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                         <span class="n">vi_name</span> <span class="o">=</span> <span class="n">vi</span>
                         <span class="k">break</span>
                 <span class="n">vi_list</span> <span class="o">=</span> <span class="n">vi_map</span><span class="p">[</span><span class="n">vi_name</span><span class="p">]</span>
@@ -534,9 +556,7 @@ document.write(`
                     <span class="n">_new_val</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_val</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span>
                     <span class="k">if</span> <span class="n">_default_val</span> <span class="o">==</span> <span class="n">_new_val</span><span class="p">:</span>
                         <span class="k">continue</span>
-                    <span class="n">reform_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                        <span class="p">[</span><span class="n">_name</span><span class="p">,</span> <span class="n">_default_val</span><span class="p">,</span> <span class="n">_new_val</span><span class="p">]</span>
-                    <span class="p">)</span>
+                    <span class="n">reform_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">_name</span><span class="p">,</span> <span class="n">_default_val</span><span class="p">,</span> <span class="n">_new_val</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">reform_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">default_val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_val</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
@@ -546,9 +566,7 @@ document.write(`
     <span class="n">md_tables</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">reform_years</span><span class="p">:</span>
         <span class="n">content</span> <span class="o">=</span> <span class="n">reform_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span>
-        <span class="n">content</span><span class="o">.</span><span class="n">appendleft</span><span class="p">(</span>
-            <span class="p">[</span><span class="s2">&quot;Policy&quot;</span><span class="p">,</span> <span class="s2">&quot;Original Value&quot;</span><span class="p">,</span> <span class="s2">&quot;New Value&quot;</span><span class="p">]</span>
-        <span class="p">)</span>
+        <span class="n">content</span><span class="o">.</span><span class="n">appendleft</span><span class="p">([</span><span class="s2">&quot;Policy&quot;</span><span class="p">,</span> <span class="s2">&quot;Original Value&quot;</span><span class="p">,</span> <span class="s2">&quot;New Value&quot;</span><span class="p">])</span>
         <span class="n">md_tables</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_table</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">md_tables</span></div>
@@ -626,8 +644,10 @@ document.write(`
         <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;modifing the </span><span class="si">{}</span><span class="s2"> section of the tax code&quot;</span><span class="p">,</span>
         <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;modifing the </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2"> sections of the tax code&quot;</span><span class="p">,</span>
         <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;modifing the </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, and </span><span class="si">{}</span><span class="s2"> sections of the tax code&quot;</span><span class="p">,</span>
-        <span class="mi">4</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;modifing a number of areas of the tax code, &quot;</span>
-            <span class="s2">&quot;including the </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, and </span><span class="si">{}</span><span class="s2"> sections&quot;</span><span class="p">)</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">&quot;modifing a number of areas of the tax code, &quot;</span>
+            <span class="s2">&quot;including the </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, and </span><span class="si">{}</span><span class="s2"> sections&quot;</span>
+        <span class="p">),</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">description</span><span class="p">:</span>
         <span class="n">num_areas</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pol_areas</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
@@ -664,7 +684,7 @@ document.write(`
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">, along with some modifications. A summary of these &quot;</span>
-            <span class="s2">&quot;modifications can be found in the </span><span class="se">\&quot;</span><span class="s2">Summary of Baseline Policy</span><span class="se">\&quot;</span><span class="s2"> &quot;</span>
+            <span class="s1">&#39;modifications can be found in the &quot;Summary of Baseline Policy&quot; &#39;</span>
             <span class="s2">&quot;section&quot;</span>
         <span class="p">)</span></div>
 
@@ -691,9 +711,7 @@ document.write(`
     <span class="n">sub_diff</span> <span class="o">=</span> <span class="n">diff</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;ALL&quot;</span><span class="p">)</span>  <span class="c1"># remove total row</span>
     <span class="c1"># find the absolute largest change in total liability</span>
     <span class="n">absolute_change</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sub_diff</span><span class="p">[</span><span class="s2">&quot;tot_change&quot;</span><span class="p">])</span>
-    <span class="n">largest</span> <span class="o">=</span> <span class="n">sub_diff</span><span class="p">[</span>
-        <span class="nb">max</span><span class="p">(</span><span class="n">absolute_change</span><span class="p">)</span> <span class="o">==</span> <span class="n">absolute_change</span>
-    <span class="p">]</span>
+    <span class="n">largest</span> <span class="o">=</span> <span class="n">sub_diff</span><span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">absolute_change</span><span class="p">)</span> <span class="o">==</span> <span class="n">absolute_change</span><span class="p">]</span>
     <span class="n">index_largest</span> <span class="o">=</span> <span class="n">largest</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">largest_change</span> <span class="o">=</span> <span class="n">largest</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># index in case there&quot;s a tie</span>
     <span class="c1"># split index to form sentance</span>
@@ -755,16 +773,17 @@ document.write(`
                 <span class="n">_var</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">base</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">base_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
                 <span class="n">reform</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">reform_data</span><span class="p">[</span><span class="n">year</span><span class="p">]</span>
-                <span class="n">base_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
-                    <span class="n">base</span><span class="p">[</span><span class="n">_var</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">base</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">],</span> <span class="mi">0</span>
-                <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                <span class="n">base_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">base</span><span class="p">[</span><span class="n">_var</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">base</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
                 <span class="n">reform_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
                     <span class="n">reform</span><span class="p">[</span><span class="n">_var</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">reform</span><span class="p">[</span><span class="s2">&quot;s006&quot;</span><span class="p">],</span> <span class="mi">0</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
                 <span class="n">diff</span> <span class="o">=</span> <span class="n">reform_total</span> <span class="o">-</span> <span class="n">base_total</span>
                 <span class="n">totals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="p">{</span><span class="s2">&quot;Base&quot;</span><span class="p">:</span> <span class="n">base_total</span><span class="p">,</span> <span class="s2">&quot;Reform&quot;</span><span class="p">:</span> <span class="n">reform_total</span><span class="p">,</span>
-                     <span class="s2">&quot;Difference&quot;</span><span class="p">:</span> <span class="n">diff</span><span class="p">}</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;Base&quot;</span><span class="p">:</span> <span class="n">base_total</span><span class="p">,</span>
+                        <span class="s2">&quot;Reform&quot;</span><span class="p">:</span> <span class="n">reform_total</span><span class="p">,</span>
+                        <span class="s2">&quot;Difference&quot;</span><span class="p">:</span> <span class="n">diff</span><span class="p">,</span>
+                    <span class="p">}</span>
                 <span class="p">)</span>
                 <span class="n">years</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
             <span class="n">totals</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">totals</span><span class="p">)</span>
@@ -772,7 +791,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="n">totals</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">weighted_totals</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
         <span class="n">totals</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">totals</span><span class="p">[</span><span class="s2">&quot;Difference&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">totals</span><span class="p">[</span><span class="s2">&quot;Base&quot;</span><span class="p">]</span>
-        <span class="n">totals</span> <span class="o">=</span> <span class="n">totals</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.</span><span class="p">)</span>
+        <span class="n">totals</span> <span class="o">=</span> <span class="n">totals</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
         <span class="n">max_pct_change</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">totals</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">])</span>
         <span class="n">max_yr</span> <span class="o">=</span> <span class="n">totals</span><span class="p">[</span><span class="n">totals</span><span class="p">[</span><span class="s2">&quot;pct_change&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">max_pct_change</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">max_pct_change</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
@@ -815,15 +834,13 @@ document.write(`
     <span class="n">behavior_map</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;sub&quot;</span><span class="p">:</span> <span class="s2">&quot;Substitution elasticity of taxable income: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="s2">&quot;inc&quot;</span><span class="p">:</span> <span class="s2">&quot;Income elasticity of taxable income: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;cg&quot;</span><span class="p">:</span> <span class="s2">&quot;Semi-elasticity of long-term capital gains: </span><span class="si">{}</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;cg&quot;</span><span class="p">:</span> <span class="s2">&quot;Semi-elasticity of long-term capital gains: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">assumptions</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="c1"># if there are some behavioral assumptions, loop through them</span>
     <span class="k">if</span> <span class="n">tb</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;behavior&quot;</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tb</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;behavior&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">assumptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">behavior_map</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">assumptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">behavior_map</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">assumptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;No behavioral assumptions&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">assumptions</span></div>
@@ -852,9 +869,11 @@ document.write(`
         <span class="n">consump_years</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="n">consump_by_year</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">deque</span><span class="p">())</span>
         <span class="c1"># read consumption.json from taxcalc package</span>
-        <span class="n">consump_json</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
-            <span class="n">Path</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;consumption.json&quot;</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">consump_json</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">Path</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;consumption.json&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="p">)</span>
         <span class="n">consump_meta</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">consump_json</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">meta</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="c1"># find all the years the parameter is updated</span>
@@ -865,15 +884,11 @@ document.write(`
             <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
                 <span class="c1"># find default information</span>
                 <span class="n">new_val</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span>
-                <span class="n">consump_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="n">default_val</span><span class="p">,</span> <span class="n">new_val</span><span class="p">]</span>
-                <span class="p">)</span>
+                <span class="n">consump_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">name</span><span class="p">,</span> <span class="n">default_val</span><span class="p">,</span> <span class="n">new_val</span><span class="p">])</span>
         <span class="n">md_tables</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># hold markdown version of the tables</span>
         <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">consump_years</span><span class="p">:</span>
             <span class="n">content</span> <span class="o">=</span> <span class="n">consump_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span>
-            <span class="n">content</span><span class="o">.</span><span class="n">appendleft</span><span class="p">(</span>
-                <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Default Value&quot;</span><span class="p">,</span> <span class="s2">&quot;User Value&quot;</span><span class="p">]</span>
-            <span class="p">)</span>
+            <span class="n">content</span><span class="o">.</span><span class="n">appendleft</span><span class="p">([</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Default Value&quot;</span><span class="p">,</span> <span class="s2">&quot;User Value&quot;</span><span class="p">])</span>
             <span class="n">md_tables</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_table</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">md_tables</span>
     <span class="k">else</span><span class="p">:</span>
@@ -924,7 +939,7 @@ document.write(`
         <span class="s2">&quot;ABENWIC&quot;</span><span class="p">:</span> <span class="s2">&quot;WIC Benfits Growth Rate&quot;</span><span class="p">,</span>
         <span class="s2">&quot;ABENHOUSING&quot;</span><span class="p">:</span> <span class="s2">&quot;Housing Benefits Growth Rate&quot;</span><span class="p">,</span>
         <span class="s2">&quot;ABENTANF&quot;</span><span class="p">:</span> <span class="s2">&quot;TANF Benfits Growth Rates&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ABENVET&quot;</span><span class="p">:</span> <span class="s2">&quot;Veteran&#39;s Benfits Growth Rates&quot;</span>
+        <span class="s2">&quot;ABENVET&quot;</span><span class="p">:</span> <span class="s2">&quot;Veteran&#39;s Benfits Growth Rates&quot;</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">tb</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">]:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">]</span>
@@ -948,17 +963,13 @@ document.write(`
                 <span class="c1"># find default and new values</span>
                 <span class="n">default_val</span> <span class="o">=</span> <span class="n">base_gf</span><span class="o">.</span><span class="n">factor_value</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">yr</span><span class="p">)</span>
                 <span class="n">new_val</span> <span class="o">=</span> <span class="n">reform_gf</span><span class="o">.</span><span class="n">factor_value</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">yr</span><span class="p">)</span>
-                <span class="n">growdiff_by_year</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="n">default_val</span><span class="p">,</span> <span class="n">new_val</span><span class="p">]</span>
-                <span class="p">)</span>
+                <span class="n">growdiff_by_year</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">name</span><span class="p">,</span> <span class="n">default_val</span><span class="p">,</span> <span class="n">new_val</span><span class="p">])</span>
 
         <span class="c1"># create tables</span>
         <span class="n">md_tables</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="n">growdiff_years</span><span class="p">:</span>
             <span class="n">content</span> <span class="o">=</span> <span class="n">growdiff_by_year</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span>
-            <span class="n">content</span><span class="o">.</span><span class="n">appendleft</span><span class="p">(</span>
-                <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Default Value&quot;</span><span class="p">,</span> <span class="s2">&quot;New Value&quot;</span><span class="p">]</span>
-            <span class="p">)</span>
+            <span class="n">content</span><span class="o">.</span><span class="n">appendleft</span><span class="p">([</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Default Value&quot;</span><span class="p">,</span> <span class="s2">&quot;New Value&quot;</span><span class="p">])</span>
             <span class="n">md_tables</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_table</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">md_tables</span>
@@ -1008,7 +1019,7 @@ document.write(`
             <span class="n">reform</span><span class="p">[</span><span class="n">param</span><span class="p">][</span><span class="n">yr</span><span class="p">]</span> <span class="o">=</span> <span class="n">vals</span>
     <span class="c1"># add indexed parameters as being implemented in first year of reform</span>
     <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">indexed_params</span><span class="p">:</span>
-        <span class="n">val</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
         <span class="n">reform</span><span class="p">[</span><span class="n">param</span><span class="p">][</span><span class="n">first_yr</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
     <span class="k">return</span> <span class="n">reform</span></div>
 

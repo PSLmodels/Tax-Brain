@@ -41,7 +41,7 @@
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
@@ -178,7 +178,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tax-Brain Example Use</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../content/usage.html">How to Use Tax-Brain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/corp_incidence.html">Distributing the Corporate Income Tax</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../content/examples/example.html">Static Reform</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="../../content/reports.html">Automated Reports in TaxBrain</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Web Application</span></p>
@@ -356,6 +358,7 @@ document.write(`
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Command line interface for the Tax-Brain package</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">from</span> <span class="nn">taxbrain</span> <span class="kn">import</span> <span class="n">TaxBrain</span><span class="p">,</span> <span class="n">report</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
@@ -394,20 +397,28 @@ document.write(`
     <span class="n">dist_table_reform</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
         <span class="n">Path</span><span class="p">(</span><span class="n">outpath</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;distribution_table_reform_</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">.csv&quot;</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">diff_table</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">differences_table</span><span class="p">(</span>
-        <span class="n">year</span><span class="p">,</span> <span class="s2">&quot;weighted_deciles&quot;</span><span class="p">,</span> <span class="s2">&quot;combined&quot;</span>
-    <span class="p">)</span>
-    <span class="n">diff_table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
-        <span class="n">Path</span><span class="p">(</span><span class="n">outpath</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;differences_table_</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">.csv&quot;</span><span class="p">)</span>
-    <span class="p">)</span>
+    <span class="n">diff_table</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">differences_table</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="s2">&quot;weighted_deciles&quot;</span><span class="p">,</span> <span class="s2">&quot;combined&quot;</span><span class="p">)</span>
+    <span class="n">diff_table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">outpath</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;differences_table_</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">.csv&quot;</span><span class="p">))</span>
     <span class="k">del</span> <span class="n">dist_table_base</span><span class="p">,</span> <span class="n">dist_table_reform</span><span class="p">,</span> <span class="n">diff_table</span></div>
 
 
 
 <div class="viewcode-block" id="cli_core">
 <a class="viewcode-back" href="../../content/api/cli.html#taxbrain.cli.cli_core">[docs]</a>
-<span class="k">def</span> <span class="nf">cli_core</span><span class="p">(</span><span class="n">startyear</span><span class="p">,</span> <span class="n">endyear</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">usecps</span><span class="p">,</span> <span class="n">reform</span><span class="p">,</span> <span class="n">behavior</span><span class="p">,</span> <span class="n">assump</span><span class="p">,</span>
-             <span class="n">baseline</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">make_report</span><span class="p">,</span> <span class="n">author</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">cli_core</span><span class="p">(</span>
+    <span class="n">startyear</span><span class="p">,</span>
+    <span class="n">endyear</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">usecps</span><span class="p">,</span>
+    <span class="n">reform</span><span class="p">,</span>
+    <span class="n">behavior</span><span class="p">,</span>
+    <span class="n">assump</span><span class="p">,</span>
+    <span class="n">baseline</span><span class="p">,</span>
+    <span class="n">outdir</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">,</span>
+    <span class="n">make_report</span><span class="p">,</span>
+    <span class="n">author</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Core logic for the CLI</span>
 
@@ -439,9 +450,15 @@ document.write(`
 <span class="sd">        reports saved to disk at path specified by outdir</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tb</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span>
-        <span class="n">start_year</span><span class="o">=</span><span class="n">startyear</span><span class="p">,</span> <span class="n">end_year</span><span class="o">=</span><span class="n">endyear</span><span class="p">,</span> <span class="n">microdata</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
-        <span class="n">use_cps</span><span class="o">=</span><span class="n">usecps</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform</span><span class="p">,</span> <span class="n">behavior</span><span class="o">=</span><span class="n">behavior</span><span class="p">,</span>
-        <span class="n">assump</span><span class="o">=</span><span class="n">assump</span><span class="p">,</span> <span class="n">base_policy</span><span class="o">=</span><span class="n">baseline</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+        <span class="n">start_year</span><span class="o">=</span><span class="n">startyear</span><span class="p">,</span>
+        <span class="n">end_year</span><span class="o">=</span><span class="n">endyear</span><span class="p">,</span>
+        <span class="n">microdata</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+        <span class="n">use_cps</span><span class="o">=</span><span class="n">usecps</span><span class="p">,</span>
+        <span class="n">reform</span><span class="o">=</span><span class="n">reform</span><span class="p">,</span>
+        <span class="n">behavior</span><span class="o">=</span><span class="n">behavior</span><span class="p">,</span>
+        <span class="n">assump</span><span class="o">=</span><span class="n">assump</span><span class="p">,</span>
+        <span class="n">base_policy</span><span class="o">=</span><span class="n">baseline</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">tb</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 
@@ -453,18 +470,14 @@ document.write(`
     <span class="n">outputpath</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># create output tables</span>
     <span class="n">aggregate</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">weighted_totals</span><span class="p">(</span><span class="s2">&quot;combined&quot;</span><span class="p">)</span>
-    <span class="n">aggregate</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
-        <span class="n">Path</span><span class="p">(</span><span class="n">outputpath</span><span class="p">,</span> <span class="s2">&quot;aggregate_tax_liability.csv&quot;</span><span class="p">)</span>
-    <span class="p">)</span>
+    <span class="n">aggregate</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">outputpath</span><span class="p">,</span> <span class="s2">&quot;aggregate_tax_liability.csv&quot;</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">startyear</span><span class="p">,</span> <span class="n">endyear</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">yeardir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">outputpath</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">))</span>
         <span class="n">yeardir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">make_tables</span><span class="p">(</span><span class="n">tb</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">yeardir</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">make_report</span><span class="p">:</span>
-        <span class="n">report</span><span class="p">(</span>
-            <span class="n">tb</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><span class="n">outputpath</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="n">author</span>
-        <span class="p">)</span></div>
+        <span class="n">report</span><span class="p">(</span><span class="n">tb</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><span class="n">outputpath</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="n">author</span><span class="p">)</span></div>
 
 
 
@@ -486,24 +499,19 @@ document.write(`
         <span class="s2">&quot;This is the command line interface for the taxbrain package.&quot;</span>
     <span class="p">)</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
-        <span class="n">prog</span><span class="o">=</span><span class="s2">&quot;taxbrain&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="n">parser_description</span>
+        <span class="n">prog</span><span class="o">=</span><span class="s2">&quot;taxbrain&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">parser_description</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;startyear&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;startyear is the first year of the analysis you want to run.&quot;</span>
-        <span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;startyear is the first year of the analysis you want to run.&quot;</span><span class="p">),</span>
         <span class="n">default</span><span class="o">=</span><span class="n">TaxBrain</span><span class="o">.</span><span class="n">FIRST_BUDGET_YEAR</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;endyear&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;endyear is the last year of the analysis you want to run.&quot;</span>
-        <span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;endyear is the last year of the analysis you want to run.&quot;</span><span class="p">),</span>
         <span class="n">default</span><span class="o">=</span><span class="n">TaxBrain</span><span class="o">.</span><span class="n">LAST_BUDGET_YEAR</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--data&quot;</span><span class="p">,</span>
@@ -511,7 +519,7 @@ document.write(`
             <span class="s2">&quot;The file path to a micro-dataset that is formatted for use in &quot;</span>
             <span class="s2">&quot;Tax-Calculator.&quot;</span>
         <span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--usecps&quot;</span><span class="p">,</span>
@@ -520,14 +528,12 @@ document.write(`
             <span class="s2">&quot;Tax-Calculator will be used for the analysis.&quot;</span>
         <span class="p">),</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--reform&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;--reform should be a path to a JSON file.&quot;</span>
-        <span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;--reform should be a path to a JSON file.&quot;</span><span class="p">),</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--behavior&quot;</span><span class="p">,</span>
@@ -535,7 +541,7 @@ document.write(`
             <span class="s2">&quot;--behavior should be a path to a JSON file containing behavioral &quot;</span>
             <span class="s2">&quot;assumptions.&quot;</span>
         <span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--assump&quot;</span><span class="p">,</span>
@@ -543,14 +549,14 @@ document.write(`
             <span class="s2">&quot;--assump should be a path to a JSON file containing user &quot;</span>
             <span class="s2">&quot;specified economic assumptions.&quot;</span>
         <span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--baseline&quot;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
             <span class="s2">&quot;--baseline should be a path to a JSON file containing a policy &quot;</span>
             <span class="s2">&quot;that will be used as the baseline of the analysis&quot;</span>
-        <span class="p">)</span>
+        <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--outdir&quot;</span><span class="p">,</span>
@@ -559,7 +565,7 @@ document.write(`
             <span class="s2">&quot;--outdir will result in files being written to the current &quot;</span>
             <span class="s2">&quot;directory.&quot;</span>
         <span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--name&quot;</span><span class="p">,</span>
@@ -567,7 +573,7 @@ document.write(`
             <span class="s2">&quot;Name of the analysis. This will be used to name the directory &quot;</span>
             <span class="s2">&quot;where all output files will be written.&quot;</span>
         <span class="p">),</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--report&quot;</span><span class="p">,</span>
@@ -575,22 +581,30 @@ document.write(`
             <span class="s2">&quot;including --report will trigger the creation of a PDF report &quot;</span>
             <span class="s2">&quot;summarizing the effects of the tax policy being modeled.&quot;</span>
         <span class="p">),</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--author&quot;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
             <span class="s2">&quot;If you are creating a report, this the name that will be listed &quot;</span>
             <span class="s2">&quot;as the author&quot;</span>
-        <span class="p">)</span>
+        <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
     <span class="c1"># run the analysis</span>
     <span class="n">cli_core</span><span class="p">(</span>
-        <span class="n">args</span><span class="o">.</span><span class="n">startyear</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">endyear</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">usecps</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">reform</span><span class="p">,</span>
-        <span class="n">args</span><span class="o">.</span><span class="n">behavior</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">assump</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">baseline</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">outdir</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-        <span class="n">args</span><span class="o">.</span><span class="n">report</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">startyear</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">endyear</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">usecps</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">reform</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">behavior</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">assump</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">baseline</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">outdir</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">report</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 

@@ -41,7 +41,7 @@
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
@@ -178,7 +178,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tax-Brain Example Use</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../content/usage.html">How to Use Tax-Brain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../content/corp_incidence.html">Distributing the Corporate Income Tax</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../content/examples/example.html">Static Reform</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="../../content/reports.html">Automated Reports in TaxBrain</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Web Application</span></p>
@@ -359,12 +361,22 @@ document.write(`
 <span class="kn">import</span> <span class="nn">taxbrain</span>
 <span class="kn">import</span> <span class="nn">taxcalc</span> <span class="k">as</span> <span class="nn">tc</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">.report_utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">form_intro</span><span class="p">,</span> <span class="n">form_baseline_intro</span><span class="p">,</span> <span class="n">write_text</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span>
-                           <span class="n">largest_tax_change</span><span class="p">,</span> <span class="n">notable_changes</span><span class="p">,</span>
-                           <span class="n">behavioral_assumptions</span><span class="p">,</span> <span class="n">consumption_assumptions</span><span class="p">,</span>
-                           <span class="n">policy_table</span><span class="p">,</span> <span class="n">convert_table</span><span class="p">,</span> <span class="n">growth_assumptions</span><span class="p">,</span>
-                           <span class="n">md_to_pdf</span><span class="p">,</span> <span class="n">DIFF_TABLE_ROW_NAMES</span><span class="p">,</span>
-                           <span class="n">dollar_str_formatting</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.report_utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">form_intro</span><span class="p">,</span>
+    <span class="n">form_baseline_intro</span><span class="p">,</span>
+    <span class="n">write_text</span><span class="p">,</span>
+    <span class="n">date</span><span class="p">,</span>
+    <span class="n">largest_tax_change</span><span class="p">,</span>
+    <span class="n">notable_changes</span><span class="p">,</span>
+    <span class="n">behavioral_assumptions</span><span class="p">,</span>
+    <span class="n">consumption_assumptions</span><span class="p">,</span>
+    <span class="n">policy_table</span><span class="p">,</span>
+    <span class="n">convert_table</span><span class="p">,</span>
+    <span class="n">growth_assumptions</span><span class="p">,</span>
+    <span class="n">md_to_pdf</span><span class="p">,</span>
+    <span class="n">DIFF_TABLE_ROW_NAMES</span><span class="p">,</span>
+    <span class="n">dollar_str_formatting</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <span class="n">CUR_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
@@ -372,9 +384,17 @@ document.write(`
 
 <div class="viewcode-block" id="report">
 <a class="viewcode-back" href="../../content/api/report.html#taxbrain.report.report">[docs]</a>
-<span class="k">def</span> <span class="nf">report</span><span class="p">(</span><span class="n">tb</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">change_threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">outdir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">css</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">report</span><span class="p">(</span>
+    <span class="n">tb</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">change_threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">outdir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">author</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">css</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a PDF report based on TaxBrain results</span>
 
@@ -409,6 +429,7 @@ document.write(`
 <span class="sd">        string of bytes for markdown and pdf versions of the report</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">format_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">int_cols</span><span class="p">,</span> <span class="n">float_cols</span><span class="p">,</span> <span class="n">float_perc</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply formatting to a given table</span>
@@ -430,12 +451,12 @@ document.write(`
 <span class="sd">            table of output</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">int_cols</span><span class="p">:</span>
-            <span class="n">df</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-                <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:,}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:,}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">float_cols</span><span class="p">:</span>
             <span class="n">df</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-                <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">&quot;{:,.</span><span class="si">{}</span><span class="s2">}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">float_perc</span><span class="p">,))</span>
+                <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+                <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">&quot;{:,.</span><span class="si">{}</span><span class="s2">}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">float_perc</span><span class="p">,))</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span>
 
@@ -483,7 +504,7 @@ document.write(`
         <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
         <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">date</span><span class="p">(),</span>
         <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span>
-        <span class="s2">&quot;taxbrain&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">CUR_PATH</span><span class="p">,</span> <span class="s2">&quot;report_files&quot;</span><span class="p">,</span> <span class="s2">&quot;taxbrain.png&quot;</span><span class="p">))</span>
+        <span class="s2">&quot;taxbrain&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">CUR_PATH</span><span class="p">,</span> <span class="s2">&quot;report_files&quot;</span><span class="p">,</span> <span class="s2">&quot;taxbrain.png&quot;</span><span class="p">)),</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">tb</span><span class="o">.</span><span class="n">stacked</span><span class="p">:</span>
         <span class="n">stacked_table</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">stacked_table</span> <span class="o">*</span> <span class="mf">1e-9</span>
@@ -546,15 +567,17 @@ document.write(`
     <span class="n">text_args</span><span class="p">[</span><span class="s2">&quot;largest_change_str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">largest_change</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">decile_diff_table</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">DIFF_TABLE_LABELS</span>
     <span class="c1"># drop certain columns to save space</span>
-    <span class="k">if</span> <span class="n">tc</span><span class="o">.</span><span class="n">__version__</span> <span class="o">&gt;=</span> <span class="s1">&#39;3.2.1&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">tc</span><span class="o">.</span><span class="n">__version__</span> <span class="o">&gt;=</span> <span class="s2">&quot;3.2.1&quot;</span><span class="p">:</span>
         <span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;Share of Overall Change&quot;</span><span class="p">,</span> <span class="s2">&quot;Number of Returns with Tax Cut&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Number of Returns with Tax Increase&quot;</span>
+            <span class="s2">&quot;Share of Overall Change&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Number of Returns with Tax Cut&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Number of Returns with Tax Increase&quot;</span><span class="p">,</span>
         <span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;Share of Overall Change&quot;</span><span class="p">,</span> <span class="s2">&quot;Count with Tax Cut&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Count with Tax Increase&quot;</span>
+            <span class="s2">&quot;Share of Overall Change&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Count with Tax Cut&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Count with Tax Increase&quot;</span><span class="p">,</span>
         <span class="p">]</span>
     <span class="n">sub_diff_table</span> <span class="o">=</span> <span class="n">decile_diff_table</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">drop_cols</span><span class="p">)</span>
 
@@ -612,22 +635,26 @@ document.write(`
     <span class="n">text_args</span><span class="p">[</span><span class="s2">&quot;model_versions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Tax-Brain&quot;</span><span class="p">,</span> <span class="s2">&quot;release&quot;</span><span class="p">:</span> <span class="n">taxbrain</span><span class="o">.</span><span class="n">__version__</span><span class="p">},</span>
         <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Tax-Calculator&quot;</span><span class="p">,</span> <span class="s2">&quot;release&quot;</span><span class="p">:</span> <span class="n">tc</span><span class="o">.</span><span class="n">__version__</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Behavioral-Responses&quot;</span><span class="p">,</span> <span class="s2">&quot;release&quot;</span><span class="p">:</span> <span class="n">behresp</span><span class="o">.</span><span class="n">__version__</span><span class="p">}</span>
+        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Behavioral-Responses&quot;</span><span class="p">,</span> <span class="s2">&quot;release&quot;</span><span class="p">:</span> <span class="n">behresp</span><span class="o">.</span><span class="n">__version__</span><span class="p">},</span>
     <span class="p">]</span>
 
     <span class="c1"># create graphs</span>
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Creating graphs&quot;</span><span class="p">)</span>
     <span class="n">dist_graph</span> <span class="o">=</span> <span class="n">taxbrain</span><span class="o">.</span><span class="n">distribution_plot</span><span class="p">(</span>
-        <span class="n">tb</span><span class="p">,</span> <span class="n">tb</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-        <span class="sa">f</span><span class="s2">&quot;Fig. 2: Percentage Change in After-Tax Income - </span><span class="si">{</span><span class="n">tb</span><span class="o">.</span><span class="n">start_year</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">tb</span><span class="p">,</span>
+        <span class="n">tb</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+        <span class="sa">f</span><span class="s2">&quot;Fig. 2: Percentage Change in After-Tax Income - </span><span class="si">{</span><span class="n">tb</span><span class="o">.</span><span class="n">start_year</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">text_args</span><span class="p">[</span><span class="s2">&quot;distribution_graph&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">export_plot</span><span class="p">(</span><span class="n">dist_graph</span><span class="p">,</span> <span class="s2">&quot;dist&quot;</span><span class="p">)</span>
 
     <span class="c1"># differences graph</span>
     <span class="n">diff_graph</span> <span class="o">=</span> <span class="n">taxbrain</span><span class="o">.</span><span class="n">differences_plot</span><span class="p">(</span>
-        <span class="n">tb</span><span class="p">,</span> <span class="s2">&quot;combined&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Fig. 1: Change in Aggregate Combined Tax Liability&quot;</span>
+        <span class="n">tb</span><span class="p">,</span>
+        <span class="s2">&quot;combined&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Fig. 1: Change in Aggregate Combined Tax Liability&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">text_args</span><span class="p">[</span><span class="s2">&quot;agg_graph&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">export_plot</span><span class="p">(</span><span class="n">diff_graph</span><span class="p">,</span> <span class="s2">&quot;difference&quot;</span><span class="p">)</span>
 
@@ -647,10 +674,7 @@ document.write(`
     <span class="k">if</span> <span class="n">clean</span><span class="p">:</span>
         <span class="c1"># return PDF as bytes and the markdown text</span>
         <span class="n">byte_pdf</span> <span class="o">=</span> <span class="n">pdf_path</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">()</span>
-        <span class="n">files</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.md&quot;</span><span class="p">:</span> <span class="n">report_md</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.pdf&quot;</span><span class="p">:</span> <span class="n">byte_pdf</span>
-        <span class="p">}</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.md&quot;</span><span class="p">:</span> <span class="n">report_md</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.pdf&quot;</span><span class="p">:</span> <span class="n">byte_pdf</span><span class="p">}</span>
         <span class="c1"># remove directory where everything was saved</span>
         <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
         <span class="k">assert</span> <span class="ow">not</span> <span class="n">output_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
