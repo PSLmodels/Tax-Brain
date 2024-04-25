@@ -1,5 +1,16 @@
 # Tax-Brain Release History
 
+## 2024-04-25 Release 2.7.0
+
+Last Merged Pull Request: [#196](https://github.com/PSLmodels/Tax-Brain/pull/196)
+
+Changes in this release:
+
+* Updates to Compute Studio installation and fixes for new dependencies: [#192](https://github.com/PSLmodels/Tax-Brain/pull/192)
+* Allow distribution of corporate tax incidence: [#196](https://github.com/PSLmodels/Tax-Brain/pull/196)
+* Various documentation updates
+
+
 ## 2021-09-25 Release 2.6.0
 
 Last Merged Pull Request: [#186](https://github.com/PSLmodels/Tax-Brain/pull/186)
