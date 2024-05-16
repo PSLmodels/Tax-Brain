@@ -23,7 +23,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "License :: OSI Approved :: MIT License",
-        "Opperating Sytem :: OS Independent",
+        "Operating System :: OS Independent",
     ],
     include_package_data=True,
     entry_points={"console_scripts": ["taxbrain = taxbrain.cli:cli_main"]},
