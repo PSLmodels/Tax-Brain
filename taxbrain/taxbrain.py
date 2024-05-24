@@ -790,6 +790,8 @@ class TaxBrain:
         del gd_base, gd_reform, records, gf_base, gf_reform, policy
         return base_calc, reform_calc
 
+    # TODO: update these method to allow for different microdata as above
+    # but code becoming cumbersome, so should probably streamline in a single get calculator function
     def _make_stacked_objects(self):
         """
         This method makes the base calculator and policy and records objects
