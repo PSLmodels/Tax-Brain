@@ -12,7 +12,9 @@ def test_arg_validation():
         TaxBrain("2018", "2020", microdata="CPS")
     with pytest.raises(AssertionError):
         TaxBrain(
-            TaxBrain.LAST_BUDGET_YEAR, TaxBrain.FIRST_BUDGET_YEAR, microdata="CPS"
+            TaxBrain.LAST_BUDGET_YEAR,
+            TaxBrain.FIRST_BUDGET_YEAR,
+            microdata="CPS",
         )
     with pytest.raises(AssertionError):
         TaxBrain(TaxBrain.FIRST_BUDGET_YEAR - 1, 2018, microdata="CPS")
@@ -88,7 +90,9 @@ def test_stacked_run():
         "Payroll Threshold Increase": payroll_json,
         "Capital Gains Tax Changes": CG_rate_json,
     }
-    tb = TaxBrain(2021, 2022, reform=reform_dict, stacked=True, microdata="CPS")
+    tb = TaxBrain(
+        2021, 2022, reform=reform_dict, stacked=True, microdata="CPS"
+    )
     tb.run()
     # check that there is a stacked table now
     assert isinstance(tb.stacked_table, pd.DataFrame)
