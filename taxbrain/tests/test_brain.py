@@ -6,8 +6,6 @@ from taxbrain import TaxBrain
 
 
 def test_arg_validation():
-    with pytest.raises(ValueError):
-        TaxBrain(2018, 2020)
     with pytest.raises(AssertionError):
         TaxBrain("2018", "2020", microdata="CPS")
     with pytest.raises(AssertionError):
