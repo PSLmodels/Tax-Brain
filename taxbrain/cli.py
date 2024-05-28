@@ -47,7 +47,6 @@ def cli_core(
     startyear,
     endyear,
     data,
-    usecps,
     reform,
     behavior,
     assump,
