@@ -73,12 +73,6 @@ def empty_mods():
 
 
 @pytest.fixture(scope="session")
-def puf_df():
-    puf_path = os.path.join(CUR_PATH, "../../puf.csv")
-    return pd.read_csv(puf_path)
-
-
-@pytest.fixture(scope="session")
 def sample_input():
     params = {
         "params": {
