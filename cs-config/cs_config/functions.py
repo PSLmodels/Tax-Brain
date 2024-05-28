@@ -108,7 +108,6 @@ def run_model(meta_params_dict, adjustment):
     behavior_mods = cs2tc.convert_behavior_adjustment(adjustment["behavior"])
     user_mods = {"policy": policy_mods, "behavior": behavior_mods}
     start_year = int(meta_params.year)
-    use_cps = meta_params.data_source == "CPS"
     if meta_params.data_source == "PUF":
         puf_df = retrieve_puf(
             PUF_S3_FILE_LOCATION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
@@ -117,23 +116,24 @@ def run_model(meta_params_dict, adjustment):
             if not isinstance(puf_df, pd.DataFrame):
                 raise TypeError("'puf_df' must be a Pandas DataFrame.")
             fuzz = True
-            use_cps = False
             sampling_frac = 0.05
             sampling_seed = 2222
             full_sample = puf_df
+            data_start_year = taxcalc.Records.PUFCSV_YEAR
+            weights = taxcalc.Records.PUF_WEIGHTS_FILENAME
         else:
             # Access keys are not available. Default to the CPS.
             print("Defaulting to the CPS")
             meta_params.adjust({"data_source": "CPS"})
     if meta_params.data_source == "CPS":
         fuzz = False
-        use_cps = True
         input_path = os.path.join(TCDIR, "cps.csv.gz")
         # full_sample = read_egg_csv(cpspath)  # pragma: no cover
         sampling_frac = 0.03
         sampling_seed = 180
         full_sample = pd.read_csv(input_path)
-
+        data_start_year = taxcalc.Records.CPSCSV_YEAR
+        weights = taxcalc.Records.CPS_WEIGHTS_FILENAME
     if meta_params.use_full_sample:
         sample = full_sample
         end_year = min(start_year + 10, TaxBrain.LAST_BUDGET_YEAR)
@@ -146,8 +146,12 @@ def run_model(meta_params_dict, adjustment):
     tb = TaxBrain(
         start_year,
         end_year,
-        microdata=sample,
-        use_cps=use_cps,
+        microdata={
+            data: sample,
+            start_year: data_start_year,
+            gfactors: None,
+            weights: weights,
+        },
         reform=policy_mods,
         behavior=behavior_mods,
     )
