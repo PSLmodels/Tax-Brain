@@ -45,10 +45,10 @@ def test_baseline_policy_PUF():
 
 @pytest.mark.requires_tmdcsv
 def test_baseline_policy_TMD():
-    base = {"II_em": {2019: 0}}
+    base = {"II_em": {2021: 0}}
     reform = {"II_em": {2025: 2000}}
 
-    tb = TaxBrain(2018, 2019, microdata="TMD", reform=reform, base_policy=base)
+    tb = TaxBrain(2021, 2022, microdata="TMD", reform=reform, base_policy=base)
     tb.run()
 
 

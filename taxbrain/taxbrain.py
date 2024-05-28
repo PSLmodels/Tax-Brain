@@ -690,10 +690,9 @@ class TaxBrain:
                 weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
-            records = tc.Records(
+            records = tc.Records.tmd_constructor(
                 "tmd.csv",
                 gfactors=gf_base,
-                weights=tc.Records.TMD_WEIGHTS_FILENAME,
             )
         elif isinstance(self.microdata, dict):
             if self.microdata["growfactors"] is None:
@@ -743,10 +742,9 @@ class TaxBrain:
                 weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
-            records = tc.Records(
+            records = tc.Records.tmd_constructor(
                 "tmd.csv",
                 gfactors=gf_reform,
-                weights=tc.Records.TMD_WEIGHTS_FILENAME,
             )
         elif isinstance(self.microdata, dict):
             if self.microdata["growfactors"] is None:
@@ -813,10 +811,9 @@ class TaxBrain:
                 weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
-            records = tc.Records(
+            records = tc.Records.tmd_constructor(
                 "tmd.csv",
                 gfactors=gf_base,
-                weights=tc.Records.TMD_WEIGHTS_FILENAME,
             )
         elif isinstance(self.microdata, dict):
             if self.microdata["growfactors"] is None:
@@ -868,10 +865,9 @@ class TaxBrain:
                 weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
-            reform_records = tc.Records(
+            records = tc.Records.tmd_constructor(
                 "tmd.csv",
                 gfactors=gf_reform,
-                weights=tc.Records.TMD_WEIGHTS_FILENAME,
             )
         elif isinstance(self.microdata, dict):
             if self.microdata["growfactors"] is None:
