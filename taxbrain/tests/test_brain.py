@@ -36,6 +36,24 @@ def test_baseline_policy():
     tb.run()
 
 
+@pytest.mark.requires_pufcsv
+def test_baseline_policy_PUF():
+    base = {"II_em": {2019: 0}}
+    reform = {"II_em": {2025: 2000}}
+
+    tb = TaxBrain(2018, 2019, microdata="PUF", reform=reform, base_policy=base)
+    tb.run()
+
+
+@pytest.mark.requires_tmdcsv
+def test_baseline_policy_TMD():
+    base = {"II_em": {2019: 0}}
+    reform = {"II_em": {2025: 2000}}
+
+    tb = TaxBrain(2018, 2019, microdata="TMD", reform=reform, base_policy=base)
+    tb.run()
+
+
 def test_run_corporate_distribution():
     """
     Tests the taxbrain.run method with the distribution of corporate
