@@ -12,6 +12,7 @@ from .helpers import (
     postprocess,
     nth_year_results,
     retrieve_puf,
+    retrieve_tmd,
 )
 from .outputs import create_layout, aggregate_plot
 from taxbrain import TaxBrain, report
@@ -24,6 +25,9 @@ AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 PUF_S3_FILE_LOCATION = os.environ.get(
     "PUF_S3_LOCATION", "s3://ospc-data-files/puf.20210720.csv.gz"
+)
+TMD_S3_FILE_LOCATION = os.environ.get(
+    "TMD_S3_LOCATION", "s3://ospc-data-files/tmd.20210720.csv.gz"
 )
 
 CUR_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -125,7 +129,24 @@ def run_model(meta_params_dict, adjustment):
             # Access keys are not available. Default to the CPS.
             print("Defaulting to the CPS")
             meta_params.adjust({"data_source": "CPS"})
-    if meta_params.data_source == "CPS":
+    elif meta_params.data_source == "TMD":
+        tmd_df = retrieve_tmd(
+            TMD_S3_FILE_LOCATION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+        )
+        if tmd_df is not None:
+            if not isinstance(tmd_df, pd.DataFrame):
+                raise TypeError("'tmd_df' must be a Pandas DataFrame.")
+            fuzz = True
+            sampling_frac = 0.05
+            sampling_seed = 2222
+            full_sample = tmd_df
+            data_start_year = taxcalc.Records.TMDCSV_YEAR
+            weights = taxcalc.Records.TMD_WEIGHTS_FILENAME
+        else:
+            # Access keys are not available. Default to the CPS.
+            print("Defaulting to the CPS")
+            meta_params.adjust({"data_source": "CPS"})
+    elif meta_params.data_source == "CPS":
         fuzz = False
         input_path = os.path.join(TCDIR, "cps.csv.gz")
         # full_sample = read_egg_csv(cpspath)  # pragma: no cover
@@ -134,6 +155,11 @@ def run_model(meta_params_dict, adjustment):
         full_sample = pd.read_csv(input_path)
         data_start_year = taxcalc.Records.CPSCSV_YEAR
         weights = taxcalc.Records.CPS_WEIGHTS_FILENAME
+    else:
+        raise ValueError(
+            f"Data source '{meta_params.data_source}' is not supported."
+        )
+
     if meta_params.use_full_sample:
         sample = full_sample
         end_year = min(start_year + 10, TaxBrain.LAST_BUDGET_YEAR)
