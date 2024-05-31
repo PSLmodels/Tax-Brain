@@ -685,7 +685,6 @@ class TaxBrain:
             records = tc.Records.cps_constructor(data=None, gfactors=gf_base)
         elif self.microdata == "PUF":
             records = tc.Records(
-                "puf.csv",
                 gfactors=gf_base,
                 weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
@@ -737,7 +736,6 @@ class TaxBrain:
             records = tc.Records.cps_constructor(data=None, gfactors=gf_reform)
         elif self.microdata == "PUF":
             records = tc.Records(
-                "puf.csv",
                 gfactors=gf_reform,
                 weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
