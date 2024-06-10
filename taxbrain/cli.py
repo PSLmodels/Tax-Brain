@@ -47,7 +47,6 @@ def cli_core(
     startyear,
     endyear,
     data,
-    usecps,
     reform,
     behavior,
     assump,
@@ -91,12 +90,14 @@ def cli_core(
         start_year=startyear,
         end_year=endyear,
         microdata=data,
-        use_cps=usecps,
         reform=reform,
         behavior=behavior,
         assump=assump,
         base_policy=baseline,
-        verbose=True,
+        corp_revenue=None,
+        corp_incidence_assumptions=None,
+        verbose=False,
+        stacked=False,
     )
     tb.run()
 
@@ -156,15 +157,6 @@ def cli_main():
         ),
         default=None,
     )
-    parser.add_argument(
-        "--usecps",
-        help=(
-            "If this argument is present, the CPS file included in "
-            "Tax-Calculator will be used for the analysis."
-        ),
-        default=False,
-        action="store_true",
-    ),
     parser.add_argument(
         "--reform",
         help=("--reform should be a path to a JSON file."),

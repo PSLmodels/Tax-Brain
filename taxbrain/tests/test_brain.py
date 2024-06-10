@@ -6,18 +6,18 @@ from taxbrain import TaxBrain
 
 
 def test_arg_validation():
-    with pytest.raises(ValueError):
-        TaxBrain(2018, 2020)
     with pytest.raises(AssertionError):
-        TaxBrain("2018", "2020", use_cps=True)
+        TaxBrain("2018", "2020", microdata="CPS")
     with pytest.raises(AssertionError):
         TaxBrain(
-            TaxBrain.LAST_BUDGET_YEAR, TaxBrain.FIRST_BUDGET_YEAR, use_cps=True
+            TaxBrain.LAST_BUDGET_YEAR,
+            TaxBrain.FIRST_BUDGET_YEAR,
+            microdata="CPS",
         )
     with pytest.raises(AssertionError):
-        TaxBrain(TaxBrain.FIRST_BUDGET_YEAR - 1, 2018, use_cps=True)
+        TaxBrain(TaxBrain.FIRST_BUDGET_YEAR - 1, 2018, microdata="CPS")
     with pytest.raises(AssertionError):
-        TaxBrain(2018, TaxBrain.LAST_BUDGET_YEAR + 1, use_cps=True)
+        TaxBrain(2018, TaxBrain.LAST_BUDGET_YEAR + 1, microdata="CPS")
 
 
 def test_static_run(tb_static):
@@ -30,7 +30,25 @@ def test_baseline_policy():
     base = {"II_em": {2019: 0}}
     reform = {"II_em": {2025: 2000}}
 
-    tb = TaxBrain(2018, 2019, use_cps=True, reform=reform, base_policy=base)
+    tb = TaxBrain(2018, 2019, microdata="CPS", reform=reform, base_policy=base)
+    tb.run()
+
+
+@pytest.mark.requires_pufcsv
+def test_baseline_policy_PUF():
+    base = {"II_em": {2019: 0}}
+    reform = {"II_em": {2025: 2000}}
+
+    tb = TaxBrain(2018, 2019, microdata="PUF", reform=reform, base_policy=base)
+    tb.run()
+
+
+@pytest.mark.requires_tmdcsv
+def test_baseline_policy_TMD():
+    base = {"II_em": {2021: 0}}
+    reform = {"II_em": {2025: 2000}}
+
+    tb = TaxBrain(2021, 2022, microdata="TMD", reform=reform, base_policy=base)
     tb.run()
 
 
@@ -45,7 +63,7 @@ def test_run_corporate_distribution():
     tb = TaxBrain(
         2018,
         2019,
-        use_cps=True,
+        microdata="CPS",
         reform=reform,
         base_policy=base,
         corp_revenue=corp_revenue,
@@ -64,7 +82,7 @@ def test_dynamic_run_corporate_distribution():
     tb = TaxBrain(
         2018,
         2019,
-        use_cps=True,
+        microdata="CPS",
         reform=reform,
         base_policy=base,
         behavior={"sub": 0.25},
@@ -88,7 +106,9 @@ def test_stacked_run():
         "Payroll Threshold Increase": payroll_json,
         "Capital Gains Tax Changes": CG_rate_json,
     }
-    tb = TaxBrain(2021, 2022, reform=reform_dict, stacked=True, use_cps=True)
+    tb = TaxBrain(
+        2021, 2022, reform=reform_dict, stacked=True, microdata="CPS"
+    )
     tb.run()
     # check that there is a stacked table now
     assert isinstance(tb.stacked_table, pd.DataFrame)
@@ -110,7 +130,7 @@ def test_stacked_run_corporate():
         2022,
         reform=reform_dict,
         stacked=True,
-        use_cps=True,
+        microdata="CPS",
         corp_revenue=[100_000_000, 100_000_000],
     )
     tb.run()
@@ -179,8 +199,8 @@ def test_distribution_table(tb_static):
 def test_user_input(reform_json_str, assump_json_str):
     valid_reform = {"II_rt7": {2019: 0.40}}
     # Test valid reform dictionary with No assumption
-    TaxBrain(2018, 2020, use_cps=True, reform=valid_reform)
-    TaxBrain(2018, 2020, use_cps=True, reform=reform_json_str)
+    TaxBrain(2018, 2020, microdata="CPS", reform=valid_reform)
+    TaxBrain(2018, 2020, microdata="CPS", reform=reform_json_str)
     invalid_assump = {"consumption": {}}
     # Test valid reform and assumptions dictionary
     valid_assump = {
@@ -188,16 +208,16 @@ def test_user_input(reform_json_str, assump_json_str):
         "growdiff_baseline": {},
         "growdiff_response": {},
     }
-    TaxBrain(2018, 2019, use_cps=True, assump=valid_assump)
+    TaxBrain(2018, 2019, microdata="CPS", assump=valid_assump)
     TaxBrain(
         2018,
         2019,
-        use_cps=True,
+        microdata="CPS",
         reform=reform_json_str,
         assump=assump_json_str,
     )
     tb = TaxBrain(
-        2018, 2019, use_cps=True, reform=valid_reform, assump=valid_assump
+        2018, 2019, microdata="CPS", reform=valid_reform, assump=valid_assump
     )
     required_param_keys = {
         "policy",
@@ -209,7 +229,7 @@ def test_user_input(reform_json_str, assump_json_str):
     }
     assert set(tb.params.keys()) == required_param_keys
     with pytest.raises(ValueError):
-        TaxBrain(2018, 2020, use_cps=True, assump=invalid_assump)
+        TaxBrain(2018, 2020, microdata="CPS", assump=invalid_assump)
     invalid_assump = {
         "consumption": {},
         "growdiff_baseline": {},
@@ -217,8 +237,8 @@ def test_user_input(reform_json_str, assump_json_str):
         "invalid": {},
     }
     with pytest.raises(ValueError):
-        TaxBrain(2018, 2020, use_cps=True, assump=invalid_assump)
+        TaxBrain(2018, 2020, microdata="CPS", assump=invalid_assump)
     with pytest.raises(TypeError):
-        TaxBrain(2018, 2020, use_cps=True, reform=True)
+        TaxBrain(2018, 2020, microdata="CPS", reform=True)
     with pytest.raises(TypeError):
-        TaxBrain(2018, 2020, use_cps=True, assump=True)
+        TaxBrain(2018, 2020, microdata="CPS", assump=True)

@@ -4,7 +4,7 @@ install_requires = ["taxcalc", "behresp", "dask", "bokeh"]
 
 with open("README.md", "r") as f:
     long_description = f.read()
-version = "2.7.0"
+version = "2.7.1"
 setuptools.setup(
     name="taxbrain",
     version=version,

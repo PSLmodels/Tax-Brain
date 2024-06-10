@@ -9,8 +9,7 @@ def test_cli():
     """
     startyear = 2019
     endyear = 2020
-    data = None
-    usecps = True
+    data = "CPS"
     reform = None
     behavior = None
     assump = None
@@ -23,7 +22,6 @@ def test_cli():
         startyear,
         endyear,
         data,
-        usecps,
         reform,
         behavior,
         assump,

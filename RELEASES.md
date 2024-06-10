@@ -1,5 +1,15 @@
 # Tax-Brain Release History
 
+
+## 2024-06-10 Release 2.7.0
+
+Last Merged Pull Request: [#202](https://github.com/PSLmodels/Tax-Brain/pull/196)
+
+Changes in this release:
+
+* Use of the [Tax Micro Data (TMD)](https://github.com/PSLmodels/tax-microdata-benchmarking) file: [#202](https://github.com/PSLmodels/Tax-Brain/pull/202)
+
+
 ## 2024-04-25 Release 2.7.0
 
 Last Merged Pull Request: [#196](https://github.com/PSLmodels/Tax-Brain/pull/196)
