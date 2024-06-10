@@ -13,19 +13,19 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
@@ -33,12 +33,12 @@
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
-  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
@@ -51,7 +51,7 @@
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -68,27 +68,23 @@
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -110,8 +106,13 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
     </header>
   
 
@@ -197,14 +198,14 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tax-Brain Python API</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../content/api/public_api.html">Tax-Brain Python API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../content/api/public_api.html">Tax-Brain Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../content/api/cli.html">Tax-Brain Command Line Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../content/api/report.html">Tax-Brain Report Generation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../content/api/report_utils.html">Tax-Brain Report Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../content/api/taxbrain.html">Tax-Brain Class Object</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../content/api/utils.html">Tax-Brain Utilities</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 
     </div>
@@ -220,7 +221,7 @@
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -229,7 +230,7 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
@@ -393,8 +394,7 @@ document.write(`
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">start_year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">end_year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">LAST_BUDGET_YEAR</span><span class="p">,</span>
-        <span class="n">microdata</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">use_cps</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">microdata</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CPS&quot;</span><span class="p">,</span>
         <span class="n">reform</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">behavior</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">assump</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -415,14 +415,12 @@ document.write(`
 <span class="sd">        end_year: int</span>
 <span class="sd">            Last year in the analysis. Must be no later than the last</span>
 <span class="sd">            year allowed in Tax-Calculator.</span>
-<span class="sd">        microdata: str or Pandas DataFrame</span>
-<span class="sd">            Either a path to a micro-data file or a Pandas DataFrame</span>
-<span class="sd">            containing micro-data.</span>
-<span class="sd">        use_cps: bool</span>
-<span class="sd">            A boolean value to indicate whether or not the analysis should</span>
-<span class="sd">            be run using the CPS file included in Tax-Calculator.</span>
-<span class="sd">            Note: use_cps cannot be True if a file was also specified with</span>
-<span class="sd">            the microdata parameter.</span>
+<span class="sd">        microdata: str or dict</span>
+<span class="sd">            A string in [&quot;CPS&quot;, &quot;PUF&quot;, &quot;TMD&quot;] or path to a micro-data</span>
+<span class="sd">            file or a Pandas DataFrame, containing micro-data, or a</span>
+<span class="sd">            dictionary containing a path to microdata, associated</span>
+<span class="sd">            weights, and grow factors.  If a dict, must have keys:</span>
+<span class="sd">            &quot;data&quot;, &quot;start_year&quot;, &quot;gfactors&quot;, &quot;weights&quot;</span>
 <span class="sd">        reform: str or dict</span>
 <span class="sd">            Individual income tax policy reform. Can be either a string</span>
 <span class="sd">            pointing to a JSON reform file, or the contents of a JSON file,</span>
@@ -459,8 +457,6 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">use_cps</span> <span class="ow">and</span> <span class="n">microdata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must specify microdata or set &#39;use_cps&#39; to True&quot;</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">isinstance</span><span class="p">(</span>
             <span class="n">end_year</span><span class="p">,</span> <span class="nb">int</span>
         <span class="p">),</span> <span class="s2">&quot;Start and end years must be integers&quot;</span>
@@ -481,7 +477,6 @@ document.write(`
                 <span class="nb">len</span><span class="p">(</span><span class="n">corp_revenue</span><span class="p">)</span> <span class="o">==</span> <span class="n">end_year</span> <span class="o">-</span> <span class="n">start_year</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Corporate revenue is not given for each budget year&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">=</span> <span class="n">microdata</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">use_cps</span> <span class="o">=</span> <span class="n">use_cps</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_year</span> <span class="o">=</span> <span class="n">start_year</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">=</span> <span class="n">end_year</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">yr</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
@@ -1054,19 +1049,50 @@ document.write(`
 <span class="sd">        the `run()` method is called</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Create two microsimulation calculators</span>
+        <span class="c1"># Baseline calculator</span>
         <span class="n">gd_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
         <span class="n">gf_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">()</span>
         <span class="c1"># apply user specified growdiff</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">]:</span>
             <span class="n">gd_base</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">])</span>
             <span class="n">gd_base</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
-        <span class="c1"># Baseline calculator</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cps</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span>
-                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;CPS&quot;</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;PUF&quot;</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span>
+                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">,</span>
+                <span class="n">weights</span><span class="o">=</span><span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">PUF_WEIGHTS_FILENAME</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;TMD&quot;</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">tmd_constructor</span><span class="p">(</span>
+                <span class="s2">&quot;tmd.csv&quot;</span><span class="p">,</span>
+                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;growfactors&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">gd_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
+                <span class="n">gf_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">()</span>
+                <span class="c1"># apply user specified growdiff</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">]:</span>
+                    <span class="n">gd_base</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">])</span>
+                    <span class="n">gd_base</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">gd_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
+                <span class="n">gf_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;growfactors&quot;</span><span class="p">])</span>
+                <span class="c1"># apply user specified growdiff</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">]:</span>
+                    <span class="n">gd_base</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">])</span>
+                    <span class="n">gd_base</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span>
+                <span class="n">start_year</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;start_year&quot;</span><span class="p">],</span>
+                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">,</span>
+                <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;microdata must be &#39;CPS&#39;, &#39;PUF&#39;, &#39;TMD&#39;, or a dictionary&quot;</span>
+            <span class="p">)</span>
         <span class="n">policy</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">]:</span>
             <span class="n">update_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">])</span>
@@ -1075,18 +1101,49 @@ document.write(`
         <span class="p">)</span>
 
         <span class="c1"># Reform calculator</span>
-        <span class="c1"># Initialize a policy object</span>
         <span class="n">gd_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
         <span class="n">gf_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">()</span>
+        <span class="c1"># apply user specified growdiff</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">]:</span>
             <span class="n">gd_reform</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">])</span>
             <span class="n">gd_reform</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cps</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span>
-                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;CPS&quot;</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;PUF&quot;</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span>
+                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">,</span>
+                <span class="n">weights</span><span class="o">=</span><span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">PUF_WEIGHTS_FILENAME</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;TMD&quot;</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">tmd_constructor</span><span class="p">(</span>
+                <span class="s2">&quot;tmd.csv&quot;</span><span class="p">,</span>
+                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;growfactors&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">gd_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
+                <span class="n">gf_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">()</span>
+                <span class="c1"># apply user specified growdiff</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">]:</span>
+                    <span class="n">gd_reform</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">])</span>
+                    <span class="n">gd_reform</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">gd_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
+                <span class="n">gf_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;growfactors&quot;</span><span class="p">])</span>
+                <span class="c1"># apply user specified growdiff</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">]:</span>
+                    <span class="n">gd_reform</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">])</span>
+                    <span class="n">gd_reform</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span>
+                <span class="n">start_year</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;start_year&quot;</span><span class="p">],</span>
+                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">,</span>
+                <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;microdata must be &#39;CPS&#39;, &#39;PUF&#39;, &#39;TMD&#39;, or a dictionary&quot;</span>
+            <span class="p">)</span>
         <span class="n">policy</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">]:</span>
             <span class="n">update_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">])</span>
@@ -1100,6 +1157,8 @@ document.write(`
         <span class="k">del</span> <span class="n">gd_base</span><span class="p">,</span> <span class="n">gd_reform</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="n">gf_base</span><span class="p">,</span> <span class="n">gf_reform</span><span class="p">,</span> <span class="n">policy</span>
         <span class="k">return</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span>
 
+    <span class="c1"># TODO: update these method to allow for different microdata as above</span>
+    <span class="c1"># but code becoming cumbersome, so should probably streamline in a single get calculator function</span>
     <span class="k">def</span> <span class="nf">_make_stacked_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method makes the base calculator and policy and records objects</span>
@@ -1116,13 +1175,44 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">]:</span>
             <span class="n">gd_base</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">])</span>
             <span class="n">gd_base</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
-        <span class="c1"># Baseline calculator</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cps</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span>
-                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;CPS&quot;</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;PUF&quot;</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span>
+                <span class="s2">&quot;puf.csv&quot;</span><span class="p">,</span>
+                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">,</span>
+                <span class="n">weights</span><span class="o">=</span><span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">PUF_WEIGHTS_FILENAME</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;TMD&quot;</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">tmd_constructor</span><span class="p">(</span>
+                <span class="s2">&quot;tmd.csv&quot;</span><span class="p">,</span>
+                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;growfactors&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">gd_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
+                <span class="n">gf_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">()</span>
+                <span class="c1"># apply user specified growdiff</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">]:</span>
+                    <span class="n">gd_base</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">])</span>
+                    <span class="n">gd_base</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">gd_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
+                <span class="n">gf_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;growfactors&quot;</span><span class="p">])</span>
+                <span class="c1"># apply user specified growdiff</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">]:</span>
+                    <span class="n">gd_base</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">])</span>
+                    <span class="n">gd_base</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span>
+                <span class="n">start_year</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;start_year&quot;</span><span class="p">],</span>
+                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">,</span>
+                <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;microdata must be &#39;CPS&#39;, &#39;PUF&#39;, &#39;TMD&#39;, or a dictionary&quot;</span>
+            <span class="p">)</span>
         <span class="n">policy</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">]:</span>
             <span class="n">update_policy</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;base_policy&quot;</span><span class="p">])</span>
@@ -1131,20 +1221,54 @@ document.write(`
         <span class="p">)</span>
 
         <span class="c1"># Reform calculator</span>
-        <span class="c1"># Initialize a policy object</span>
         <span class="n">gd_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
         <span class="n">gf_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">()</span>
+        <span class="c1"># apply user specified growdiff</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">]:</span>
             <span class="n">gd_reform</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">])</span>
             <span class="n">gd_reform</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cps</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span>
-                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;CPS&quot;</span><span class="p">:</span>
+            <span class="n">reform_records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;PUF&quot;</span><span class="p">:</span>
+            <span class="n">reform_records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span>
+                <span class="s2">&quot;puf.csv&quot;</span><span class="p">,</span>
+                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">,</span>
+                <span class="n">weights</span><span class="o">=</span><span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">PUF_WEIGHTS_FILENAME</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;TMD&quot;</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">tmd_constructor</span><span class="p">(</span>
+                <span class="s2">&quot;tmd.csv&quot;</span><span class="p">,</span>
+                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;growfactors&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">gd_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
+                <span class="n">gf_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">()</span>
+                <span class="c1"># apply user specified growdiff</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">]:</span>
+                    <span class="n">gd_reform</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">])</span>
+                    <span class="n">gd_reform</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">gd_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowDiff</span><span class="p">()</span>
+                <span class="n">gf_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;growfactors&quot;</span><span class="p">])</span>
+                <span class="c1"># apply user specified growdiff</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">]:</span>
+                    <span class="n">gd_reform</span><span class="o">.</span><span class="n">update_growdiff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">])</span>
+                    <span class="n">gd_reform</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
+            <span class="n">reform_records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span>
+                <span class="n">start_year</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;start_year&quot;</span><span class="p">],</span>
+                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">,</span>
+                <span class="n">weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">)</span>
-        <span class="n">policy</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">records</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;microdata must be &#39;CPS&#39;, &#39;PUF&#39;, &#39;TMD&#39;, or a dictionary&quot;</span>
+            <span class="p">)</span>
+        <span class="n">reform_policy</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_policy</span><span class="p">,</span> <span class="n">reform_records</span></div>
 
 </pre></div>
 
@@ -1155,7 +1279,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
 </div>
@@ -1164,8 +1288,6 @@ document.write(`
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"></div>
               
             
           </div>
@@ -1210,8 +1332,8 @@ By Anderson Frailey
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
 
   <footer class="bd-footer">
   </footer>
