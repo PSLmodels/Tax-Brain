@@ -853,11 +853,11 @@ class TaxBrain:
             gd_reform.update_growdiff(self.params["growdiff_response"])
             gd_reform.apply_to(gf_reform)
         if self.microdata == "CPS":
-            reform_records = tc.Records.cps_constructor(
+            records = tc.Records.cps_constructor(
                 data=None, gfactors=gf_reform
             )
         elif self.microdata == "PUF":
-            reform_records = tc.Records(
+            records = tc.Records(
                 "puf.csv",
                 gfactors=gf_reform,
                 weights=tc.Records.PUF_WEIGHTS_FILENAME,
@@ -882,7 +882,7 @@ class TaxBrain:
                 if self.params["growdiff_response"]:
                     gd_reform.update_growdiff(self.params["growdiff_response"])
                     gd_reform.apply_to(gf_reform)
-            reform_records = tc.Records(
+            records = tc.Records(
                 self.microdata["data"],
                 start_year=self.microdata["start_year"],
                 gfactors=gf_reform,
@@ -893,4 +893,4 @@ class TaxBrain:
                 "microdata must be 'CPS', 'PUF', 'TMD', or a dictionary"
             )
         reform_policy = tc.Policy(gf_reform)
-        return base_calc, reform_policy, reform_records
+        return base_calc, reform_policy, records
