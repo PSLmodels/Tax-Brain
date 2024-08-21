@@ -60,7 +60,7 @@ class TaxBrain:
             file or a Pandas DataFrame, containing micro-data, or a
             dictionary containing a path to microdata, associated
             weights, and grow factors.  If a dict, must have keys:
-            "data", "start_year", "gfactors", "weights"
+            "data", "start_year", "growfactors", "weights"
         reform: str or dict
             Individual income tax policy reform. Can be either a string
             pointing to a JSON reform file, or the contents of a JSON file,
