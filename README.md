@@ -1,7 +1,20 @@
-# Tax-Brain
+| | |
+| --- | --- |
+| Org | [![PSL cataloged](https://img.shields.io/badge/PSL-cataloged-a0a0a0.svg)](https://www.PSLmodels.org) [![OS License: CCO-1.0](https://img.shields.io/badge/OS%20License-CCO%201.0-yellow)](https://github.com/PSLmodels/Tax-Brain/blob/master/LICENSE) [![Jupyter Book Badge](https://jupyterbook.org/badge.svg)](https://pslmodels.github.io/Tax-Brain/) |
+| Package | [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3108/)  [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3118/) [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3121/) [![PyPI Latest Release](https://img.shields.io/pypi/v/taxbrain.svg)](https://pypi.org/project/taxbrain/) [![PyPI Downloads](https://img.shields.io/pypi/dm/taxbrain.svg?label=PyPI%20downloads)](https://pypi.org/project/taxbrain/) [![Anaconda](https://img.shields.io/conda/dn/conda-forge/taxbrain?color=brightgreen&label=downloads&logo=conda-forge)](https://anaconda.org/conda-forge/taxbrain)|
+| Testing | ![example event parameter](https://github.com/PSLmodels/Tax-Brain/actions/workflows/build_and_test.yml/badge.svg?branch=master) ![example event parameter](https://github.com/PSLmodels/Tax-Brain/actions/workflows/deploy_jupyterbook.yml/badge.svg?branch=master)  [![Codecov](https://codecov.io/gh/PSLmodels/Tax-Brain/branch/master/graph/badge.svg)](https://codecov.io/gh/PSLmodels/Tax-Brain) |
 
-Tax-Brain is a Python package that wraps multiple economic models in one easy
-to use interface.
+Tax-Brain
+==============
+
+Tax-Brain is a Python package that wraps two models, [Tax-Calculator](https://taxcalc.pslmodels.org) and [Behavioral Responses](https://github.com/PSLmodels/Behavioral-Responses), in one easy
+to use interface for producing revenue estimates and distributional analysis of tax policy changes.
+
+We are seeking contributors and maintainers. If you are interested in joining the project as a contributor or maintainer,
+open a new [issue](https://github.com/PSLmodels/Tax-Calculator/issues) and ping [@jdebacker](https://github.com/jdebacker/) -- or just jump right in.
+
+Complete documentation is available at
+[`taxbrain.pslmodels.org`](http://taxbrain.pslmodels.org/content/intro.html).
 
 ## Overview
 
@@ -24,13 +37,13 @@ they are using when reporting their results.
 
 ## Installing Tax-Brain
 
-You can install the latest official release from Conda using this command:
-`conda install -c pslmodels taxbrain`.
+You can install the latest official release from PyPI using this command:
+`pip taxbrain`.
 
 Similarly, you can update to the latest release of Tax-Brain using
-`conda update -c pslmodels taxbrain`.
+`pip install -U taxbrain`.
 
-Tax-Brain is currently not available on PyPI.
+Tax-Brain is no longer maintained on Conda.
 
 ## Using Tax-Brain
 
@@ -47,10 +60,10 @@ you describe your input data and note the versions of the underlying models.
 
 ## Tax-Brain Interface
 
-In addition to its Python API, Tax-Brain also powers a web application on
-[Compute Studio](https://compute.studio/). That application can be found
+In addition to its Python API, Tax-Brain has also been used to power web applications on
+[Compute Studio](https://compute.studio/) and other platforms. An application used to be available at
 [here](https://compute.studio/PSLmodels/Tax-Brain/). The code behind the
-GUI can be found in this repository in the [cs-config](https://github.com/PSLmodels/Tax-Brain/tree/master/cs-config)
+GUI web application can be found in this repository in the [cs-config](https://github.com/PSLmodels/Tax-Brain/tree/master/cs-config)
 directory.
 
 ## Additional Information
@@ -60,8 +73,3 @@ directory.
 * [Contributors](https://github.com/PSLmodels/Tax-Brain/graphs/contributors)
 * [Release History](https://github.com/PSLmodels/Tax-Brain/blob/master/RELEASES.md)
 
-## Releasing New Versions of Tax-Brain
-
-To release new versions of Tax-Brain, use the [Package-Builder](https://github.com/PSLmodels/Package-Builder)
-tool. Before using the tool, be sure to add the conda-forge channel to your
-conda config by using `conda config --add channels conda-forge`.
