@@ -25,13 +25,13 @@ they are using when reporting their results.
 
 ## Installing Tax-Brain
 
-You can install the latest official release from Conda using this command:
-`conda install -c pslmodels taxbrain`.
+You can install the latest official release from PyPI using this command:
+`pip taxbrain`.
 
 Similarly, you can update to the latest release of Tax-Brain using
-`conda update -c pslmodels taxbrain`.
+`pip install -U taxbrain`.
 
-Tax-Brain is currently not available on PyPI.
+Tax-Brain is no longer maintained on Conda.
 
 ## Using Tax-Brain
 
@@ -48,10 +48,10 @@ you describe your input data and note the versions of the underlying models.
 
 ## Tax-Brain Interface
 
-In addition to its Python API, Tax-Brain also powers a web application on
-[Compute Studio](https://compute.studio/). That application can be found
+In addition to its Python API, Tax-Brain has also been used to power web applications on
+[Compute Studio](https://compute.studio/) and other platforms. An application used to be available at
 [here](https://compute.studio/PSLmodels/Tax-Brain/). The code behind the
-GUI can be found in this repository in the [cs-config](https://github.com/PSLmodels/Tax-Brain/tree/master/cs-config)
+GUI web application can be found in this repository in the [cs-config](https://github.com/PSLmodels/Tax-Brain/tree/master/cs-config)
 directory.
 
 ## Additional Information
@@ -61,10 +61,5 @@ directory.
 * [Contributors](https://github.com/PSLmodels/Tax-Brain/graphs/contributors)
 * [Release History](https://github.com/PSLmodels/Tax-Brain/blob/master/RELEASES.md)
 
-## Releasing New Versions of Tax-Brain
-
-To release new versions of Tax-Brain, use the [Package-Builder](https://github.com/PSLmodels/Package-Builder)
-tool. Before using the tool, be sure to add the conda-forge channel to your
-conda config by using `conda config --add channels conda-forge`.
 
 ***Looking for code powering the TaxBrain GUI at [apps.ospc.org/taxbrain](https://apps.ospc.org/taxbrain)? See [github.com/ospc-org/ospc.org](https://github.com/ospc-org/ospc.org).***
