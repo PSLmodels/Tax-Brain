@@ -1,15 +1,15 @@
 ####################################################
 # Book settings
 title                    : Tax-Brain
-author                   : Anderson Frailey
+author                   : Jason DeBacker and Anderson Frailey
 copyright                : '2024'
 logo                     : '../taxbrain.png'
 
 ####################################################
 # Execution settings
 execute:
-  execute_notebooks      : cache
-  timeout                : 300
+  execute_notebooks      : force
+
 
 ####################################################
 # HTML-specific settings
