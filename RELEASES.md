@@ -2,12 +2,12 @@
 
 ## 2024-09-23 Release 2.7.2
 
-Last Merged Pull Request: [#202](https://github.com/PSLmodels/Tax-Brain/pull/202)
+Last Merged Pull Request: [#205](https://github.com/PSLmodels/Tax-Brain/pull/205)
 
 Changes in this release:
 
-* Minor updates to the documentation: [#203]()
-* Testing on Python 3.12: [#204]()
+* Minor updates to the documentation: [#204](https://github.com/PSLmodels/Tax-Brain/pull/204) and [#205](https://github.com/PSLmodels/Tax-Brain/pull/205)
+* Testing on Python 3.12: [#205](https://github.com/PSLmodels/Tax-Brain/pull/205)
 
 ## 2024-06-10 Release 2.7.1
 
