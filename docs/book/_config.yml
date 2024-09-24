@@ -1,15 +1,15 @@
 ####################################################
 # Book settings
 title                    : Tax-Brain
-author                   : Anderson Frailey
+author                   : Jason DeBacker and Anderson Frailey
 copyright                : '2024'
 logo                     : '../taxbrain.png'
 
 ####################################################
 # Execution settings
 execute:
-  execute_notebooks      : cache
-  timeout                : 300
+  execute_notebooks      : force
+
 
 ####################################################
 # HTML-specific settings
@@ -34,6 +34,7 @@ binder:
 
 launch_buttons:
   notebook_interface     : 'classic'  # The interface interactive links will activate ["classic", "jupyterlab"]
+  colab_url              : "https://colab.research.google.com"
   # binderhub_url          : https://mybinder.org  # The URL of the BinderHub (e.g., https://mybinder.org)
   # jupyterhub_url         : ""  # The URL of the JupyterHub (e.g., https://datahub.berkeley.edu)
   # thebelab               : false  # Add a thebelab button to pages (requires the repository to run on Binder)

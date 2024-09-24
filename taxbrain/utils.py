@@ -295,9 +295,9 @@ def is_paramtools_format(reform: Union[TaxcalcReform, ParamToolsAdjustment]):
     adjustment or the Tax-Calculator reform format.
 
     If first item is a dict, then it is likely be a Tax-Calculator reform:
-    {
-        param: {2020: 1000}
-    }
+        {
+            param: {2020: 1000}
+        }
 
     Otherwise, it is likely to be a ParamTools format.
 
@@ -308,8 +308,9 @@ def is_paramtools_format(reform: Union[TaxcalcReform, ParamToolsAdjustment]):
 
     Returns
     -------
-    bool
+    bool: bool
         True if reform is likely to be in ParamTools format
+
     """
     for param, data in reform.items():
         if isinstance(data, dict):
