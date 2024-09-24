@@ -202,6 +202,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="public_api.html">Tax-Brain Python API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="cli.html">Tax-Brain Command Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="corporate_incidence.html">Distributing the Corporate Income Tax</a></li>
 <li class="toctree-l2"><a class="reference internal" href="report.html">Tax-Brain Report Generation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="report_utils.html">Tax-Brain Report Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="taxbrain.html">Tax-Brain Class Object</a></li>
@@ -484,19 +485,21 @@ after tax income</p>
 <span class="sig-prename descclassname"><span class="pre">taxbrain.utils.</span></span><span class="sig-name descname"><span class="pre">is_paramtools_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ValueObject</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/taxbrain/utils.html#is_paramtools_format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taxbrain.utils.is_paramtools_format" title="Link to this definition">#</a></dt>
 <dd><p>Check first item in reform to determine if it is using the ParamTools
 adjustment or the Tax-Calculator reform format.</p>
-<p>If first item is a dict, then it is likely be a Tax-Calculator reform:
-{</p>
-<blockquote>
-<div><p>param: {2020: 1000}</p>
-</div></blockquote>
+<dl>
+<dt>If first item is a dict, then it is likely be a Tax-Calculator reform:</dt><dd><dl class="simple">
+<dt>{</dt><dd><p>param: {2020: 1000}</p>
+</dd>
+</dl>
 <p>}</p>
+</dd>
+</dl>
 <p>Otherwise, it is likely to be a ParamTools format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>reform</strong> (<em>str</em><em> or </em><em>dict</em>) – parameters for tax policy</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>True if reform is likely to be in ParamTools format</p>
+<dd class="field-even"><p><strong>bool</strong> – True if reform is likely to be in ParamTools format</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
@@ -710,7 +713,7 @@ min_inc must be &gt;= 0</p></li>
   <div class="footer-item">
     
 <p class="component-author">
-By Anderson Frailey
+By Jason DeBacker and Anderson Frailey
 </p>
 
   </div>

@@ -206,6 +206,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/public_api.html">Tax-Brain Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/cli.html">Tax-Brain Command Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/corporate_incidence.html">Distributing the Corporate Income Tax</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/report.html">Tax-Brain Report Generation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/report_utils.html">Tax-Brain Report Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/taxbrain.html">Tax-Brain Class Object</a></li>
@@ -414,7 +415,6 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-tax-brain">Citing Tax-Brain</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tax-brain-interface">Tax-Brain Interface</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-information">Additional Information</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#releasing-new-versions-of-tax-brain">Releasing New Versions of Tax-Brain</a></li>
 </ul>
             </nav>
         </div>
@@ -451,11 +451,11 @@ they are using when reporting their results.</p>
 </section>
 <section id="installing-tax-brain">
 <h2>Installing Tax-Brain<a class="headerlink" href="#installing-tax-brain" title="Link to this heading">#</a></h2>
-<p>You can install the latest official release from Conda using this command:
-<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">-c</span> <span class="pre">pslmodels</span> <span class="pre">taxbrain</span></code>.</p>
+<p>You can install the latest official release from PyPI using this command:
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">taxbrain</span></code>.</p>
 <p>Similarly, you can update to the latest release of Tax-Brain using
-<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">update</span> <span class="pre">-c</span> <span class="pre">pslmodels</span> <span class="pre">taxbrain</span></code>.</p>
-<p>Tax-Brain is currently not available on PyPI.</p>
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">taxbrain</span></code>.</p>
+<p>Tax-Brain is no longer maintained on Conda.</p>
 </section>
 <section id="using-tax-brain">
 <h2>Using Tax-Brain<a class="headerlink" href="#using-tax-brain" title="Link to this heading">#</a></h2>
@@ -472,10 +472,10 @@ you describe your input data and note the versions of the underlying models.</p>
 </section>
 <section id="tax-brain-interface">
 <h2>Tax-Brain Interface<a class="headerlink" href="#tax-brain-interface" title="Link to this heading">#</a></h2>
-<p>In addition to its Python API, Tax-Brain also powers a web application on
-<a class="reference external" href="https://compute.studio/">Compute Studio</a>. That application can be found
+<p>In addition to its Python API, Tax-Brain has also been used to power web applications on
+<a class="reference external" href="https://compute.studio/">Compute Studio</a> and other platforms. An application used to be available at
 <a class="reference external" href="https://compute.studio/PSLmodels/Tax-Brain/">here</a>. The code behind the
-GUI can be found in this repository in the <a class="reference external" href="https://github.com/PSLmodels/Tax-Brain/tree/master/cs-config">cs-config</a>
+GUI web application can be found in this repository in the <a class="reference external" href="https://github.com/PSLmodels/Tax-Brain/tree/master/cs-config">cs-config</a>
 directory.</p>
 </section>
 <section id="additional-information">
@@ -486,12 +486,6 @@ directory.</p>
 <li><p><a class="reference external" href="https://github.com/PSLmodels/Tax-Brain/graphs/contributors">Contributors</a></p></li>
 <li><p><a class="reference external" href="https://github.com/PSLmodels/Tax-Brain/blob/master/RELEASES.md">Release History</a></p></li>
 </ul>
-</section>
-<section id="releasing-new-versions-of-tax-brain">
-<h2>Releasing New Versions of Tax-Brain<a class="headerlink" href="#releasing-new-versions-of-tax-brain" title="Link to this heading">#</a></h2>
-<p>To release new versions of Tax-Brain, use the <a class="reference external" href="https://github.com/PSLmodels/Package-Builder">Package-Builder</a>
-tool. Before using the tool, be sure to add the conda-forge channel to your
-conda config by using <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">config</span> <span class="pre">--add</span> <span class="pre">channels</span> <span class="pre">conda-forge</span></code>.</p>
 <p><em><strong>Looking for code powering the TaxBrain GUI at <a class="reference external" href="https://apps.ospc.org/taxbrain">apps.ospc.org/taxbrain</a>? See <a class="reference external" href="https://github.com/ospc-org/ospc.org">github.com/ospc-org/ospc.org</a>.</strong></em></p>
 </section>
 <div class="toctree-wrapper compound">
@@ -568,7 +562,6 @@ conda config by using <code class="docutils literal notranslate"><span class="pr
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-tax-brain">Citing Tax-Brain</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tax-brain-interface">Tax-Brain Interface</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-information">Additional Information</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#releasing-new-versions-of-tax-brain">Releasing New Versions of Tax-Brain</a></li>
 </ul>
   </nav></div>
 
@@ -583,7 +576,7 @@ conda config by using <code class="docutils literal notranslate"><span class="pr
   <div class="footer-item">
     
 <p class="component-author">
-By Anderson Frailey
+By Jason DeBacker and Anderson Frailey
 </p>
 
   </div>

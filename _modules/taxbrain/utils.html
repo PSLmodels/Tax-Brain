@@ -202,6 +202,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../content/api/public_api.html">Tax-Brain Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../content/api/cli.html">Tax-Brain Command Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../content/api/corporate_incidence.html">Distributing the Corporate Income Tax</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../content/api/report.html">Tax-Brain Report Generation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../content/api/report_utils.html">Tax-Brain Report Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../content/api/taxbrain.html">Tax-Brain Class Object</a></li>
@@ -669,9 +670,9 @@ document.write(`
 <span class="sd">    adjustment or the Tax-Calculator reform format.</span>
 
 <span class="sd">    If first item is a dict, then it is likely be a Tax-Calculator reform:</span>
-<span class="sd">    {</span>
-<span class="sd">        param: {2020: 1000}</span>
-<span class="sd">    }</span>
+<span class="sd">        {</span>
+<span class="sd">            param: {2020: 1000}</span>
+<span class="sd">        }</span>
 
 <span class="sd">    Otherwise, it is likely to be a ParamTools format.</span>
 
@@ -682,8 +683,9 @@ document.write(`
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    bool</span>
+<span class="sd">    bool: bool</span>
 <span class="sd">        True if reform is likely to be in ParamTools format</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">reform</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -1024,7 +1026,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Anderson Frailey
+By Jason DeBacker and Anderson Frailey
 </p>
 
   </div>

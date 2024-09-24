@@ -203,6 +203,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/public_api.html">Tax-Brain Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/cli.html">Tax-Brain Command Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/corporate_incidence.html">Distributing the Corporate Income Tax</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/report.html">Tax-Brain Report Generation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/report_utils.html">Tax-Brain Report Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/taxbrain.html">Tax-Brain Class Object</a></li>
@@ -250,6 +251,37 @@
         <div class="header-article-item">
 
 <div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/PSLmodels/Tax-Brain/blob/master/docs/book/content/examples/example.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
 
 
 
@@ -421,6 +453,20 @@ document.write(`
   <p>This notebook contains an example for how to use the <code class="docutils literal notranslate"><span class="pre">taxbrain</span></code> python package</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # Install conda, taxbrain, and taxcalc if in Google Colab.</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span> <span class="ow">and</span> <span class="s1">&#39;taxbrain&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+    <span class="c1"># Install taxbrain and dependencies</span>
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>taxbrain<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>taxcalc<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>pypandoc<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>pandas<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w">  </span>#<span class="w"> </span>make<span class="w"> </span>sure<span class="w"> </span>pandas<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span>to<span class="w"> </span>date
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">taxbrain</span> <span class="kn">import</span> <span class="n">TaxBrain</span><span class="p">,</span> <span class="n">differences_plot</span><span class="p">,</span> <span class="n">distribution_plot</span>
 </pre></div>
 </div>
@@ -441,19 +487,131 @@ document.write(`
 <p>Once the class has been initiated, the <code class="docutils literal notranslate"><span class="pre">run()</span></code> method will handle executing each model</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tb_static</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">use_cps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_url</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tb_static</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">microdata</span><span class="o">=</span><span class="s2">&quot;CPS&quot;</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_url</span><span class="p">)</span>
 <span class="n">tb_static</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">tb_static</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">use_cps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_url</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">tb_static</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/numba/core/serialize.py:30,</span> in <span class="ni">_numba_unpickle</span><span class="nt">(address, bytedata, hashed)</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="n">_unpickled_memo</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="ne">---&gt; </span><span class="mi">30</span> <span class="k">def</span> <span class="nf">_numba_unpickle</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">bytedata</span><span class="p">,</span> <span class="n">hashed</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">31</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Used by `numba_unpickle` from _helperlib.c</span>
+<span class="g g-Whitespace">     </span><span class="mi">32</span><span class="sd"> </span>
+<span class="g g-Whitespace">     </span><span class="mi">33</span><span class="sd">     Parameters</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span><span class="sd">         unpickled object</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span><span class="sd">     &quot;&quot;&quot;</span>
 
-<span class="ne">TypeError</span>: TaxBrain.__init__() got an unexpected keyword argument &#39;use_cps&#39;
+<span class="ne">KeyboardInterrupt</span>: 
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="ne">SystemError</span>: &lt;function _numba_unpickle at 0x7f4753d463e0&gt; returned a result with an exception set
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="ne">SystemError</span>: &lt;function _numba_unpickle at 0x7f4753d463e0&gt; returned a result with an exception set
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="ne">SystemError</span>: &lt;function _numba_unpickle at 0x7f4753d463e0&gt; returned a result with an exception set
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="ne">SystemError</span>: &lt;function _numba_unpickle at 0x7f4753d463e0&gt; returned a result with an exception set
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="ne">SystemError</span>: &lt;function _numba_unpickle at 0x7f4753d463e0&gt; returned a result with an exception set
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="ne">SystemError</span>: &lt;function _numba_unpickle at 0x7f4753d463e0&gt; returned a result with an exception set
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">tb_static</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">microdata</span><span class="o">=</span><span class="s2">&quot;CPS&quot;</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_url</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">tb_static</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="nn">File ~/work/Tax-Brain/Tax-Brain/taxbrain/taxbrain.py:178,</span> in <span class="ni">TaxBrain.run</span><span class="nt">(self, varlist, client, num_workers)</span>
+<span class="g g-Whitespace">    </span><span class="mi">176</span>         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">177</span>             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running static simulations&quot;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">178</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_static_run</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">179</span>             <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">num_workers</span>
+<span class="g g-Whitespace">    </span><span class="mi">180</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">181</span>     <span class="k">del</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span>
+<span class="g g-Whitespace">    </span><span class="mi">183</span> <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;has_run&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="nn">File ~/work/Tax-Brain/Tax-Brain/taxbrain/taxbrain.py:440,</span> in <span class="ni">TaxBrain._static_run</span><span class="nt">(self, varlist, base_calc, reform_calc, client, num_workers)</span>
+<span class="g g-Whitespace">    </span><span class="mi">434</span> <span class="n">lazy_values</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">    </span><span class="mi">435</span> <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">436</span>     <span class="n">lazy_values</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">437</span>         <span class="p">[</span>
+<span class="g g-Whitespace">    </span><span class="mi">438</span>             <span class="n">delayed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_taxcalc_advance</span><span class="p">(</span><span class="n">base_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">yr</span><span class="p">)),</span>
+<span class="g g-Whitespace">    </span><span class="mi">439</span>             <span class="n">delayed</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">440</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">_taxcalc_advance</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">441</span>                     <span class="n">reform_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">yr</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="kc">True</span>
+<span class="g g-Whitespace">    </span><span class="mi">442</span>                 <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">443</span>             <span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">444</span>         <span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">445</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">446</span> <span class="k">if</span> <span class="n">client</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">447</span>     <span class="n">futures</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">lazy_values</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">)</span>
+
+<span class="nn">File ~/work/Tax-Brain/Tax-Brain/taxbrain/taxbrain.py:392,</span> in <span class="ni">TaxBrain._taxcalc_advance</span><span class="nt">(self, calc, varlist, year, reform)</span>
+<span class="g g-Whitespace">    </span><span class="mi">384</span>     <span class="k">if</span> <span class="n">reform</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">385</span>         <span class="n">calc</span> <span class="o">=</span> <span class="n">dist_corp</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">386</span>             <span class="n">calc</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">387</span>             <span class="bp">self</span><span class="o">.</span><span class="n">corp_revenue</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">390</span>             <span class="bp">self</span><span class="o">.</span><span class="n">ci_params</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">391</span>         <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">392</span> <span class="n">calc</span><span class="o">.</span><span class="n">calc_all</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">393</span> <span class="n">df</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">dataframe</span><span class="p">(</span><span class="n">varlist</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">395</span> <span class="k">return</span> <span class="n">df</span>
+
+<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/taxcalc/calculator.py:172,</span> in <span class="ni">Calculator.calc_all</span><span class="nt">(self, zero_out_calc_vars)</span>
+<span class="g g-Whitespace">    </span><span class="mi">170</span> <span class="n">UBI</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">171</span> <span class="n">BenefitPrograms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">172</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc_one_year</span><span class="p">(</span><span class="n">zero_out_calc_vars</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">173</span> <span class="n">BenefitSurtax</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">174</span> <span class="n">BenefitLimitation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/taxcalc/calculator.py:1435,</span> in <span class="ni">Calculator._calc_one_year</span><span class="nt">(self, zero_out_calc_vars)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1433</span> <span class="k">del</span> <span class="n">item_cvar</span>
+<span class="g g-Whitespace">   </span><span class="mi">1434</span> <span class="c1"># Calculate taxes with optimal itemized deduction</span>
+<span class="ne">-&gt; </span><span class="mi">1435</span> <span class="bp">self</span><span class="o">.</span><span class="n">_taxinc_to_amt</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1436</span> <span class="n">F2441</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1437</span> <span class="n">EITC</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+
+<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/taxcalc/calculator.py:1366,</span> in <span class="ni">Calculator._taxinc_to_amt</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1364</span> <span class="n">TaxInc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1365</span> <span class="n">SchXYZTax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1366</span> <span class="n">GainsTax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1367</span> <span class="n">AGIsurtax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1368</span> <span class="n">NetInvIncTax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+
+<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/taxcalc/decorators.py:325,</span> in <span class="ni">iterate_jit.&lt;locals&gt;.make_wrapper.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">322</span> <span class="nb">eval</span><span class="p">(</span><span class="n">func_code</span><span class="p">,</span>  <span class="c1"># pylint: disable=eval-used</span>
+<span class="g g-Whitespace">    </span><span class="mi">323</span>      <span class="p">{</span><span class="s2">&quot;applied_f&quot;</span><span class="p">:</span> <span class="n">applied_jitted_f</span><span class="p">},</span> <span class="n">fakeglobals</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">324</span> <span class="n">high_level_fn</span> <span class="o">=</span> <span class="n">fakeglobals</span><span class="p">[</span><span class="s1">&#39;hl_func&#39;</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">325</span> <span class="n">ans</span> <span class="o">=</span> <span class="n">high_level_fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">326</span> <span class="k">return</span> <span class="n">ans</span>
+
+<span class="nn">File &lt;string&gt;:12,</span> in <span class="ni">hl_func</span><span class="nt">(pm, pf)</span>
+
+<span class="ne">SystemError</span>: CPUDispatcher(&lt;function ap_func at 0x7f47528d6200&gt;) returned a result with an exception set
 </pre></div>
 </div>
 </div>
@@ -503,42 +661,42 @@ document.write(`
   <tbody>
     <tr>
       <th>Base</th>
-      <td>2.271315e+12</td>
-      <td>3.067829e+12</td>
-      <td>3.246660e+12</td>
-      <td>3.395741e+12</td>
-      <td>3.575933e+12</td>
-      <td>3.979720e+12</td>
-      <td>4.161644e+12</td>
-      <td>4.344157e+12</td>
-      <td>4.543405e+12</td>
-      <td>4.749710e+12</td>
+      <td>2.269727e+12</td>
+      <td>3.067767e+12</td>
+      <td>3.246623e+12</td>
+      <td>3.395728e+12</td>
+      <td>3.575938e+12</td>
+      <td>3.979716e+12</td>
+      <td>4.161639e+12</td>
+      <td>4.344151e+12</td>
+      <td>4.543397e+12</td>
+      <td>4.749701e+12</td>
     </tr>
     <tr>
       <th>Reform</th>
-      <td>2.328361e+12</td>
-      <td>3.146043e+12</td>
-      <td>3.342355e+12</td>
-      <td>3.509862e+12</td>
-      <td>3.710031e+12</td>
-      <td>4.126731e+12</td>
-      <td>4.329945e+12</td>
-      <td>4.534786e+12</td>
-      <td>4.744460e+12</td>
-      <td>4.961584e+12</td>
+      <td>2.326818e+12</td>
+      <td>3.145972e+12</td>
+      <td>3.342312e+12</td>
+      <td>3.509844e+12</td>
+      <td>3.710034e+12</td>
+      <td>4.126726e+12</td>
+      <td>4.329940e+12</td>
+      <td>4.534780e+12</td>
+      <td>4.744452e+12</td>
+      <td>4.961574e+12</td>
     </tr>
     <tr>
       <th>Difference</th>
-      <td>5.704648e+10</td>
-      <td>7.821354e+10</td>
-      <td>9.569515e+10</td>
-      <td>1.141207e+11</td>
-      <td>1.340978e+11</td>
-      <td>1.470101e+11</td>
-      <td>1.683017e+11</td>
-      <td>1.906294e+11</td>
-      <td>2.010547e+11</td>
-      <td>2.118738e+11</td>
+      <td>5.709077e+10</td>
+      <td>7.820500e+10</td>
+      <td>9.568834e+10</td>
+      <td>1.141166e+11</td>
+      <td>1.340957e+11</td>
+      <td>1.470099e+11</td>
+      <td>1.683013e+11</td>
+      <td>1.906291e+11</td>
+      <td>2.010544e+11</td>
+      <td>2.118730e+11</td>
     </tr>
   </tbody>
 </table>
@@ -598,7 +756,7 @@ document.write(`
       <td>34.458500</td>
       <td>8.218450</td>
       <td>0.000839</td>
-      <td>0.001470</td>
+      <td>0.001469</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
@@ -626,9 +784,9 @@ document.write(`
       <td>0.000000</td>
       <td>5.510201</td>
       <td>45.113777</td>
-      <td>3.693061</td>
+      <td>3.693062</td>
       <td>0.045107</td>
-      <td>0.079071</td>
+      <td>0.079009</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
@@ -641,13 +799,13 @@ document.write(`
       <td>0.000000</td>
       <td>15.031974</td>
       <td>72.589110</td>
-      <td>17.199754</td>
+      <td>17.199769</td>
       <td>0.356178</td>
-      <td>0.624364</td>
+      <td>0.623880</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.049706</td>
+      <td>-0.049703</td>
     </tr>
     <tr>
       <th>20-30</th>
@@ -656,13 +814,13 @@ document.write(`
       <td>0.091803</td>
       <td>13.230015</td>
       <td>63.891753</td>
-      <td>27.007745</td>
-      <td>0.559247</td>
-      <td>0.980336</td>
+      <td>27.008003</td>
+      <td>0.559253</td>
+      <td>0.979585</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.047443</td>
+      <td>-0.047439</td>
     </tr>
     <tr>
       <th>30-40</th>
@@ -671,88 +829,88 @@ document.write(`
       <td>1.253135</td>
       <td>11.850040</td>
       <td>57.225744</td>
-      <td>29.340902</td>
-      <td>0.607578</td>
-      <td>1.065057</td>
+      <td>29.340367</td>
+      <td>0.607567</td>
+      <td>1.064212</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.036806</td>
+      <td>-0.036801</td>
     </tr>
     <tr>
       <th>40-50</th>
       <td>20.706181</td>
-      <td>1.026022</td>
-      <td>4.955149</td>
+      <td>1.020739</td>
+      <td>4.929636</td>
       <td>12.904516</td>
       <td>62.322051</td>
-      <td>27.858098</td>
-      <td>0.576835</td>
-      <td>1.011166</td>
+      <td>27.887624</td>
+      <td>0.577446</td>
+      <td>1.011453</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.014259</td>
+      <td>-0.014320</td>
     </tr>
     <tr>
       <th>50-60</th>
       <td>20.708634</td>
-      <td>2.988466</td>
-      <td>14.431013</td>
-      <td>12.852511</td>
-      <td>62.063539</td>
-      <td>-36.682205</td>
-      <td>-0.759638</td>
-      <td>-1.331613</td>
+      <td>2.983512</td>
+      <td>14.407092</td>
+      <td>12.853635</td>
+      <td>62.068967</td>
+      <td>-36.541184</td>
+      <td>-0.756718</td>
+      <td>-1.325465</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.110990</td>
+      <td>0.110734</td>
     </tr>
     <tr>
       <th>60-70</th>
       <td>20.707540</td>
-      <td>3.812725</td>
-      <td>18.412256</td>
-      <td>12.691828</td>
-      <td>61.290851</td>
-      <td>-155.371271</td>
-      <td>-3.217357</td>
-      <td>-5.639887</td>
+      <td>3.810788</td>
+      <td>18.402900</td>
+      <td>12.691879</td>
+      <td>61.291099</td>
+      <td>-155.091891</td>
+      <td>-3.211572</td>
+      <td>-5.625378</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.261920</td>
+      <td>0.261506</td>
     </tr>
     <tr>
       <th>70-80</th>
       <td>20.705701</td>
-      <td>4.045475</td>
-      <td>19.537975</td>
-      <td>13.337835</td>
-      <td>64.416242</td>
-      <td>-199.030473</td>
-      <td>-4.121066</td>
-      <td>-7.224049</td>
+      <td>4.042144</td>
+      <td>19.521890</td>
+      <td>13.340665</td>
+      <td>64.429912</td>
+      <td>-198.758187</td>
+      <td>-4.115428</td>
+      <td>-7.208569</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.271875</td>
+      <td>0.271550</td>
     </tr>
     <tr>
       <th>80-90</th>
       <td>20.709850</td>
-      <td>4.421863</td>
-      <td>21.351497</td>
-      <td>14.297523</td>
-      <td>69.037307</td>
-      <td>-428.662224</td>
-      <td>-8.877530</td>
-      <td>-15.561926</td>
+      <td>4.418265</td>
+      <td>21.334121</td>
+      <td>14.297969</td>
+      <td>69.039464</td>
+      <td>-427.711584</td>
+      <td>-8.857843</td>
+      <td>-15.515367</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.417652</td>
+      <td>0.416827</td>
     </tr>
     <tr>
       <th>90-100</th>
@@ -761,28 +919,28 @@ document.write(`
       <td>6.912254</td>
       <td>17.352383</td>
       <td>83.795459</td>
-      <td>3470.938895</td>
-      <td>71.876285</td>
-      <td>125.996010</td>
+      <td>3471.405278</td>
+      <td>71.885943</td>
+      <td>125.915170</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-1.292600</td>
+      <td>-1.292653</td>
     </tr>
     <tr>
       <th>ALL</th>
       <td>207.075375</td>
-      <td>18.004445</td>
-      <td>8.694633</td>
-      <td>129.093991</td>
-      <td>62.341546</td>
-      <td>275.486531</td>
-      <td>57.046477</td>
+      <td>17.985342</td>
+      <td>8.685408</td>
+      <td>129.098443</td>
+      <td>62.343696</td>
+      <td>275.700439</td>
+      <td>57.090772</td>
       <td>100.000000</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.321131</td>
+      <td>-0.321387</td>
     </tr>
     <tr>
       <th>90-95</th>
@@ -791,13 +949,13 @@ document.write(`
       <td>12.481311</td>
       <td>8.241434</td>
       <td>79.595059</td>
-      <td>-299.507547</td>
-      <td>-3.101162</td>
-      <td>-5.436202</td>
+      <td>-298.772462</td>
+      <td>-3.093551</td>
+      <td>-5.418653</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.257404</td>
+      <td>0.256932</td>
     </tr>
     <tr>
       <th>95-99</th>
@@ -806,13 +964,13 @@ document.write(`
       <td>1.678898</td>
       <td>7.283324</td>
       <td>87.938673</td>
-      <td>318.526119</td>
-      <td>2.638122</td>
-      <td>4.624513</td>
+      <td>318.774347</td>
+      <td>2.640177</td>
+      <td>4.624526</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.070457</td>
+      <td>-0.070544</td>
     </tr>
     <tr>
       <th>Top 1%</th>
@@ -821,13 +979,13 @@ document.write(`
       <td>0.000000</td>
       <td>1.827625</td>
       <td>88.225265</td>
-      <td>34920.482300</td>
-      <td>72.339325</td>
-      <td>126.807699</td>
+      <td>34920.477840</td>
+      <td>72.339316</td>
+      <td>126.709297</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-4.338197</td>
+      <td>-4.338110</td>
     </tr>
   </tbody>
 </table>
@@ -841,7 +999,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/af0a4900b85af080f408069f635b2037bec35a7352d7698829dfbdeca676ea27.png" src="../../_images/af0a4900b85af080f408069f635b2037bec35a7352d7698829dfbdeca676ea27.png" />
+<img alt="../../_images/5df99c44f72b5e38d684739ee82669a14997e5eb9e9eeae13ef8eee355c8b971.png" src="../../_images/5df99c44f72b5e38d684739ee82669a14997e5eb9e9eeae13ef8eee355c8b971.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -851,13 +1009,13 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/7c8987ce56c89089c36c22b9f0dbb36e50ab904ce3e9102e64172c5d1e2b8cce.png" src="../../_images/7c8987ce56c89089c36c22b9f0dbb36e50ab904ce3e9102e64172c5d1e2b8cce.png" />
+<img alt="../../_images/03d12c7f1175d816c18609e34c88ec90342a5ea9dadac5b34725f9ddcc3d395c.png" src="../../_images/03d12c7f1175d816c18609e34c88ec90342a5ea9dadac5b34725f9ddcc3d395c.png" />
 </div>
 </div>
 <p>You can run a partial-equlibrium dynamic simulation by initiating the TaxBrian instance exactly as you would for the static reform, but with your behavioral assumptions specified</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tb_dynamic</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">use_cps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_url</span><span class="p">,</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tb_dynamic</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">microdata</span><span class="o">=</span><span class="s2">&quot;CPS&quot;</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_url</span><span class="p">,</span>
                       <span class="n">behavior</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sub&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">})</span>
 <span class="n">tb_dynamic</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
@@ -909,42 +1067,42 @@ document.write(`
   <tbody>
     <tr>
       <th>Base</th>
-      <td>2.271315e+12</td>
-      <td>3.067829e+12</td>
-      <td>3.246660e+12</td>
-      <td>3.395741e+12</td>
-      <td>3.575933e+12</td>
-      <td>3.979720e+12</td>
-      <td>4.161644e+12</td>
-      <td>4.344157e+12</td>
-      <td>4.543405e+12</td>
-      <td>4.749710e+12</td>
+      <td>2.269727e+12</td>
+      <td>3.067767e+12</td>
+      <td>3.246623e+12</td>
+      <td>3.395728e+12</td>
+      <td>3.575938e+12</td>
+      <td>3.979716e+12</td>
+      <td>4.161639e+12</td>
+      <td>4.344151e+12</td>
+      <td>4.543397e+12</td>
+      <td>4.749701e+12</td>
     </tr>
     <tr>
       <th>Reform</th>
-      <td>2.309368e+12</td>
-      <td>3.119490e+12</td>
-      <td>3.312328e+12</td>
-      <td>3.476846e+12</td>
-      <td>3.673556e+12</td>
-      <td>4.082938e+12</td>
-      <td>4.282362e+12</td>
-      <td>4.483176e+12</td>
-      <td>4.690509e+12</td>
-      <td>4.904597e+12</td>
+      <td>2.307804e+12</td>
+      <td>3.119395e+12</td>
+      <td>3.312243e+12</td>
+      <td>3.476774e+12</td>
+      <td>3.673491e+12</td>
+      <td>4.082934e+12</td>
+      <td>4.282357e+12</td>
+      <td>4.483171e+12</td>
+      <td>4.690507e+12</td>
+      <td>4.904587e+12</td>
     </tr>
     <tr>
       <th>Difference</th>
-      <td>3.805276e+10</td>
-      <td>5.166050e+10</td>
-      <td>6.566857e+10</td>
-      <td>8.110481e+10</td>
-      <td>9.762328e+10</td>
-      <td>1.032177e+11</td>
-      <td>1.207188e+11</td>
-      <td>1.390191e+11</td>
-      <td>1.471038e+11</td>
-      <td>1.548868e+11</td>
+      <td>3.807725e+10</td>
+      <td>5.162814e+10</td>
+      <td>6.561941e+10</td>
+      <td>8.104634e+10</td>
+      <td>9.755272e+10</td>
+      <td>1.032176e+11</td>
+      <td>1.207186e+11</td>
+      <td>1.390202e+11</td>
+      <td>1.471100e+11</td>
+      <td>1.548863e+11</td>
     </tr>
   </tbody>
 </table>
@@ -1008,14 +1166,14 @@ document.write(`
       <th>0-10n</th>
       <td>0.102049</td>
       <td>-7.647952</td>
-      <td>0.102049</td>
-      <td>1.812331</td>
+      <td>0.018507</td>
+      <td>-5.835622</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.0</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>-7.647952</td>
+      <td>-7.764826</td>
       <td>...</td>
       <td>0.000000</td>
       <td>0.354646</td>
@@ -1033,7 +1191,7 @@ document.write(`
       <td>8.391348</td>
       <td>-0.092134</td>
       <td>8.391348</td>
-      <td>112.606869</td>
+      <td>112.514735</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.0</td>
@@ -1055,338 +1213,338 @@ document.write(`
     <tr>
       <th>0-10p</th>
       <td>12.213289</td>
-      <td>28.286906</td>
-      <td>12.209152</td>
-      <td>166.998865</td>
-      <td>0.004137</td>
-      <td>0.020264</td>
+      <td>28.286909</td>
+      <td>12.207105</td>
+      <td>167.047672</td>
+      <td>0.006184</td>
+      <td>0.035899</td>
       <td>0.0</td>
-      <td>0.115147</td>
-      <td>0.004012</td>
-      <td>28.266967</td>
+      <td>0.109175</td>
+      <td>0.003643</td>
+      <td>28.250938</td>
       <td>...</td>
       <td>0.000000</td>
       <td>28.404318</td>
-      <td>-28.400306</td>
+      <td>-28.400675</td>
       <td>3.495389</td>
-      <td>-24.904918</td>
+      <td>-24.905286</td>
       <td>0.0</td>
       <td>19.592770</td>
       <td>19.592770</td>
-      <td>50.389804</td>
-      <td>75.294721</td>
+      <td>50.389807</td>
+      <td>75.295093</td>
     </tr>
     <tr>
       <th>10-20</th>
       <td>20.707972</td>
-      <td>207.041116</td>
-      <td>20.173943</td>
-      <td>279.070002</td>
-      <td>0.534030</td>
-      <td>8.393380</td>
+      <td>207.041657</td>
+      <td>20.230779</td>
+      <td>280.157298</td>
+      <td>0.472337</td>
+      <td>7.619006</td>
       <td>0.0</td>
-      <td>26.229378</td>
-      <td>2.425275</td>
-      <td>199.422615</td>
+      <td>25.986559</td>
+      <td>2.401345</td>
+      <td>200.049307</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>68.924806</td>
-      <td>-66.500012</td>
-      <td>27.626000</td>
-      <td>-38.874012</td>
+      <td>68.924569</td>
+      <td>-66.523628</td>
+      <td>27.626076</td>
+      <td>-38.897552</td>
       <td>0.0</td>
       <td>107.290602</td>
       <td>107.290602</td>
-      <td>323.220266</td>
-      <td>362.094278</td>
+      <td>323.220845</td>
+      <td>362.118396</td>
     </tr>
     <tr>
       <th>20-30</th>
-      <td>20.707838</td>
-      <td>316.392003</td>
-      <td>19.633355</td>
-      <td>286.707946</td>
-      <td>1.074483</td>
-      <td>19.058592</td>
+      <td>20.707385</td>
+      <td>316.378323</td>
+      <td>19.648591</td>
+      <td>287.017567</td>
+      <td>1.053396</td>
+      <td>18.740597</td>
       <td>0.0</td>
-      <td>116.797081</td>
-      <td>11.644893</td>
-      <td>299.603803</td>
+      <td>116.225685</td>
+      <td>11.584224</td>
+      <td>299.238036</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>67.788343</td>
-      <td>-56.136439</td>
-      <td>43.579523</td>
-      <td>-12.556916</td>
+      <td>67.787144</td>
+      <td>-56.195886</td>
+      <td>43.577393</td>
+      <td>-12.618493</td>
       <td>0.0</td>
       <td>258.441980</td>
       <td>258.441980</td>
-      <td>590.820467</td>
-      <td>603.377382</td>
+      <td>590.805721</td>
+      <td>603.424214</td>
     </tr>
     <tr>
       <th>30-40</th>
-      <td>20.707454</td>
-      <td>392.668937</td>
-      <td>19.509537</td>
-      <td>297.097008</td>
-      <td>1.197917</td>
-      <td>22.261841</td>
+      <td>20.707088</td>
+      <td>392.642544</td>
+      <td>19.510973</td>
+      <td>297.416383</td>
+      <td>1.187950</td>
+      <td>22.114507</td>
       <td>0.0</td>
-      <td>185.726018</td>
-      <td>19.395839</td>
-      <td>373.666568</td>
+      <td>184.988094</td>
+      <td>19.315954</td>
+      <td>371.147034</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>67.102597</td>
-      <td>-47.693680</td>
-      <td>53.608167</td>
-      <td>5.914487</td>
+      <td>67.101813</td>
+      <td>-47.772787</td>
+      <td>53.603619</td>
+      <td>5.830832</td>
       <td>0.0</td>
-      <td>369.304538</td>
-      <td>369.304538</td>
-      <td>787.731338</td>
-      <td>781.816851</td>
+      <td>369.313918</td>
+      <td>369.313918</td>
+      <td>787.711190</td>
+      <td>781.880357</td>
     </tr>
     <tr>
       <th>40-50</th>
-      <td>20.707364</td>
-      <td>550.410665</td>
-      <td>18.991769</td>
-      <td>306.176932</td>
-      <td>1.715595</td>
-      <td>34.181501</td>
+      <td>20.708472</td>
+      <td>550.480439</td>
+      <td>19.029242</td>
+      <td>307.522806</td>
+      <td>1.676905</td>
+      <td>33.455448</td>
       <td>0.0</td>
-      <td>287.897992</td>
-      <td>30.615532</td>
-      <td>522.215435</td>
+      <td>286.992712</td>
+      <td>30.516102</td>
+      <td>519.344714</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>78.289892</td>
-      <td>-47.665191</td>
-      <td>72.867999</td>
-      <td>25.202808</td>
+      <td>78.292375</td>
+      <td>-47.767104</td>
+      <td>72.879144</td>
+      <td>25.112041</td>
       <td>0.0</td>
-      <td>404.586150</td>
-      <td>404.586150</td>
-      <td>994.564480</td>
-      <td>969.361672</td>
+      <td>404.535394</td>
+      <td>404.535394</td>
+      <td>994.589197</td>
+      <td>969.477157</td>
     </tr>
     <tr>
       <th>50-60</th>
-      <td>20.707681</td>
-      <td>735.693914</td>
-      <td>18.281940</td>
-      <td>324.354035</td>
-      <td>2.425742</td>
-      <td>50.438493</td>
+      <td>20.707393</td>
+      <td>735.630028</td>
+      <td>18.331876</td>
+      <td>326.411031</td>
+      <td>2.373124</td>
+      <td>49.426182</td>
       <td>0.0</td>
-      <td>426.774194</td>
-      <td>47.229773</td>
-      <td>695.612196</td>
+      <td>425.521954</td>
+      <td>47.073700</td>
+      <td>691.665427</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>93.111897</td>
-      <td>-45.875872</td>
-      <td>95.841593</td>
-      <td>49.965721</td>
+      <td>93.114874</td>
+      <td>-46.034925</td>
+      <td>95.833407</td>
+      <td>49.798482</td>
       <td>0.0</td>
-      <td>466.904520</td>
-      <td>466.904520</td>
-      <td>1258.106329</td>
-      <td>1208.140608</td>
+      <td>466.945896</td>
+      <td>466.945896</td>
+      <td>1258.080439</td>
+      <td>1208.281958</td>
     </tr>
     <tr>
       <th>60-70</th>
-      <td>20.707211</td>
-      <td>959.452172</td>
-      <td>17.711308</td>
-      <td>354.258061</td>
-      <td>2.995903</td>
-      <td>64.792324</td>
+      <td>20.707515</td>
+      <td>959.511949</td>
+      <td>17.811997</td>
+      <td>357.787922</td>
+      <td>2.893239</td>
+      <td>62.644720</td>
       <td>0.0</td>
-      <td>607.430407</td>
-      <td>72.421326</td>
-      <td>910.121076</td>
+      <td>606.027111</td>
+      <td>72.245168</td>
+      <td>905.890709</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>112.382158</td>
-      <td>-39.951339</td>
-      <td>122.148704</td>
-      <td>82.197364</td>
+      <td>112.380798</td>
+      <td>-40.126138</td>
+      <td>122.146512</td>
+      <td>82.020374</td>
       <td>0.0</td>
-      <td>578.443039</td>
-      <td>578.443039</td>
-      <td>1603.057532</td>
-      <td>1520.860167</td>
+      <td>578.376040</td>
+      <td>578.376040</td>
+      <td>1603.049167</td>
+      <td>1521.028793</td>
     </tr>
     <tr>
       <th>70-80</th>
-      <td>20.706335</td>
-      <td>1365.627637</td>
-      <td>16.535255</td>
-      <td>367.973421</td>
-      <td>4.171081</td>
-      <td>102.216426</td>
+      <td>20.707197</td>
+      <td>1365.708941</td>
+      <td>16.719155</td>
+      <td>373.852288</td>
+      <td>3.982463</td>
+      <td>98.050853</td>
       <td>0.0</td>
-      <td>943.339939</td>
-      <td>119.245670</td>
-      <td>1290.183814</td>
+      <td>941.858952</td>
+      <td>119.044547</td>
+      <td>1288.034856</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>121.725681</td>
-      <td>-2.458567</td>
-      <td>172.509446</td>
-      <td>170.050879</td>
+      <td>121.724695</td>
+      <td>-2.658703</td>
+      <td>172.536431</td>
+      <td>169.877728</td>
       <td>0.0</td>
-      <td>634.006174</td>
-      <td>634.006174</td>
-      <td>2085.251135</td>
-      <td>1915.200256</td>
+      <td>634.000703</td>
+      <td>634.000703</td>
+      <td>2085.339711</td>
+      <td>1915.461983</td>
     </tr>
     <tr>
       <th>80-90</th>
-      <td>20.709137</td>
-      <td>2093.718554</td>
-      <td>14.366293</td>
-      <td>343.536073</td>
-      <td>6.342845</td>
-      <td>184.679463</td>
+      <td>20.707626</td>
+      <td>2093.482677</td>
+      <td>14.553142</td>
+      <td>349.813909</td>
+      <td>6.152092</td>
+      <td>179.989249</td>
       <td>0.0</td>
-      <td>1580.388004</td>
-      <td>218.923144</td>
-      <td>1959.318861</td>
+      <td>1578.829459</td>
+      <td>218.697073</td>
+      <td>1951.769562</td>
       <td>...</td>
       <td>0.004426</td>
-      <td>125.342365</td>
-      <td>93.607594</td>
-      <td>257.209862</td>
-      <td>350.817456</td>
+      <td>125.344051</td>
+      <td>93.372100</td>
+      <td>257.189635</td>
+      <td>350.561734</td>
       <td>0.0</td>
-      <td>640.746399</td>
-      <td>640.746399</td>
-      <td>2872.462554</td>
-      <td>2521.645098</td>
+      <td>640.771616</td>
+      <td>640.771616</td>
+      <td>2872.252958</td>
+      <td>2521.691223</td>
     </tr>
     <tr>
       <th>90-100</th>
-      <td>20.707694</td>
-      <td>6246.184432</td>
-      <td>9.266562</td>
-      <td>228.685942</td>
-      <td>11.441133</td>
-      <td>391.287689</td>
+      <td>20.708041</td>
+      <td>6246.236344</td>
+      <td>9.453390</td>
+      <td>234.654561</td>
+      <td>11.254651</td>
+      <td>386.830268</td>
       <td>0.0</td>
-      <td>5608.682792</td>
-      <td>1197.871725</td>
-      <td>5960.908106</td>
+      <td>5608.201771</td>
+      <td>1197.758029</td>
+      <td>5942.795098</td>
       <td>...</td>
-      <td>13.806216</td>
-      <td>47.684944</td>
-      <td>1165.754937</td>
-      <td>553.869339</td>
-      <td>1719.624276</td>
+      <td>13.805670</td>
+      <td>47.686797</td>
+      <td>1165.232430</td>
+      <td>553.861208</td>
+      <td>1719.093638</td>
       <td>0.0</td>
-      <td>512.857359</td>
-      <td>512.857359</td>
-      <td>6987.357401</td>
-      <td>5267.733125</td>
+      <td>512.904614</td>
+      <td>512.904614</td>
+      <td>6987.435086</td>
+      <td>5268.341448</td>
     </tr>
     <tr>
       <th>ALL</th>
       <td>207.075375</td>
-      <td>12887.736249</td>
-      <td>175.172511</td>
-      <td>3069.277483</td>
-      <td>31.902865</td>
-      <td>877.329973</td>
+      <td>12887.659726</td>
+      <td>175.906106</td>
+      <td>3088.360551</td>
+      <td>31.052341</td>
+      <td>858.906729</td>
       <td>0.0</td>
-      <td>9783.380950</td>
-      <td>1719.777187</td>
-      <td>12231.579354</td>
+      <td>9774.741472</td>
+      <td>1718.639786</td>
+      <td>12190.328720</td>
       <td>...</td>
-      <td>13.810642</td>
-      <td>828.891508</td>
-      <td>906.546618</td>
-      <td>1402.821021</td>
-      <td>2309.367639</td>
+      <td>13.810095</td>
+      <td>828.895941</td>
+      <td>904.990179</td>
+      <td>1402.813813</td>
+      <td>2307.803992</td>
       <td>0.0</td>
       <td>3992.973188</td>
       <td>3992.973188</td>
-      <td>17546.020451</td>
-      <td>15236.652812</td>
+      <td>17545.933268</td>
+      <td>15238.129276</td>
     </tr>
     <tr>
       <th>90-95</th>
-      <td>10.353358</td>
-      <td>1667.261937</td>
-      <td>5.582845</td>
-      <td>137.918986</td>
-      <td>4.770512</td>
-      <td>150.459298</td>
+      <td>10.353704</td>
+      <td>1667.324398</td>
+      <td>5.676570</td>
+      <td>140.884353</td>
+      <td>4.677134</td>
+      <td>148.216845</td>
       <td>0.0</td>
-      <td>1374.944792</td>
-      <td>220.510290</td>
-      <td>1559.942410</td>
+      <td>1374.670598</td>
+      <td>220.454555</td>
+      <td>1553.995778</td>
       <td>...</td>
-      <td>0.030695</td>
-      <td>34.012381</td>
-      <td>186.549573</td>
-      <td>189.181036</td>
-      <td>375.730610</td>
+      <td>0.030698</td>
+      <td>34.014434</td>
+      <td>186.471142</td>
+      <td>189.172816</td>
+      <td>375.643958</td>
       <td>0.0</td>
-      <td>284.750604</td>
-      <td>284.750604</td>
-      <td>2039.166713</td>
-      <td>1663.436103</td>
+      <td>284.797859</td>
+      <td>284.797859</td>
+      <td>2039.255590</td>
+      <td>1663.611631</td>
     </tr>
     <tr>
       <th>95-99</th>
       <td>8.283571</td>
-      <td>2341.019686</td>
-      <td>3.206924</td>
-      <td>79.394642</td>
-      <td>5.076647</td>
-      <td>172.735614</td>
+      <td>2341.021395</td>
+      <td>3.296412</td>
+      <td>82.219564</td>
+      <td>4.987159</td>
+      <td>170.622619</td>
       <td>0.0</td>
-      <td>2075.405871</td>
-      <td>397.093634</td>
-      <td>2215.715352</td>
+      <td>2075.284086</td>
+      <td>397.064195</td>
+      <td>2203.591113</td>
       <td>...</td>
-      <td>1.300536</td>
-      <td>13.627020</td>
-      <td>385.144055</td>
-      <td>212.266850</td>
-      <td>597.410905</td>
+      <td>1.300444</td>
+      <td>13.626819</td>
+      <td>384.737819</td>
+      <td>212.266995</td>
+      <td>597.004815</td>
       <td>0.0</td>
       <td>192.019886</td>
       <td>192.019886</td>
-      <td>2627.392016</td>
-      <td>2029.981111</td>
+      <td>2627.393087</td>
+      <td>2030.388273</td>
     </tr>
     <tr>
       <th>Top 1%</th>
       <td>2.070766</td>
-      <td>2237.902809</td>
-      <td>0.476792</td>
-      <td>11.372314</td>
-      <td>1.593974</td>
-      <td>68.092777</td>
+      <td>2237.890550</td>
+      <td>0.480409</td>
+      <td>11.550644</td>
+      <td>1.590357</td>
+      <td>67.990803</td>
       <td>0.0</td>
-      <td>2158.332128</td>
-      <td>580.267801</td>
-      <td>2185.250344</td>
+      <td>2158.247087</td>
+      <td>580.239279</td>
+      <td>2185.208206</td>
       <td>...</td>
-      <td>12.474984</td>
+      <td>12.474527</td>
       <td>0.045543</td>
-      <td>594.061308</td>
-      <td>152.421452</td>
-      <td>746.482761</td>
+      <td>594.023468</td>
+      <td>152.421397</td>
+      <td>746.444865</td>
       <td>0.0</td>
       <td>36.086868</td>
       <td>36.086868</td>
-      <td>2320.798672</td>
-      <td>1574.315911</td>
+      <td>2320.786409</td>
+      <td>1574.341544</td>
     </tr>
   </tbody>
 </table>
@@ -1415,7 +1573,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tb_dynamic</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">use_cps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_url</span><span class="p">,</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tb_dynamic</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">microdata</span><span class="o">=</span><span class="s2">&quot;CPS&quot;</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_url</span><span class="p">,</span>
                       <span class="n">behavior</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sub&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">},</span>
                       <span class="n">corp_revenue</span><span class="o">=</span><span class="n">corp_rev</span><span class="p">,</span>
                       <span class="n">corp_incidence_assumptions</span><span class="o">=</span><span class="n">incidence_assumptions</span><span class="p">)</span>
@@ -1468,42 +1626,42 @@ document.write(`
   <tbody>
     <tr>
       <th>Base</th>
-      <td>2.271315e+12</td>
-      <td>3.067829e+12</td>
-      <td>3.246660e+12</td>
-      <td>3.395741e+12</td>
-      <td>3.575933e+12</td>
-      <td>3.979720e+12</td>
-      <td>4.161644e+12</td>
-      <td>4.344157e+12</td>
-      <td>4.543405e+12</td>
-      <td>4.749710e+12</td>
+      <td>2.269727e+12</td>
+      <td>3.067767e+12</td>
+      <td>3.246623e+12</td>
+      <td>3.395728e+12</td>
+      <td>3.575938e+12</td>
+      <td>3.979716e+12</td>
+      <td>4.161639e+12</td>
+      <td>4.344151e+12</td>
+      <td>4.543397e+12</td>
+      <td>4.749701e+12</td>
     </tr>
     <tr>
       <th>Reform</th>
-      <td>2.311004e+12</td>
-      <td>3.121100e+12</td>
-      <td>3.313873e+12</td>
-      <td>3.478419e+12</td>
-      <td>3.675133e+12</td>
-      <td>4.084667e+12</td>
-      <td>4.284068e+12</td>
-      <td>4.484878e+12</td>
-      <td>4.692227e+12</td>
-      <td>4.906319e+12</td>
+      <td>2.309448e+12</td>
+      <td>3.121009e+12</td>
+      <td>3.313788e+12</td>
+      <td>3.478349e+12</td>
+      <td>3.675071e+12</td>
+      <td>4.084663e+12</td>
+      <td>4.284063e+12</td>
+      <td>4.484873e+12</td>
+      <td>4.692225e+12</td>
+      <td>4.906309e+12</td>
     </tr>
     <tr>
       <th>Difference</th>
-      <td>3.968873e+10</td>
-      <td>5.327112e+10</td>
-      <td>6.721343e+10</td>
-      <td>8.267846e+10</td>
-      <td>9.920007e+10</td>
+      <td>3.972134e+10</td>
+      <td>5.324191e+10</td>
+      <td>6.716455e+10</td>
+      <td>8.262134e+10</td>
+      <td>9.913307e+10</td>
       <td>1.049468e+11</td>
-      <td>1.224242e+11</td>
-      <td>1.407211e+11</td>
-      <td>1.488219e+11</td>
-      <td>1.566086e+11</td>
+      <td>1.224239e+11</td>
+      <td>1.407223e+11</td>
+      <td>1.488282e+11</td>
+      <td>1.566081e+11</td>
     </tr>
   </tbody>
 </table>
@@ -1592,7 +1750,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Anderson Frailey
+By Jason DeBacker and Anderson Frailey
 </p>
 
   </div>
