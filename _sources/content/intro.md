@@ -26,10 +26,14 @@ they are using when reporting their results.
 ## Installing Tax-Brain
 
 You can install the latest official release from PyPI using this command:
-`pip taxbrain`.
+```
+pip install taxbrain
+```
 
 Similarly, you can update to the latest release of Tax-Brain using
-`pip install -U taxbrain`.
+```
+pip install -U taxbrain
+```
 
 Tax-Brain is no longer maintained on Conda.
 
