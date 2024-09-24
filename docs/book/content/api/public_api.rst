@@ -16,6 +16,7 @@ There is also a link to the source code for each documented member.
    :maxdepth: 1
 
    cli
+   corporate_incidence
    report
    report_utils
    taxbrain
