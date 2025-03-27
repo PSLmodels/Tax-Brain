@@ -694,13 +694,9 @@ class TaxBrain:
                 weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
-            # Load TMD-specific growfactors instead of default
+            gf_base = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
             if self.params["growdiff_baseline"]:
-                # Apply any user growdiff to TMD growfactors
-                gf_base = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
                 gd_base.apply_to(gf_base)
-            else:
-                gf_base = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
 
             records = tc.Records.tmd_constructor(
                 data_path=Path(self.TMD_DATA_FILE),
@@ -754,13 +750,9 @@ class TaxBrain:
                 weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
-            # Load TMD-specific growfactors instead of default
+            gf_reform = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
             if self.params["growdiff_response"]:
-                # Apply any user growdiff to TMD growfactors
-                gf_reform = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
                 gd_reform.apply_to(gf_reform)
-            else:
-                gf_reform = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
 
             records = tc.Records.tmd_constructor(
                 data_path=Path(self.TMD_DATA_FILE),
@@ -832,13 +824,9 @@ class TaxBrain:
                 weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
-            # Load TMD-specific growfactors instead of default
+            gf_base = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
             if self.params["growdiff_baseline"]:
-                # Apply any user growdiff to TMD growfactors
-                gf_base = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
                 gd_base.apply_to(gf_base)
-            else:
-                gf_base = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
 
             records = tc.Records.tmd_constructor(
                 data_path=Path(self.TMD_DATA_FILE),
@@ -895,13 +883,9 @@ class TaxBrain:
                 weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
-            # Load TMD-specific growfactors instead of default
+            gf_reform = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
             if self.params["growdiff_response"]:
-                # Apply any user growdiff to TMD growfactors
-                gf_reform = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
                 gd_reform.apply_to(gf_reform)
-            else:
-                gf_reform = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
 
             reform_records = tc.Records.tmd_constructor(
                 data_path=Path(self.TMD_DATA_FILE),
