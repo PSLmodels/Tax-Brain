@@ -154,7 +154,7 @@ def run_model(meta_params_dict, adjustment):
         sampling_seed = 180
         full_sample = pd.read_csv(input_path)
         data_start_year = taxcalc.Records.CPSCSV_YEAR
-        weights = taxcalc.Records.CPS_WEIGHTS_FILENAME
+        weights = os.path.join(taxcalc.Records.CODE_PATH, 'cps_weights.csv.gz')
     else:
         raise ValueError(
             f"Data source '{meta_params.data_source}' is not supported."
