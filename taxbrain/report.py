@@ -92,13 +92,9 @@ def report(
             table of output
         """
         for col in int_cols:
-            df.update(df[col].astype(int).apply("{:,}".format))
+            df[col] = df[col].astype(int).apply("{:,}".format)
         for col in float_cols:
-            df.update(
-                df[col]
-                .astype(float)
-                .apply("{:,.{}}".format, args=(float_perc,))
-            )
+            df[col] = df[col].astype(float).apply("{:,.{}}".format, args=(float_perc,))
         return df
 
     def export_plot(plot, graph):
@@ -124,14 +120,14 @@ def report(
         full_filename = Path(output_path, filename)
         plot.savefig(full_filename, dpi=1200, bbox_inches="tight")
 
-        return str(full_filename)
+        return filename
 
     if not tb.has_run:
         tb.run()
     if not name:
         name = f"Policy Report-{date()}"
     if not outdir:
-        outdir = name.replace(" ", "_")
+        outdir = name.replace(" ", "-").replace(",", "")
     if author:
         author = f"Report Prepared by {author.title()}"
     # create directory to hold report contents
@@ -306,7 +302,7 @@ def report(
     report_md = write_text(template_path, **text_args)
 
     # write PDF, markdown files
-    filename = name.replace(" ", "-")
+    filename = name.replace(" ", "-").replace(",", "")
     pdf_path = Path(output_path, f"{filename}.pdf")
     md_path = Path(output_path, f"{filename}.md")
     md_path.write_text(report_md)
