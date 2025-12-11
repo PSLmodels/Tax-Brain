@@ -689,9 +689,10 @@ class TaxBrain:
         if self.microdata == "CPS":
             records = tc.Records.cps_constructor(data=None, gfactors=gf_base)
         elif self.microdata == "PUF":
-            records = tc.Records(
+            records = tc.Records.puf_constructor(
+                data="puf.csv",
                 gfactors=gf_base,
-                weights=tc.Records.PUF_WEIGHTS_FILENAME,
+                # weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
             gf_base = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
@@ -745,9 +746,10 @@ class TaxBrain:
         if self.microdata == "CPS":
             records = tc.Records.cps_constructor(data=None, gfactors=gf_reform)
         elif self.microdata == "PUF":
-            records = tc.Records(
+            records = tc.Records.puf_constructor(
+                data="puf.csv",
                 gfactors=gf_reform,
-                weights=tc.Records.PUF_WEIGHTS_FILENAME,
+                # weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
             gf_reform = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
@@ -818,10 +820,10 @@ class TaxBrain:
         if self.microdata == "CPS":
             records = tc.Records.cps_constructor(data=None, gfactors=gf_base)
         elif self.microdata == "PUF":
-            records = tc.Records(
-                "puf.csv",
+            records = tc.Records.puf_constructor(
+                data="puf.csv",
                 gfactors=gf_base,
-                weights=tc.Records.PUF_WEIGHTS_FILENAME,
+                # weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
             gf_base = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
@@ -877,10 +879,10 @@ class TaxBrain:
                 data=None, gfactors=gf_reform
             )
         elif self.microdata == "PUF":
-            reform_records = tc.Records(
-                "puf.csv",
+            reform_records = tc.Records.puf_constructor(
+                data="puf.csv",
                 gfactors=gf_reform,
-                weights=tc.Records.PUF_WEIGHTS_FILENAME,
+                # weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
             gf_reform = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
