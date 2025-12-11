@@ -185,9 +185,10 @@ def report(
     # create differences table
     if verbose:
         print("Creating differences table")
-    diff_table = tb.differences_table(
-        tb.start_year, "standard_income_bins", "combined"
-    ).fillna(0)
+    with pd.option_context('future.no_silent_downcasting', True):
+        diff_table = tb.differences_table(
+            tb.start_year, "standard_income_bins", "combined"
+        ).fillna(0)
     diff_table.index = DIFF_TABLE_ROW_NAMES
 
     decile_diff_table = tb.differences_table(
