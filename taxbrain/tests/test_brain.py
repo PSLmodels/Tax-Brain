@@ -139,6 +139,7 @@ def test_stacked_run_corporate():
 
 
 def test_weighted_totals(tb_static):
+    tb_static.run()
     table = tb_static.weighted_totals("combined")
     assert isinstance(table, pd.DataFrame)
     # table.to_csv("expected_weighted_table.csv")
@@ -165,6 +166,7 @@ def test_weighted_totals(tb_static):
 
 
 def test_multi_var_table(tb_dynamic):
+    tb_dynamic.run()
     with pytest.raises(ValueError):
         tb_dynamic.multi_var_table(["iitax"], "calc")
     with pytest.raises(TypeError):
@@ -176,6 +178,7 @@ def test_multi_var_table(tb_dynamic):
 
 
 def test_differences_table(tb_dynamic):
+    tb_dynamic.run()
     table = tb_dynamic.differences_table(2018, "weighted_deciles", "combined")
     assert isinstance(table, pd.DataFrame)
 
