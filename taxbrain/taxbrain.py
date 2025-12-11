@@ -17,6 +17,7 @@ from typing import Union
 from paramtools import ValidationError
 from pathlib import Path
 
+
 class TaxBrain:
 
     FIRST_BUDGET_YEAR = tc.Policy.JSON_START_YEAR
@@ -702,7 +703,7 @@ class TaxBrain:
             records = tc.Records.tmd_constructor(
                 data_path=Path(self.TMD_DATA_FILE),
                 weights_path=Path(self.TMD_WEIGHTS_FILE),
-                growfactors=gf_base
+                growfactors=gf_base,
             )
         elif isinstance(self.microdata, dict):
             if self.microdata["growfactors"] is None:
@@ -759,7 +760,7 @@ class TaxBrain:
             records = tc.Records.tmd_constructor(
                 data_path=Path(self.TMD_DATA_FILE),
                 weights_path=Path(self.TMD_WEIGHTS_FILE),
-                growfactors=gf_reform
+                growfactors=gf_reform,
             )
         elif isinstance(self.microdata, dict):
             if self.microdata["growfactors"] is None:
@@ -833,7 +834,7 @@ class TaxBrain:
             records = tc.Records.tmd_constructor(
                 data_path=Path(self.TMD_DATA_FILE),
                 weights_path=Path(self.TMD_WEIGHTS_FILE),
-                growfactors=gf_base
+                growfactors=gf_base,
             )
         elif isinstance(self.microdata, dict):
             if self.microdata["growfactors"] is None:
@@ -892,7 +893,7 @@ class TaxBrain:
             reform_records = tc.Records.tmd_constructor(
                 data_path=Path(self.TMD_DATA_FILE),
                 weights_path=Path(self.TMD_WEIGHTS_FILE),
-                growfactors=gf_reform
+                growfactors=gf_reform,
             )
         elif isinstance(self.microdata, dict):
             if self.microdata["growfactors"] is None:
