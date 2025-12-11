@@ -94,7 +94,11 @@ def report(
         for col in int_cols:
             df[col] = df[col].astype(int).apply("{:,}".format)
         for col in float_cols:
-            df[col] = df[col].astype(float).apply("{:,.{}}".format, args=(float_perc,))
+            df[col] = (
+                df[col]
+                .astype(float)
+                .apply("{:,.{}}".format, args=(float_perc,))
+            )
         return df
 
     def export_plot(plot, graph):
@@ -185,7 +189,7 @@ def report(
     # create differences table
     if verbose:
         print("Creating differences table")
-    with pd.option_context('future.no_silent_downcasting', True):
+    with pd.option_context("future.no_silent_downcasting", True):
         diff_table = tb.differences_table(
             tb.start_year, "standard_income_bins", "combined"
         ).fillna(0)
