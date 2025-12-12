@@ -306,7 +306,7 @@ def postprocess(data_to_process):
             )
             # format table
             for col in tbl.columns:
-                tbl.update(tbl[col].apply("${:,.2f}".format))
+                tbl[col] = tbl[col].apply("${:,.2f}".format)
 
             title = RESULTS_TABLE_TITLES[id]
             tags = RESULTS_TABLE_TAGS[id]
