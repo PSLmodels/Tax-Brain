@@ -15,6 +15,7 @@ from taxbrain.utils import weighted_sum, update_policy
 from taxbrain.corporate_incidence import distribute as dist_corp
 from typing import Union
 from paramtools import ValidationError
+from pathlib import Path
 
 
 class TaxBrain:
@@ -29,6 +30,11 @@ class TaxBrain:
         "Tax-Calculator": tc.__version__,
         "Behavioral-Responses": behresp.__version__,
     }
+
+    # add expected TMD filenames as constants
+    TMD_DATA_FILE = "tmd.csv.gz"
+    TMD_WEIGHTS_FILE = "tmd_weights.csv.gz"
+    TMD_GROWFACTORS_FILE = "tmd_growfactors.csv"
 
     def __init__(
         self,
@@ -684,14 +690,20 @@ class TaxBrain:
         if self.microdata == "CPS":
             records = tc.Records.cps_constructor(data=None, gfactors=gf_base)
         elif self.microdata == "PUF":
-            records = tc.Records(
+            records = tc.Records.puf_constructor(
+                data="puf.csv",
                 gfactors=gf_base,
-                weights=tc.Records.PUF_WEIGHTS_FILENAME,
+                # weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
+            gf_base = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
+            if self.params["growdiff_baseline"]:
+                gd_base.apply_to(gf_base)
+
             records = tc.Records.tmd_constructor(
-                "tmd.csv",
-                gfactors=gf_base,
+                data_path=Path(self.TMD_DATA_FILE),
+                weights_path=Path(self.TMD_WEIGHTS_FILE),
+                growfactors=gf_base,
             )
         elif isinstance(self.microdata, dict):
             if self.microdata["growfactors"] is None:
@@ -735,14 +747,20 @@ class TaxBrain:
         if self.microdata == "CPS":
             records = tc.Records.cps_constructor(data=None, gfactors=gf_reform)
         elif self.microdata == "PUF":
-            records = tc.Records(
+            records = tc.Records.puf_constructor(
+                data="puf.csv",
                 gfactors=gf_reform,
-                weights=tc.Records.PUF_WEIGHTS_FILENAME,
+                # weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
+            gf_reform = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
+            if self.params["growdiff_response"]:
+                gd_reform.apply_to(gf_reform)
+
             records = tc.Records.tmd_constructor(
-                "tmd.csv",
-                gfactors=gf_reform,
+                data_path=Path(self.TMD_DATA_FILE),
+                weights_path=Path(self.TMD_WEIGHTS_FILE),
+                growfactors=gf_reform,
             )
         elif isinstance(self.microdata, dict):
             if self.microdata["growfactors"] is None:
@@ -803,15 +821,20 @@ class TaxBrain:
         if self.microdata == "CPS":
             records = tc.Records.cps_constructor(data=None, gfactors=gf_base)
         elif self.microdata == "PUF":
-            records = tc.Records(
-                "puf.csv",
+            records = tc.Records.puf_constructor(
+                data="puf.csv",
                 gfactors=gf_base,
-                weights=tc.Records.PUF_WEIGHTS_FILENAME,
+                # weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
+            gf_base = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
+            if self.params["growdiff_baseline"]:
+                gd_base.apply_to(gf_base)
+
             records = tc.Records.tmd_constructor(
-                "tmd.csv",
-                gfactors=gf_base,
+                data_path=Path(self.TMD_DATA_FILE),
+                weights_path=Path(self.TMD_WEIGHTS_FILE),
+                growfactors=gf_base,
             )
         elif isinstance(self.microdata, dict):
             if self.microdata["growfactors"] is None:
@@ -857,15 +880,20 @@ class TaxBrain:
                 data=None, gfactors=gf_reform
             )
         elif self.microdata == "PUF":
-            reform_records = tc.Records(
-                "puf.csv",
+            reform_records = tc.Records.puf_constructor(
+                data="puf.csv",
                 gfactors=gf_reform,
-                weights=tc.Records.PUF_WEIGHTS_FILENAME,
+                # weights=tc.Records.PUF_WEIGHTS_FILENAME,
             )
         elif self.microdata == "TMD":
-            records = tc.Records.tmd_constructor(
-                "tmd.csv",
-                gfactors=gf_reform,
+            gf_reform = tc.GrowFactors(self.TMD_GROWFACTORS_FILE)
+            if self.params["growdiff_response"]:
+                gd_reform.apply_to(gf_reform)
+
+            reform_records = tc.Records.tmd_constructor(
+                data_path=Path(self.TMD_DATA_FILE),
+                weights_path=Path(self.TMD_WEIGHTS_FILE),
+                growfactors=gf_reform,
             )
         elif isinstance(self.microdata, dict):
             if self.microdata["growfactors"] is None:

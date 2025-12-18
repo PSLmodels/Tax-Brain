@@ -3,16 +3,19 @@ import pytest
 
 
 def test_distribution_plot(tb_static):
+    tb_static.run()
     fig = taxbrain.distribution_plot(tb_static, 2019)
 
 
 def test_differences_plot(tb_static):
+    tb_static.run()
     fig = taxbrain.differences_plot(tb_static, "combined")
     with pytest.raises(AssertionError):
         taxbrain.differences_plot(tb_static, "wages")
 
 
 def test_volcano_plot(tb_static):
+    tb_static.run()
     fig = taxbrain.volcano_plot(tb_static, 2019)
     with pytest.raises(ValueError):
         taxbrain.volcano_plot(tb_static, 2019, min_y=-10000)
@@ -27,10 +30,12 @@ def test_volcano_plot(tb_static):
 
 
 def test_lorenz_curve(tb_static):
+    tb_static.run()
     fig = taxbrain.lorenz_curve(tb_static, 2019)
 
 
 def test_revenue_plot(tb_static):
+    tb_static.run()
     fig = taxbrain.revenue_plot(tb_static)
     with pytest.raises(ValueError):
         taxbrain.revenue_plot(tb_static, tax_vars=["income", "combined"])
