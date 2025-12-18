@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -454,7 +454,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # Install conda, taxbrain, and taxcalc if in Google Colab.</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span> <span class="ow">and</span> <span class="s1">&#39;taxbrain&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
     <span class="c1"># Install taxbrain and dependencies</span>
     <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>taxbrain<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null
@@ -467,7 +467,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">taxbrain</span> <span class="kn">import</span> <span class="n">TaxBrain</span><span class="p">,</span> <span class="n">differences_plot</span><span class="p">,</span> <span class="n">distribution_plot</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">taxbrain</span><span class="w"> </span><span class="kn">import</span> <span class="n">TaxBrain</span><span class="p">,</span> <span class="n">differences_plot</span><span class="p">,</span> <span class="n">distribution_plot</span>
 </pre></div>
 </div>
 </div>
@@ -489,101 +489,6 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tb_static</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">microdata</span><span class="o">=</span><span class="s2">&quot;CPS&quot;</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_url</span><span class="p">)</span>
 <span class="n">tb_static</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/numba/core/serialize.py:30,</span> in <span class="ni">_numba_unpickle</span><span class="nt">(address, bytedata, hashed)</span>
-<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="n">_unpickled_memo</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="ne">---&gt; </span><span class="mi">30</span> <span class="k">def</span> <span class="nf">_numba_unpickle</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">bytedata</span><span class="p">,</span> <span class="n">hashed</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">31</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Used by `numba_unpickle` from _helperlib.c</span>
-<span class="g g-Whitespace">     </span><span class="mi">32</span><span class="sd"> </span>
-<span class="g g-Whitespace">     </span><span class="mi">33</span><span class="sd">     Parameters</span>
-<span class="sd">   (...)</span>
-<span class="g g-Whitespace">     </span><span class="mi">42</span><span class="sd">         unpickled object</span>
-<span class="g g-Whitespace">     </span><span class="mi">43</span><span class="sd">     &quot;&quot;&quot;</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
-
-<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
-
-<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">tb_static</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">microdata</span><span class="o">=</span><span class="s2">&quot;CPS&quot;</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_url</span><span class="p">)</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">tb_static</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-
-<span class="nn">File ~/work/Tax-Brain/Tax-Brain/taxbrain/taxbrain.py:178,</span> in <span class="ni">TaxBrain.run</span><span class="nt">(self, varlist, client, num_workers)</span>
-<span class="g g-Whitespace">    </span><span class="mi">176</span>         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">177</span>             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running static simulations&quot;</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">178</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_static_run</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">179</span>             <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">num_workers</span>
-<span class="g g-Whitespace">    </span><span class="mi">180</span>         <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">181</span>     <span class="k">del</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span>
-<span class="g g-Whitespace">    </span><span class="mi">183</span> <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;has_run&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-
-<span class="nn">File ~/work/Tax-Brain/Tax-Brain/taxbrain/taxbrain.py:440,</span> in <span class="ni">TaxBrain._static_run</span><span class="nt">(self, varlist, base_calc, reform_calc, client, num_workers)</span>
-<span class="g g-Whitespace">    </span><span class="mi">434</span> <span class="n">lazy_values</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="g g-Whitespace">    </span><span class="mi">435</span> <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">436</span>     <span class="n">lazy_values</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">437</span>         <span class="p">[</span>
-<span class="g g-Whitespace">    </span><span class="mi">438</span>             <span class="n">delayed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_taxcalc_advance</span><span class="p">(</span><span class="n">base_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">yr</span><span class="p">)),</span>
-<span class="g g-Whitespace">    </span><span class="mi">439</span>             <span class="n">delayed</span><span class="p">(</span>
-<span class="ne">--&gt; </span><span class="mi">440</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">_taxcalc_advance</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">441</span>                     <span class="n">reform_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">yr</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="kc">True</span>
-<span class="g g-Whitespace">    </span><span class="mi">442</span>                 <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">443</span>             <span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">444</span>         <span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">445</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">446</span> <span class="k">if</span> <span class="n">client</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">447</span>     <span class="n">futures</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">lazy_values</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">)</span>
-
-<span class="nn">File ~/work/Tax-Brain/Tax-Brain/taxbrain/taxbrain.py:392,</span> in <span class="ni">TaxBrain._taxcalc_advance</span><span class="nt">(self, calc, varlist, year, reform)</span>
-<span class="g g-Whitespace">    </span><span class="mi">384</span>     <span class="k">if</span> <span class="n">reform</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">385</span>         <span class="n">calc</span> <span class="o">=</span> <span class="n">dist_corp</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">386</span>             <span class="n">calc</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">387</span>             <span class="bp">self</span><span class="o">.</span><span class="n">corp_revenue</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">390</span>             <span class="bp">self</span><span class="o">.</span><span class="n">ci_params</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">391</span>         <span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">392</span> <span class="n">calc</span><span class="o">.</span><span class="n">calc_all</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">393</span> <span class="n">df</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">dataframe</span><span class="p">(</span><span class="n">varlist</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">395</span> <span class="k">return</span> <span class="n">df</span>
-
-<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/taxcalc/calculator.py:172,</span> in <span class="ni">Calculator.calc_all</span><span class="nt">(self, zero_out_calc_vars)</span>
-<span class="g g-Whitespace">    </span><span class="mi">170</span> <span class="n">UBI</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">171</span> <span class="n">BenefitPrograms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">172</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc_one_year</span><span class="p">(</span><span class="n">zero_out_calc_vars</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">173</span> <span class="n">BenefitSurtax</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">174</span> <span class="n">BenefitLimitation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-
-<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/taxcalc/calculator.py:1435,</span> in <span class="ni">Calculator._calc_one_year</span><span class="nt">(self, zero_out_calc_vars)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1433</span> <span class="k">del</span> <span class="n">item_cvar</span>
-<span class="g g-Whitespace">   </span><span class="mi">1434</span> <span class="c1"># Calculate taxes with optimal itemized deduction</span>
-<span class="ne">-&gt; </span><span class="mi">1435</span> <span class="bp">self</span><span class="o">.</span><span class="n">_taxinc_to_amt</span><span class="p">()</span>
-<span class="g g-Whitespace">   </span><span class="mi">1436</span> <span class="n">F2441</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1437</span> <span class="n">EITC</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
-
-<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/taxcalc/calculator.py:1365,</span> in <span class="ni">Calculator._taxinc_to_amt</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1361</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1362</span><span class="sd"> Call TaxInc through AMT functions.</span>
-<span class="g g-Whitespace">   </span><span class="mi">1363</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1364</span> <span class="n">TaxInc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">1365</span> <span class="n">SchXYZTax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1366</span> <span class="n">GainsTax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1367</span> <span class="n">AGIsurtax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
-
-<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/taxcalc/decorators.py:325,</span> in <span class="ni">iterate_jit.&lt;locals&gt;.make_wrapper.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">322</span> <span class="nb">eval</span><span class="p">(</span><span class="n">func_code</span><span class="p">,</span>  <span class="c1"># pylint: disable=eval-used</span>
-<span class="g g-Whitespace">    </span><span class="mi">323</span>      <span class="p">{</span><span class="s2">&quot;applied_f&quot;</span><span class="p">:</span> <span class="n">applied_jitted_f</span><span class="p">},</span> <span class="n">fakeglobals</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">324</span> <span class="n">high_level_fn</span> <span class="o">=</span> <span class="n">fakeglobals</span><span class="p">[</span><span class="s1">&#39;hl_func&#39;</span><span class="p">]</span>
-<span class="ne">--&gt; </span><span class="mi">325</span> <span class="n">ans</span> <span class="o">=</span> <span class="n">high_level_fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">326</span> <span class="k">return</span> <span class="n">ans</span>
-
-<span class="nn">File &lt;string&gt;:12,</span> in <span class="ni">hl_func</span><span class="nt">(pm, pf)</span>
-
-<span class="ne">SystemError</span>: CPUDispatcher(&lt;function ap_func at 0x7f3ebcc29bc0&gt;) returned a result with an exception set
 </pre></div>
 </div>
 </div>
@@ -633,42 +538,42 @@ document.write(`
   <tbody>
     <tr>
       <th>Base</th>
-      <td>2.269727e+12</td>
-      <td>3.067767e+12</td>
-      <td>3.246623e+12</td>
-      <td>3.395728e+12</td>
-      <td>3.575938e+12</td>
-      <td>3.979716e+12</td>
-      <td>4.161639e+12</td>
-      <td>4.344151e+12</td>
-      <td>4.543397e+12</td>
-      <td>4.749701e+12</td>
+      <td>2.269723e+12</td>
+      <td>3.065057e+12</td>
+      <td>3.187451e+12</td>
+      <td>3.430286e+12</td>
+      <td>3.558234e+12</td>
+      <td>3.749566e+12</td>
+      <td>3.923694e+12</td>
+      <td>4.101939e+12</td>
+      <td>4.316249e+12</td>
+      <td>4.541999e+12</td>
     </tr>
     <tr>
       <th>Reform</th>
-      <td>2.326818e+12</td>
-      <td>3.145972e+12</td>
-      <td>3.342312e+12</td>
-      <td>3.509844e+12</td>
-      <td>3.710034e+12</td>
-      <td>4.126726e+12</td>
-      <td>4.329940e+12</td>
-      <td>4.534780e+12</td>
-      <td>4.744452e+12</td>
-      <td>4.961574e+12</td>
+      <td>2.326814e+12</td>
+      <td>3.143256e+12</td>
+      <td>3.282028e+12</td>
+      <td>3.545953e+12</td>
+      <td>3.699010e+12</td>
+      <td>3.912748e+12</td>
+      <td>4.109452e+12</td>
+      <td>4.311587e+12</td>
+      <td>4.533253e+12</td>
+      <td>4.770344e+12</td>
     </tr>
     <tr>
       <th>Difference</th>
       <td>5.709077e+10</td>
-      <td>7.820500e+10</td>
-      <td>9.568834e+10</td>
-      <td>1.141166e+11</td>
-      <td>1.340957e+11</td>
-      <td>1.470099e+11</td>
-      <td>1.683013e+11</td>
-      <td>1.906291e+11</td>
-      <td>2.010544e+11</td>
-      <td>2.118730e+11</td>
+      <td>7.819926e+10</td>
+      <td>9.457664e+10</td>
+      <td>1.156674e+11</td>
+      <td>1.407758e+11</td>
+      <td>1.631815e+11</td>
+      <td>1.857588e+11</td>
+      <td>2.096474e+11</td>
+      <td>2.170046e+11</td>
+      <td>2.283448e+11</td>
     </tr>
   </tbody>
 </table>
@@ -736,7 +641,7 @@ document.write(`
     </tr>
     <tr>
       <th>0-10z</th>
-      <td>8.390627</td>
+      <td>8.390748</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.000000</td>
@@ -751,12 +656,12 @@ document.write(`
     </tr>
     <tr>
       <th>0-10p</th>
-      <td>12.214010</td>
+      <td>12.213889</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>5.510201</td>
-      <td>45.113777</td>
-      <td>3.693062</td>
+      <td>45.114223</td>
+      <td>3.693099</td>
       <td>0.045107</td>
       <td>0.079009</td>
       <td>0.0</td>
@@ -781,27 +686,27 @@ document.write(`
     </tr>
     <tr>
       <th>20-30</th>
-      <td>20.706921</td>
+      <td>20.707505</td>
       <td>0.019010</td>
-      <td>0.091803</td>
+      <td>0.091801</td>
       <td>13.230015</td>
-      <td>63.891753</td>
-      <td>27.008003</td>
+      <td>63.889952</td>
+      <td>27.007242</td>
       <td>0.559253</td>
       <td>0.979585</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-0.047439</td>
+      <td>-0.047437</td>
     </tr>
     <tr>
       <th>30-40</th>
-      <td>20.707534</td>
+      <td>20.706950</td>
       <td>0.259493</td>
-      <td>1.253135</td>
+      <td>1.253170</td>
       <td>11.850040</td>
-      <td>57.225744</td>
-      <td>29.340367</td>
+      <td>57.227357</td>
+      <td>29.341194</td>
       <td>0.607567</td>
       <td>1.064212</td>
       <td>0.0</td>
@@ -897,7 +802,7 @@ document.write(`
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-1.292653</td>
+      <td>-1.292652</td>
     </tr>
     <tr>
       <th>ALL</th>
@@ -957,7 +862,7 @@ document.write(`
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>-4.338110</td>
+      <td>-4.338101</td>
     </tr>
   </tbody>
 </table>
@@ -971,7 +876,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/5df99c44f72b5e38d684739ee82669a14997e5eb9e9eeae13ef8eee355c8b971.png" src="../../_images/5df99c44f72b5e38d684739ee82669a14997e5eb9e9eeae13ef8eee355c8b971.png" />
+<img alt="../../_images/001f15e1856ec1ec444f3d71dfca372e6f861f75c4b9e332885a775dfc772989.png" src="../../_images/001f15e1856ec1ec444f3d71dfca372e6f861f75c4b9e332885a775dfc772989.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -981,7 +886,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/03d12c7f1175d816c18609e34c88ec90342a5ea9dadac5b34725f9ddcc3d395c.png" src="../../_images/03d12c7f1175d816c18609e34c88ec90342a5ea9dadac5b34725f9ddcc3d395c.png" />
+<img alt="../../_images/815ae72c1cc288c78cf547da4ce9dbf1fabc59321658f959d748d0f95c197407.png" src="../../_images/815ae72c1cc288c78cf547da4ce9dbf1fabc59321658f959d748d0f95c197407.png" />
 </div>
 </div>
 <p>You can run a partial-equlibrium dynamic simulation by initiating the TaxBrian instance exactly as you would for the static reform, but with your behavioral assumptions specified</p>
@@ -990,6 +895,156 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tb_dynamic</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">microdata</span><span class="o">=</span><span class="s2">&quot;CPS&quot;</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_url</span><span class="p">,</span>
                       <span class="n">behavior</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sub&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">})</span>
 <span class="n">tb_dynamic</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/numba/core/serialize.py:30,</span> in <span class="ni">_numba_unpickle</span><span class="nt">(address, bytedata, hashed)</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="n">_unpickled_memo</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="ne">---&gt; </span><span class="mi">30</span> <span class="k">def</span><span class="w"> </span><span class="nf">_numba_unpickle</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">bytedata</span><span class="p">,</span> <span class="n">hashed</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">31</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Used by `numba_unpickle` from _helperlib.c</span>
+<span class="g g-Whitespace">     </span><span class="mi">32</span><span class="sd"> </span>
+<span class="g g-Whitespace">     </span><span class="mi">33</span><span class="sd">     Parameters</span>
+<span class="sd">   (...)     42         unpickled object</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span><span class="sd">     &quot;&quot;&quot;</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="ne">SystemError</span>: &lt;function _numba_unpickle at 0x7f9eb32b0e00&gt; returned a result with an exception set
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="ne">SystemError</span>: &lt;function _numba_unpickle at 0x7f9eb32b0e00&gt; returned a result with an exception set
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="ne">SystemError</span>: &lt;function _numba_unpickle at 0x7f9eb32b0e00&gt; returned a result with an exception set
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="ne">SystemError</span>: &lt;function _numba_unpickle at 0x7f9eb32b0e00&gt; returned a result with an exception set
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="ne">SystemError</span>: &lt;function _numba_unpickle at 0x7f9eb32b0e00&gt; returned a result with an exception set
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="ne">SystemError</span>: &lt;function _numba_unpickle at 0x7f9eb32b0e00&gt; returned a result with an exception set
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">SystemError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">tb_dynamic</span> <span class="o">=</span> <span class="n">TaxBrain</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">microdata</span><span class="o">=</span><span class="s2">&quot;CPS&quot;</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="n">reform_url</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>                       <span class="n">behavior</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sub&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">})</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">tb_dynamic</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="nn">File ~/work/Tax-Brain/Tax-Brain/taxbrain/taxbrain.py:178,</span> in <span class="ni">TaxBrain.run</span><span class="nt">(self, varlist, client, num_workers)</span>
+<span class="g g-Whitespace">    </span><span class="mi">176</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">177</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running dynamic simulations&quot;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">178</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_run</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">179</span>         <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">num_workers</span>
+<span class="g g-Whitespace">    </span><span class="mi">180</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">181</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">182</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+
+<span class="nn">File ~/work/Tax-Brain/Tax-Brain/taxbrain/taxbrain.py:484,</span> in <span class="ni">TaxBrain._dynamic_run</span><span class="nt">(self, varlist, base_calc, reform_calc, client, num_workers)</span>
+<span class="g g-Whitespace">    </span><span class="mi">479</span> <span class="n">lazy_values</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">    </span><span class="mi">480</span> <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_year</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">481</span>     <span class="n">lazy_values</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">482</span>         <span class="p">[</span>
+<span class="g g-Whitespace">    </span><span class="mi">483</span>             <span class="n">delayed</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">484</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">_behresp_advance</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">485</span>                     <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">yr</span>
+<span class="g g-Whitespace">    </span><span class="mi">486</span>                 <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">487</span>             <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">488</span>         <span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="k">if</span> <span class="n">client</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">491</span>     <span class="n">futures</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">lazy_values</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">)</span>
+
+<span class="nn">File ~/work/Tax-Brain/Tax-Brain/taxbrain/taxbrain.py:424,</span> in <span class="ni">TaxBrain._behresp_advance</span><span class="nt">(self, base_calc, reform_calc, varlist, year)</span>
+<span class="g g-Whitespace">    </span><span class="mi">416</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">corp_revenue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">417</span>     <span class="n">reform_calc</span> <span class="o">=</span> <span class="n">dist_corp</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">418</span>         <span class="n">reform_calc</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">419</span>         <span class="bp">self</span><span class="o">.</span><span class="n">corp_revenue</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">422</span>         <span class="bp">self</span><span class="o">.</span><span class="n">ci_params</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">423</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">424</span> <span class="n">base</span><span class="p">,</span> <span class="n">reform</span> <span class="o">=</span> <span class="n">behresp</span><span class="o">.</span><span class="n">response</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">425</span>     <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;behavior&quot;</span><span class="p">],</span> <span class="n">dump</span><span class="o">=</span><span class="kc">True</span>
+<span class="g g-Whitespace">    </span><span class="mi">426</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">427</span> <span class="n">base_df</span> <span class="o">=</span> <span class="n">base</span><span class="p">[</span><span class="n">varlist</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">428</span> <span class="n">reform_df</span> <span class="o">=</span> <span class="n">reform</span><span class="p">[</span><span class="n">varlist</span><span class="p">]</span>
+
+<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/behresp/behavior.py:179,</span> in <span class="ni">response</span><span class="nt">(calc_1, calc_2, elasticities, dump)</span>
+<span class="g g-Whitespace">    </span><span class="mi">176</span> <span class="n">zero_sub_and_inc</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="g g-Whitespace">    </span><span class="mi">177</span> <span class="c1"># calculate marginal combined tax rates on taxpayer wages+salary</span>
+<span class="g g-Whitespace">    </span><span class="mi">178</span> <span class="c1"># (e00200p is taxpayer&#39;s wages+salary)</span>
+<span class="ne">--&gt; </span><span class="mi">179</span> <span class="n">wage_mtr1</span><span class="p">,</span> <span class="n">wage_mtr2</span> <span class="o">=</span> <span class="n">_mtr12</span><span class="p">(</span><span class="n">calc1</span><span class="p">,</span> <span class="n">calc2</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">180</span>                               <span class="n">mtr_of</span><span class="o">=</span><span class="s1">&#39;e00200p&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">181</span>                               <span class="n">tax_type</span><span class="o">=</span><span class="s1">&#39;combined&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">182</span> <span class="c1"># calculate magnitude of substitution effect</span>
+<span class="g g-Whitespace">    </span><span class="mi">183</span> <span class="k">if</span> <span class="n">be_sub</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+
+<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/behresp/behavior.py:153,</span> in <span class="ni">response.&lt;locals&gt;._mtr12</span><span class="nt">(calc__1, calc__2, mtr_of, tax_type)</span>
+<span class="g g-Whitespace">    </span><span class="mi">148</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">149</span><span class="sd"> Computes marginal tax rates for Calculator objects calc__1 and calc__2</span>
+<span class="g g-Whitespace">    </span><span class="mi">150</span><span class="sd"> for specified mtr_of income type and specified tax_type.</span>
+<span class="g g-Whitespace">    </span><span class="mi">151</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="nn">    152 assert tax_type</span> in <span class="nt">(&#39;combined&#39;, &#39;iitax&#39;)</span>
+<span class="ne">--&gt; </span><span class="mi">153</span> <span class="n">_</span><span class="p">,</span> <span class="n">iitax1</span><span class="p">,</span> <span class="n">combined1</span> <span class="o">=</span> <span class="n">calc__1</span><span class="o">.</span><span class="n">mtr</span><span class="p">(</span><span class="n">mtr_of</span><span class="p">,</span> <span class="n">wrt_full_compensation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">154</span> <span class="n">_</span><span class="p">,</span> <span class="n">iitax2</span><span class="p">,</span> <span class="n">combined2</span> <span class="o">=</span> <span class="n">calc__2</span><span class="o">.</span><span class="n">mtr</span><span class="p">(</span><span class="n">mtr_of</span><span class="p">,</span> <span class="n">wrt_full_compensation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">155</span> <span class="k">if</span> <span class="n">tax_type</span> <span class="o">==</span> <span class="s1">&#39;combined&#39;</span><span class="p">:</span>
+
+<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/taxcalc/calculator.py:676,</span> in <span class="ni">Calculator.mtr</span><span class="nt">(self, variable_str, negative_finite_diff, zero_out_calculated_vars, calc_all_already_called, wrt_full_compensation)</span>
+<span class="g g-Whitespace">    </span><span class="mi">674</span> <span class="bp">self</span><span class="o">.</span><span class="n">restore_records</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">675</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">calc_all_already_called</span> <span class="ow">or</span> <span class="n">zero_out_calculated_vars</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">676</span>     <span class="bp">self</span><span class="o">.</span><span class="n">calc_all</span><span class="p">(</span><span class="n">zero_out_calc_vars</span><span class="o">=</span><span class="n">zero_out_calculated_vars</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">677</span> <span class="n">payrolltax_base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;payrolltax&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">678</span> <span class="n">incometax_base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;iitax&#39;</span><span class="p">)</span>
+
+<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/taxcalc/calculator.py:170,</span> in <span class="ni">Calculator.calc_all</span><span class="nt">(self, zero_out_calc_vars)</span>
+<span class="g g-Whitespace">    </span><span class="mi">168</span> <span class="n">UBI</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">169</span> <span class="n">BenefitPrograms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">170</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc_one_year</span><span class="p">(</span><span class="n">zero_out_calc_vars</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">171</span> <span class="n">FairShareTax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">172</span> <span class="n">LumpSumTax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+
+<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/taxcalc/calculator.py:1441,</span> in <span class="ni">Calculator._calc_one_year</span><span class="nt">(self, zero_out_calc_vars)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1439</span> <span class="k">del</span> <span class="n">item_cvar</span>
+<span class="g g-Whitespace">   </span><span class="mi">1440</span> <span class="c1"># Calculate taxes with optimal itemized deduction</span>
+<span class="ne">-&gt; </span><span class="mi">1441</span> <span class="bp">self</span><span class="o">.</span><span class="n">_taxinc_to_amt</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1442</span> <span class="n">F2441</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1443</span> <span class="n">EITC</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+
+<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/taxcalc/calculator.py:1372,</span> in <span class="ni">Calculator._taxinc_to_amt</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1370</span> <span class="n">TaxInc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1371</span> <span class="n">SchXYZTax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1372</span> <span class="n">GainsTax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1373</span> <span class="n">AGIsurtax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1374</span> <span class="n">NetInvIncTax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__records</span><span class="p">)</span>
+
+<span class="nn">File /usr/share/miniconda/envs/taxbrain-dev/lib/python3.12/site-packages/taxcalc/decorators.py:326,</span> in <span class="ni">iterate_jit.&lt;locals&gt;.make_wrapper.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">323</span> <span class="nb">eval</span><span class="p">(</span><span class="n">func_code</span><span class="p">,</span>  <span class="c1"># pylint: disable=eval-used</span>
+<span class="g g-Whitespace">    </span><span class="mi">324</span>      <span class="p">{</span><span class="s2">&quot;applied_f&quot;</span><span class="p">:</span> <span class="n">applied_jitted_f</span><span class="p">},</span> <span class="n">fakeglobals</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">325</span> <span class="n">high_level_fn</span> <span class="o">=</span> <span class="n">fakeglobals</span><span class="p">[</span><span class="s2">&quot;hl_func&quot;</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">326</span> <span class="n">ans</span> <span class="o">=</span> <span class="n">high_level_fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">327</span> <span class="k">return</span> <span class="n">ans</span>
+
+<span class="nn">File &lt;string&gt;:12,</span> in <span class="ni">hl_func</span><span class="nt">(pm, pf)</span>
+
+<span class="ne">SystemError</span>: CPUDispatcher(&lt;function ap_func at 0x7f9eb20fc040&gt;) returned a result with an exception set
 </pre></div>
 </div>
 </div>

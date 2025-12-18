@@ -27,11 +27,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -359,13 +359,13 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for taxbrain.report</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">behresp</span>
-<span class="kn">import</span> <span class="nn">taxbrain</span>
-<span class="kn">import</span> <span class="nn">taxcalc</span> <span class="k">as</span> <span class="nn">tc</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">.report_utils</span> <span class="kn">import</span> <span class="p">(</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">behresp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">taxbrain</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">taxcalc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.report_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">form_intro</span><span class="p">,</span>
     <span class="n">form_baseline_intro</span><span class="p">,</span>
     <span class="n">write_text</span><span class="p">,</span>
@@ -388,7 +388,7 @@ document.write(`
 
 <div class="viewcode-block" id="report">
 <a class="viewcode-back" href="../../content/api/report.html#taxbrain.report.report">[docs]</a>
-<span class="k">def</span> <span class="nf">report</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">report</span><span class="p">(</span>
     <span class="n">tb</span><span class="p">,</span>
     <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">change_threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
@@ -434,7 +434,7 @@ document.write(`
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">format_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">int_cols</span><span class="p">,</span> <span class="n">float_cols</span><span class="p">,</span> <span class="n">float_perc</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">int_cols</span><span class="p">,</span> <span class="n">float_cols</span><span class="p">,</span> <span class="n">float_perc</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply formatting to a given table</span>
 
@@ -455,16 +455,16 @@ document.write(`
 <span class="sd">            table of output</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">int_cols</span><span class="p">:</span>
-            <span class="n">df</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:,}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">))</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:,}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">float_cols</span><span class="p">:</span>
-            <span class="n">df</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
                 <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
                 <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">&quot;{:,.</span><span class="si">{}</span><span class="s2">}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">float_perc</span><span class="p">,))</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span>
 
-    <span class="k">def</span> <span class="nf">export_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Export plot as a PNG</span>
 
@@ -487,14 +487,14 @@ document.write(`
         <span class="n">full_filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
         <span class="n">plot</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">full_filename</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">1200</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">full_filename</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">filename</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">tb</span><span class="o">.</span><span class="n">has_run</span><span class="p">:</span>
         <span class="n">tb</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
         <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Policy Report-</span><span class="si">{</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">outdir</span><span class="p">:</span>
-        <span class="n">outdir</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+        <span class="n">outdir</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">author</span><span class="p">:</span>
         <span class="n">author</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Report Prepared by </span><span class="si">{</span><span class="n">author</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="c1"># create directory to hold report contents</span>
@@ -552,9 +552,10 @@ document.write(`
     <span class="c1"># create differences table</span>
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Creating differences table&quot;</span><span class="p">)</span>
-    <span class="n">diff_table</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">differences_table</span><span class="p">(</span>
-        <span class="n">tb</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="s2">&quot;standard_income_bins&quot;</span><span class="p">,</span> <span class="s2">&quot;combined&quot;</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">pd</span><span class="o">.</span><span class="n">option_context</span><span class="p">(</span><span class="s2">&quot;future.no_silent_downcasting&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="n">diff_table</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">differences_table</span><span class="p">(</span>
+            <span class="n">tb</span><span class="o">.</span><span class="n">start_year</span><span class="p">,</span> <span class="s2">&quot;standard_income_bins&quot;</span><span class="p">,</span> <span class="s2">&quot;combined&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">diff_table</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">DIFF_TABLE_ROW_NAMES</span>
 
     <span class="n">decile_diff_table</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">differences_table</span><span class="p">(</span>
@@ -669,7 +670,7 @@ document.write(`
     <span class="n">report_md</span> <span class="o">=</span> <span class="n">write_text</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="o">**</span><span class="n">text_args</span><span class="p">)</span>
 
     <span class="c1"># write PDF, markdown files</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">pdf_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.pdf&quot;</span><span class="p">)</span>
     <span class="n">md_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.md&quot;</span><span class="p">)</span>
     <span class="n">md_path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">report_md</span><span class="p">)</span>

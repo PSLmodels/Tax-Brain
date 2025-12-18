@@ -27,11 +27,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -363,18 +363,18 @@ document.write(`
 <span class="sd">Helper Functions for creating the automated reports</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">pypandoc</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">taxcalc</span> <span class="k">as</span> <span class="nn">tc</span>
-<span class="kn">from</span> <span class="nn">jinja2</span> <span class="kn">import</span> <span class="n">Template</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">deque</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">is_paramtools_format</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pypandoc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">taxcalc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jinja2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Template</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">deque</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_paramtools_format</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
 
 <span class="n">CUR_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
@@ -420,7 +420,7 @@ document.write(`
 
 <div class="viewcode-block" id="md_to_pdf">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.md_to_pdf">[docs]</a>
-<span class="k">def</span> <span class="nf">md_to_pdf</span><span class="p">(</span><span class="n">md_text</span><span class="p">,</span> <span class="n">outputfile_path</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">md_to_pdf</span><span class="p">(</span><span class="n">md_text</span><span class="p">,</span> <span class="n">outputfile_path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert Markdown version of report to a PDF. Returns bytes that can be</span>
 <span class="sd">    saved as a PDF</span>
@@ -451,7 +451,7 @@ document.write(`
 
 <div class="viewcode-block" id="convert_table">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.convert_table">[docs]</a>
-<span class="k">def</span> <span class="nf">convert_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">tablefmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pipe&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">tablefmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pipe&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert pandas DataFrame to Markdown style table</span>
 
@@ -474,7 +474,7 @@ document.write(`
 
 <div class="viewcode-block" id="policy_table">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.policy_table">[docs]</a>
-<span class="k">def</span> <span class="nf">policy_table</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">policy_table</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a table showing the policy parameters in a reform and their</span>
 <span class="sd">    default value</span>
@@ -579,7 +579,7 @@ document.write(`
 
 <div class="viewcode-block" id="write_text">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.write_text">[docs]</a>
-<span class="k">def</span> <span class="nf">write_text</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">write_text</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fill in text with specified template</span>
 
@@ -603,7 +603,7 @@ document.write(`
 
 <div class="viewcode-block" id="date">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.date">[docs]</a>
-<span class="k">def</span> <span class="nf">date</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">date</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return formatted date</span>
 
@@ -626,7 +626,7 @@ document.write(`
 
 <div class="viewcode-block" id="form_intro">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.form_intro">[docs]</a>
-<span class="k">def</span> <span class="nf">form_intro</span><span class="p">(</span><span class="n">pol_areas</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">form_intro</span><span class="p">(</span><span class="n">pol_areas</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Form the introduction line</span>
 
@@ -669,7 +669,7 @@ document.write(`
 
 <div class="viewcode-block" id="form_baseline_intro">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.form_baseline_intro">[docs]</a>
-<span class="k">def</span> <span class="nf">form_baseline_intro</span><span class="p">(</span><span class="n">current_law</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">form_baseline_intro</span><span class="p">(</span><span class="n">current_law</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Form final sentence of introduction paragraph</span>
 
@@ -696,7 +696,7 @@ document.write(`
 
 <div class="viewcode-block" id="largest_tax_change">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.largest_tax_change">[docs]</a>
-<span class="k">def</span> <span class="nf">largest_tax_change</span><span class="p">(</span><span class="n">diff</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">largest_tax_change</span><span class="p">(</span><span class="n">diff</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Function to find the largest change in tax liability</span>
 
@@ -747,7 +747,7 @@ document.write(`
 
 <div class="viewcode-block" id="notable_changes">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.notable_changes">[docs]</a>
-<span class="k">def</span> <span class="nf">notable_changes</span><span class="p">(</span><span class="n">tb</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">notable_changes</span><span class="p">(</span><span class="n">tb</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find any notable changes in certain variables. &quot;Notable&quot; is defined</span>
 <span class="sd">    as a percentage change above the given threshold.</span>
@@ -821,7 +821,7 @@ document.write(`
 
 <div class="viewcode-block" id="behavioral_assumptions">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.behavioral_assumptions">[docs]</a>
-<span class="k">def</span> <span class="nf">behavioral_assumptions</span><span class="p">(</span><span class="n">tb</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">behavioral_assumptions</span><span class="p">(</span><span class="n">tb</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return list of behavioral assumptions used</span>
 
@@ -853,7 +853,7 @@ document.write(`
 
 <div class="viewcode-block" id="consumption_assumptions">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.consumption_assumptions">[docs]</a>
-<span class="k">def</span> <span class="nf">consumption_assumptions</span><span class="p">(</span><span class="n">tb</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">consumption_assumptions</span><span class="p">(</span><span class="n">tb</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create table of consumption assumptions used in analysis</span>
 
@@ -903,7 +903,7 @@ document.write(`
 
 <div class="viewcode-block" id="growth_assumptions">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.growth_assumptions">[docs]</a>
-<span class="k">def</span> <span class="nf">growth_assumptions</span><span class="p">(</span><span class="n">tb</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">growth_assumptions</span><span class="p">(</span><span class="n">tb</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a table with all of the growth assumptions used in the analysis</span>
 
@@ -985,7 +985,7 @@ document.write(`
 
 <div class="viewcode-block" id="convert_params">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.convert_params">[docs]</a>
-<span class="k">def</span> <span class="nf">convert_params</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_params</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert ParamTools style parameter inputs to traditional taxcalc style</span>
 <span class="sd">    parameters for report policy table creation</span>
@@ -1031,7 +1031,7 @@ document.write(`
 
 <div class="viewcode-block" id="dollar_str_formatting">
 <a class="viewcode-back" href="../../content/api/report_utils.html#taxbrain.report_utils.dollar_str_formatting">[docs]</a>
-<span class="k">def</span> <span class="nf">dollar_str_formatting</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dollar_str_formatting</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Format dollar figures into $val trillion, $val billion, etc.</span>
 

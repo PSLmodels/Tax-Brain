@@ -27,11 +27,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -360,7 +360,7 @@ document.write(`
                   
   <h1>Source code for taxbrain.corporate_incidence</h1><div class="highlight"><pre>
 <span></span><span class="c1"># imports</span>
-<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
 
 
 <span class="c1"># Default parameters for the CorporateIncidence class</span>
@@ -391,7 +391,7 @@ document.write(`
 <span class="c1"># TODO: think about if corp revenue intended to be entered in billions or what</span>
 <div class="viewcode-block" id="distribute">
 <a class="viewcode-back" href="../../content/api/corporate_incidence.html#taxbrain.corporate_incidence.distribute">[docs]</a>
-<span class="k">def</span> <span class="nf">distribute</span><span class="p">(</span><span class="n">calc</span><span class="p">,</span> <span class="n">corp_revenue</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">start_year</span><span class="p">,</span> <span class="n">param_updates</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">distribute</span><span class="p">(</span><span class="n">calc</span><span class="p">,</span> <span class="n">corp_revenue</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">start_year</span><span class="p">,</span> <span class="n">param_updates</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Function that distributes the corporate income tax incidence across</span>
 <span class="sd">    individual income tax payers.</span>
@@ -429,7 +429,7 @@ document.write(`
 
 <div class="viewcode-block" id="_update_income">
 <a class="viewcode-back" href="../../content/api/corporate_incidence.html#taxbrain.corporate_incidence._update_income">[docs]</a>
-<span class="k">def</span> <span class="nf">_update_income</span><span class="p">(</span><span class="n">calc</span><span class="p">,</span> <span class="n">revenue</span><span class="p">,</span> <span class="n">shares</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_update_income</span><span class="p">(</span><span class="n">calc</span><span class="p">,</span> <span class="n">revenue</span><span class="p">,</span> <span class="n">shares</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implement income changes to account for corporate tax</span>
 <span class="sd">    incidence on household filers</span>

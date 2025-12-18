@@ -27,11 +27,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -359,28 +359,29 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for taxbrain.taxbrain</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">taxcalc</span> <span class="k">as</span> <span class="nn">tc</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">behresp</span>
-<span class="kn">from</span> <span class="nn">taxcalc.utils</span> <span class="kn">import</span> <span class="p">(</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">taxcalc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">behresp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">taxcalc.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DIST_VARIABLES</span><span class="p">,</span>
     <span class="n">DIFF_VARIABLES</span><span class="p">,</span>
     <span class="n">create_distribution_table</span><span class="p">,</span>
     <span class="n">create_difference_table</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">dask</span> <span class="kn">import</span> <span class="n">compute</span><span class="p">,</span> <span class="n">delayed</span>
-<span class="kn">import</span> <span class="nn">dask.multiprocessing</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">taxbrain.utils</span> <span class="kn">import</span> <span class="n">weighted_sum</span><span class="p">,</span> <span class="n">update_policy</span>
-<span class="kn">from</span> <span class="nn">taxbrain.corporate_incidence</span> <span class="kn">import</span> <span class="n">distribute</span> <span class="k">as</span> <span class="n">dist_corp</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">paramtools</span> <span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dask</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute</span><span class="p">,</span> <span class="n">delayed</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dask.multiprocessing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">taxbrain.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">weighted_sum</span><span class="p">,</span> <span class="n">update_policy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">taxbrain.corporate_incidence</span><span class="w"> </span><span class="kn">import</span> <span class="n">distribute</span> <span class="k">as</span> <span class="n">dist_corp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">paramtools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 
 <div class="viewcode-block" id="TaxBrain">
 <a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain">[docs]</a>
-<span class="k">class</span> <span class="nc">TaxBrain</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TaxBrain</span><span class="p">:</span>
 
     <span class="n">FIRST_BUDGET_YEAR</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="o">.</span><span class="n">JSON_START_YEAR</span>
     <span class="n">LAST_BUDGET_YEAR</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Policy</span><span class="o">.</span><span class="n">LAST_BUDGET_YEAR</span>
@@ -393,7 +394,12 @@ document.write(`
         <span class="s2">&quot;Behavioral-Responses&quot;</span><span class="p">:</span> <span class="n">behresp</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="c1"># add expected TMD filenames as constants</span>
+    <span class="n">TMD_DATA_FILE</span> <span class="o">=</span> <span class="s2">&quot;tmd.csv.gz&quot;</span>
+    <span class="n">TMD_WEIGHTS_FILE</span> <span class="o">=</span> <span class="s2">&quot;tmd_weights.csv.gz&quot;</span>
+    <span class="n">TMD_GROWFACTORS_FILE</span> <span class="o">=</span> <span class="s2">&quot;tmd_growfactors.csv&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">start_year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">end_year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">LAST_BUDGET_YEAR</span><span class="p">,</span>
@@ -503,7 +509,7 @@ document.write(`
 
 <div class="viewcode-block" id="TaxBrain.run">
 <a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.run">[docs]</a>
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">DEFAULT_VARIABLES</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">1</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -550,7 +556,7 @@ document.write(`
 
 <div class="viewcode-block" id="TaxBrain.weighted_totals">
 <a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.weighted_totals">[docs]</a>
-    <span class="k">def</span> <span class="nf">weighted_totals</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">weighted_totals</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">include_total</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -593,7 +599,7 @@ document.write(`
 
 <div class="viewcode-block" id="TaxBrain.multi_var_table">
 <a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.multi_var_table">[docs]</a>
-    <span class="k">def</span> <span class="nf">multi_var_table</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">multi_var_table</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">calc</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">include_total</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -641,7 +647,7 @@ document.write(`
 
 <div class="viewcode-block" id="TaxBrain.distribution_table">
 <a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.distribution_table">[docs]</a>
-    <span class="k">def</span> <span class="nf">distribution_table</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">distribution_table</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">groupby</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -705,7 +711,7 @@ document.write(`
 
 <div class="viewcode-block" id="TaxBrain.differences_table">
 <a class="viewcode-back" href="../../content/api/taxbrain.html#taxbrain.taxbrain.TaxBrain.differences_table">[docs]</a>
-    <span class="k">def</span> <span class="nf">differences_table</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">differences_table</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">groupby</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -743,7 +749,7 @@ document.write(`
 
 
     <span class="c1"># ----- private methods -----</span>
-    <span class="k">def</span> <span class="nf">_taxcalc_advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_taxcalc_advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">reform</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function advances the year used in Tax-Calculator, computes</span>
 <span class="sd">        tax liability and rates, and saves the results to a dictionary.</span>
@@ -772,7 +778,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">df</span>
 
-    <span class="k">def</span> <span class="nf">_behresp_advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_behresp_advance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function advances the year used in the Behavioral Responses</span>
 <span class="sd">        model and saves the results to a dictionary.</span>
@@ -801,7 +807,7 @@ document.write(`
 
         <span class="k">return</span> <span class="p">[</span><span class="n">base_df</span><span class="p">,</span> <span class="n">reform_df</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_static_run</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_static_run</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">num_workers</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -840,7 +846,7 @@ document.write(`
 
         <span class="k">del</span> <span class="n">results</span>
 
-    <span class="k">def</span> <span class="nf">_dynamic_run</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dynamic_run</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">reform_calc</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">num_workers</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -877,7 +883,7 @@ document.write(`
 
         <span class="k">del</span> <span class="n">results</span>
 
-    <span class="k">def</span> <span class="nf">_stacked_run</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_stacked_run</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">varlist</span><span class="p">,</span> <span class="n">base_calc</span><span class="p">,</span> <span class="n">policy</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">num_workers</span>
     <span class="p">):</span>
         <span class="n">revenue_output</span> <span class="o">=</span> <span class="p">{}</span>
@@ -960,12 +966,12 @@ document.write(`
         <span class="c1"># save the table as an attribute of the TaxBrain object</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;stacked_table&quot;</span><span class="p">,</span> <span class="n">rev_est_tbl</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_process_user_mods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reform</span><span class="p">,</span> <span class="n">assump</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_user_mods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reform</span><span class="p">,</span> <span class="n">assump</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Logic to process user mods and set self.params</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">key_validation</span><span class="p">(</span><span class="n">actual_keys</span><span class="p">,</span> <span class="n">required_keys</span><span class="p">,</span> <span class="n">d_name</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">key_validation</span><span class="p">(</span><span class="n">actual_keys</span><span class="p">,</span> <span class="n">required_keys</span><span class="p">,</span> <span class="n">d_name</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Validate keys if reform or assump is passed as a dictionary</span>
 <span class="sd">            &quot;&quot;&quot;</span>
@@ -1046,7 +1052,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">params</span>
 
-    <span class="k">def</span> <span class="nf">_make_calculators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_make_calculators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function creates the baseline and reform calculators used when</span>
 <span class="sd">        the `run()` method is called</span>
@@ -1062,14 +1068,20 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;CPS&quot;</span><span class="p">:</span>
             <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;PUF&quot;</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">puf_constructor</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="s2">&quot;puf.csv&quot;</span><span class="p">,</span>
                 <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">,</span>
-                <span class="n">weights</span><span class="o">=</span><span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">PUF_WEIGHTS_FILENAME</span><span class="p">,</span>
+                <span class="c1"># weights=tc.Records.PUF_WEIGHTS_FILENAME,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;TMD&quot;</span><span class="p">:</span>
+            <span class="n">gf_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TMD_GROWFACTORS_FILE</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">]:</span>
+                <span class="n">gd_base</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
+
             <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">tmd_constructor</span><span class="p">(</span>
-                <span class="s2">&quot;tmd.csv&quot;</span><span class="p">,</span>
-                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">,</span>
+                <span class="n">data_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TMD_DATA_FILE</span><span class="p">),</span>
+                <span class="n">weights_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TMD_WEIGHTS_FILE</span><span class="p">),</span>
+                <span class="n">growfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;growfactors&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1113,14 +1125,20 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;CPS&quot;</span><span class="p">:</span>
             <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;PUF&quot;</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">puf_constructor</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="s2">&quot;puf.csv&quot;</span><span class="p">,</span>
                 <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">,</span>
-                <span class="n">weights</span><span class="o">=</span><span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">PUF_WEIGHTS_FILENAME</span><span class="p">,</span>
+                <span class="c1"># weights=tc.Records.PUF_WEIGHTS_FILENAME,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;TMD&quot;</span><span class="p">:</span>
+            <span class="n">gf_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TMD_GROWFACTORS_FILE</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">]:</span>
+                <span class="n">gd_reform</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
+
             <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">tmd_constructor</span><span class="p">(</span>
-                <span class="s2">&quot;tmd.csv&quot;</span><span class="p">,</span>
-                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">,</span>
+                <span class="n">data_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TMD_DATA_FILE</span><span class="p">),</span>
+                <span class="n">weights_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TMD_WEIGHTS_FILE</span><span class="p">),</span>
+                <span class="n">growfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;growfactors&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1162,7 +1180,7 @@ document.write(`
 
     <span class="c1"># TODO: update these method to allow for different microdata as above</span>
     <span class="c1"># but code becoming cumbersome, so should probably streamline in a single get calculator function</span>
-    <span class="k">def</span> <span class="nf">_make_stacked_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_make_stacked_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This method makes the base calculator and policy and records objects</span>
 <span class="sd">        for stacked reforms. The difference between this and the standard</span>
@@ -1181,15 +1199,20 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;CPS&quot;</span><span class="p">:</span>
             <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">cps_constructor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;PUF&quot;</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span>
-                <span class="s2">&quot;puf.csv&quot;</span><span class="p">,</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">puf_constructor</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="s2">&quot;puf.csv&quot;</span><span class="p">,</span>
                 <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">,</span>
-                <span class="n">weights</span><span class="o">=</span><span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">PUF_WEIGHTS_FILENAME</span><span class="p">,</span>
+                <span class="c1"># weights=tc.Records.PUF_WEIGHTS_FILENAME,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;TMD&quot;</span><span class="p">:</span>
+            <span class="n">gf_base</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TMD_GROWFACTORS_FILE</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_baseline&quot;</span><span class="p">]:</span>
+                <span class="n">gd_base</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_base</span><span class="p">)</span>
+
             <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">tmd_constructor</span><span class="p">(</span>
-                <span class="s2">&quot;tmd.csv&quot;</span><span class="p">,</span>
-                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">,</span>
+                <span class="n">data_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TMD_DATA_FILE</span><span class="p">),</span>
+                <span class="n">weights_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TMD_WEIGHTS_FILE</span><span class="p">),</span>
+                <span class="n">growfactors</span><span class="o">=</span><span class="n">gf_base</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;growfactors&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1235,15 +1258,20 @@ document.write(`
                 <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;PUF&quot;</span><span class="p">:</span>
-            <span class="n">reform_records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="p">(</span>
-                <span class="s2">&quot;puf.csv&quot;</span><span class="p">,</span>
+            <span class="n">reform_records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">puf_constructor</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="s2">&quot;puf.csv&quot;</span><span class="p">,</span>
                 <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">,</span>
-                <span class="n">weights</span><span class="o">=</span><span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">PUF_WEIGHTS_FILENAME</span><span class="p">,</span>
+                <span class="c1"># weights=tc.Records.PUF_WEIGHTS_FILENAME,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span> <span class="o">==</span> <span class="s2">&quot;TMD&quot;</span><span class="p">:</span>
-            <span class="n">records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">tmd_constructor</span><span class="p">(</span>
-                <span class="s2">&quot;tmd.csv&quot;</span><span class="p">,</span>
-                <span class="n">gfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">,</span>
+            <span class="n">gf_reform</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">GrowFactors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TMD_GROWFACTORS_FILE</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;growdiff_response&quot;</span><span class="p">]:</span>
+                <span class="n">gd_reform</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">gf_reform</span><span class="p">)</span>
+
+            <span class="n">reform_records</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">Records</span><span class="o">.</span><span class="n">tmd_constructor</span><span class="p">(</span>
+                <span class="n">data_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TMD_DATA_FILE</span><span class="p">),</span>
+                <span class="n">weights_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TMD_WEIGHTS_FILE</span><span class="p">),</span>
+                <span class="n">growfactors</span><span class="o">=</span><span class="n">gf_reform</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">microdata</span><span class="p">[</span><span class="s2">&quot;growfactors&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
