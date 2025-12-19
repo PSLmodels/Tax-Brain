@@ -2,12 +2,12 @@ name: taxbrain-dev
 channels:
 - conda-forge
 dependencies:
-- python>=3.6.5
-- taxcalc>=6.0.0
-- behresp>=0.11.0
-- pandas>=0.23
-- numpy>=1.14
-- paramtools>=0.18.1
+- "python>=3.11, <3.14"
+- "taxcalc>=6.0.0"
+- "behresp>=0.11.0"
+- "numpy>=1.26"
+- "pandas>=2.2"
+- "paramtools>=0.20.0"
 - pytest
 - dask
 - bokeh
