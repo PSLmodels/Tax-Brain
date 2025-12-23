@@ -1,5 +1,12 @@
 # Tax-Brain Release History
 
+## 2025-12-19 Release 2.8.0
+
+Last Merged Pull Request: [#209](https://github.com/PSLmodels/Tax-Brain/pull/209)
+
+* Testing on Python 3.13 (drop Python 3.10): [#209](https://github.com/PSLmodels/Tax-Brain/pull/209)
+* Compatibility with Tax-Calculator > 6.0.0: [#206](https://github.com/PSLmodels/Tax-Brain/pull/205)
+
 ## 2024-09-23 Release 2.7.2
 
 Last Merged Pull Request: [#205](https://github.com/PSLmodels/Tax-Brain/pull/205)
