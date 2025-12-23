@@ -2,8 +2,8 @@ import setuptools
 
 install_requires = ["taxcalc", "behresp", "dask", "bokeh"]
 
-with open("README.md", "r") as f:
-    long_description = f.read()
+with open("README.md", "r", encoding="utf-8") as f:
+    longdesc = f.read()
 version = "2.8.0"
 setuptools.setup(
     name="taxbrain",
@@ -11,7 +11,8 @@ setuptools.setup(
     author="Anderson Frailey",
     author_email="andersonfrailey@gmail.com",
     description="Python library for advanced tax policy analysis",
-    long_description=long_description,
+    long_description_content_type="text/markdown",
+    long_description=longdesc,
     url="https://github.com/PSLmodels/Tax-Brain",
     packages=["taxbrain"],
     install_requires=install_requires,
