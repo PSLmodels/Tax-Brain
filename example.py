@@ -4,7 +4,7 @@ reform_url = "https://raw.githubusercontent.com/PSLmodels/Tax-Calculator/master/
 
 # run static analysis
 
-tb_static = TaxBrain(2019, 2028, use_cps=True, reform=reform_url)
+tb_static = TaxBrain(2019, 2028, microdata="CPS", reform=reform_url)
 tb_static.run()
 static_table = tb_static.weighted_totals("c00100")
 print("Tax Liability by Year\n")
@@ -14,7 +14,7 @@ print(static_table)
 # run dynamic analysis
 
 tb_dynamic = TaxBrain(
-    2019, 2028, use_cps=True, reform=reform_url, behavior={"sub": 0.25}
+    2019, 2028, microdata="CPS", reform=reform_url, behavior={"sub": 0.25}
 )
 tb_dynamic.run()
 dynamic_table = tb_dynamic.weighted_totals("c00100")
