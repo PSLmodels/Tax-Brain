@@ -1,7 +1,6 @@
 # imports
 import copy
 
-
 # Default parameters for the CorporateIncidence class
 CI_PARAMS = {
     "Incidence": {  # long-run incidence of corporate tax

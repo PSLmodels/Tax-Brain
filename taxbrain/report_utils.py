@@ -15,7 +15,6 @@ from collections import defaultdict, deque
 from .utils import is_paramtools_format
 from typing import Union
 
-
 CUR_PATH = Path(__file__).resolve().parent
 
 notable_vars = {

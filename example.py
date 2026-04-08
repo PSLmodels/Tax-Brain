@@ -1,6 +1,5 @@
 from taxbrain import TaxBrain, report
 
-
 reform_url = "https://raw.githubusercontent.com/PSLmodels/Tax-Calculator/master/taxcalc/reforms/Larson2019.json"
 
 # run static analysis

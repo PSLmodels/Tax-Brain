@@ -4,7 +4,6 @@ from marshmallow import fields, Schema
 from datetime import datetime
 from taxbrain import TaxBrain
 
-
 POLICY_SCHEMA = {
     "labels": {
         "year": {
