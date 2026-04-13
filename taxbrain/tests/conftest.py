@@ -3,7 +3,6 @@ import pytest
 import pandas as pd
 from taxbrain import TaxBrain
 
-
 CUR_PATH = os.path.abspath(os.path.dirname(__file__))
 
 

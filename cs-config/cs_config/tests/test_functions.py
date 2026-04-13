@@ -1,7 +1,6 @@
 from cs_kit import CoreTestFunctions
 from cs_config import functions
 
-
 OK_ADJUSTMENT = {
     "policy": {
         "STD": [

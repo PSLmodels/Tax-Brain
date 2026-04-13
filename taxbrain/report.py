@@ -21,7 +21,6 @@ from .report_utils import (
     dollar_str_formatting,
 )
 
-
 CUR_PATH = Path(__file__).resolve().parent
 
 

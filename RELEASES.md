@@ -1,5 +1,11 @@
 # Tax-Brain Release History
 
+## 2026-04-13 Release 2.8.1
+
+Last Merged Pull Request: [#211](https://github.com/PSLmodels/Tax-Brain/pull/211)
+
+* Compatibility with Tax-Calculator > 6.0.0 and new TMD data: [#211](https://github.com/PSLmodels/Tax-Brain/pull/211)
+
 ## 2025-12-23 Release 2.8.0
 
 Last Merged Pull Request: [#209](https://github.com/PSLmodels/Tax-Brain/pull/209)
